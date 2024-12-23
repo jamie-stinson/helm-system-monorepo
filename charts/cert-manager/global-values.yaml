@@ -1,7 +1,2 @@
-global:
-  chart: "cert-manager"
-  repository: "https://charts.jetstack.io"
-  version: "1.*.*"
-
 crds:
   enabled: true
