@@ -1,4 +1,0 @@
-global:
-  chart: "argo-cd"
-  repository: "https://argoproj.github.io/argo-helm"
-  version: "7.7.*"
