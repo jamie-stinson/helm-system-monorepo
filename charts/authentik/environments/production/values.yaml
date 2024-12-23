@@ -1,0 +1,4 @@
+global:
+  chart: "authentik"
+  repository: "https://charts.goauthentik.io/"
+  version: "*.*.*"

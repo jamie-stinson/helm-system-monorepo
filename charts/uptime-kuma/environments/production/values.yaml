@@ -1,0 +1,4 @@
+global:
+  chart: "uptime-kuma"
+  repository: "https://dirsigler.github.io/uptime-kuma-helm"
+  version: "2.*.*"

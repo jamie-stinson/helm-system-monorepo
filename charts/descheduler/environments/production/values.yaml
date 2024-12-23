@@ -1,0 +1,4 @@
+global:
+  chart: "descheduler"
+  repository: "https://kubernetes-sigs.github.io/descheduler/"
+  version: "0.*.*"
