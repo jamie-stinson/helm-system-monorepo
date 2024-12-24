@@ -1,4 +1,4 @@
 global:
   chart: "traefik"
   repository: "https://traefik.github.io/charts"
-  version: "9.*.*"
+  version: "33.*.*"
