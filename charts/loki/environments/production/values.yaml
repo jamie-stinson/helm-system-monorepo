@@ -1,0 +1,4 @@
+global:
+  chart: "loki-distributed"
+  repository: "https://grafana.github.io/helm-charts"
+  version: "0.*.*"
