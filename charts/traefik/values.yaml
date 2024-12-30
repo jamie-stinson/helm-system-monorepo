@@ -24,15 +24,6 @@ podDisruptionBudget:
   enabled: true
   maxUnavailable: 1
 
-ingressClass:
-  enabled: false
-
-gateway:
-  enabled: false
-
-gatewayClass:
-  enabled: false
-
 updateStrategy:
   type: RollingUpdate
   rollingUpdate:

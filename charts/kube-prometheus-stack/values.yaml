@@ -1,0 +1,11 @@
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.openjamlab.com
+
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.openjamlab.com
