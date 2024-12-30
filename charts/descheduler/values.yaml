@@ -34,8 +34,6 @@ deschedulerPolicy:
               cpu: 50
               memory: 50
               pods: 50
-            metricsUtilization:
-              metricsServer: true
         - name: RemovePodsHavingTooManyRestarts
           args:
             podRestartThreshold: 100
