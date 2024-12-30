@@ -3,9 +3,11 @@ prometheus:
     enabled: true
     hosts:
       - prometheus.openjamlab.com
+    ingressClassName: traefik
 
 grafana:
   ingress:
     enabled: true
     hosts:
       - grafana.openjamlab.com
+    ingressClassName: traefik
