@@ -1,0 +1,20 @@
+reloader:
+  autoReloadAll: true
+  reloadOnDelete: true
+  logFormat: "json"
+  logLevel: "info"
+  enableHA: true
+  deployment:
+    replicas: 2
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: reloader
+            topologyKey: kubernetes.io/hostname
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
