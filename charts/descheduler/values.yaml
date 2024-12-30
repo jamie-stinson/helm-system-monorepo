@@ -12,18 +12,17 @@ affinity:
             app.kubernetes.io/name: descheduler
         topologyKey: kubernetes.io/hostname
 deschedulerPolicy:
+  evictDaemonSetPods: false
   profiles:
     - name: default
       pluginConfig:
         - name: DefaultEvictor
           args:
-            evictLocalStoragePods: true
             evictSystemCriticalPods: true
-            ignorePvcPods: false
             evictFailedBarePods: true
+            evictLocalStoragePods: true
             nodeFit: true
             minReplicas: 0
-            ignorePodsWithoutPDB: false
         - name: RemoveDuplicates
         - name: LowNodeUtilization
           args:
