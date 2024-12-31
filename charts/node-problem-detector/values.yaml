@@ -14,6 +14,7 @@ workload:
       --prometheus-address=0.0.0.0 --prometheus-port=20257
       --k8s-exporter-heartbeat-period=5m0s
   securityContext:
+    allowPrivilegeEscalation: true
     privileged: true
   resources:
     requests:
