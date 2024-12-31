@@ -30,27 +30,6 @@ workload:
       items:
         - key: policy.yaml
           path: policy.yaml
-  probes:
-    livenessProbe:
-      type: httpGet
-      path: /healthz
-      port: metrics
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
-    readinessProbe:
-      type: httpGet
-      path: /healthz
-      port: metrics
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
   priorityClassName: "system-cluster-critical"
   affinity:
     podAntiAffinity:
