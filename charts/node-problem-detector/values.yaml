@@ -1,3 +1,76 @@
-settings:
-  log_monitors:
-    - /config/kernel-monitor.json
+workload:
+  enabled: true
+  type: DaemonSet
+  image:
+    registry: "registry.k8s.io"
+    repository: "node-problem-detector/node-problem-detector"
+    tag: "v0.8.19"
+  command:
+    - /bin/sh
+    - '-c'
+    - >-
+      exec /node-problem-detector --logtostderr
+      --config.system-log-monitor=/config/kernel-monitor.json 
+      --prometheus-address=0.0.0.0 --prometheus-port=20257
+      --k8s-exporter-heartbeat-period=5m0s
+  securityContext:
+    privileged: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 10Mi
+  priorityClassName: "system-node-critical"
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: traefik
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  strategy:
+    type: RollingUpdate
+    minAvailable: 1
+    maxUnavailable: 1
+
+pdb:
+  enabled: true
+  maxUnavailable: "1"
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 20257
+
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
+
+rbac:
+  enabled: true
+  type: ClusterRole
+  rules:
+    - apiGroups:
+        - ''
+      resources:
+        - nodes
+      verbs:
+        - get
+    - apiGroups:
+        - ''
+      resources:
+        - nodes/status
+      verbs:
+        - patch
+    - apiGroups:
+        - ''
+      resources:
+        - events
+      verbs:
+        - create
+        - patch
+        - update

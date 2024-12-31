@@ -1,64 +1,204 @@
-kind: Deployment
-replicas: 2
-leaderElection:
+workload:
   enabled: true
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: descheduler
-        topologyKey: kubernetes.io/hostname
-deschedulerPolicy:
-  evictDaemonSetPods: false
-  profiles:
-    - name: default
-      pluginConfig:
-        - name: DefaultEvictor
-          args:
-            evictSystemCriticalPods: true
-            evictFailedBarePods: true
-            evictLocalStoragePods: true
-            nodeFit: true
-            minReplicas: 0
-        - name: RemoveDuplicates
-        - name: LowNodeUtilization
-          args:
-            thresholds:
-              cpu: 20
-              memory: 20
-              pods: 20
-            targetThresholds:
-              cpu: 50
-              memory: 50
-              pods: 50
-        - name: RemovePodsHavingTooManyRestarts
-          args:
-            podRestartThreshold: 100
-            includingInitContainers: true
-        - name: "RemoveFailedPods"
-          args:
-            exitCodes:
-            - 1
-            includingInitContainers: true
-            excludeOwnerKinds:
-            - "Job"
-            minPodLifetimeSeconds: 3600
-        - name: PodLifeTime
-          args:
-            maxPodLifeTimeSeconds: 86400
-            states:
-            - "Pending"
-            - "PodInitializing"
-      plugins:
-        balance:
-          enabled:
-            - RemoveDuplicates
-            - LowNodeUtilization
-        deschedule:
-          enabled:
-            - RemovePodsHavingTooManyRestarts
-            - RemoveFailedPods
-            - PodLifeTime
+  image:
+    registry: "registry.k8s.io"
+    repository: "descheduler/descheduler"
+    tag: "v0.31.0"
+  command:
+    - /bin/descheduler
+  args:
+    - '--policy-config-file=/policy-dir/policy.yaml'
+    - '--descheduling-interval=5m'
+    - '--v=3'
+    - '--leader-elect=true'
+  replicaCount: 2
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+  resources:
+    requests:
+      cpu: 10m
+      memory: 10Mi
+  probes:
+    livenessProbe:
+      type: httpGet
+      path: /healthz
+      port: metrics
+      scheme: HTTP
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5
+      initialDelaySeconds: 10
+    readinessProbe:
+      type: httpGet
+      path: /healthz
+      port: metrics
+      scheme: HTTP
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5
+      initialDelaySeconds: 10
+  priorityClassName: "system-cluster-critical"
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: traefik
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  strategy:
+    type: RollingUpdate
+    minAvailable: 1
+    maxUnavailable: 1
+
+pdb:
+  enabled: true
+  maxUnavailable: "1"
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
+
+configMaps:
+  - name: descheduler
+    enabled: true
+    data:
+      policy.yaml: |
+        apiVersion: "descheduler/v1alpha2"
+        kind: "DeschedulerPolicy"
+        evictDaemonSetPods: false
+        profiles:
+        - name: default
+          pluginConfig:
+          - args:
+              evictFailedBarePods: true
+              evictLocalStoragePods: true
+              evictSystemCriticalPods: true
+              minReplicas: 0
+              nodeFit: true
+            name: DefaultEvictor
+          - name: RemoveDuplicates
+          - args:
+              targetThresholds:
+                cpu: 50
+                memory: 50
+                pods: 50
+              thresholds:
+                cpu: 20
+                memory: 20
+                pods: 20
+            name: LowNodeUtilization
+          - args:
+              includingInitContainers: true
+              podRestartThreshold: 100
+            name: RemovePodsHavingTooManyRestarts
+          - args:
+              excludeOwnerKinds:
+              - Job
+              exitCodes:
+              - 1
+              includingInitContainers: true
+              minPodLifetimeSeconds: 3600
+            name: RemoveFailedPods
+          - args:
+              maxPodLifeTimeSeconds: 86400
+              states:
+              - Pending
+              - PodInitializing
+            name: PodLifeTime
+          plugins:
+            balance:
+              enabled:
+              - RemoveDuplicates
+              - LowNodeUtilization
+            deschedule:
+              enabled:
+              - RemovePodsHavingTooManyRestarts
+              - RemoveFailedPods
+              - PodLifeTime
+
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
+
+rbac:
+  enabled: true
+  type: ClusterRole
+  rules:
+    - apiGroups:
+        - events.k8s.io
+      resources:
+        - events
+      verbs:
+        - create
+        - update
+    - apiGroups:
+        - ''
+      resources:
+        - nodes
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - ''
+      resources:
+        - namespaces
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - ''
+      resources:
+        - pods
+      verbs:
+        - get
+        - watch
+        - list
+        - delete
+    - apiGroups:
+        - ''
+      resources:
+        - pods/eviction
+      verbs:
+        - create
+    - apiGroups:
+        - scheduling.k8s.io
+      resources:
+        - priorityclasses
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - coordination.k8s.io
+      resources:
+        - leases
+      verbs:
+        - create
+        - update
+    - apiGroups:
+        - coordination.k8s.io
+      resourceNames:
+        - descheduler
+      resources:
+        - leases
+      verbs:
+        - get
+        - patch
+        - delete
