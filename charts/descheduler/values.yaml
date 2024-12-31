@@ -7,7 +7,7 @@ workload:
   command:
     - /bin/descheduler
   args:
-    - '--policy-config-file=/policy-dir/policy.yaml'
+    - '--policy-config-file=/config/policy.yaml'
     - '--descheduling-interval=5m'
     - '--v=3'
     - '--leader-elect=true'
@@ -22,6 +22,14 @@ workload:
     requests:
       cpu: 10m
       memory: 10Mi
+  storage:
+    - name: config
+      type: configMap
+      mountPath: /config
+      configMapName: descheduler-config
+      items:
+        - key: policy.yaml
+          path: policy.yaml
   probes:
     livenessProbe:
       type: httpGet
@@ -71,7 +79,7 @@ service:
       port: 10258
 
 configMaps:
-  - name: descheduler
+  - name: config
     enabled: true
     data:
       policy.yaml: |
