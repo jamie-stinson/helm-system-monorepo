@@ -11,6 +11,7 @@ workload:
     - '--descheduling-interval=5m'
     - '--v=3'
     - '--leader-elect=true'
+    - '--leader-elect-resource-namespace=descheduler'
   replicaCount: 2
   securityContext:
     allowPrivilegeEscalation: false
