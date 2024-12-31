@@ -15,9 +15,9 @@ workload:
       --prometheus-port=20257
       --k8s-exporter-heartbeat-period=5m0s
   securityContext:
-    fsGroup: 0
-    runAsUser: 0
-    runAsGroup: 0
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsGroup: 1000
     allowPrivilegeEscalation: true
     privileged: true
   resources:
