@@ -1,4 +1,1 @@
-global:
-  chart: "node-problem-detector"
-  repository: "https://charts.deliveryhero.io/"
-  version: "2.*.*"
+installCRDs: false
