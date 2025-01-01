@@ -43,8 +43,7 @@ workload:
     maxUnavailable: 1
 
 pdb:
-  enabled: true
-  maxUnavailable: "1"
+  enabled: false
 
 service:
   enabled: true
