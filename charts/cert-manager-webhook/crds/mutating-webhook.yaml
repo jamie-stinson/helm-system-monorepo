@@ -21,6 +21,7 @@ webhooks:
         name: cert-manager-webhook
         namespace: cert-manager
         path: /mutate
+        port: 10250
     failurePolicy: Fail
     matchPolicy: Equivalent
     name: webhook.cert-manager.io
