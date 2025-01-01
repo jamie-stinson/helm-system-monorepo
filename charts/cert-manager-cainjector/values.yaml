@@ -6,7 +6,7 @@ workload:
     tag: "v1.16.2"
   args:
     - '--v=2'
-    - '--leader-election-namespace=cert-manager'
+    - '--leader-election-namespace=$(POD_NAMESPACE)'
   replicaCount: 2
   affinity:
     podAntiAffinity:
