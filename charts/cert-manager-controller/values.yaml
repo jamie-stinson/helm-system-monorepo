@@ -8,7 +8,8 @@ workload:
     - '--v=2'
     - '--cluster-resource-namespace=$(POD_NAMESPACE)'
     - '--leader-election-namespace=$(POD_NAMESPACE)'
-    - '--acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.16.2'
+    - >-
+      --acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.16.2
     - '--max-concurrent-challenges=60'
   replicaCount: 2
   resources:
@@ -37,10 +38,10 @@ service:
   enabled: true
   type: ClusterIP
   ports:
-    - name: http
+    - name: http-metrics
       protocol: TCP
       port: 9402
-    - name: health
+    - name: http-healthz
       protocol: TCP
       port: 9403
 

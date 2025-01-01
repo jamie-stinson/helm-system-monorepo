@@ -38,10 +38,10 @@ service:
     - name: https
       protocol: TCP
       port: 10250
-    - name: health
+    - name: healthcheck
       protocol: TCP
       port: 6080
-    - name: metrics
+    - name: http-metrics
       protocol: TCP
       port: 9402
 
