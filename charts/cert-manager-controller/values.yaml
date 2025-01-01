@@ -1,0 +1,192 @@
+workload:
+  enabled: true
+  image:
+    registry: "quay.io"
+    repository: "jetstack/cert-manager-controller"
+    tag: "v1.16.2"
+  args:
+    - '--v=2'
+    - '--cluster-resource-namespace=$(POD_NAMESPACE)'
+    - '--leader-election-namespace=cert-manager'
+    - '--acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.16.2'
+    - '--max-concurrent-challenges=60'
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 10m
+      memory: 10Mi
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: cert-manager-controller
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  strategy:
+    type: RollingUpdate
+    minAvailable: 1
+    maxUnavailable: 1
+
+pdb:
+  enabled: true
+  maxUnavailable: "1"
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9402
+    - name: health
+      protocol: TCP
+      port: 9403
+
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
+
+rbac:
+  enabled: true
+  type: ClusterRole
+  rules:
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      resourceNames: ["cert-manager-controller"]
+      verbs: ["get", "update", "patch"]
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      verbs: ["create"]
+    - apiGroups: ["coordination.k8s.io"]
+      resources: ["leases"]
+      resourceNames: ["cert-manager-controller"]
+      verbs: ["get", "update", "patch"]
+    - apiGroups: ["coordination.k8s.io"]
+      resources: ["leases"]
+      verbs: ["create"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["issuers", "issuers/status"]
+      verbs: ["update", "patch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["issuers"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["clusterissuers", "clusterissuers/status"]
+      verbs: ["update", "patch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["clusterissuers"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates", "certificates/status", "certificaterequests", "certificaterequests/status"]
+      verbs: ["update"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates", "certificaterequests", "clusterissuers", "issuers"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates/finalizers", "certificaterequests/finalizers"]
+      verbs: ["update"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["orders"]
+      verbs: ["create", "delete", "get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch", "create", "update", "delete"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["orders", "orders/status"]
+      verbs: ["update"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["orders", "challenges"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["clusterissuers", "issuers"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["challenges"]
+      verbs: ["create", "delete"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["orders/finalizers"]
+      verbs: ["update"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    # Use to update challenge resource status
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["challenges", "challenges/status"]
+      verbs: ["update"]
+    # Used to watch challenge resources
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["challenges"]
+      verbs: ["get", "list", "watch"]
+    # Used to watch challenges, issuer and clusterissuer resources
+    - apiGroups: ["cert-manager.io"]
+      resources: ["issuers", "clusterissuers"]
+      verbs: ["get", "list", "watch"]
+    # Need to be able to retrieve ACME account private key to complete challenges
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch"]
+    # Used to create events
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    # HTTP01 rules
+    - apiGroups: [""]
+      resources: ["pods", "services"]
+      verbs: ["get", "list", "watch", "create", "delete"]
+    - apiGroups: ["networking.k8s.io"]
+      resources: ["ingresses"]
+      verbs: ["get", "list", "watch", "create", "delete", "update"]
+    - apiGroups: ["route.openshift.io"]
+      resources: ["routes/custom-host"]
+      verbs: ["create"]
+    - apiGroups: ["acme.cert-manager.io"]
+      resources: ["challenges/finalizers"]
+      verbs: ["update"]
+    # DNS01 rules (duplicated above)
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [ "gateway.networking.k8s.io" ]
+      resources: [ "httproutes" ]
+      verbs: ["get", "list", "watch", "create", "delete", "update"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates", "certificaterequests"]
+      verbs: ["create", "update", "delete"]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates", "certificaterequests", "issuers", "clusterissuers"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["networking.k8s.io"]
+      resources: ["ingresses"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["networking.k8s.io"]
+      resources: ["ingresses/finalizers"]
+      verbs: ["update"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["create", "patch"]
+    - apiGroups: ["gateway.networking.k8s.io"]
+      resources: ["gateways", "httproutes"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["gateway.networking.k8s.io"]
+      resources: ["gateways/finalizers", "httproutes/finalizers"]
+      verbs: ["update"]

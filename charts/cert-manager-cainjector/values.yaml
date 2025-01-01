@@ -1,0 +1,79 @@
+workload:
+  enabled: true
+  image:
+    registry: "quay.io"
+    repository: "jetstack/cert-manager-cainjector"
+    tag: "v1.16.2"
+  args:
+    - '--v=2'
+    - '--leader-election-namespace=cert-manager'
+  replicaCount: 2
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: cert-manager-cainjector
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  strategy:
+    type: RollingUpdate
+    minAvailable: 1
+    maxUnavailable: 1
+
+pdb:
+  enabled: true
+  maxUnavailable: "1"
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9402
+
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
+
+rbac:
+  enabled: true
+  type: ClusterRole
+  rules:
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      resourceNames: ["cert-manager-cainjector-leader-election", "cert-manager-cainjector-leader-election-core"]
+      verbs: ["get", "update", "patch"]
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      verbs: ["create"]
+    - apiGroups: [ "coordination.k8s.io" ]
+      resources: [ "leases" ]
+      resourceNames: [ "cert-manager-controller" ]
+      verbs: [ "get", "update", "patch" ]
+    - apiGroups: [ "coordination.k8s.io" ]
+      resources: [ "leases" ]
+      verbs: [ "create", "get", "update" ]
+    - apiGroups: ["cert-manager.io"]
+      resources: ["certificates"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["get", "create", "update", "patch"]
+    - apiGroups: ["admissionregistration.k8s.io"]
+      resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"]
+      verbs: ["get", "list", "watch", "update"]
+    - apiGroups: ["apiregistration.k8s.io"]
+      resources: ["apiservices"]
+      verbs: ["get", "list", "watch", "update"]
+    - apiGroups: ["apiextensions.k8s.io"]
+      resources: ["customresourcedefinitions"]
+      verbs: ["get", "list", "watch", "update"]
+    - apiGroups: ["auditregistration.k8s.io"]
+      resources: ["auditsinks"]
+      verbs: ["get", "list", "watch", "update"]
