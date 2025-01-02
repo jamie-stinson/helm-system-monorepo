@@ -84,5 +84,5 @@ rbac:
 
 ingress:
   enabled: true
-  host: "npe.openjamlab.com"
+  prefix: "npd"
   containerPort: "20257"
