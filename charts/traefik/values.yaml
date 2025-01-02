@@ -73,7 +73,7 @@ pdb:
 
 service:
   enabled: true
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: web
       protocol: TCP
