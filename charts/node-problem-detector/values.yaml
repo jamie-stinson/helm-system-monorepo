@@ -81,3 +81,8 @@ rbac:
         - create
         - patch
         - update
+
+ingress:
+  enabled: true
+  host: "npe.openjamlab.com"
+  containerPort: "20257"
