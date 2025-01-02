@@ -4,11 +4,6 @@ workload:
     registry: "docker.io"
     repository: "emberstack/kubernetes-reflector"
     tag: "7.1.288"
-  envs:
-    - name: ES_Serilog__MinimumLevel__Default
-      value: "Information"
-    - name: ES_Reflector__Kubernetes__SkipTlsVerify
-      value: "false"
   replicaCount: 2
   securityContext:
     fsGroup: 2000
