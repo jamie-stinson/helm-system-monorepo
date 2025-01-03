@@ -1,1 +1,3 @@
-installCRDs: false
+workload:
+  securityContext:
+    readOnlyRootFilesystem: true
