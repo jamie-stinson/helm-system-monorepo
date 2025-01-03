@@ -10,7 +10,7 @@ workload:
     - name: "ES_Reflector__Watcher__Timeout"
       value: ""
     - name: "ES_Reflector__Kubernetes__SkipTlsVerify"
-      value: "false"
+      value: '"false"'
   replicaCount: 2
   securityContext:
     fsGroup: 2000
