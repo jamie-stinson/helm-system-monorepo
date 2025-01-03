@@ -45,7 +45,7 @@ workload:
 pdb:
   enabled: false
 
-service:
+services:
   - name: internal
     enabled: true
     type: ClusterIP

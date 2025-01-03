@@ -50,7 +50,7 @@ pdb:
   enabled: true
   maxUnavailable: "1"
 
-service:
+services:
   - name: internal
     enabled: true
     type: ClusterIP
