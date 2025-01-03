@@ -46,12 +46,13 @@ pdb:
   enabled: false
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: metrics
-      protocol: TCP
-      port: 20257
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: metrics
+        protocol: TCP
+        port: 20257
 
 serviceAccount:
   enabled: true

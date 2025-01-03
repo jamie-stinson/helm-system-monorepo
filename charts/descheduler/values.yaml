@@ -51,12 +51,13 @@ pdb:
   maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: metrics
-      protocol: TCP
-      port: 10258
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: metrics
+        protocol: TCP
+        port: 10258
 
 configMaps:
   - name: config

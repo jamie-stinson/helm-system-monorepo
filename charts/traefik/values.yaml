@@ -71,21 +71,26 @@ pdb:
   enabled: true
   maxUnavailable: "1"
 
-service:
-  enabled: true
-  type: NodePort
-  ports:
-    - name: web
-      protocol: TCP
-      port: 80
-      nodePort: 30080
-    - name: websecure
-      protocol: TCP
-      port: 443
-      nodePort: 30443
-    - name: traefik
-      protocol: TCP
-      port: 8080
+services:
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: traefik
+        protocol: TCP
+        port: 8080
+  - name: external
+    enabled: true
+    type: NodePort
+    ports:
+      - name: web
+        protocol: TCP
+        port: 80
+        nodePort: 30080
+      - name: websecure
+        protocol: TCP
+        port: 443
+        nodePort: 30443
 
 serviceAccount:
   enabled: true

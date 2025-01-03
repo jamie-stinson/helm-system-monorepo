@@ -57,13 +57,14 @@ pdb:
   enabled: true
   maxUnavailable: "1"
 
-service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: metrics
-      protocol: TCP
-      port: 9090
+services:
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: metrics
+        protocol: TCP
+        port: 9090
 
 serviceAccount:
   enabled: true

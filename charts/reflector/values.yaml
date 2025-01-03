@@ -36,12 +36,13 @@ pdb:
   maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: http
-      protocol: TCP
-      port: 25080
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: http
+        protocol: TCP
+        port: 25080
 
 serviceAccount:
   enabled: true

@@ -35,15 +35,16 @@ pdb:
   maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: http-metrics
-      protocol: TCP
-      port: 9402
-    - name: http-healthz
-      protocol: TCP
-      port: 9403
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: http-metrics
+        protocol: TCP
+        port: 9402
+      - name: http-healthz
+        protocol: TCP
+        port: 9403
 
 serviceAccount:
   enabled: true

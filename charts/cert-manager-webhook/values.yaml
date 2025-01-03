@@ -32,18 +32,19 @@ pdb:
   maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
-  ports:
-    - name: https
-      protocol: TCP
-      port: 10250
-    - name: healthcheck
-      protocol: TCP
-      port: 6080
-    - name: http-metrics
-      protocol: TCP
-      port: 9402
+  - name: internal
+    enabled: true
+    type: ClusterIP
+    ports:
+      - name: https
+        protocol: TCP
+        port: 10250
+      - name: healthcheck
+        protocol: TCP
+        port: 6080
+      - name: http-metrics
+        protocol: TCP
+        port: 9402
 
 serviceAccount:
   enabled: true
