@@ -41,142 +41,143 @@ serviceAccount:
 
 rbac:
   enabled: true
-  type: ClusterRole
-  rules:
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - secrets
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - events
-      verbs:
-        - get
-        - create
-        - update
-        - patch
-    - apiGroups:
-        - admissionregistration.k8s.io
-      resources:
-        - validatingwebhookconfigurations
-        - mutatingwebhookconfigurations
-      verbs:
-        - get
-        - list
-        - watch
-        - update
-        - patch
-    - apiGroups:
-        - apiregistration.k8s.io
-      resources:
-        - apiservices
-      verbs:
-        - get
-        - list
-        - watch
-        - update
-        - patch
-    - apiGroups:
-        - apiextensions.k8s.io
-      resources:
-        - customresourcedefinitions
-      verbs:
-        - get
-        - list
-        - watch
-        - update
-        - patch
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - clusterissuers
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates
-        - certificaterequests
-        - issuers
-      verbs:
-        - create
-        - delete
-        - deletecollection
-        - patch
-        - update
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates/status
-      verbs:
-        - update
-    - apiGroups:
-        - acme.cert-manager.io
-      resources:
-        - challenges
-        - orders
-      verbs:
-        - create
-        - delete
-        - deletecollection
-        - patch
-        - update
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates
-        - certificaterequests
-        - issuers
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - acme.cert-manager.io
-      resources:
-        - challenges
-        - orders
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resourceNames:
-        - cert-manager
-      resources:
-        - serviceaccounts/token
-      verbs:
-        - create
-    - apiGroups:
-        - coordination.k8s.io
-      resourceNames:
-        - cert-manager-cainjector-leader-election
-        - cert-manager-cainjector-leader-election-core
-      resources:
-        - leases
-      verbs:
-        - get
-        - update
-        - patch
-    - apiGroups:
-        - coordination.k8s.io
-      resources:
-        - leases
-      verbs:
-        - create
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - get
+            - create
+            - update
+            - patch
+        - apiGroups:
+            - admissionregistration.k8s.io
+          resources:
+            - validatingwebhookconfigurations
+            - mutatingwebhookconfigurations
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+            - patch
+        - apiGroups:
+            - apiregistration.k8s.io
+          resources:
+            - apiservices
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+            - patch
+        - apiGroups:
+            - apiextensions.k8s.io
+          resources:
+            - customresourcedefinitions
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+            - patch
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - clusterissuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates/status
+          verbs:
+            - update
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resourceNames:
+            - cert-manager
+          resources:
+            - serviceaccounts/token
+          verbs:
+            - create
+        - apiGroups:
+            - coordination.k8s.io
+          resourceNames:
+            - cert-manager-cainjector-leader-election
+            - cert-manager-cainjector-leader-election-core
+          resources:
+            - leases
+          verbs:
+            - get
+            - update
+            - patch
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
