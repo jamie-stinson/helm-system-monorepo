@@ -7,18 +7,10 @@ workload:
   command:
     - /manager
   args:
-        - controller
-        - --leader-elect
-        - --max-concurrent-reconciles=10
-        - --config-map-name=cloudnative-pg
-        - --webhook-port=9443
-  envs:
-    - name: "ES_Serilog__MinimumLevel__Default"
-      value: "Information"
-    - name: "ES_Reflector__Watcher__Timeout"
-      value: ""
-    - name: "ES_Reflector__Kubernetes__SkipTlsVerify"
-      value: '"false"'
+    - controller
+    - --leader-elect
+    - --max-concurrent-reconciles=10
+    - --webhook-port=9443
   replicaCount: 2
   securityContext:
     fsGroup: 10001
@@ -51,6 +43,9 @@ service:
     - name: webhook
       protocol: TCP
       port: 9443
+    - name: metrics
+      protocol: TCP
+      port: 8080
 
 serviceAccount:
   enabled: true
@@ -61,236 +56,236 @@ rbac:
     clusterRole:
       rules:
         - apiGroups:
-          - ""
+            - ''
           resources:
-          - configmaps
-          - secrets
-          - services
+            - nodes
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - get
+            - list
+            - watch
         - apiGroups:
-          - ""
+            - admissionregistration.k8s.io
           resources:
-          - configmaps/status
-          - secrets/status
+            - mutatingwebhookconfigurations
+            - validatingwebhookconfigurations
           verbs:
-          - get
-          - patch
-          - update
+            - get
+            - patch
         - apiGroups:
-          - ""
+            - postgresql.cnpg.io
           resources:
-          - events
+            - clusterimagecatalogs
           verbs:
-          - create
-          - patch
+            - get
+            - list
+            - watch
         - apiGroups:
-          - ""
+            - ''
           resources:
-          - persistentvolumeclaims
-          - pods
-          - pods/exec
+            - configmaps
+            - secrets
+            - services
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - watch
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - ""
+            - ''
           resources:
-          - pods/status
+            - configmaps/status
+            - secrets/status
           verbs:
-          - get
+            - get
+            - patch
+            - update
         - apiGroups:
-          - ""
+            - ''
           resources:
-          - serviceaccounts
+            - events
           verbs:
-          - create
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - create
+            - patch
         - apiGroups:
-          - apps
+            - ''
           resources:
-          - deployments
+            - persistentvolumeclaims
+            - pods
+            - pods/exec
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - watch
         - apiGroups:
-          - batch
+            - ''
           resources:
-          - jobs
+            - pods/status
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - watch
+            - get
         - apiGroups:
-          - coordination.k8s.io
+            - ''
           resources:
-          - leases
+            - serviceaccounts
           verbs:
-          - create
-          - get
-          - update
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - monitoring.coreos.com
+            - apps
           resources:
-          - podmonitors
+            - deployments
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - watch
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - policy
+            - batch
           resources:
-          - poddisruptionbudgets
+            - jobs
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - coordination.k8s.io
           resources:
-          - backups
-          - clusters
-          - databases
-          - poolers
-          - publications
-          - scheduledbackups
-          - subscriptions
+            - leases
           verbs:
-          - create
-          - delete
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - create
+            - get
+            - update
         - apiGroups:
-          - postgresql.cnpg.io
+            - monitoring.coreos.com
           resources:
-          - backups/status
-          - databases/status
-          - publications/status
-          - scheduledbackups/status
-          - subscriptions/status
+            - podmonitors
           verbs:
-          - get
-          - patch
-          - update
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - policy
           resources:
-          - imagecatalogs
+            - poddisruptionbudgets
           verbs:
-          - get
-          - list
-          - watch
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - postgresql.cnpg.io
           resources:
-          - clusters/finalizers
-          - poolers/finalizers
+            - backups
+            - clusters
+            - databases
+            - poolers
+            - publications
+            - scheduledbackups
+            - subscriptions
           verbs:
-          - update
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - postgresql.cnpg.io
           resources:
-          - clusters/status
-          - poolers/status
+            - backups/status
+            - databases/status
+            - publications/status
+            - scheduledbackups/status
+            - subscriptions/status
           verbs:
-          - get
-          - patch
-          - update
-          - watch
+            - get
+            - patch
+            - update
         - apiGroups:
-          - rbac.authorization.k8s.io
+            - postgresql.cnpg.io
           resources:
-          - rolebindings
-          - roles
+            - imagecatalogs
           verbs:
-          - create
-          - get
-          - list
-          - patch
-          - update
-          - watch
+            - get
+            - list
+            - watch
         - apiGroups:
-          - snapshot.storage.k8s.io
+            - postgresql.cnpg.io
           resources:
-          - volumesnapshots
+            - clusters/finalizers
+            - poolers/finalizers
           verbs:
-          - create
-          - get
-          - list
-          - patch
-          - watch
+            - update
         - apiGroups:
-          - ""
+            - postgresql.cnpg.io
           resources:
-          - nodes
+            - clusters/status
+            - poolers/status
           verbs:
-          - get
-          - list
-          - watch
+            - get
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - admissionregistration.k8s.io
+            - rbac.authorization.k8s.io
           resources:
-          - mutatingwebhookconfigurations
-          - validatingwebhookconfigurations
+            - rolebindings
+            - roles
           verbs:
-          - get
-          - patch
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - snapshot.storage.k8s.io
           resources:
-          - clusterimagecatalogs
+            - volumesnapshots
           verbs:
-          - get
-          - list
-          - watch
+            - create
+            - get
+            - list
+            - patch
+            - watch
         - apiGroups:
-          - postgresql.cnpg.io
+            - postgresql.cnpg.io
           resources:
-          - backups
-          - clusters
-          - databases
-          - poolers
-          - publications
-          - scheduledbackups
-          - subscriptions
+            - backups
+            - clusters
+            - databases
+            - poolers
+            - publications
+            - scheduledbackups
+            - subscriptions
           verbs:
-          - get
-          - list
-          - watch
-          - create
-          - delete
-          - deletecollection
-          - patch
-          - update
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+            - get
+            - list
+            - watch
