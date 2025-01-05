@@ -1,5 +1,3 @@
-installCRDs: true
-
 workload:
   enabled: true
   image:
@@ -64,33 +62,20 @@ workload:
           weight: 100
   strategy:
     type: RollingUpdate
-    minAvailable: 1
+    maxSurge: 1
     maxUnavailable: 1
 
 pdb:
   enabled: true
   maxUnavailable: "1"
 
-services:
-  - name: internal
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: traefik
-        protocol: TCP
-        port: 8080
-  - name: external
-    enabled: true
-    type: NodePort
-    ports:
-      - name: web
-        protocol: TCP
-        port: 80
-        nodePort: 30080
-      - name: websecure
-        protocol: TCP
-        port: 443
-        nodePort: 30443
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: traefik
+      protocol: TCP
+      port: 8080
 
 serviceAccount:
   enabled: true
@@ -98,62 +83,63 @@ serviceAccount:
 
 rbac:
   enabled: true
-  type: ClusterRole
-  rules:
-    - apiGroups:
-        - ''
-      resources:
-        - nodes
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - services
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - discovery.k8s.io
-      resources:
-        - endpointslices
-      verbs:
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - secrets
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - extensions
-        - networking.k8s.io
-      resources:
-        - ingressclasses
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - traefik.io
-      resources:
-        - ingressroutes
-        - ingressroutetcps
-        - ingressrouteudps
-        - middlewares
-        - middlewaretcps
-        - serverstransports
-        - serverstransporttcps
-        - tlsoptions
-        - tlsstores
-        - traefikservices
-      verbs:
-        - get
-        - list
-        - watch
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - services
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - discovery.k8s.io
+          resources:
+            - endpointslices
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingressclasses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - traefik.io
+          resources:
+            - ingressroutes
+            - ingressroutetcps
+            - ingressrouteudps
+            - middlewares
+            - middlewaretcps
+            - serverstransports
+            - serverstransporttcps
+            - tlsoptions
+            - tlsstores
+            - traefikservices
+          verbs:
+            - get
+            - list
+            - watch

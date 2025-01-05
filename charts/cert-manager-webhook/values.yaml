@@ -24,27 +24,26 @@ workload:
           weight: 100
   strategy:
     type: RollingUpdate
-    minAvailable: 1
+    maxSurge: 1
     maxUnavailable: 1
 
 pdb:
   enabled: true
   maxUnavailable: "1"
 
-services:
-  - name: internal
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: https
-        protocol: TCP
-        port: 10250
-      - name: healthcheck
-        protocol: TCP
-        port: 6080
-      - name: http-metrics
-        protocol: TCP
-        port: 9402
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: https
+      protocol: TCP
+      port: 10250
+    - name: healthcheck
+      protocol: TCP
+      port: 6080
+    - name: http-metrics
+      protocol: TCP
+      port: 9402
 
 serviceAccount:
   enabled: true
@@ -52,92 +51,93 @@ serviceAccount:
 
 rbac:
   enabled: true
-  type: ClusterRole
-  rules:
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - clusterissuers
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates
-        - certificaterequests
-        - issuers
-      verbs:
-        - create
-        - delete
-        - deletecollection
-        - patch
-        - update
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates/status
-      verbs:
-        - update
-    - apiGroups:
-        - acme.cert-manager.io
-      resources:
-        - challenges
-        - orders
-      verbs:
-        - create
-        - delete
-        - deletecollection
-        - patch
-        - update
-    - apiGroups:
-        - cert-manager.io
-      resources:
-        - certificates
-        - certificaterequests
-        - issuers
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - acme.cert-manager.io
-      resources:
-        - challenges
-        - orders
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - authorization.k8s.io
-      resources:
-        - subjectaccessreviews
-      verbs:
-        - create
-    - apiGroups:
-        - ''
-      resourceNames:
-        - cert-manager
-      resources:
-        - serviceaccounts/token
-      verbs:
-        - create
-    - apiGroups:
-        - ''
-      resourceNames:
-        - cert-manager-webhook-ca
-      resources:
-        - secrets
-      verbs:
-        - get
-        - list
-        - watch
-        - update
-    - apiGroups:
-        - ''
-      resources:
-        - secrets
-      verbs:
-        - create
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - clusterissuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates/status
+          verbs:
+            - update
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - authorization.k8s.io
+          resources:
+            - subjectaccessreviews
+          verbs:
+            - create
+        - apiGroups:
+            - ''
+          resourceNames:
+            - cert-manager
+          resources:
+            - serviceaccounts/token
+          verbs:
+            - create
+        - apiGroups:
+            - ''
+          resourceNames:
+            - cert-manager-webhook-ca
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - create

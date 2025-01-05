@@ -39,20 +39,19 @@ workload:
   priorityClassName: "system-node-critical"
   strategy:
     type: RollingUpdate
-    minAvailable: 1
+    maxSurge: 1
     maxUnavailable: 1
 
 pdb:
   enabled: false
 
-services:
-  - name: internal
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: metrics
-        protocol: TCP
-        port: 20257
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 20257
 
 serviceAccount:
   enabled: true
@@ -60,30 +59,34 @@ serviceAccount:
 
 rbac:
   enabled: true
-  type: ClusterRole
-  rules:
-    - apiGroups:
-        - ''
-      resources:
-        - nodes
-      verbs:
-        - get
-    - apiGroups:
-        - ''
-      resources:
-        - nodes/status
-      verbs:
-        - patch
-    - apiGroups:
-        - ''
-      resources:
-        - events
-      verbs:
-        - create
-        - patch
-        - update
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+        - apiGroups:
+            - ''
+          resources:
+            - nodes/status
+          verbs:
+            - patch
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+            - update
 
 ingress:
   enabled: true
+  entryPoints:
+    - web
+    - websecure
   prefix: "npd"
   containerPort: "20257"

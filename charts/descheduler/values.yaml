@@ -27,7 +27,7 @@ workload:
     - name: config
       type: configMap
       mountPath: /config
-      configMapName: descheduler-config
+      configMapName: descheduler
       items:
         - key: policy.yaml
           path: policy.yaml
@@ -43,79 +43,77 @@ workload:
           weight: 100
   strategy:
     type: RollingUpdate
-    minAvailable: 1
+    maxSurge: 1
     maxUnavailable: 1
 
 pdb:
   enabled: true
   maxUnavailable: "1"
 
-services:
-  - name: internal
-    enabled: true
-    type: ClusterIP
-    ports:
-      - name: metrics
-        protocol: TCP
-        port: 10258
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
 
-configMaps:
-  - name: config
-    enabled: true
-    data:
-      policy.yaml: |
-        apiVersion: "descheduler/v1alpha2"
-        kind: "DeschedulerPolicy"
-        evictDaemonSetPods: false
-        profiles:
-        - name: default
-          pluginConfig:
-          - args:
-              evictFailedBarePods: true
-              evictLocalStoragePods: true
-              evictSystemCriticalPods: true
-              minReplicas: 0
-              nodeFit: true
-            name: DefaultEvictor
-          - name: RemoveDuplicates
-          - args:
-              targetThresholds:
-                cpu: 50
-                memory: 50
-                pods: 50
-              thresholds:
-                cpu: 20
-                memory: 20
-                pods: 20
-            name: LowNodeUtilization
-          - args:
-              includingInitContainers: true
-              podRestartThreshold: 100
-            name: RemovePodsHavingTooManyRestarts
-          - args:
-              excludeOwnerKinds:
-              - Job
-              exitCodes:
-              - 1
-              includingInitContainers: true
-              minPodLifetimeSeconds: 3600
-            name: RemoveFailedPods
-          - args:
-              maxPodLifeTimeSeconds: 86400
-              states:
-              - Pending
-              - PodInitializing
-            name: PodLifeTime
-          plugins:
-            balance:
-              enabled:
-              - RemoveDuplicates
-              - LowNodeUtilization
-            deschedule:
-              enabled:
-              - RemovePodsHavingTooManyRestarts
-              - RemoveFailedPods
-              - PodLifeTime
+configMap:
+  enabled: true
+  data:
+    policy.yaml: |
+      apiVersion: "descheduler/v1alpha2"
+      kind: "DeschedulerPolicy"
+      evictDaemonSetPods: false
+      profiles:
+      - name: default
+        pluginConfig:
+        - args:
+            evictFailedBarePods: true
+            evictLocalStoragePods: true
+            evictSystemCriticalPods: true
+            minReplicas: 0
+            nodeFit: true
+          name: DefaultEvictor
+        - name: RemoveDuplicates
+        - args:
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+          name: LowNodeUtilization
+        - args:
+            includingInitContainers: true
+            podRestartThreshold: 100
+          name: RemovePodsHavingTooManyRestarts
+        - args:
+            excludeOwnerKinds:
+            - Job
+            exitCodes:
+            - 1
+            includingInitContainers: true
+            minPodLifetimeSeconds: 3600
+          name: RemoveFailedPods
+        - args:
+            maxPodLifeTimeSeconds: 86400
+            states:
+            - Pending
+            - PodInitializing
+          name: PodLifeTime
+        plugins:
+          balance:
+            enabled:
+            - RemoveDuplicates
+            - LowNodeUtilization
+          deschedule:
+            enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemoveFailedPods
+            - PodLifeTime
 
 serviceAccount:
   enabled: true
@@ -123,68 +121,69 @@ serviceAccount:
 
 rbac:
   enabled: true
-  type: ClusterRole
-  rules:
-    - apiGroups:
-        - events.k8s.io
-      resources:
-        - events
-      verbs:
-        - create
-        - update
-    - apiGroups:
-        - ''
-      resources:
-        - nodes
-      verbs:
-        - get
-        - watch
-        - list
-    - apiGroups:
-        - ''
-      resources:
-        - namespaces
-      verbs:
-        - get
-        - watch
-        - list
-    - apiGroups:
-        - ''
-      resources:
-        - pods
-      verbs:
-        - get
-        - watch
-        - list
-        - delete
-    - apiGroups:
-        - ''
-      resources:
-        - pods/eviction
-      verbs:
-        - create
-    - apiGroups:
-        - scheduling.k8s.io
-      resources:
-        - priorityclasses
-      verbs:
-        - get
-        - watch
-        - list
-    - apiGroups:
-        - coordination.k8s.io
-      resources:
-        - leases
-      verbs:
-        - create
-        - update
-    - apiGroups:
-        - coordination.k8s.io
-      resourceNames:
-        - descheduler
-      resources:
-        - leases
-      verbs:
-        - get
-        - patch
-        - delete
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - events.k8s.io
+          resources:
+            - events
+          verbs:
+            - create
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - ''
+          resources:
+            - pods
+          verbs:
+            - get
+            - watch
+            - list
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - pods/eviction
+          verbs:
+            - create
+        - apiGroups:
+            - scheduling.k8s.io
+          resources:
+            - priorityclasses
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+            - update
+        - apiGroups:
+            - coordination.k8s.io
+          resourceNames:
+            - descheduler
+          resources:
+            - leases
+          verbs:
+            - get
+            - patch
+            - delete
