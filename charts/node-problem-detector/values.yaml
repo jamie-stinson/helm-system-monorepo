@@ -89,4 +89,5 @@ ingress:
     - web
     - websecure
   prefix: "npd"
+  tls: true
   containerPort: "20257"
