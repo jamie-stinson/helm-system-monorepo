@@ -18,6 +18,11 @@ workload:
     runAsGroup: 10001
     readOnlyRootFilesystem: true
     allowPrivilegeEscalation: false
+  storage:
+    - name: webhook-certificates
+      type: secret
+      mountPath: "/run/secrets/cnpg.io/webhook"
+      secretName: cnpg-webhook-cert
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
