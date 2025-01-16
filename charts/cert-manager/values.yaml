@@ -1,4 +1,4 @@
-chart:
+global:
   name: "cert-manager"
   repository: "https://charts.jetstack.io"
   version: "1.16.*"
