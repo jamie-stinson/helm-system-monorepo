@@ -1,0 +1,4 @@
+global:
+  name: "node-problem-detector"
+  repository: "https://raw.githubusercontent.com/deliveryhero/helm-charts/refs/heads/master/"
+  version: "2.3.*"

@@ -1,0 +1,16 @@
+global:
+  name: "traefik"
+  repository: "https://traefik.github.io/charts"
+  version: "9.2.*"
+
+ports:
+  web:
+    nodePort: 30080
+    redirections:
+      entryPoint:
+        - websecure
+  websecure:
+    nodePort: 30443
+
+service:
+  type: NodePort
