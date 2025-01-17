@@ -8,7 +8,7 @@ ports:
     nodePort: 30080
     redirections:
       entryPoint:
-        - websecure
+        to: websecure
   websecure:
     nodePort: 30443
 
