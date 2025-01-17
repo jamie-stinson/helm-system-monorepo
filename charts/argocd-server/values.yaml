@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  entryPoints:
+    - web
+    - websecure
+  prefix: "argocd"
+  tls: true
+  containerPort: "80"
