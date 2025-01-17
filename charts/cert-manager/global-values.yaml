@@ -44,8 +44,8 @@ extraObjects:
     spec:
       secretName: "acme-cloudflare-wildcard-certificate"
       dnsNames:
-        - '{{ .Values.global.wildcardCertificate..domain }}'
-        - '*.{{ .Values.global.wildcardCertificate..domain }}'
+        - '{{ .Values.global.wildcardCertificate.domain }}'
+        - '*.{{ .Values.global.wildcardCertificate.domain }}'
       issuerRef:
         name: "{{ template "cert-manager.fullname" . }}-acme"
         kind: ClusterIssuer
