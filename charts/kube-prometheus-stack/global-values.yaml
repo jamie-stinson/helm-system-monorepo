@@ -1,0 +1,12 @@
+global:
+  name: "kube-prometheus-stack"
+  repository: "https://prometheus-community.github.io/helm-charts"
+  version: "68.2.*"
+
+prometheus:
+  service:
+    type: NodePort
+
+grafana:
+  service:
+    type: NodePort

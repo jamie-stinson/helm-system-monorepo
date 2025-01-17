@@ -1,4 +1,0 @@
-global:
-  name: "rook-ceph"
-  repository: "https://charts.rook.io/release"
-  version: "1.16.*"
