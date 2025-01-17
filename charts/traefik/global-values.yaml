@@ -6,9 +6,6 @@ global:
 ports:
   web:
     nodePort: 30080
-    redirections:
-      entryPoint:
-        to: websecure
   websecure:
     nodePort: 30443
 
