@@ -1,7 +1,7 @@
 global:
   name: "traefik"
   repository: "https://traefik.github.io/charts"
-  version: "9.2.*"
+  version: "34.1.*"
 
 ports:
   web:
