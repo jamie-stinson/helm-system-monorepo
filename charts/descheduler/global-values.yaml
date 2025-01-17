@@ -4,7 +4,7 @@ global:
   version: "0.32.*"
 
 kind: Deployment
-resources: []
+resources: {}
 deschedulerPolicy:
   evictDaemonSetPods: false
   profiles:
