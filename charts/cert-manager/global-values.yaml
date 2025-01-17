@@ -35,7 +35,7 @@ extraObjects:
       name: cloudflare-api-token
     type: Opaque
     stringData:
-      api-token: {{ .Values.global.wildcardCertificate..apiToken }}
+      api-token: {{ .Values.global.wildcardCertificate.apiToken }}
   - |
     apiVersion: cert-manager.io/v1
     kind: Certificate
