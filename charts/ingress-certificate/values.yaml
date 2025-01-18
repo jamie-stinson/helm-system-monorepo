@@ -1,0 +1,4 @@
+wildcardCertificate:
+  enabled: true
+  name: "cloudflare"
+  issuer: "cloudflare"
