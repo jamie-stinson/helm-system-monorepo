@@ -1,28 +1,18 @@
 workload:
-  enabled: true
   image:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
     tag: "v0.31.0"
   command:
-    - /bin/descheduler
+    - '/bin/descheduler'
   args:
     - '--policy-config-file=/config/policy.yaml'
     - '--descheduling-interval=5m'
     - '--v=3'
     - '--leader-elect=true'
     - '--leader-elect-resource-namespace=descheduler'
-  replicaCount: 2
-  securityContext:
-    allowPrivilegeEscalation: false
-    privileged: false
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 1000
   resources:
-    requests:
-      cpu: 10m
-      memory: 10Mi
+    preset: "nano"
   storage:
     - name: config
       type: configMap
@@ -32,27 +22,8 @@ workload:
         - key: policy.yaml
           path: policy.yaml
   priorityClassName: "system-cluster-critical"
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: traefik
-            topologyKey: kubernetes.io/hostname
-          weight: 100
-  strategy:
-    type: RollingUpdate
-    maxSurge: 1
-    maxUnavailable: 1
-
-pdb:
-  enabled: true
-  maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
   ports:
     - name: metrics
       protocol: TCP
@@ -115,75 +86,73 @@ configMap:
             - RemoveFailedPods
             - PodLifeTime
 
-serviceAccount:
+serviceMonitor:
   enabled: true
-  automountServiceAccountToken: true
 
 rbac:
   enabled: true
-  roles:
-    clusterRole:
-      rules:
-        - apiGroups:
-            - events.k8s.io
-          resources:
-            - events
-          verbs:
-            - create
-            - update
-        - apiGroups:
-            - ''
-          resources:
-            - nodes
-          verbs:
-            - get
-            - watch
-            - list
-        - apiGroups:
-            - ''
-          resources:
-            - namespaces
-          verbs:
-            - get
-            - watch
-            - list
-        - apiGroups:
-            - ''
-          resources:
-            - pods
-          verbs:
-            - get
-            - watch
-            - list
-            - delete
-        - apiGroups:
-            - ''
-          resources:
-            - pods/eviction
-          verbs:
-            - create
-        - apiGroups:
-            - scheduling.k8s.io
-          resources:
-            - priorityclasses
-          verbs:
-            - get
-            - watch
-            - list
-        - apiGroups:
-            - coordination.k8s.io
-          resources:
-            - leases
-          verbs:
-            - create
-            - update
-        - apiGroups:
-            - coordination.k8s.io
-          resourceNames:
-            - descheduler
-          resources:
-            - leases
-          verbs:
-            - get
-            - patch
-            - delete
+  type: "ClusterRole"
+  rules:
+    - apiGroups:
+        - events.k8s.io
+      resources:
+        - events
+      verbs:
+        - create
+        - update
+    - apiGroups:
+        - ''
+      resources:
+        - nodes
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - ''
+      resources:
+        - namespaces
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - ''
+      resources:
+        - pods
+      verbs:
+        - get
+        - watch
+        - list
+        - delete
+    - apiGroups:
+        - ''
+      resources:
+        - pods/eviction
+      verbs:
+        - create
+    - apiGroups:
+        - scheduling.k8s.io
+      resources:
+        - priorityclasses
+      verbs:
+        - get
+        - watch
+        - list
+    - apiGroups:
+        - coordination.k8s.io
+      resources:
+        - leases
+      verbs:
+        - create
+        - update
+    - apiGroups:
+        - coordination.k8s.io
+      resourceNames:
+        - descheduler
+      resources:
+        - leases
+      verbs:
+        - get
+        - patch
+        - delete

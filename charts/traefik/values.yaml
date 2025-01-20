@@ -1,145 +1,145 @@
+installCRDs: true
+
 workload:
-  enabled: true
   image:
-    registry: "docker.io"
     repository: "traefik"
     tag: "v3.2.2"
   args:
     - '--entryPoints.metrics.address=:9100/tcp'
-    - '--entryPoints.traefik.address=:8080/tcp'
-    - '--entryPoints.web.address=:80/tcp'
-    - '--entryPoints.websecure.address=:443/tcp'
-    - '--api.dashboard=true'
-    - '--ping=true'
     - '--metrics.prometheus=true'
     - '--metrics.prometheus.entrypoint=metrics'
+    - '--entryPoints.traefik.address=:8080/tcp'
+    - '--entryPoints.externalweb.address=:80/tcp'
+    - '--entryPoints.externalwebsecure.address=:443/tcp'
+    - '--entryPoints.externalwebsecure.http.tls=true'
+    - '--entryPoints.internalweb.address=:81/tcp'
+    - '--entryPoints.internalwebsecure.address=:444/tcp'
+    - '--entryPoints.internalwebsecure.http.tls=true'
+    - '--api.dashboard=true'
+    - '--ping=true'
     - '--providers.kubernetescrd'
     - '--providers.kubernetescrd.allowEmptyServices=true'
-    - '--entryPoints.websecure.http.tls=true'
     - '--log.format=json'
     - '--log.level=INFO'
     - '--accesslog=true'
     - '--accesslog.format=json'
     - '--accesslog.fields.defaultmode=keep'
     - '--accesslog.fields.headers.defaultmode=drop'
-  replicaCount: 2
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 65534
   resources:
-    requests:
-      cpu: 10m 
-      memory: 10Mi
+    preset: "micro"
   probes:
     livenessProbe:
-      type: httpGet
       path: /ping
       port: traefik
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
     readinessProbe:
-      type: httpGet
       path: /ping
       port: traefik
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: traefik
-            topologyKey: kubernetes.io/hostname
-          weight: 100
-  strategy:
-    type: RollingUpdate
-    maxSurge: 1
-    maxUnavailable: 1
-
-pdb:
-  enabled: true
-  maxUnavailable: "1"
 
 service:
-  enabled: true
-  type: ClusterIP
   ports:
     - name: traefik
       protocol: TCP
       port: 8080
+    - name: metrics
+      protocol: TCP
+      port: 9100
 
-serviceAccount:
+expose:
   enabled: true
-  automountServiceAccountToken: true
+  type: NodePort
+  ports:
+    - name: externalwebsecure
+      protocol: TCP
+      port: 443
+      nodePort: 30443
+    - name: externalweb
+      protocol: TCP
+      port: 80
+      nodePort: 30080
+    - name: internalwebsecure
+      protocol: TCP
+      port: 444
+      nodePort: 30444
+    - name: internalweb
+      protocol: TCP
+      port: 81
+      nodePort: 30081
+
+ingress:
+  enabled: true
+  entryPoints:
+    - internalwebsecure
+    - internalweb
+  port: traefik
+  prefix: "traefik"
+  tls: true
+
+wildcardCertificate:
+  enabled: true
+  name: "cloudflare"
+  issuer: "cloudflare"
+
+serviceMonitor:
+  enabled: true
 
 rbac:
   enabled: true
-  roles:
-    clusterRole:
-      rules:
-        - apiGroups:
-            - ''
-          resources:
-            - nodes
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - services
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - discovery.k8s.io
-          resources:
-            - endpointslices
-          verbs:
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - secrets
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - extensions
-            - networking.k8s.io
-          resources:
-            - ingressclasses
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - traefik.io
-          resources:
-            - ingressroutes
-            - ingressroutetcps
-            - ingressrouteudps
-            - middlewares
-            - middlewaretcps
-            - serverstransports
-            - serverstransporttcps
-            - tlsoptions
-            - tlsstores
-            - traefikservices
-          verbs:
-            - get
-            - list
-            - watch
+  type: "ClusterRole"
+  rules:
+    - apiGroups:
+        - ''
+      resources:
+        - nodes
+      verbs:
+        - get
+        - list
+        - watch
+    - apiGroups:
+        - ''
+      resources:
+        - services
+      verbs:
+        - get
+        - list
+        - watch
+    - apiGroups:
+        - discovery.k8s.io
+      resources:
+        - endpointslices
+      verbs:
+        - list
+        - watch
+    - apiGroups:
+        - ''
+      resources:
+        - secrets
+      verbs:
+        - get
+        - list
+        - watch
+    - apiGroups:
+        - extensions
+        - networking.k8s.io
+      resources:
+        - ingressclasses
+      verbs:
+        - get
+        - list
+        - watch
+    - apiGroups:
+        - traefik.io
+      resources:
+        - ingressroutes
+        - ingressroutetcps
+        - ingressrouteudps
+        - middlewares
+        - middlewaretcps
+        - serverstransports
+        - serverstransporttcps
+        - tlsoptions
+        - tlsstores
+        - traefikservices
+      verbs:
+        - get
+        - list
+        - watch

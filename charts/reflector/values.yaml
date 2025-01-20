@@ -1,7 +1,5 @@
 workload:
-  enabled: true
   image:
-    registry: "docker.io"
     repository: "emberstack/kubernetes-reflector"
     tag: "7.1.288"
   envs:
@@ -10,50 +8,41 @@ workload:
     - name: "ES_Reflector__Watcher__Timeout"
       value: ""
     - name: "ES_Reflector__Kubernetes__SkipTlsVerify"
-      value: '"false"'
-  replicaCount: 2
-  securityContext:
-    fsGroup: 2000
-    runAsUser: 1000
-    runAsGroup: 1000
-    readOnlyRootFilesystem: false
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: reflector
-            topologyKey: kubernetes.io/hostname
-          weight: 100
-  strategy:
-    type: RollingUpdate
-    maxSurge: 1
-    maxUnavailable: 1
-
-pdb:
-  enabled: true
-  maxUnavailable: "1"
+      value: "false"
+  resources:
+    preset: "nano"
+  probes:
+    livenessProbe:
+      path: /readyz
+      port: http
+    readinessProbe:
+      path: /readyz
+      port: http
 
 service:
-  enabled: true
-  type: ClusterIP
   ports:
     - name: http
       protocol: TCP
       port: 25080
 
-serviceAccount:
+serviceMonitor:
   enabled: true
-  automountServiceAccountToken: true
 
 rbac:
-  roles:
-    clusterRole:
-      rules:
-        - apiGroups: [""]
-          resources: ["configmaps", "secrets"]
-          verbs: ["*"]
-        - apiGroups: [""]
-          resources: ["namespaces"]
-          verbs: ["watch", "list"]
+  enabled: true
+  clusterRole:
+    rules:
+      - apiGroups:
+          - ""
+        resources: 
+          - configmaps
+          - secrets
+        verbs: 
+          - "*"
+      - apiGroups:
+          - ""
+        resources: 
+          - namespaces
+        verbs: 
+          - watch
+          - list

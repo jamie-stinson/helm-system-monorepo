@@ -1,30 +1,21 @@
 workload:
-  enabled: true
   type: DaemonSet
   image:
     registry: "registry.k8s.io"
     repository: "node-problem-detector/node-problem-detector"
     tag: "v0.8.19"
   command:
-    - /bin/sh
+    - '/bin/sh'
     - '-c'
-    - >-
-      exec /node-problem-detector --logtostderr
-      --config.system-log-monitor=/config/kernel-monitor.json 
-      --prometheus-address=0.0.0.0 
-      --prometheus-port=20257
-      --k8s-exporter-heartbeat-period=5m0s
-  securityContext:
-    fsGroup: 0
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: true
-    privileged: true
+  args:
+    - 'exec /node-problem-detector'
+    - '--logtostderr'
+    - '--config.system-log-monitor=/config/kernel-monitor.json'
+    - '--prometheus-address=0.0.0.0' 
+    - '--prometheus-port=20257'
+    - '--k8s-exporter-heartbeat-period=5m0s'
   resources:
-    requests:
-      cpu: 10m
-      memory: 10Mi
+    preset: "nano"
   storage:
     - name: log
       type: hostPath
@@ -37,57 +28,37 @@ workload:
       hostPath: /etc/localtime
       readOnly: true
   priorityClassName: "system-node-critical"
-  strategy:
-    type: RollingUpdate
-    maxSurge: 1
-    maxUnavailable: 1
-
-pdb:
-  enabled: false
 
 service:
-  enabled: true
-  type: ClusterIP
   ports:
     - name: metrics
       protocol: TCP
       port: 20257
 
-serviceAccount:
+serviceMonitor:
   enabled: true
-  automountServiceAccountToken: true
 
 rbac:
   enabled: true
-  roles:
-    clusterRole:
-      rules:
-        - apiGroups:
-            - ''
-          resources:
-            - nodes
-          verbs:
-            - get
-        - apiGroups:
-            - ''
-          resources:
-            - nodes/status
-          verbs:
-            - patch
-        - apiGroups:
-            - ''
-          resources:
-            - events
-          verbs:
-            - create
-            - patch
-            - update
-
-ingress:
-  enabled: true
-  entryPoints:
-    - web
-    - websecure
-  prefix: "npd"
-  tls: true
-  containerPort: "20257"
+  type: "ClusterRole"
+    rules:
+      - apiGroups:
+          - ''
+        resources:
+          - nodes
+        verbs:
+          - get
+      - apiGroups:
+          - ''
+        resources:
+          - nodes/status
+        verbs:
+          - patch
+      - apiGroups:
+          - ''
+        resources:
+          - events
+        verbs:
+          - create
+          - patch
+          - update
