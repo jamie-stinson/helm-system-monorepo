@@ -43,6 +43,9 @@ service:
 autoscaling:
   enabled: true
 
+pdb:
+  enabled: false
+
 serviceMonitor:
   enabled: true
 
