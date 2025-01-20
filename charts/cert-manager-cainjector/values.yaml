@@ -11,11 +11,9 @@ workload:
   resources:
     preset: "micro"
 
-service:
-  ports:
-    - name: http-metrics
-      protocol: TCP
-      port: 9402
+serviceMonitor:
+  enabled: true
+  port: 9402
 
 rbac:
   enabled: true

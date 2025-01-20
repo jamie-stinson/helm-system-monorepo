@@ -25,12 +25,10 @@ service:
     - name: webhook
       protocol: TCP
       port: 9443
-    - name: metrics
-      protocol: TCP
-      port: 8080
 
 serviceMonitor:
   enabled: true
+  port: "8080"
 
 rbac:
   enabled: true
