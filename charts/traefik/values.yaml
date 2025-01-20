@@ -35,9 +35,6 @@ service:
     - name: traefik
       protocol: TCP
       port: 8080
-    - name: metrics
-      protocol: TCP
-      port: 9100
 
 expose:
   enabled: true
@@ -76,6 +73,7 @@ wildcardCertificate:
 
 serviceMonitor:
   enabled: true
+  port: "9100"
 
 rbac:
   roles:
