@@ -13,23 +13,6 @@ workload:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
     privileged: false
-  probes:
-    livenessProbe:
-      type: httpGet
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
-    readinessProbe:
-      type: httpGet
-      scheme: HTTP
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 5
-      initialDelaySeconds: 10
 
 service:
   enabled: true

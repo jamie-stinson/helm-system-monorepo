@@ -14,7 +14,6 @@ workload:
     - '--max-concurrent-challenges=60'
   resources:
     preset: "micro"
-  probes: {}
 
 service:
   ports:

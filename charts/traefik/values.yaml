@@ -27,13 +27,6 @@ workload:
     - '--accesslog.fields.headers.defaultmode=drop'
   resources:
     preset: "micro"
-  probes:
-    livenessProbe:
-      path: /ping
-      port: traefik
-    readinessProbe:
-      path: /ping
-      port: traefik
 
 service:
   ports:

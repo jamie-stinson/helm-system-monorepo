@@ -18,7 +18,6 @@ workload:
       optional: true
       mountPath: "/run/secrets/cnpg.io/webhook"
       secretName: cnpg-webhook-cert
-  probes: {}
 
 service:
   name: cnpg-webhook-service

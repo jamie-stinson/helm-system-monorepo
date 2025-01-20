@@ -11,13 +11,6 @@ workload:
       value: "false"
   resources:
     preset: "nano"
-  probes:
-    livenessProbe:
-      path: /readyz
-      port: http
-    readinessProbe:
-      path: /readyz
-      port: http
 
 service:
   ports:

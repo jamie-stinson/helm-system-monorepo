@@ -11,13 +11,6 @@ workload:
     - '--auto-reload-all=true'
   resources:
     preset: "nano"
-  probes:
-    livenessProbe:
-      path: /livez
-      port: metrics
-    readinessProbe:
-      path: /metrics
-      port: metrics
 
 service:
   ports:

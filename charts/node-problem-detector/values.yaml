@@ -28,7 +28,6 @@ workload:
       hostPath: /etc/localtime
       readOnly: true
   priorityClassName: "system-node-critical"
-  probes: {}
 
 service:
   ports:
