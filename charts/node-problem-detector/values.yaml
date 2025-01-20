@@ -40,6 +40,9 @@ service:
       protocol: TCP
       port: 20257
 
+autoscaling:
+  enabled: true
+
 serviceMonitor:
   enabled: true
 
