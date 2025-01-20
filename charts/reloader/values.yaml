@@ -19,7 +19,7 @@ service:
       port: 9090
 
 serviceMonitor:
-  enabled: false
+  enabled: true
 
 rbac:
   roles:

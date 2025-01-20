@@ -6,9 +6,9 @@ workload:
     - name: "ES_Serilog__MinimumLevel__Default"
       value: "Information"
     - name: "ES_Reflector__Watcher__Timeout"
-      value: "60"
+      value: ""
     - name: "ES_Reflector__Kubernetes__SkipTlsVerify"
-      value: "false"
+      value: '"false"'
   resources:
     preset: "nano"
 

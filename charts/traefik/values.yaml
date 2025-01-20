@@ -75,7 +75,7 @@ wildcardCertificate:
   issuer: "cloudflare"
 
 serviceMonitor:
-  enabled: false
+  enabled: true
 
 rbac:
   roles:
