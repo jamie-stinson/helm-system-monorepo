@@ -41,7 +41,7 @@ service:
       port: 20257
 
 autoscaling:
-  enabled: true
+  enabled: false
 
 pdb:
   enabled: false
