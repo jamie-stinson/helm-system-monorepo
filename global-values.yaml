@@ -17,6 +17,9 @@ workload:
 service:
   enabled: true
 
+serviceMonitor:
+  port: "metrics"
+
 autoscaling:
   enabled: true
   minReplicas: 2
