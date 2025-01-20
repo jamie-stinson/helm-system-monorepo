@@ -80,66 +80,66 @@ wildcardCertificate:
   issuer: "cloudflare"
 
 serviceMonitor:
-  enabled: true
+  enabled: false
 
 rbac:
-  enabled: true
-  type: "ClusterRole"
-  rules:
-    - apiGroups:
-        - ''
-      resources:
-        - nodes
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - services
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - discovery.k8s.io
-      resources:
-        - endpointslices
-      verbs:
-        - list
-        - watch
-    - apiGroups:
-        - ''
-      resources:
-        - secrets
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - extensions
-        - networking.k8s.io
-      resources:
-        - ingressclasses
-      verbs:
-        - get
-        - list
-        - watch
-    - apiGroups:
-        - traefik.io
-      resources:
-        - ingressroutes
-        - ingressroutetcps
-        - ingressrouteudps
-        - middlewares
-        - middlewaretcps
-        - serverstransports
-        - serverstransporttcps
-        - tlsoptions
-        - tlsstores
-        - traefikservices
-      verbs:
-        - get
-        - list
-        - watch
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - services
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - discovery.k8s.io
+          resources:
+            - endpointslices
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingressclasses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - traefik.io
+          resources:
+            - ingressroutes
+            - ingressroutetcps
+            - ingressrouteudps
+            - middlewares
+            - middlewaretcps
+            - serverstransports
+            - serverstransporttcps
+            - tlsoptions
+            - tlsstores
+            - traefikservices
+          verbs:
+            - get
+            - list
+            - watch

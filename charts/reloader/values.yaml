@@ -26,57 +26,57 @@ service:
       port: 9090
 
 serviceMonitor:
-  enabled: true
+  enabled: false
 
 rbac:
-  enabled: true
-  type: "ClusterRole"
-  rules:
-    - apiGroups:
-        - ""
-      resources:
-        - secrets
-        - configmaps
-      verbs:
-        - list
-        - get
-        - watch
-    - apiGroups:
-        - "apps"
-      resources:
-        - deployments
-        - daemonsets
-        - statefulsets
-      verbs:
-        - list
-        - get
-        - update
-        - patch
-    - apiGroups:
-        - "batch"
-      resources:
-        - cronjobs
-      verbs:
-        - list
-        - get
-    - apiGroups:
-        - "batch"
-      resources:
-        - jobs
-      verbs:
-        - create
-    - apiGroups:
-        - "coordination.k8s.io"
-      resources:
-        - leases
-      verbs:
-        - create
-        - get
-        - update
-    - apiGroups:
-        - ""
-      resources:
-        - events
-      verbs:
-        - create
-        - patch
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+            - configmaps
+          verbs:
+            - list
+            - get
+            - watch
+        - apiGroups:
+            - "apps"
+          resources:
+            - deployments
+            - daemonsets
+            - statefulsets
+          verbs:
+            - list
+            - get
+            - update
+            - patch
+        - apiGroups:
+            - "batch"
+          resources:
+            - cronjobs
+          verbs:
+            - list
+            - get
+        - apiGroups:
+            - "batch"
+          resources:
+            - jobs
+          verbs:
+            - create
+        - apiGroups:
+            - "coordination.k8s.io"
+          resources:
+            - leases
+          verbs:
+            - create
+            - get
+            - update
+        - apiGroups:
+            - ""
+          resources:
+            - events
+          verbs:
+            - create
+            - patch

@@ -40,25 +40,26 @@ serviceMonitor:
 
 rbac:
   enabled: true
-  type: "ClusterRole"
-    rules:
-      - apiGroups:
-          - ''
-        resources:
-          - nodes
-        verbs:
-          - get
-      - apiGroups:
-          - ''
-        resources:
-          - nodes/status
-        verbs:
-          - patch
-      - apiGroups:
-          - ''
-        resources:
-          - events
-        verbs:
-          - create
-          - patch
-          - update
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+        - apiGroups:
+            - ''
+          resources:
+            - nodes/status
+          verbs:
+            - patch
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+            - update

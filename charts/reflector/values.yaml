@@ -30,19 +30,20 @@ serviceMonitor:
 
 rbac:
   enabled: true
-  clusterRole:
-    rules:
-      - apiGroups:
-          - ""
-        resources: 
-          - configmaps
-          - secrets
-        verbs: 
-          - "*"
-      - apiGroups:
-          - ""
-        resources: 
-          - namespaces
-        verbs: 
-          - watch
-          - list
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ""
+          resources: 
+            - configmaps
+            - secrets
+          verbs: 
+            - "*"
+        - apiGroups:
+            - ""
+          resources: 
+            - namespaces
+          verbs: 
+            - watch
+            - list
