@@ -5,15 +5,14 @@ workload:
     repository: "node-problem-detector/node-problem-detector"
     tag: "v0.8.19"
   command:
-    - '/bin/sh'
+    - /bin/sh
     - '-c'
-  args:
-    - 'exec /node-problem-detector'
-    - '--logtostderr'
-    - '--config.system-log-monitor=/config/kernel-monitor.json'
-    - '--prometheus-address=0.0.0.0' 
-    - '--prometheus-port=20257'
-    - '--k8s-exporter-heartbeat-period=5m0s'
+    - >-
+      exec /node-problem-detector --logtostderr
+      --config.system-log-monitor=/config/kernel-monitor.json 
+      --prometheus-address=0.0.0.0 
+      --prometheus-port=20257
+      --k8s-exporter-heartbeat-period=5m0s
   securityContext:
     allowPrivilegeEscalation: true
     privileged: true
