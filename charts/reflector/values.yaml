@@ -12,9 +12,14 @@ workload:
   resources:
     preset: "nano"
 
+service:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 25080
+
 serviceMonitor:
   enabled: true
-  port: "25080"
 
 rbac:
   enabled: true

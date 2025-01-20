@@ -34,6 +34,12 @@ workload:
       readOnly: true
   priorityClassName: "system-node-critical"
 
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 20257
+
 autoscaling:
   enabled: false
 
@@ -42,7 +48,6 @@ pdb:
 
 serviceMonitor:
   enabled: true
-  port: "20257"
 
 rbac:
   enabled: true

@@ -23,6 +23,12 @@ workload:
           path: policy.yaml
   priorityClassName: "system-cluster-critical"
 
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
+
 configMap:
   enabled: true
   data:
@@ -82,7 +88,6 @@ configMap:
 
 serviceMonitor:
   enabled: true
-  port: "10258"
 
 rbac:
   enabled: true
