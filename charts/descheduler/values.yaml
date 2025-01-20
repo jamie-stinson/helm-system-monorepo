@@ -22,6 +22,7 @@ workload:
         - key: policy.yaml
           path: policy.yaml
   priorityClassName: "system-cluster-critical"
+  probes: {}
 
 service:
   ports:

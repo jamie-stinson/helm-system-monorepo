@@ -10,6 +10,7 @@ workload:
     - '--leader-election-namespace=$(POD_NAMESPACE)'
   resources:
     preset: "micro"
+  probes: {}
 
 service:
   ports:

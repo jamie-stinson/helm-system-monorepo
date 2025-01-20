@@ -14,6 +14,7 @@ workload:
     - '--dynamic-serving-dns-names=cert-manager-webhook'
     - '--dynamic-serving-dns-names=cert-manager-webhook.$(POD_NAMESPACE)'
     - '--dynamic-serving-dns-names=cert-manager-webhook.$(POD_NAMESPACE).svc'
+  probes: {}
 
 service:
   ports:
