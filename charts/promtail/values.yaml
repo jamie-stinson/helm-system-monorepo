@@ -1,0 +1,59 @@
+workload:
+  replicaCount: 1
+  image:
+    repository: "grafana/promtail"
+    tag: "latest"
+  resources:
+    preset: "micro"
+  args:
+    - '-config.file=/etc/promtail/config.yaml'
+  storage:
+    - name: config
+      type: configMap
+      mountPath: /etc/promtail
+      configMapName: promtail
+    - name: logs
+      type: hostPath
+      mountPath: /var/log
+      hostPath: /var/log
+      readOnly: true
+service:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9080
+
+autoscaling:
+  enabled: false
+
+configMap:
+  enabled: true
+  data:
+    config.yaml: |
+      server:
+        http_listen_port: 9080
+        grpc_listen_port: 0
+
+      positions:
+        filename: /tmp/positions.yaml
+
+      clients:
+        - url: http://loki.loki.svc.cluster.local:3100/loki/api/v1/push
+
+      scrape_configs:
+      - job_name: system
+        static_configs:
+        - targets:
+            - "localhost"
+          labels:
+            job: varlogs
+            __path__: /var/log/*log
+
+ingress:
+  enabled: true
+  entryPoints:
+    - internalwebsecure
+    - internalweb
+  port: http
+  prefix: "promtail"
+  tls: true

@@ -1,0 +1,43 @@
+workload:
+  replicaCount: 1
+  image:
+    repository: "grafana/grafana"
+    tag: "11.4.0"
+  resources:
+    preset: "micro"
+
+service:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+
+autoscaling:
+  enabled: false
+
+configMap:
+  enabled: true
+  data:
+    grafana.ini: |
+      [analytics]
+      check_for_updates = false
+      [grafana_net]
+      url = https://grafana.net
+      [log]
+      mode = console
+      [paths]
+      data = /var/lib/grafana/
+      logs = /var/log/grafana
+      plugins = /var/lib/grafana/plugins
+      provisioning = /etc/grafana/provisioning
+      [server]
+      domain = ''
+
+ingress:
+  enabled: true
+  entryPoints:
+    - internalwebsecure
+    - internalweb
+  port: http
+  prefix: "grafana"
+  tls: true
