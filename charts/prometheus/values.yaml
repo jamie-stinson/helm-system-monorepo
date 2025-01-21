@@ -47,11 +47,15 @@ configMap:
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
-            # Only keep endpoints where the port name is 'metrics'
+            # Keep only endpoints where the port name is 'metrics'
             - source_labels: [__meta_kubernetes_endpoint_port_name]
               action: keep
               regex: metrics
-            # Construct the __address__ using the endpoint address and port number
+            # Drop targets where the address is missing
+            - source_labels: [__meta_kubernetes_endpoint_address_target]
+              action: drop
+              regex: ^$
+            # Construct __address__ using the endpoint IP and port
             - source_labels: [__meta_kubernetes_endpoint_address_target, __meta_kubernetes_endpoint_port_number]
               action: replace
               target_label: __address__
@@ -63,7 +67,7 @@ configMap:
               target_label: instance
               separator: /
               replacement: $1/$2/$3
-            # Optional: Add a job label for better identification
+            # Optionally add a job label for organization
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
               action: replace
               target_label: job
