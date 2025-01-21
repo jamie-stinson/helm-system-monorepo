@@ -11,12 +11,11 @@ workload:
   resources:
     preset: "micro"
 
-serviceMonitor:
-  enabled: true
-  port: 9402
-
-serviceMonitor:
-  enabled: true
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9402
 
 rbac:
   enabled: true

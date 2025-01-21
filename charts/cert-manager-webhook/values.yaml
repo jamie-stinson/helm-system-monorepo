@@ -23,13 +23,9 @@ service:
     - name: healthcheck
       protocol: TCP
       port: 6080
-
-serviceMonitor:
-  enabled: true
-  port: "9402"
-
-serviceMonitor:
-  enabled: true
+    - name: metrics
+      protocol: TCP
+      port: 9402
 
 rbac:
   enabled: true

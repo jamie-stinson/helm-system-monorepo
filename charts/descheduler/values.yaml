@@ -80,9 +80,11 @@ configMap:
             - RemoveFailedPods
             - PodLifeTime
 
-serviceMonitor:
-  enabled: true
-  port: "10258"
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
 
 rbac:
   enabled: true

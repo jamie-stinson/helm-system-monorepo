@@ -17,13 +17,12 @@ workload:
 
 service:
   ports:
-    - name: http-healthz
+    - name: healthz
       protocol: TCP
       port: 9403
-
-serviceMonitor:
-  enabled: true 
-  port: 9402
+    - name: metrics
+      protocol: TCP
+      port: 9402
 
 rbac:
   enabled: true

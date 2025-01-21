@@ -40,9 +40,11 @@ autoscaling:
 pdb:
   enabled: false
 
-serviceMonitor:
-  enabled: true
-  port: "20257"
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 20257
 
 rbac:
   enabled: true

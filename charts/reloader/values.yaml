@@ -12,9 +12,11 @@ workload:
   resources:
     preset: "nano"
 
-serviceMonitor:
-  enabled: true
-  port: "9090"
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9090
 
 rbac:
   roles:

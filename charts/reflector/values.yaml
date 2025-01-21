@@ -12,9 +12,8 @@ workload:
   resources:
     preset: "nano"
 
-serviceMonitor:
-  enabled: true
-  port: "25080"
+service:
+  enabled: false
 
 rbac:
   enabled: true

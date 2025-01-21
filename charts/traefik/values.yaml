@@ -71,10 +71,6 @@ wildcardCertificate:
   name: "cloudflare"
   issuer: "cloudflare"
 
-serviceMonitor:
-  enabled: true
-  port: "9100"
-
 rbac:
   roles:
     clusterRole:
