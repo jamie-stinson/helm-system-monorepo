@@ -18,6 +18,12 @@ workload:
       type: configMap
       mountPath: /etc/config
       configMapName: prometheus
+    - name: data
+      type: emptyDir
+      mountPath: /prometheus
+      sizeLimit: 5Gi
+      readOnly: false
+      ramDisk: false
   extraContainers:
     - name: prometheus-configmap-reload
       args:
@@ -35,6 +41,9 @@ service:
     - name: http
       protocol: TCP
       port: 9090
+
+autoscaling:
+  enabled: false
 
 configMap:
   enabled: true
