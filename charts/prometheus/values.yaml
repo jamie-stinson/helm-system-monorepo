@@ -43,13 +43,39 @@ configMap:
         scrape_interval: 1m
         scrape_timeout: 10s
       scrape_configs:
+        # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
         - job_name: 'kubernetes-services'
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
+            # Exclude the descheduler service from this scrape config
+            - source_labels: [__meta_kubernetes_service_name]
+              regex: descheduler
+              action: drop
             # Only keep endpoints with ports named "metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
               regex: metrics
+              action: keep
+            # Extract the namespace and service name for better labels
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+              target_label: service
+              separator: /
+              replacement: $1/$2
+            # Remove unnecessary labels
+            - action: labeldrop
+              regex: __meta_kubernetes.*
+
+        # Scraper for the descheduler service using HTTPS and insecure_skip_verify
+        - job_name: 'descheduler-metrics'
+          kubernetes_sd_configs:
+            - role: endpoints
+          scheme: https
+          tls_config:
+            insecure_skip_verify: true
+          relabel_configs:
+            # Only keep the descheduler service with the "metrics" port
+            - source_labels: [__meta_kubernetes_service_name]
+              regex: descheduler
               action: keep
             # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
