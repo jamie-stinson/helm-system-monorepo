@@ -1,0 +1,119 @@
+installCRDs: true
+
+workload:
+  image:
+    registry: "quay.io"
+    repository: "prometheus/prometheus"
+    tag: "v3.1.0"
+  args:
+    - '--storage.tsdb.retention.time=15d'
+    - '--config.file=/etc/config/prometheus.yml'
+    - '--storage.tsdb.path=/data'
+    - '--web.console.libraries=/etc/prometheus/console_libraries'
+    - '--web.console.templates=/etc/prometheus/consoles'
+    - '--web.enable-lifecycle'
+  resources:
+    preset: "micro"
+  storage:
+    - name: config
+      type: configMap
+      mountPath: /etc/config
+      configMapName: prometheus
+  extraContainers:
+    - name: prometheus-configmap-reload
+      args:
+        - '--watched-dir=/etc/config'
+        - '--listen-address=0.0.0.0:8080'
+        - '--reload-url=http://127.0.0.1:9090/-/reload'
+      image: quay.io/prometheus-operator/prometheus-config-reloader:v0.78.2
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /etc/config
+          name: config
+          readOnly: true
+service:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9090
+
+configMap:
+  enabled: true
+  data:
+    prometheus.yaml: |
+      global:
+        evaluation_interval: 1m
+        scrape_interval: 1m
+        scrape_timeout: 10s
+      scrape_configs:
+        - job_name: 'kubernetes-services-metrics-port'
+          kubernetes_sd_configs:
+            - role: endpoints
+          relabel_configs:
+            # Only keep targets where the port name is 'metrics'
+            - source_labels: [__meta_kubernetes_endpoint_port_name]
+              action: keep
+              regex: metrics
+            # Set the instance label to include namespace and service name
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+              action: replace
+              target_label: instance
+              separator: /
+              replacement: $1/$2
+            # Set the job label to the namespace and service name
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+              action: replace
+              target_label: job
+              separator: /
+              replacement: $1/$2
+
+ingress:
+  enabled: true
+  entryPoints:
+    - internalwebsecure
+    - internalweb
+  port: http
+  prefix: "prometheus"
+  tls: true
+
+rbac:
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+            - nodes/proxy
+            - nodes/metrics
+            - services
+            - endpoints
+            - pods
+            - ingresses
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingresses/status
+            - ingresses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - discovery.k8s.io
+          resources:
+            - endpointslices
+          verbs:
+            - get
+            - list
+            - watch
+        - nonResourceURLs:
+            - /metrics
+          verbs:
+            - get
