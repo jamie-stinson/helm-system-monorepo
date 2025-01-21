@@ -43,36 +43,22 @@ configMap:
         scrape_interval: 1m
         scrape_timeout: 10s
       scrape_configs:
-        - job_name: 'kubernetes-services-metrics-port'
+        - job_name: 'kubernetes-services'
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
-            # Keep only endpoints where the port name is 'metrics'
+            # Only keep endpoints with ports named "metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
-              action: keep
               regex: metrics
-            # Drop targets where the address is missing
-            - source_labels: [__meta_kubernetes_endpoint_address_target]
-              action: drop
-              regex: ^$
-            # Construct __address__ using the endpoint IP and port
-            - source_labels: [__meta_kubernetes_endpoint_address_target, __meta_kubernetes_endpoint_port_number]
-              action: replace
-              target_label: __address__
-              separator: ':'
-              replacement: $1:$2
-            # Set the instance label to namespace/service/port
-            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
-              action: replace
-              target_label: instance
-              separator: /
-              replacement: $1/$2/$3
-            # Optionally add a job label for organization
+              action: keep
+            # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
-              action: replace
-              target_label: job
+              target_label: service
               separator: /
               replacement: $1/$2
+            # Remove unnecessary labels
+            - action: labeldrop
+              regex: __meta_kubernetes.*
 
 ingress:
   enabled: true
