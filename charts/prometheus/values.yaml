@@ -20,7 +20,7 @@ workload:
       configMapName: prometheus
     - name: data
       type: emptyDir
-      mountPath: /prometheus
+      mountPath: /data
       sizeLimit: 5Gi
       readOnly: false
       ramDisk: false
