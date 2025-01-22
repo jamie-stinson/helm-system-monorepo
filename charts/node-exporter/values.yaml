@@ -18,17 +18,6 @@ workload:
     privileged: true
   resources:
     preset: "nano"
-  storage:
-    - name: sys
-      type: hostPath
-      mountPath: /host/sys
-      hostPath: /host/sys
-      readOnly: true
-    - name: root
-      type: hostPath
-      mountPath: /host/root
-      hostPath: /host/root
-      readOnly: true
   priorityClassName: "system-node-critical"
 
 autoscaling:
