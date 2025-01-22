@@ -44,10 +44,6 @@ configMap:
       clients:
       - url: http://loki.loki.svc.cluster.local:3100/loki/api/v1/push
 
-      limits_config:
-        ingestion_burst_size_mb: 1000
-        ingestion_rate_mb: 10000
-
       positions:
         filename: /tmp/positions.yaml
       target_config:
