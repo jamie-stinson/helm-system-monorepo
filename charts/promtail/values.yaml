@@ -8,6 +8,10 @@ workload:
   args:
     - '-config.file=/etc/promtail/config.yaml'
     - '-client.url=http://loki.loki.svc.cluster.local:3100/api/prom/push'
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
   storage:
     - name: config
       type: configMap
