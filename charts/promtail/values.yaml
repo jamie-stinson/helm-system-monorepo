@@ -30,6 +30,9 @@ service:
 autoscaling:
   enabled: false
 
+pdb:
+  enabled: false
+
 configMap:
   enabled: true
   data:
