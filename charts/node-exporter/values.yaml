@@ -5,10 +5,6 @@ workload:
     repository: "prometheus/node-exporter"
     tag: "latest"
   args:
-    - --path.procfs=/host/proc
-    - --path.sysfs=/host/sys
-    - --path.rootfs=/host/root
-    - --path.udev.data=/host/root/run/udev/data
     - --web.listen-address=0.0.0.0:8200
   securityContext:
     runAsUser: 0
