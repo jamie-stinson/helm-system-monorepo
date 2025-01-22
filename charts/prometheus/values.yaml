@@ -61,6 +61,9 @@ configMap:
               target_label: service
               separator: /
               replacement: $1/$2
+            # Set instance label to the node hostname
+            - source_labels: [__meta_kubernetes_pod_node_name]
+              target_label: instance
             # Remove unnecessary labels
             - action: labeldrop
               regex: __meta_kubernetes.*
