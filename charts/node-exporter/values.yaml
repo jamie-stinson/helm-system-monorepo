@@ -5,16 +5,33 @@ workload:
     repository: "prometheus/node-exporter"
     tag: "latest"
   args:
-    - --web.listen-address=0.0.0.0:9100
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: true
-    privileged: true
+    - '--web.listen-address=0.0.0.0:9100'
+    - '--path.procfs=/host/proc'
+    - '--path.sysfs=/host/sys'
+    - '--path.rootfs=/host/root'
+    - '--path.udev.data=/host/root/run/udev/data'
   resources:
     preset: "nano"
   priorityClassName: "system-node-critical"
+  storage:
+    - name: proc
+      type: hostPath
+      mountPath: /proc
+      hostPath: /proc
+      readOnly: true
+    - name: sys
+      type: hostPath
+      mountPath: /sys
+      hostPath: /sys
+      readOnly: true
+    - name: root
+      type: hostPath
+      mountPath: /
+      hostPath: /
+      readOnly: true
+
+serviceAccount:
+  enabled: false
 
 autoscaling:
   enabled: false
