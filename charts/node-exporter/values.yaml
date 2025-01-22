@@ -16,17 +16,17 @@ workload:
   storage:
     - name: proc
       type: hostPath
-      mountPath: /proc
+      mountPath: /host/proc
       hostPath: /proc
       readOnly: true
     - name: sys
       type: hostPath
-      mountPath: /sys
+      mountPath: /host/sys
       hostPath: /sys
       readOnly: true
     - name: root
       type: hostPath
-      mountPath: /
+      mountPath: /host/root
       hostPath: /
       readOnly: true
 
