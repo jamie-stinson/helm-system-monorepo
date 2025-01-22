@@ -40,7 +40,7 @@ configMap:
     prometheus.yaml: |
       global:
         evaluation_interval: 1m
-        scrape_interval: 1m
+        scrape_interval: 10s
         scrape_timeout: 10s
       scrape_configs:
         # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
