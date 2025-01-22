@@ -1,0 +1,49 @@
+workload:
+  type: DaemonSet
+  image:
+    registry: "quay.io"
+    repository: "prometheus/node-exporter"
+    tag: "latest"
+  args:
+    - --path.procfs=/host/proc
+    - --path.sysfs=/host/sys
+    - --path.rootfs=/host/root
+    - --path.udev.data=/host/root/run/udev/data
+    - --web.listen-address=0.0.0.0:8200
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    allowPrivilegeEscalation: true
+    privileged: true
+  resources:
+    preset: "nano"
+  storage:
+    - name: proc
+      type: hostPath
+      mountPath: /host/proc
+      hostPath: /host/proc
+      readOnly: true
+    - name: sys
+      type: hostPath
+      mountPath: /host/sys
+      hostPath: /host/sys
+      readOnly: true
+    - name: root
+      type: hostPath
+      mountPath: /host/root
+      hostPath: /host/root
+      readOnly: true
+  priorityClassName: "system-node-critical"
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9100
