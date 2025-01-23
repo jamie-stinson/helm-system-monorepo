@@ -12,7 +12,7 @@ workload:
     - '--path.udev.data=/host/root/run/udev/data'
   resources:
     preset: "nano"
-=  storage:
+  storage:
     - name: proc
       type: hostPath
       mountPath: /host/proc
