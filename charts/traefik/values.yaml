@@ -57,6 +57,11 @@ expose:
       port: 81
       nodePort: 30081
 
+ingressClass:
+  enabled: true
+  controller: "traefik.io/ingress-controller"
+  isDefault: true
+
 ingress:
   enabled: true
   entryPoints:
