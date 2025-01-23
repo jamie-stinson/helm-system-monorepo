@@ -7,20 +7,21 @@ workload:
   command:
     - /bin/sh
     - '-c'
-    - >-
-      exec /node-problem-detector --logtostderr
-      --config.system-log-monitor=/config/kernel-monitor.json 
-      --prometheus-address=0.0.0.0 
-      --prometheus-port=20257
-      --k8s-exporter-heartbeat-period=5m0s
+  args:
+    - 'exec /node-problem-detector'
+    - '--logtostderr'
+    - '--config.system-log-monitor=/config/kernel-monitor.json'
+    - '--prometheus-address=0.0.0.0 ''
+    - '--prometheus-port=20257'
+    - '--k8s-exporter-heartbeat-period=5m0s'
+  resources:
+    preset: "nano"
   securityContext:
     runAsUser: 0
     runAsGroup: 0
     runAsNonRoot: false
     allowPrivilegeEscalation: true
     privileged: true
-  resources:
-    preset: "nano"
   storage:
     - name: log
       type: hostPath
@@ -32,7 +33,6 @@ workload:
       mountPath: /etc/localtime
       hostPath: /etc/localtime
       readOnly: true
-  priorityClassName: "system-node-critical"
 
 autoscaling:
   enabled: false

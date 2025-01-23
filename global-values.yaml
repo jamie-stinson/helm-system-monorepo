@@ -13,6 +13,7 @@ workload:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
     privileged: false
+    readOnlyRootFilesystem: true
 
 service:
   enabled: true
@@ -20,7 +21,7 @@ service:
 autoscaling:
   enabled: true
   minReplicas: 2
-  maxReplicas: 5
+  maxReplicas: 6
   targetCPUUtilizationPercentage: 75
   targetMemoryUtilizationPercentage: 75
 

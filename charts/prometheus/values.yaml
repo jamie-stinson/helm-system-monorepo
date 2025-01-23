@@ -25,14 +25,14 @@ workload:
       readOnly: false
       ramDisk: false
 
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: http
       protocol: TCP
       port: 9090
-
-autoscaling:
-  enabled: false
 
 configMap:
   enabled: true

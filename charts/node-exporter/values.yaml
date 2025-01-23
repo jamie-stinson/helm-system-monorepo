@@ -3,7 +3,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "prometheus/node-exporter"
-    tag: "latest"
+    tag: "v1.8.2"
   args:
     - '--web.listen-address=0.0.0.0:9100'
     - '--path.procfs=/host/proc'
@@ -12,8 +12,7 @@ workload:
     - '--path.udev.data=/host/root/run/udev/data'
   resources:
     preset: "nano"
-  priorityClassName: "system-node-critical"
-  storage:
+=  storage:
     - name: proc
       type: hostPath
       mountPath: /host/proc
@@ -30,9 +29,6 @@ workload:
       hostPath: /
       readOnly: true
 
-serviceAccount:
-  enabled: false
-
 autoscaling:
   enabled: false
 
@@ -44,3 +40,6 @@ service:
     - name: metrics
       protocol: TCP
       port: 9100
+
+serviceAccount:
+  enabled: false
