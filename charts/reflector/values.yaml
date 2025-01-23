@@ -11,7 +11,8 @@ workload:
       value: '"false"'
   resources:
     preset: "nano"
-
+  securityContext:
+    readOnlyRootFilesystem: false
 service:
   enabled: false
 
