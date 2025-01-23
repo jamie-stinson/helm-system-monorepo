@@ -41,5 +41,3 @@ service:
       protocol: TCP
       port: 9100
 
-serviceAccount:
-  enabled: false
