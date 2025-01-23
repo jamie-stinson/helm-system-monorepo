@@ -11,8 +11,12 @@ workload:
       value: '"false"'
   resources:
     preset: "nano"
-  securityContext:
-    readOnlyRootFilesystem: false
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      readOnly: false
+
 service:
   enabled: false
 
