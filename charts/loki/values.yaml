@@ -18,7 +18,10 @@ workload:
       sizeLimit: 5Gi
       readOnly: false
       ramDisk: false
-
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      readOnly: false
 service:
   ports:
     - name: http
