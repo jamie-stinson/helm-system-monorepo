@@ -89,7 +89,7 @@ ingress:
 redis:
   enabled: true
   replicas: 6
-  shards: "3"
+  shards: "'3'"
   resources:
     # -- Defines a preset configuration for resources. Either: `nano`, `micro`, `small`, `medium`, `large`, `xlarge`, `2xlarge`, `4xlarge`.
     preset: ""
