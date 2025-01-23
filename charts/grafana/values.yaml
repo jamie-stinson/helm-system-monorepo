@@ -5,6 +5,11 @@ workload:
     tag: "11.4.0"
   resources:
     preset: "micro"
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /var/lib/grafana
+      readOnly: false
 
 autoscaling:
   enabled: false
