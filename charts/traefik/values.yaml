@@ -18,7 +18,7 @@ workload:
     - '--api.insecure=true'
     - '--ping=true'
     - '--providers.kubernetesingress=true'
-    - "--providers.kubernetesingress.ingressendpoint.publishedservice=NAMESPACE/TRAEFIK_SVC_NAME"
+    - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik-expose"
     - '--log.format=json'
     - '--log.level=INFO'
     - '--accesslog=true'
