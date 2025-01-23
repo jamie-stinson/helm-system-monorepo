@@ -18,7 +18,6 @@ workload:
     - '--api.insecure=true'
     - '--ping=true'
     - '--providers.kubernetesingress=true'
-    - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
     - '--log.format=json'
     - '--log.level=INFO'
     - '--accesslog=true'
