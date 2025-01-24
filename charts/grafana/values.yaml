@@ -3,7 +3,7 @@ workload:
     repository: "grafana/grafana"
     tag: "11.4.0"
   replicaCount: 2
-  envsSecret: []
+  envsSecret:
     - name: POSTGRES_PASSWORD
       secret: grafana-postgres
       key: POSTGRES_PASSWORD
