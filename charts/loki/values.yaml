@@ -1,8 +1,8 @@
 workload:
-  replicaCount: 1
   image:
-    repository: "grafana/loki"
-    tag: "latest"
+    repository: grafana/loki
+    tag: 3.3.2
+  replicaCount: 1
   resources:
     preset: "micro"
   args:
@@ -22,14 +22,15 @@ workload:
       type: emptyDir
       mountPath: /tmp
       readOnly: false
+
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: http
       protocol: TCP
       port: 3100
-
-autoscaling:
-  enabled: false
 
 configMap:
   enabled: true

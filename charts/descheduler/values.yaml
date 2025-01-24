@@ -3,8 +3,8 @@ workload:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
     tag: "v0.31.0"
-  command:
-    - '/bin/descheduler'
+  # command:
+  #   - '/bin/descheduler'
   args:
     - '--policy-config-file=/config/policy.yaml'
     - '--descheduling-interval=5m'
@@ -22,6 +22,12 @@ workload:
         - key: policy.yaml
           path: policy.yaml
   priorityClassName: "system-cluster-critical"
+
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
 
 configMap:
   enabled: true
@@ -79,12 +85,6 @@ configMap:
             - RemovePodsHavingTooManyRestarts
             - RemoveFailedPods
             - PodLifeTime
-
-service:
-  ports:
-    - name: metrics
-      protocol: TCP
-      port: 10258
 
 rbac:
   enabled: true

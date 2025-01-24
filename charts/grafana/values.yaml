@@ -1,15 +1,14 @@
 workload:
-  replicaCount: 1
   image:
     repository: "grafana/grafana"
     tag: "11.4.0"
+  replicaCount: 1
   resources:
     preset: "micro"
   storage:
     - name: tmp
       type: emptyDir
       mountPath: /var/lib/grafana
-      readOnly: false
 
 autoscaling:
   enabled: false

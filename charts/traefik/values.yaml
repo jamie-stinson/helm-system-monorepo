@@ -1,7 +1,7 @@
 workload:
   image:
-    repository: "traefik"
-    tag: "v3.2.2"
+    repository: traefik
+    tag: v3.2.2
   args:
     - '--entryPoints.metrics.address=:9100/tcp'
     - '--metrics.prometheus=true'
@@ -25,56 +25,16 @@ workload:
     - '--accesslog.fields.defaultmode=keep'
     - '--accesslog.fields.headers.defaultmode=drop'
   resources:
-    preset: "micro"
+    preset: micro
 
 service:
   ports:
     - name: traefik
-      protocol: TCP
       port: 8080
+      protocol: TCP
     - name: metrics
-      protocol: TCP
       port: 9100
-
-expose:
-  enabled: true
-  type: NodePort
-  ports:
-    - name: externalwebsecure
       protocol: TCP
-      port: 443
-      nodePort: 30443
-    - name: externalweb
-      protocol: TCP
-      port: 80
-      nodePort: 30080
-    - name: internalwebsecure
-      protocol: TCP
-      port: 444
-      nodePort: 30444
-    - name: internalweb
-      protocol: TCP
-      port: 81
-      nodePort: 30081
-
-ingressClass:
-  enabled: true
-  controller: "traefik.io/ingress-controller"
-  isDefault: true
-
-ingress:
-  enabled: true
-  entryPoints:
-    - internalwebsecure
-    - internalweb
-  port: traefik
-  prefix: "traefik"
-  tls: true
-
-wildcardCertificate:
-  enabled: true
-  name: "cloudflare"
-  issuer: "cloudflare"
 
 rbac:
   roles:
@@ -154,3 +114,43 @@ rbac:
             - ingresses/status
           verbs:
             - update
+
+wildcardCertificate:
+  enabled: true
+  issuer: cloudflare
+  name: cloudflare
+
+expose:
+  enabled: true
+  ports:
+    - name: externalwebsecure
+      nodePort: 30443
+      port: 443
+      protocol: TCP
+    - name: externalweb
+      nodePort: 30080
+      port: 80
+      protocol: TCP
+    - name: internalwebsecure
+      nodePort: 30444
+      port: 444
+      protocol: TCP
+    - name: internalweb
+      nodePort: 30081
+      port: 81
+      protocol: TCP
+  type: NodePort
+
+ingress:
+  enabled: true
+  entryPoints:
+    - internalwebsecure
+    - internalweb
+  port: traefik
+  prefix: traefik
+  tls: true
+
+ingressClass:
+  controller: traefik.io/ingress-controller
+  enabled: true
+  isDefault: true

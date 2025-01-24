@@ -1,8 +1,8 @@
 workload:
   image:
-    registry: "ghcr.io"
-    repository: "stakater/reloader"
-    tag: "v1.2.0"
+    registry: ghcr.io
+    repository: stakater/reloader
+    tag: v1.2.0
   args:
     - '--log-format=json'
     - '--log-level=info'
@@ -10,20 +10,20 @@ workload:
     - '--enable-ha=true'
     - '--auto-reload-all=true'
   resources:
-    preset: "nano"
+    preset: nano
 
 service:
   ports:
     - name: metrics
-      protocol: TCP
       port: 9090
+      protocol: TCP
 
 rbac:
   roles:
     clusterRole:
       rules:
         - apiGroups:
-            - ""
+            - ''
           resources:
             - secrets
             - configmaps
@@ -32,7 +32,7 @@ rbac:
             - get
             - watch
         - apiGroups:
-            - "apps"
+            - apps
           resources:
             - deployments
             - daemonsets
@@ -43,20 +43,20 @@ rbac:
             - update
             - patch
         - apiGroups:
-            - "batch"
+            - batch
           resources:
             - cronjobs
           verbs:
             - list
             - get
         - apiGroups:
-            - "batch"
+            - batch
           resources:
             - jobs
           verbs:
             - create
         - apiGroups:
-            - "coordination.k8s.io"
+            - coordination.k8s.io
           resources:
             - leases
           verbs:
@@ -64,7 +64,7 @@ rbac:
             - get
             - update
         - apiGroups:
-            - ""
+            - ''
           resources:
             - events
           verbs:

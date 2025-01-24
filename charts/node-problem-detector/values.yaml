@@ -4,11 +4,11 @@ workload:
     registry: "registry.k8s.io"
     repository: "node-problem-detector/node-problem-detector"
     tag: "v0.8.19"
-  command:
-    - /bin/sh
-    - '-c'
+  # command:
+  #   - /bin/sh
+  #   - '-c'
   args:
-    - 'exec /node-problem-detector'
+  #   - 'exec /node-problem-detector'
     - '--logtostderr'
     - '--config.system-log-monitor=/config/kernel-monitor.json'
     - '--prometheus-address=0.0.0.0 ''
@@ -34,10 +34,10 @@ workload:
       hostPath: /etc/localtime
       readOnly: true
 
-autoscaling:
+pdb:
   enabled: false
 
-pdb:
+autoscaling:
   enabled: false
 
 service:

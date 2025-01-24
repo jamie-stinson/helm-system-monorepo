@@ -1,17 +1,17 @@
 workload:
-  type: "DaemonSet"
+  type: DaemonSet
   image:
-    repository: "grafana/promtail"
-    tag: "latest"
-  resources:
-    preset: "micro"
+    repository: grafana/promtail
+    tag: 3.3.2
   args:
     - '-config.file=/etc/promtail/config.yaml'
     - '-client.url=http://loki.loki.svc.cluster.local:3100/api/prom/push'
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
+  resources:
+    preset: micro
+  # securityContext:
+  #   runAsGroup: 0
+  #   runAsNonRoot: false
+  #   runAsUser: 0
   storage:
     - name: config
       type: configMap
@@ -21,17 +21,18 @@ workload:
       type: hostPath
       mountPath: /var/log
       hostPath: /var/log
-service:
-  ports:
-    - name: http
-      protocol: TCP
-      port: 9080
+
+pdb:
+  enabled: false
 
 autoscaling:
   enabled: false
 
-pdb:
-  enabled: false
+service:
+  ports:
+    - name: http
+      port: 9080
+      protocol: TCP
 
 configMap:
   enabled: true
@@ -86,14 +87,13 @@ configMap:
               - __meta_kubernetes_pod_container_name
             target_label: __path__
 
-
 rbac:
   enabled: true
   roles:
     clusterRole:
       rules:
         - apiGroups:
-            - ""
+            - ''
           resources:
             - nodes
             - nodes/proxy
@@ -111,5 +111,6 @@ ingress:
     - internalwebsecure
     - internalweb
   port: http
-  prefix: "promtail"
+  prefix: promtail
   tls: true
+
