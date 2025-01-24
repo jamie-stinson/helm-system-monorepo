@@ -10,6 +10,10 @@ workload:
   resources:
     preset: "micro"
   storage:
+    - configMapName: grafana
+      mountPath: /etc/grafana
+      name: config
+      type: configMap
     - name: tmp
       type: emptyDir
       mountPath: /var/lib/grafana
