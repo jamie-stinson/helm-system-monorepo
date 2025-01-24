@@ -2,7 +2,11 @@ workload:
   image:
     repository: "grafana/grafana"
     tag: "11.4.0"
-  replicaCount: 1
+  replicaCount: 2
+  envsSecret: []
+    - name: POSTGRES_PASSWORD
+      secret: grafana-postgres
+      key: POSTGRES_PASSWORD
   resources:
     preset: "micro"
   storage:
@@ -36,6 +40,12 @@ configMap:
       provisioning = /etc/grafana/provisioning
       [server]
       domain = ''
+      [database]
+      type = postgres
+      host = grafana-postgres.grafana.svc.cluster.local:5432
+      name = grafana
+      user = grafana
+      password = $__env{POSTGRES_PASSWORD}
 
 ingress:
   enabled: true
@@ -45,3 +55,7 @@ ingress:
   port: http
   prefix: "grafana"
   tls: true
+
+postgres:
+  enabled: true
+  replicas: 2
