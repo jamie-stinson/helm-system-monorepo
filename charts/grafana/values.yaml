@@ -33,11 +33,6 @@ configMap:
       url = https://grafana.net
       [log]
       mode = console
-      [paths]
-      data = /var/lib/grafana/
-      logs = /var/log/grafana
-      plugins = /var/lib/grafana/plugins
-      provisioning = /etc/grafana/provisioning
       [server]
       domain = ''
       [database]
