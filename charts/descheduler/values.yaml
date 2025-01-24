@@ -3,8 +3,8 @@ workload:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
     tag: "v0.31.0"
-  # command:
-  #   - '/bin/descheduler'
+  command:
+    - '/bin/descheduler'
   args:
     - '--policy-config-file=/config/policy.yaml'
     - '--descheduling-interval=5m'
