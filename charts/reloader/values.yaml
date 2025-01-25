@@ -8,7 +8,7 @@ reloader:
   reloadOnDelete: true
   syncAfterRestart: true
   logFormat: json
-  enableHA: false
+  enableHA: true
   readOnlyRootFileSystem: true
   deployment:
     replicas: 2
