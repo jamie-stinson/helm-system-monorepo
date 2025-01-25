@@ -1,156 +1,75 @@
-workload:
-  image:
-    repository: traefik
-    tag: v3.2.2
-  args:
-    - '--entryPoints.metrics.address=:9100/tcp'
-    - '--metrics.prometheus=true'
-    - '--metrics.prometheus.entrypoint=metrics'
-    - '--entryPoints.externalweb.address=:80/tcp'
-    - '--entryPoints.externalwebsecure.address=:443/tcp'
-    - '--entryPoints.externalwebsecure.http.tls=true'
-    - '--entryPoints.internalweb.address=:81/tcp'
-    - '--entryPoints.internalwebsecure.address=:444/tcp'
-    - '--entryPoints.internalwebsecure.http.tls=true'
-    - '--entryPoints.traefik.address=:8080/tcp'
-    - '--api=true'
-    - '--api.dashboard=true'
-    - '--api.insecure=true'
-    - '--ping=true'
-    - '--providers.kubernetesingress=true'
-    - '--log.format=json'
-    - '--log.level=INFO'
-    - '--accesslog=true'
-    - '--accesslog.format=json'
-    - '--accesslog.fields.defaultmode=keep'
-    - '--accesslog.fields.headers.defaultmode=drop'
-  resources:
-    preset: micro
+global:
+  name: "traefik"
+  repository: "https://traefik.github.io/charts"
+  version: "34.1.*"
 
-service:
-  ports:
-    - name: traefik
-      port: 8080
-      protocol: TCP
-    - name: metrics
-      port: 9100
-      protocol: TCP
+deployment:
+  replicas: 2
 
-rbac:
-  roles:
-    clusterRole:
-      rules:
-        - apiGroups:
-            - ''
-          resources:
-            - nodes
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - services
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - discovery.k8s.io
-          resources:
-            - endpointslices
-          verbs:
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - secrets
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - extensions
-            - networking.k8s.io
-          resources:
-            - ingressclasses
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - traefik.io
-          resources:
-            - ingressroutes
-            - ingressroutetcps
-            - ingressrouteudps
-            - middlewares
-            - middlewaretcps
-            - serverstransports
-            - serverstransporttcps
-            - tlsoptions
-            - tlsstores
-            - traefikservices
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - extensions
-            - networking.k8s.io
-          resources:
-            - ingressclasses
-            - ingresses
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - extensions
-            - networking.k8s.io
-          resources:
-            - ingresses/status
-          verbs:
-            - update
-
-wildcardCertificate:
+podDisruptionBudget:
   enabled: true
-  issuer: cloudflare
-  name: cloudflare
-
-expose:
-  enabled: true
-  ports:
-    - name: externalwebsecure
-      nodePort: 30443
-      port: 443
-      protocol: TCP
-    - name: externalweb
-      nodePort: 30080
-      port: 80
-      protocol: TCP
-    - name: internalwebsecure
-      nodePort: 30444
-      port: 444
-      protocol: TCP
-    - name: internalweb
-      nodePort: 30081
-      port: 81
-      protocol: TCP
-  type: NodePort
-
-ingress:
-  enabled: true
-  entryPoints:
-    - internalwebsecure
-    - internalweb
-  port: traefik
-  prefix: traefik
-  tls: true
+  maxUnavailable: 1
 
 ingressClass:
-  controller: traefik.io/ingress-controller
   enabled: true
-  isDefault: true
+  isDefaultClass: true
+  name: "traefik"
+
+gateway:
+  enabled: false
+
+gatewayClass:
+  enabled: false
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
+
+providers:
+  kubernetesCRD:
+    enabled: false
+  kubernetesIngress:
+    enabled: true
+
+logs:
+  general:
+    format: "json"
+  access:
+    enabled: true
+    format: "json"
+
+globalArguments: []
+
+ports:
+  traefik:
+    port: 8080
+    protocol: TCP
+  web:
+    port: 8000
+    nodePort: 30080
+  websecure:
+    port: 8443
+    nodePort: 30443
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 100
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 75
+
+service:
+  type: NodePort

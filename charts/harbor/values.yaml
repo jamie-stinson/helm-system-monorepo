@@ -1,0 +1,4 @@
+global:
+  chart: "harbor"
+  repository: "https://helm.goharbor.io"
+  verison: "1.3.*"
