@@ -1,4 +1,4 @@
 global:
   chart: "prometheus"
   repository: "https://prometheus-community.github.io/helm-charts"
-  verison: "27.1.*"
+  version: "27.1.*"
