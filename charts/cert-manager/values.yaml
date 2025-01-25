@@ -4,7 +4,7 @@ global:
   version: "1.16.*"
 
   leaderElection:
-    namespace: {{ $.Release.Namespace }}
+    namespace: "cert-manager"
 crds:
   enabled: true
   keep: false
