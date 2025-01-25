@@ -51,19 +51,19 @@ ports:
   traefik:
     port: 8080
     protocol: TCP
-  web:
+  http:
     port: 80
     exposedPort: 80
     nodePort: 30080
-  websecure:
+  https:
     port: 443
     exposedPort: 443
     nodePort: 30443
-  internalweb:
+  internalhttp:
     port: 81
     exposedPort: 81
     nodePort: 30081
-  internalwebsecure:
+  internalhttps:
     port: 444
     exposedPort: 444
     nodePort: 30444
