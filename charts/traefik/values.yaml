@@ -42,11 +42,6 @@ logs:
 
 globalArguments: []
 
-additionalArguments:
-  - '--entryPoints.internalweb.address=:81/tcp'
-  - '--entryPoints.internalwebsecure.address=:444/tcp'
-  - '--entryPoints.internalwebsecure.http.tls=true'
-
 ports:
   traefik:
     port: 8080
