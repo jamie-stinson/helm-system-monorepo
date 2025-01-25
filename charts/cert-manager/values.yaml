@@ -4,7 +4,7 @@ global:
   version: "1.16.*"
 
   leaderElection:
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ $.Release.Namespace }}
 crds:
   enabled: true
   keep: false
