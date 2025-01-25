@@ -43,35 +43,33 @@ logs:
 globalArguments: []
 
 ports:
-  web: {}
-  websecure: {}
   traefik:
     port: 8080
     expose:
       default: false
     protocol: TCP
-  http:
+  web:
     port: 80
     exposedPort: 80
     nodePort: 30080
     expose:
       default: true
     protocol: TCP
-  https:
+  websecure:
     port: 443
     exposedPort: 443
     nodePort: 30443
     expose:
       default: true
     protocol: TCP
-  internalhttp:
+  intweb:
     port: 81
     exposedPort: 81
     nodePort: 30081
     expose:
       default: true
     protocol: TCP
-  internalhttps:
+  intwebsecure:
     port: 444
     exposedPort: 444
     nodePort: 30444
