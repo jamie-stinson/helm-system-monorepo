@@ -1,5 +1,5 @@
 global:
-  name: "reflector"
+  chart: "reflector"
   repository: "https://emberstack.github.io/helm-charts"
   version: "7.1.*"
 

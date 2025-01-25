@@ -1,5 +1,5 @@
 global:
-  name: "reloader"
+  chart: "reloader"
   repository: "https://stakater.github.io/stakater-charts"
   version: "1.2.*"
 
@@ -15,4 +15,3 @@ reloader:
   podDisruptionBudget:
     enabled: true
     maxUnavailable: 1
-    
