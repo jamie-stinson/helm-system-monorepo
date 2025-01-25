@@ -44,7 +44,7 @@ configMap:
       host = grafana-postgres.grafana.svc.cluster.local:5432
       name = grafana
       user = grafana
-      password = $__env{POSTGRES_PASSWORD}
+      password = "$__env{POSTGRES_PASSWORD}"
 
 ingress:
   enabled: true
