@@ -4,17 +4,17 @@ global:
   version: "1.16.*"
 
   leaderElection:
-    namespace: "cert-manager"
+    namespace: {{ .Release.Namespace }}
 crds:
   enabled: true
   keep: false
 
 replicaCount: 2
- strategy:
-   type: RollingUpdate
-   rollingUpdate:
-     maxSurge: 1
-     maxUnavailable: 1
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
 podDisruptionBudget:
   enabled: true
   maxUnavailable: 1
