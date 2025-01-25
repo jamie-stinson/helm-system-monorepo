@@ -94,3 +94,6 @@ autoscaling:
       target:
         type: Utilization
         averageUtilization: 75
+
+service:
+  type: "NodePort"
