@@ -45,23 +45,37 @@ globalArguments: []
 ports:
   traefik:
     port: 8080
+    expose:
+      default: false
     protocol: TCP
-  web:
+  http:
     port: 80
     exposedPort: 80
     nodePort: 30080
-  websecure:
+    expose:
+      default: true
+    protocol: TCP
+  https:
     port: 443
     exposedPort: 443
     nodePort: 30443
-  intweb:
+    expose:
+      default: true
+    protocol: TCP
+  internalhttp:
     port: 81
     exposedPort: 81
     nodePort: 30081
-  intwebsecure:
+    expose:
+      default: true
+    protocol: TCP
+  internalhttps:
     port: 444
     exposedPort: 444
     nodePort: 30444
+    expose:
+      default: true
+    protocol: TCP
 
 autoscaling:
   enabled: true
