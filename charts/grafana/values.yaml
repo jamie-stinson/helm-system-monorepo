@@ -4,7 +4,7 @@ workload:
     tag: "11.4.0"
   replicaCount: 2
   envsSecret:
-    - name: POSTGRES_PASSWORD
+    - name: GF_DATABASE_PASSWORD
       secret: grafana-postgres
       key: POSTGRES_PASSWORD
   resources:
@@ -44,7 +44,6 @@ configMap:
       host = grafana-postgres.grafana.svc.cluster.local:5432
       name = grafana
       user = grafana
-      password = "$__env{POSTGRES_PASSWORD}"
 
 ingress:
   enabled: true
