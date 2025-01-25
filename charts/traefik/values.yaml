@@ -42,15 +42,22 @@ logs:
 
 globalArguments: []
 
+additionalArguments:
+  - '--entryPoints.internalweb.address=:81/tcp'
+  - '--entryPoints.internalwebsecure.address=:444/tcp'
+  - '--entryPoints.internalwebsecure.http.tls=true'
+
 ports:
   traefik:
     port: 8080
     protocol: TCP
   web:
-    port: 8000
+    port: 80
+    exposedPort: 80
     nodePort: 30080
   websecure:
-    port: 8443
+    port: 443
+    exposedPort: 443
     nodePort: 30443
 
 autoscaling:
@@ -73,3 +80,18 @@ autoscaling:
 
 service:
   type: NodePort
+  additionalServices:
+    internal:
+      type: NodePort
+      spec:
+        ports:
+          - name: internalweb
+            nodePort: 30081
+            port: 81
+            protocol: TCP
+          - name: internalwebsecure
+            nodePort: 30444
+            port: 444
+            protocol: TCP
+
+
