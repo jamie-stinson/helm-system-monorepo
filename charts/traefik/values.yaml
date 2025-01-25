@@ -50,6 +50,7 @@ ports:
     port: 8080
     expose:
       default: false
+      dashboard: true
     protocol: TCP
   web:
     port: 80
@@ -103,9 +104,3 @@ service:
   additionalServices:
     dashboard:
       type: ClusterIP
-      spec:
-        ports:
-        - port: 8080
-          name: traefik
-          targetPort: 8080
-          protocol: TCP
