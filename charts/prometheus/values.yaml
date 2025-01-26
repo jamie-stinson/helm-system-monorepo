@@ -7,3 +7,4 @@ crds:
   enabled: true
 
 cleanPrometheusOperatorObjectNames: true
+fullnameOverride: "t"
