@@ -3,17 +3,9 @@ global:
   repository: "https://prometheus-community.github.io/helm-charts"
   version: "68.*.*"
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: null
+fullnameOverride: null
 
 crds:
   enabled: true
 
-alertmanager:
-  podDisruptionBudget:
-    enabled: true
-    maxUnavailable: 1
-
-  alertmanagerSpec:
-    replicas: 2
-    logFormat: "json"
