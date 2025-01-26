@@ -1,4 +1,16 @@
 global:
-  chart: "prometheus"
+  chart: "kube-prometheus-stack"
   repository: "https://prometheus-community.github.io/helm-charts"
-  version: "27.1.*"
+  version: "68.*.*"
+
+crds:
+  enabled: true
+
+alertmanager:
+  podDisruptionBudget:
+    enabled: true
+    maxUnavailable: 1
+
+  alertmanagerSpec:
+    replicas: 2
+    logFormat: "json"
