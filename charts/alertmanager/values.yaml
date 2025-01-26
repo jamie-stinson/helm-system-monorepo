@@ -8,13 +8,13 @@ global:
 cleanPrometheusOperatorObjectNames: true
 
 crds:
-  enabled: true
+  enabled: false
 
 prometheusOperator:
-  enabled: true
+  enabled: false
 
 alertmanager:
-  enabled: false
+  enabled: true
 
 kubeStateMetrics:
   enabled: false

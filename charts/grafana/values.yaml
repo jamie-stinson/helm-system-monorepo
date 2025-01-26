@@ -20,10 +20,10 @@ kubeStateMetrics:
   enabled: false
 
 nodeExporter:
-  enabled: true
+  enabled: false
 
 grafana:
-  enabled: false
+  enabled: true
 
 prometheus:
   enabled: false
