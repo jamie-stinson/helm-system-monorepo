@@ -1,35 +1,4 @@
-namespace: "prometheus"
-
 global:
-  chart: "kube-prometheus-stack"
+  chart: "prometheus"
   repository: "https://prometheus-community.github.io/helm-charts"
-  version: "68.*.*"
-
-cleanPrometheusOperatorObjectNames: true
-
-crds:
-  enabled: false
-
-prometheus:
-  enabled: true
-
-defaultRules:
-  enabled: true
-
-kubelet:
-  enabled: true
-
-kubeApiServer:
-  enabled: true
-
-kubeControllerManager:
-  enabled: true
-
-kubeEtcd:
-  enabled: true
-
-kubeProxy:
-  enabled: true
-
-kubeScheduler:
-  enabled: true
+  version: "27.1.*"

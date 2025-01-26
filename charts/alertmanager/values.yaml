@@ -1,14 +1,4 @@
-namespace: "prometheus"
-
 global:
-  chart: "kube-prometheus-stack"
+  chart: "alertmanager"
   repository: "https://prometheus-community.github.io/helm-charts"
-  version: "68.*.*"
-
-cleanPrometheusOperatorObjectNames: true
-
-crds:
-  enabled: false
-
-alertmanager:
-  enabled: true
+  version: "1.14.*"
