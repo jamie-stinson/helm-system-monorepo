@@ -3,6 +3,9 @@ global:
   repository: "https://prometheus-community.github.io/helm-charts"
   version: "68.*.*"
 
+nameOverride: ""
+fullnameOverride: ""
+
 crds:
   enabled: true
 
