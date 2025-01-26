@@ -10,23 +10,5 @@ cleanPrometheusOperatorObjectNames: true
 crds:
   enabled: false
 
-prometheusOperator:
-  enabled: false
-
-alertmanager:
-  enabled: false
-
-kubeStateMetrics:
-  enabled: false
-
-nodeExporter:
-  enabled: false
-
 grafana:
   enabled: true
-
-prometheus:
-  enabled: false
-
-defaultRules:
-  create: false

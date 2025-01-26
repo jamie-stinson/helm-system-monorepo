@@ -10,23 +10,26 @@ cleanPrometheusOperatorObjectNames: true
 crds:
   enabled: false
 
-prometheusOperator:
-  enabled: false
-
-alertmanager:
-  enabled: false
-
-kubeStateMetrics:
-  enabled: false
-
-nodeExporter:
-  enabled: false
-
-grafana:
-  enabled: false
-
 prometheus:
   enabled: true
 
 defaultRules:
-  create: true
+  enabled: true
+
+kubelet:
+  enabled: true
+
+kubeApiServer:
+  enabled: true
+
+kubeControllerManager:
+  enabled: true
+
+kubeEtcd:
+  enabled: true
+
+kubeProxy:
+  enabled: true
+
+kubeScheduler:
+  enabled: true

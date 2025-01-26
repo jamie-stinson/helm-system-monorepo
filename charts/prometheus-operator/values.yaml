@@ -12,21 +12,3 @@ crds:
 
 prometheusOperator:
   enabled: true
-
-alertmanager:
-  enabled: false
-
-kubeStateMetrics:
-  enabled: false
-
-nodeExporter:
-  enabled: false
-
-grafana:
-  enabled: false
-
-prometheus:
-  enabled: false
-
-defaultRules:
-  create: false
