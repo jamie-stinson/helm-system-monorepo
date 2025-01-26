@@ -8,3 +8,5 @@ fullnameOverride: null
 
 crds:
   enabled: true
+
+cleanPrometheusOperatorObjectNames: true
