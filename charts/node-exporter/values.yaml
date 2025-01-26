@@ -27,3 +27,6 @@ grafana:
 
 prometheus:
   enabled: false
+
+defaultRules:
+  create: false
