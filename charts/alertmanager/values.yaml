@@ -1,4 +1,0 @@
-global:
-  chart: "alertmanager"
-  repository: "https://prometheus-community.github.io/helm-charts"
-  version: "1.14.*"

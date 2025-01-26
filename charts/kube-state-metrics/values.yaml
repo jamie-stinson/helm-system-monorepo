@@ -1,4 +1,0 @@
-global:
-  chart: "kube-state-metrics"
-  repository: "https://prometheus-community.github.io/helm-charts"
-  version: "5.28.*"

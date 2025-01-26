@@ -1,4 +1,0 @@
-global:
-  chart: "promtail"
-  repository: "https://grafana.github.io/helm-charts"
-  version: "6.16.*"
