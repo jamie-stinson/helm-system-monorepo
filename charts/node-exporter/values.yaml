@@ -1,0 +1,43 @@
+workload:
+  type: DaemonSet
+  image:
+    registry: "quay.io"
+    repository: "prometheus/node-exporter"
+    tag: "v1.8.2"
+  args:
+    - '--web.listen-address=0.0.0.0:9100'
+    - '--path.procfs=/host/proc'
+    - '--path.sysfs=/host/sys'
+    - '--path.rootfs=/host/root'
+    - '--path.udev.data=/host/root/run/udev/data'
+  resources:
+    preset: "nano"
+  storage:
+    - name: proc
+      type: hostPath
+      mountPath: /host/proc
+      hostPath: /proc
+      readOnly: true
+    - name: sys
+      type: hostPath
+      mountPath: /host/sys
+      hostPath: /sys
+      readOnly: true
+    - name: root
+      type: hostPath
+      mountPath: /host/root
+      hostPath: /
+      readOnly: true
+
+pdb:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9100
+

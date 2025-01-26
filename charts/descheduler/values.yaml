@@ -1,0 +1,156 @@
+workload:
+  image:
+    registry: "registry.k8s.io"
+    repository: "descheduler/descheduler"
+    tag: "v0.31.0"
+  command:
+    - '/bin/descheduler'
+  args:
+    - '--policy-config-file=/config/policy.yaml'
+    - '--descheduling-interval=5m'
+    - '--v=3'
+    - '--leader-elect=true'
+    - '--leader-elect-resource-namespace=descheduler'
+  resources:
+    preset: "nano"
+  storage:
+    - name: config
+      type: configMap
+      mountPath: /config
+      configMapName: descheduler
+      items:
+        - key: policy.yaml
+          path: policy.yaml
+  priorityClassName: "system-cluster-critical"
+
+service:
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 10258
+
+configMap:
+  enabled: true
+  data:
+    policy.yaml: |
+      apiVersion: "descheduler/v1alpha2"
+      kind: "DeschedulerPolicy"
+      evictDaemonSetPods: false
+      profiles:
+      - name: default
+        pluginConfig:
+        - args:
+            evictFailedBarePods: true
+            evictLocalStoragePods: true
+            evictSystemCriticalPods: true
+            minReplicas: 0
+            nodeFit: true
+          name: DefaultEvictor
+        - name: RemoveDuplicates
+        - args:
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+          name: LowNodeUtilization
+        - args:
+            includingInitContainers: true
+            podRestartThreshold: 100
+          name: RemovePodsHavingTooManyRestarts
+        - args:
+            excludeOwnerKinds:
+            - Job
+            exitCodes:
+            - 1
+            includingInitContainers: true
+            minPodLifetimeSeconds: 3600
+          name: RemoveFailedPods
+        - args:
+            maxPodLifeTimeSeconds: 86400
+            states:
+            - Pending
+            - PodInitializing
+          name: PodLifeTime
+        plugins:
+          balance:
+            enabled:
+            - RemoveDuplicates
+            - LowNodeUtilization
+          deschedule:
+            enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemoveFailedPods
+            - PodLifeTime
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - events.k8s.io
+          resources:
+            - events
+          verbs:
+            - create
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - ''
+          resources:
+            - pods
+          verbs:
+            - get
+            - watch
+            - list
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - pods/eviction
+          verbs:
+            - create
+        - apiGroups:
+            - scheduling.k8s.io
+          resources:
+            - priorityclasses
+          verbs:
+            - get
+            - watch
+            - list
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+            - update
+        - apiGroups:
+            - coordination.k8s.io
+          resourceNames:
+            - descheduler
+          resources:
+            - leases
+          verbs:
+            - get
+            - patch
+            - delete

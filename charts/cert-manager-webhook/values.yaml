@@ -1,0 +1,121 @@
+namespace: "cert-manager"
+installCRDs: true
+
+workload:
+  image:
+    registry: "quay.io"
+    repository: "jetstack/cert-manager-webhook"
+    tag: "v1.16.2"
+  args:
+    - '--v=2'
+    - '--secure-port=10250'
+    - '--dynamic-serving-ca-secret-namespace=$(POD_NAMESPACE)'
+    - '--dynamic-serving-ca-secret-name=cert-manager-webhook-ca'
+    - '--dynamic-serving-dns-names=cert-manager-webhook'
+    - '--dynamic-serving-dns-names=cert-manager-webhook.$(POD_NAMESPACE)'
+    - '--dynamic-serving-dns-names=cert-manager-webhook.$(POD_NAMESPACE).svc'
+
+service:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 10250
+    - name: healthcheck
+      protocol: TCP
+      port: 6080
+    - name: metrics
+      protocol: TCP
+      port: 9402
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - clusterissuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates/status
+          verbs:
+            - update
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - create
+            - delete
+            - deletecollection
+            - patch
+            - update
+        - apiGroups:
+            - cert-manager.io
+          resources:
+            - certificates
+            - certificaterequests
+            - issuers
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - challenges
+            - orders
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - authorization.k8s.io
+          resources:
+            - subjectaccessreviews
+          verbs:
+            - create
+        - apiGroups:
+            - ''
+          resourceNames:
+            - cert-manager
+          resources:
+            - serviceaccounts/token
+          verbs:
+            - create
+        - apiGroups:
+            - ''
+          resourceNames:
+            - cert-manager-webhook-ca
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - create
