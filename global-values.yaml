@@ -2,7 +2,7 @@ prometheusOperator:
   enabled: false
 
 alertmanager:
-  enabled: true
+  enabled: false
 
 kubeStateMetrics:
   enabled: false
