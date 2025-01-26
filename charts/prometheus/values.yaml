@@ -3,8 +3,21 @@ global:
   repository: "https://prometheus-community.github.io/helm-charts"
   version: "68.*.*"
 
+cleanPrometheusOperatorObjectNames: true
+
 crds:
   enabled: true
 
-cleanPrometheusOperatorObjectNames: true
-fullnameOverride: "t"
+alertmanager:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
+nodeExporter:
+  enabled: false
+
+grafana:
+  enabled: false
+
+
