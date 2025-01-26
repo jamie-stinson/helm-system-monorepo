@@ -14,7 +14,7 @@ prometheusOperator:
   enabled: false
 
 alertmanager:
-  enabled: false
+  enabled: true
 
 kubeStateMetrics:
   enabled: false
@@ -26,4 +26,4 @@ grafana:
   enabled: false
 
 prometheus:
-  enabled: true
+  enabled: false

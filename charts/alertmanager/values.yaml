@@ -8,10 +8,10 @@ global:
 cleanPrometheusOperatorObjectNames: true
 
 crds:
-  enabled: false
+  enabled: true
 
 prometheusOperator:
-  enabled: false
+  enabled: true
 
 alertmanager:
   enabled: false
@@ -26,4 +26,4 @@ grafana:
   enabled: false
 
 prometheus:
-  enabled: true
+  enabled: false
