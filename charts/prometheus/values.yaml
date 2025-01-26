@@ -20,4 +20,5 @@ nodeExporter:
 grafana:
   enabled: false
 
-
+prometheus:
+  enabled: false
