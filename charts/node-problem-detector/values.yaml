@@ -11,7 +11,7 @@ workload:
   #   - 'exec /node-problem-detector'
     - '--logtostderr'
     - '--config.system-log-monitor=/config/kernel-monitor.json'
-    - '--prometheus-address=0.0.0.0 ''
+    - '--prometheus-address=0.0.0.0'
     - '--prometheus-port=20257'
     - '--k8s-exporter-heartbeat-period=5m0s'
   resources:
