@@ -4,9 +4,18 @@ workload:
     tag: "11.4.0"
   replicaCount: 2
   envsSecret:
+    - name: GF_DATABASE_HOST
+      secret: grafana-app
+      key: host
+    - name: GF_DATABASE_NAME
+      secret: grafana-app
+      key: name
+    - name: GF_DATABASE_USERNAME
+      secret: grafana-app
+      key: username
     - name: GF_DATABASE_PASSWORD
-      secret: grafana-postgres
-      key: POSTGRES_PASSWORD
+      secret: grafana-app
+      key: password
   resources:
     preset: "micro"
   storage:
@@ -41,9 +50,6 @@ configMap:
       domain = ''
       [database]
       type = postgres
-      host = grafana-postgres.grafana.svc.cluster.local:5432
-      name = grafana
-      user = grafana
 
 ingress:
   enabled: true
@@ -53,7 +59,3 @@ ingress:
   port: http
   prefix: "grafana"
   tls: true
-
-postgres:
-  enabled: true
-  replicas: 2
