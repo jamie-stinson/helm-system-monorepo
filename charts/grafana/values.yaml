@@ -9,7 +9,7 @@ workload:
       key: host
     - name: GF_DATABASE_NAME
       secret: grafana-app
-      key: name
+      key: dbname
     - name: GF_DATABASE_USERNAME
       secret: grafana-app
       key: username
