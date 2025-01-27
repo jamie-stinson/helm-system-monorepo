@@ -10,7 +10,7 @@ workload:
     - name: GF_DATABASE_NAME
       secret: grafana-app
       key: dbname
-    - name: GF_DATABASE_USERNAME
+    - name: GF_DATABASE_USER
       secret: grafana-app
       key: username
     - name: GF_DATABASE_PASSWORD
