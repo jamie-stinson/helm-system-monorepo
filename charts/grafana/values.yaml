@@ -5,16 +5,16 @@ workload:
   replicaCount: 2
   envsSecret:
     - name: GF_DATABASE_HOST
-      secret: grafana-app
+      secret: grafana-database-app
       key: host
     - name: GF_DATABASE_NAME
-      secret: grafana-app
+      secret: grafana-database-app
       key: dbname
     - name: GF_DATABASE_USER
-      secret: grafana-app
+      secret: grafana-database-app
       key: username
     - name: GF_DATABASE_PASSWORD
-      secret: grafana-app
+      secret: grafana-database-app
       key: password
   resources:
     preset: "micro"
