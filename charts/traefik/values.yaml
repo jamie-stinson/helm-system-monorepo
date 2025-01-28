@@ -159,7 +159,7 @@ ingress:
       backend:
         service:
           name: "traefik"
-          port: "traefik"
+          port: traefik
 
 ingressClass:
   enabled: true
