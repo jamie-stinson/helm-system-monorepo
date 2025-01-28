@@ -156,7 +156,7 @@ ingress:
       pathType: "Prefix"
       tls:
         enabled: true
-        secretName: "test"
+        secretName: "letsencrypt-wildcard-certificate"
       backend:
         service:
           name: "traefik"

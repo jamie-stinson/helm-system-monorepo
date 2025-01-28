@@ -53,6 +53,19 @@ configMap:
 
 ingress:
   enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: grafana.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "grafana"
+          port: 3000
 
 postgres:
   enabled: false

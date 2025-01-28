@@ -80,12 +80,3 @@ configMap:
             index:
               prefix: index_
               period: 24h
-
-ingress:
-  enabled: true
-  entryPoints:
-    - internalwebsecure
-    - internalweb
-  port: http
-  prefix: "loki"
-  tls: true

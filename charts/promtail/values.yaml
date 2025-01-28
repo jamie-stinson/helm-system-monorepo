@@ -105,12 +105,4 @@ rbac:
             - watch
             - list
 
-ingress:
-  enabled: true
-  entryPoints:
-    - internalwebsecure
-    - internalweb
-  port: http
-  prefix: promtail
-  tls: true
 
