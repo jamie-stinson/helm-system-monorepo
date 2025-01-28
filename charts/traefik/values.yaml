@@ -169,7 +169,7 @@ ingressClass:
 secret:
   enabled: true
 
-certficate:
+certificate:
   enabled: true
   spec:
     secretName: "letsencrypt-wildcard-certificate"
