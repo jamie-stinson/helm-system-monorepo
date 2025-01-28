@@ -194,9 +194,3 @@ issuer:
       server: https://acme-v02.api.letsencrypt.org/directory
       privateKeySecretRef:
         name: letsencrypt-acme-key
-      solvers:
-        - dns01:
-            cloudflare:
-              apiTokenSecretRef:
-                name: traefik
-                key: api-token
