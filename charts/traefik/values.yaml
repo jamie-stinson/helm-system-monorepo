@@ -177,7 +177,7 @@ certificate:
       - 'openjamlab.com'
       - '*.openjamlab.com'
     issuerRef:
-      name: "letsencrypt-issuer"
+      name: "traefik"
       kind: ClusterIssuer
     secretTemplate:
       annotations:
