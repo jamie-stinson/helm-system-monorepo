@@ -32,3 +32,6 @@ pdb:
 serviceAccount:
   enabled: true
   automountServiceAccountToken: true
+
+ingress:
+  ingressClass: "traefik"

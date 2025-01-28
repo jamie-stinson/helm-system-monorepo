@@ -53,9 +53,9 @@ configMap:
 
 ingress:
   enabled: true
-  entryPoints:
-    - internalwebsecure
-    - internalweb
-  port: http
-  prefix: "grafana"
-  tls: true
+
+postgres:
+  enabled: false
+  replicas: 3
+  version: 17.2
+  size: "5Gi"
