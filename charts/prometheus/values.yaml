@@ -135,6 +135,14 @@ rbac:
             - /metrics
           verbs:
             - get
+        - apiGroups: [""]
+          resources:
+            - pods
+            - pods/status
+            - pods/log
+            - services
+            - endpoints
+          verbs: ["*"]
 
 ingress:
   enabled: true
