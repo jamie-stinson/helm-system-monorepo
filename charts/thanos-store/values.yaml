@@ -28,7 +28,7 @@ workload:
       sizeLimit: 5Gi
       type: emptyDir
     - mountPath: /var/thanos/store
-      name: data
+      name: var
       ramDisk: false
       readOnly: false
       sizeLimit: 5Gi
