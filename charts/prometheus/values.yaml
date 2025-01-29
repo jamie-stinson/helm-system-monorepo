@@ -43,7 +43,7 @@ configMap:
           replica: $(POD_NAME)
 
       remote_write:
-      - url: http://thanos-receiver.thanos-receiver.svc.cluster.local:19291/api/v1/receive
+      - url: http://thanos-receiver.thanos.svc.cluster.local:19291/api/v1/receive
         metadata_config:
           send: false
 
