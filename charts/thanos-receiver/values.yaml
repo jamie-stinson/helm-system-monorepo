@@ -12,6 +12,8 @@ workload:
       --objstore.config=type: FILESYSTEM
       config:
         directory: "/data"
+    - |
+      --receive.hashrings='[{"hashring":"default","tenants":["sandbox"],"endpoints":null}]'
     - '--tsdb.path=/var/thanos/receive'
     - '--label=cluster_name="prometheus-ha"'
     - '--grpc-address=0.0.0.0:10901'
@@ -51,6 +53,7 @@ workload:
     allowPrivilegeEscalation: false
     privileged: false
     readOnlyRootFilesystem: false
+
 
 autoscaling:
   enabled: false
