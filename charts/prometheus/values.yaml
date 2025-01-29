@@ -95,6 +95,7 @@ configMap:
               regex: __meta_kubernetes.*
 
 rbac:
+  enabled: true
   roles:
     clusterRole:
       rules:
@@ -135,14 +136,6 @@ rbac:
             - /metrics
           verbs:
             - get
-        - apiGroups: [""]
-          resources:
-            - pods
-            - pods/status
-            - pods/log
-            - services
-            - endpoints
-          verbs: ["*"]
 
 ingress:
   enabled: true
