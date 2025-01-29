@@ -1,0 +1,29 @@
+namespace: "thanos"
+
+workload:
+  image:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.31.0
+  replicaCount: 1
+  args:
+    - '--grpc-address=0.0.0.0:10901'
+    - '--http-address=0.0.0.0:9090'
+    - '--log.level=info'
+    - '--log.format=logfmt'
+    - '--endpoint=dnssrv+_grpc._tcp.thanos-store.thanos-store.svc.cluster.local:10901'
+    - '--query.auto-downsampling'
+  resources:
+    preset: micro
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: grpc
+      port: 10901
+      protocol: TCP
+    - name: http
+      port: 9090
+      protocol: TCP

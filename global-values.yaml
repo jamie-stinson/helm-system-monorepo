@@ -13,7 +13,7 @@ workload:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
     privileged: false
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
 
 service:
   enabled: true

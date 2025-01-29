@@ -1,0 +1,52 @@
+namespace: "thanos"
+
+workload:
+  image:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.31.0
+  replicaCount: 1
+  args:
+    - |
+      --objstore.config=type: FILESYSTEM
+      config:
+        directory: "/data"
+    - '--tsdb.path=/var/thanos/receive'
+    - '--label=cluster_name="prometheus-ha"'
+    - '--grpc-address=0.0.0.0:10901'
+    - '--http-address=0.0.0.0:10902'
+    - '--remote-write.address=0.0.0.0:19291'
+    - '--receive.local-endpoint=127.0.0.1:10901'
+    - '--receive.grpc-compression=none'
+    - '--tsdb.retention=1d'
+    - '--tsdb.min-block-duration=5m'
+    - '--tsdb.max-block-duration=5m'
+    - '--receive.hashrings-file=/var/lib/thanos-receive/hashrings.json'
+  resources:
+    preset: micro
+  storage:
+    - configMapName: prometheus
+      mountPath: /etc/config
+      name: config
+      type: configMap
+    - mountPath: /data
+      name: data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: grpc
+      port: 10901
+      protocol: TCP
+    - name: http
+      port: 10902
+      protocol: TCP
+    - name: remote-write
+      port: 19291
+      protocol: TCP

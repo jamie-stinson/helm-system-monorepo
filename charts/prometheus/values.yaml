@@ -5,12 +5,8 @@ workload:
     tag: v3.1.0
   replicaCount: 1
   args:
-    - '--storage.tsdb.retention.time=15d'
     - '--config.file=/etc/config/prometheus.yaml'
-    - '--storage.tsdb.path=/data'
-    - '--web.console.libraries=/etc/prometheus/console_libraries'
-    - '--web.console.templates=/etc/prometheus/consoles'
-    - '--web.enable-lifecycle'
+    - '--enable-feature=agent'
   resources:
     preset: micro
   storage:
@@ -18,12 +14,6 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    - mountPath: /data
-      name: data
-      ramDisk: false
-      readOnly: false
-      sizeLimit: 5Gi
-      type: emptyDir
 
 autoscaling:
   enabled: false
@@ -39,9 +29,18 @@ configMap:
   data:
     prometheus.yaml: |
       global:
-        evaluation_interval: 1m
-        scrape_interval: 10s
-        scrape_timeout: 10s
+        scrape_interval: 5s
+        evaluation_interval: 5s
+        external_labels:
+          cluster: prometheus-ha
+          # Each Prometheus has to have unique labels.
+          replica: $(POD_NAME)
+
+      remote_write:
+      - url: http://thanos-receiver.thanos-receiver.svc.cluster.local:19291/api/v1/receive
+        metadata_config:
+          send: false
+
       scrape_configs:
         # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
         - job_name: 'kubernetes-services'
