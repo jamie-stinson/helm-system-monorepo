@@ -13,11 +13,11 @@ workload:
       config:
         directory: "/data"
     - '--ignore-deletion-marks-delay=24h'
-    - --log.level=info'
-    - --log.format=logfmt'
-    - --data-dir=/var/thanos/store'
-    - --grpc-address=0.0.0.0:10901'
-    - --http-address=0.0.0.0:10902'
+    - '--log.level=info'
+    - '--log.format=logfmt'
+    - '--data-dir=/var/thanos/store'
+    - '--grpc-address=0.0.0.0:10901'
+    - '--http-address=0.0.0.0:10902'
   resources:
     preset: micro
   storage:
