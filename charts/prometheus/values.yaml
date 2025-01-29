@@ -6,7 +6,7 @@ workload:
   replicaCount: 1
   args:
     - '--config.file=/etc/config/prometheus.yaml'
-    - '--enable-feature=agent'
+    - '--agent'
   resources:
     preset: micro
   storage:
