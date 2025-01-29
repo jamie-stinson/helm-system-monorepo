@@ -12,8 +12,6 @@ workload:
       --objstore.config=type: FILESYSTEM
       config:
         directory: "/data"
-    - |
-      --receive.hashrings='[{"hashring":"default","tenants":["sandbox"],"endpoints":null}]'
     - '--tsdb.path=/var/thanos/receive'
     - '--label=cluster_name="prometheus-ha"'
     - '--grpc-address=0.0.0.0:10901'
@@ -24,7 +22,6 @@ workload:
     - '--tsdb.retention=1d'
     - '--tsdb.min-block-duration=5m'
     - '--tsdb.max-block-duration=5m'
-    - '--receive.hashrings-file=/var/lib/thanos-receive/hashrings.json'
   resources:
     preset: micro
   storage:
