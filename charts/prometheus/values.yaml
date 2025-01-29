@@ -14,6 +14,12 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
+    - mountPath: /prometheus
+      name: data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
 
 autoscaling:
   enabled: false
