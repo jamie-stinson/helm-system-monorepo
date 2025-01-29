@@ -7,6 +7,11 @@ workload:
     tag: v0.31.0
   replicaCount: 1
   args:
+    - 'receive'
+    - |
+      --objstore.config=type: FILESYSTEM
+      config:
+        directory: "/data"
     - '--tsdb.path=/var/thanos/receive'
     - '--label=cluster_name="prometheus-ha"'
     - '--grpc-address=0.0.0.0:10901'

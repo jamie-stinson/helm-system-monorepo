@@ -7,6 +7,7 @@ workload:
     tag: v0.31.0
   replicaCount: 1
   args:
+    - 'query'
     - '--grpc-address=0.0.0.0:10901'
     - '--http-address=0.0.0.0:9090'
     - '--log.level=info'
