@@ -32,6 +32,18 @@ workload:
       readOnly: false
       sizeLimit: 5Gi
       type: emptyDir
+    - mountPath: /var/lib/thanos-receive
+      name: data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+    - mountPath: /var/thanos/receive
+      name: data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
   securityContext:
     runAsUser: 0
     runAsGroup: 0
