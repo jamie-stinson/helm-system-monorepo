@@ -33,13 +33,13 @@ workload:
       sizeLimit: 5Gi
       type: emptyDir
     - mountPath: /var/lib/thanos-receive
-      name: data
+      name: thanos-var
       ramDisk: false
       readOnly: false
       sizeLimit: 5Gi
       type: emptyDir
     - mountPath: /var/thanos/receive
-      name: data
+      name: thanos-lib
       ramDisk: false
       readOnly: false
       sizeLimit: 5Gi
