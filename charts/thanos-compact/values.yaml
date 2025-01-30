@@ -1,21 +1,23 @@
 namespace: "thanos"
 
 workload:
-  type: StatefulSet
+  type: Deployment
   image:
     registry: quay.io
     repository: thanos/thanos
     tag: v0.31.0
-  replicaCount: 2
+  replicaCount: 1
   args:
-    - 'store'
+    - 'compact'
     - '--objstore.config-file=/etc/config/thanos.yaml'
-    - '--ignore-deletion-marks-delay=24h'
-    - '--log.level=info'
-    - '--log.format=logfmt'
-    - '--grpc-address=0.0.0.0:10901'
-    - '--http-address=0.0.0.0:10902'
     - '--data-dir=/data'
+    - "--log.level=info"
+    - "--retention.resolution-raw=2d"
+    - "--retention.resolution-5m=2d"
+    - "--retention.resolution-1h=2d"
+    - "--consistency-delay=15m"
+    - "--wait"
+    - "--wait-interval=5m"
   resources:
     preset: micro
   storage:
@@ -23,7 +25,7 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    - mountPath: /prometheus
+    - mountPath: /data
       name: data
       ramDisk: false
       readOnly: false
@@ -41,6 +43,6 @@ service:
     - name: http
       port: 10902
       protocol: TCP
-    - name: remote-write
-      port: 19291
+    - name: cluster
+      port: 19000
       protocol: TCP

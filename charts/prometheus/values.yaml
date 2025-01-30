@@ -1,10 +1,12 @@
+namespace: "thanos"
+
 workload:
   type: StatefulSet
   image:
     registry: quay.io
     repository: prometheus/prometheus
     tag: v3.1.0
-  replicaCount: 1
+  replicaCount: 2
   args:
     - '--config.file=/etc/config/prometheus.yaml'
     - '--web.console.libraries=/etc/prometheus/console_libraries'
@@ -28,30 +30,21 @@ workload:
       readOnly: false
       sizeLimit: 5Gi
       type: emptyDir
-    - mountPath: /data
-      name: data
-      ramDisk: false
-      readOnly: false
-      sizeLimit: 5Gi
-      type: emptyDir
   extraContainers:
     - name: thanos
-      image: "quay.io/thanos/thanos:v0.31.0"
+      image: "quay.io/thanos/thanoss:v0.31.0"
       ports:
         - containerPort: 10901
       args:
         - 'sidecar'
-        - |
-          --objstore.config=type: FILESYSTEM
-          config:
-            directory: "/data"
+        - '--objstore.config-file=/etc/config/thanos.yaml'
         - '--tsdb.path=/prometheus'
         - '--prometheus.url=http://localhost:9090'
       volumeMounts:
         - name: prometheus-data
           mountPath: /prometheus
-        - name: data
-          mountPath: /data
+        - name: config
+          mountPath: /etc/config
 
 autoscaling:
   enabled: false
@@ -78,8 +71,8 @@ configMap:
           replica: ${POD_NAME}
 
       scrape_configs:
-        # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
-        - job_name: 'kubernetes-services'
+        # Scraper for regular Kubernetes services with HTTP metrics
+        - job_name: 'kubernetes-http-services'
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
@@ -87,9 +80,9 @@ configMap:
             - source_labels: [__meta_kubernetes_service_name]
               regex: descheduler
               action: drop
-            # Only keep endpoints with ports named "metrics"
+            # Only keep endpoints with ports named "http-metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
-              regex: metrics
+              regex: http-hetrics
               action: keep
             # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
@@ -103,23 +96,30 @@ configMap:
             - action: labeldrop
               regex: __meta_kubernetes.*
 
-        # Scraper for the descheduler service using HTTPS and insecure_skip_verify
-        - job_name: 'descheduler-metrics'
+        # Scraper for regular Kubernetes services with HTTPS metrics
+        - job_name: 'kubernetes-https-services'
           kubernetes_sd_configs:
             - role: endpoints
           scheme: https
           tls_config:
             insecure_skip_verify: true
           relabel_configs:
-            # Only keep the descheduler service with the "metrics" port
+            # Exclude the descheduler service from this scrape config
             - source_labels: [__meta_kubernetes_service_name]
               regex: descheduler
+              action: drop
+            # Only keep endpoints with ports named "http-metrics"
+            - source_labels: [__meta_kubernetes_endpoint_port_name]
+              regex: http-hetrics
               action: keep
             # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
               target_label: service
               separator: /
               replacement: $1/$2
+            # Set instance label to the node hostname
+            - source_labels: [__meta_kubernetes_pod_node_name]
+              target_label: instance
             # Remove unnecessary labels
             - action: labeldrop
               regex: __meta_kubernetes.*
@@ -166,19 +166,3 @@ rbac:
             - /metrics
           verbs:
             - get
-
-ingress:
-  enabled: true
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
-  hosts:
-    - host: prometheus.openjamlab.com
-      path: /
-      pathType: "Prefix"
-      tls:
-        enabled: true
-        secretName: "letsencrypt-wildcard-certificate"
-      backend:
-        service:
-          name: "prometheus"
-          port: 9090

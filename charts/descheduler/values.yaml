@@ -25,7 +25,7 @@ workload:
 
 service:
   ports:
-    - name: metrics
+    - name: https-metrics
       protocol: TCP
       port: 10258
 

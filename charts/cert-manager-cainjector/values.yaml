@@ -13,7 +13,7 @@ workload:
 
 service:
   ports:
-    - name: metrics
+    - name: http-metrics
       protocol: TCP
       port: 9402
 

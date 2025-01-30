@@ -1,0 +1,39 @@
+namespace: "thanos"
+
+workload:
+  image:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.31.0
+  replicaCount: 2
+  args:
+    - 'query-frontend'
+    - '--http-address=0.0.0.0:9090'
+    - '--query-frontend.downstream-url="thanos-query.thanos.svc.cluster.clocal:10902"'
+  resources:
+    preset: micro
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: http
+      port: 9090
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: thanos.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "thanos-query-frontendc"
+          port: 9090

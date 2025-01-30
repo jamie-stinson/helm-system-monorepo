@@ -14,7 +14,7 @@ workload:
 
 service:
   ports:
-    - name: metrics
+    - name: http-metrics
       port: 9090
       protocol: TCP
 

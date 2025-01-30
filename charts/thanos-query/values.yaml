@@ -5,24 +5,21 @@ workload:
     registry: quay.io
     repository: thanos/thanos
     tag: v0.31.0
-  replicaCount: 1
+  replicaCount: 2
   args:
     - 'query'
     - '--grpc-address=0.0.0.0:10901'
-    - '--http-address=0.0.0.0:9090'
+    - '--http-address=0.0.0.0:10902'
     - '--log.level=info'
     - '--log.format=logfmt'
-    - '--endpoint=dnssrv+_grpc._tcp.prometheus.prometheus.svc.cluster.local:10901'
+    - '--query.replica-label=replica'
+    - '--store=dnssrv+_grpc._tcp.prometheus-0.prometheus.thanos.svc.cluster.local:10901'
+    - '--store=dnssrv+_grpc._tcp.prometheus-1.prometheus.thanos.svc.cluster.local:10901'
+    - '--store=dnssrv+_grpc._tcp.thanos-store-0.thanos-store.thanos.svc.cluster.local:10901'
+    - '--store=dnssrv+_grpc._tcp.thanos-store-1.thanos-store.thanos.svc.cluster.local:10901'
     - '--query.auto-downsampling'
   resources:
     preset: micro
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: false
-    privileged: false
-    readOnlyRootFilesystem: false
 
 autoscaling:
   enabled: false
@@ -33,21 +30,5 @@ service:
       port: 10901
       protocol: TCP
     - name: http
-      port: 9090
+      port: 10902
       protocol: TCP
-
-ingress:
-  enabled: true
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
-  hosts:
-    - host: thanos.openjamlab.com
-      path: /
-      pathType: "Prefix"
-      tls:
-        enabled: true
-        secretName: "letsencrypt-wildcard-certificate"
-      backend:
-        service:
-          name: "thanos-query"
-          port: 9090

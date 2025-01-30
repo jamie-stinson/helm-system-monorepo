@@ -20,7 +20,7 @@ service:
     - name: healthz
       protocol: TCP
       port: 9403
-    - name: metrics
+    - name: http-metrics
       protocol: TCP
       port: 9402
 
