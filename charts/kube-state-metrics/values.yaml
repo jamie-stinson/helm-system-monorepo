@@ -16,6 +16,7 @@ service:
       protocol: TCP
 
 rbac:
+  enabled: true
   roles:
     clusterRole:
       rules:
