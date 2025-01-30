@@ -1,5 +1,4 @@
 workload:
-  type: StatefulSet
   image:
     registry: quay.io
     repository: prometheus/prometheus
