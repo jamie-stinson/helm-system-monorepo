@@ -35,5 +35,5 @@ ingress:
         secretName: "letsencrypt-wildcard-certificate"
       backend:
         service:
-          name: "thanos-query-frontendc"
+          name: "thanos-query-frontend"
           port: 9090
