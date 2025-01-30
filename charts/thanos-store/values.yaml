@@ -23,7 +23,7 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    - mountPath: /prometheus
+    - mountPath: /data
       name: data
       ramDisk: false
       readOnly: false

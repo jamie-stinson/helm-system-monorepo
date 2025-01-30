@@ -9,7 +9,7 @@ workload:
   args:
     - 'query-frontend'
     - '--http-address=0.0.0.0:9090'
-    - '--query-frontend.downstream-url="thanos-query.thanos.svc.cluster.clocal:10902"'
+    - '--query-frontend.downstream-url=thanos-query.thanos.svc.cluster.clocal:10902'
   resources:
     preset: micro
 
