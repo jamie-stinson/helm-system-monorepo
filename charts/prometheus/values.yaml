@@ -167,3 +167,19 @@ rbac:
             - /metrics
           verbs:
             - get
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: prometheus.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "prometheus"
+          port: 9090
