@@ -32,7 +32,7 @@ workload:
       type: emptyDir
   extraContainers:
     - name: thanos
-      image: "quay.io/thanos/thanoss:v0.31.0"
+      image: "quay.io/thanos/thanos:v0.31.0"
       ports:
         - containerPort: 10901
       args:
