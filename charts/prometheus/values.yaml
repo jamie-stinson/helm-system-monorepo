@@ -77,13 +77,9 @@ configMap:
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
-            # Exclude the descheduler service from this scrape config
-            - source_labels: [__meta_kubernetes_service_name]
-              regex: descheduler
-              action: drop
             # Only keep endpoints with ports named "http-metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
-              regex: http-hetrics
+              regex: http-metrics
               action: keep
             # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
@@ -105,13 +101,9 @@ configMap:
           tls_config:
             insecure_skip_verify: true
           relabel_configs:
-            # Exclude the descheduler service from this scrape config
-            - source_labels: [__meta_kubernetes_service_name]
-              regex: descheduler
-              action: drop
             # Only keep endpoints with ports named "http-metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
-              regex: http-hetrics
+              regex: https-metrics
               action: keep
             # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
