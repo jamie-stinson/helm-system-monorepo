@@ -47,10 +47,10 @@ workload:
         - '--tsdb.path=/prometheus'
         - '--prometheus.url=http://localhost:9090'
       volumeMounts:
-        name: prometheus-data
-        mountPath: /prometheus
-        name: data
-        mountPath: /data
+        - name: prometheus-data
+          mountPath: /prometheus
+        - name: data
+          mountPath: /data
 
 autoscaling:
   enabled: false
