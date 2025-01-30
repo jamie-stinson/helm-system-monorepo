@@ -1,4 +1,5 @@
 workload:
+  type: StatefulSet
   image:
     registry: quay.io
     repository: prometheus/prometheus
@@ -74,7 +75,7 @@ configMap:
         external_labels:
           cluster: prometheus-ha
           # Each Prometheus has to have unique labels.
-          replica: $(POD_NAME)
+          replica: ${POD_NAME}
 
       scrape_configs:
         # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
