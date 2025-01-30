@@ -13,8 +13,10 @@ workload:
     - '--log.level=info'
     - '--log.format=logfmt'
     - '--query.replica-label=replica'
-    - '--endpoint=dnssrv+prometheus-0.prometheus.thanos.svc.cluster.local:10901'
-    - '--endpoint=dnssrv+thanos-store-0.thanos-store.thanos.svc.cluster.local:10901'
+    - '--endpoint=dns+prometheus-0.prometheus.thanos.svc.cluster.local:10901'
+    - '--endpoint=dns+prometheus-1.prometheus.thanos.svc.cluster.local:10901'
+    - '--endpoint=dns+thanos-store-0.thanos-store.thanos.svc.cluster.local:10901'
+    - '--endpoint=dns+thanos-store-1.thanos-store.thanos.svc.cluster.local:10901'
     - '--query.auto-downsampling'
   resources:
     preset: micro
