@@ -44,3 +44,5 @@ service:
     - name: remote-write
       port: 19291
       protocol: TCP
+  clusterIP: "None"
+
