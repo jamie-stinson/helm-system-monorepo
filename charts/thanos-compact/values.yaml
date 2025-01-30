@@ -14,7 +14,7 @@ workload:
     - "--log.level=info"
     - "--retention.resolution-raw=2d"
     - "--retention.resolution-5m=2d"
-    - "--retention.resolution-1h=2d"
+    - "--retention.resolution-1h=10d"
     - "--consistency-delay=15m"
     - "--wait"
     - "--wait-interval=5m"
