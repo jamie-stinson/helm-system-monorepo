@@ -14,8 +14,8 @@ workload:
     - '--web.enable-lifecycle'
     - '--web.enable-admin-api'
     - "--storage.tsdb.no-lockfile"
-    - "--storage.tsdb.min-block-duration=2h"
-    - "--storage.tsdb.max-block-duration=2h"
+    - "--storage.tsdb.min-block-duration=5m"
+    - "--storage.tsdb.max-block-duration=5m"
     - '--storage.tsdb.path=/prometheus'
   resources:
     preset: micro
