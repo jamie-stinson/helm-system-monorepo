@@ -12,7 +12,7 @@ workload:
     - '--http-address=0.0.0.0:9090'
     - '--log.level=info'
     - '--log.format=logfmt'
-    - '--endpoint=dnssrv+_grpc._tcp.thanos-store.thanos.svc.cluster.local:10901'
+    - '--endpoint=dnssrv+_grpc._tcp.prometheus.prometheus.svc.cluster.local:10901'
     - '--query.auto-downsampling'
   resources:
     preset: micro
@@ -35,3 +35,19 @@ service:
     - name: http
       port: 9090
       protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: thanos.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "thanos-query"
+          port: 9090

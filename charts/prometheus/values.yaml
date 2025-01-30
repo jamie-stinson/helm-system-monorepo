@@ -1,4 +1,5 @@
 workload:
+  type: StatefulSet
   image:
     registry: quay.io
     repository: prometheus/prometheus
@@ -6,7 +7,14 @@ workload:
   replicaCount: 1
   args:
     - '--config.file=/etc/config/prometheus.yaml'
-    - '--agent'
+    - '--web.console.libraries=/etc/prometheus/console_libraries'
+    - '--web.console.templates=/etc/prometheus/consoles'
+    - '--web.enable-lifecycle'
+    - '--web.enable-admin-api'
+    - "--storage.tsdb.no-lockfile"
+    - "--storage.tsdb.min-block-duration=2h"
+    - "--storage.tsdb.max-block-duration=2h"
+    - '--storage.tsdb.path=/prometheus'
   resources:
     preset: micro
   storage:
@@ -15,11 +23,35 @@ workload:
       name: config
       type: configMap
     - mountPath: /prometheus
+      name: prometheus-data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+    - mountPath: /data
       name: data
       ramDisk: false
       readOnly: false
       sizeLimit: 5Gi
       type: emptyDir
+  extraContainers:
+    - name: thanos
+      image: "quay.io/thanos/thanos:v0.31.0"
+      ports:
+        - containerPort: 10901
+      args:
+        - 'sidecar'
+        - |
+          --objstore.config=type: FILESYSTEM
+          config:
+            directory: "/data"
+        - '--tsdb.path=/prometheus'
+        - '--prometheus.url=http://localhost:9090'
+      volumeMounts:
+        name: prometheus-data
+        mountPath: /prometheus
+        name: data
+        mountPath: /data
 
 autoscaling:
   enabled: false
@@ -28,6 +60,9 @@ service:
   ports:
     - name: http
       port: 9090
+      protocol: TCP
+    - name: grpc
+      port: 10901
       protocol: TCP
 
 configMap:
@@ -41,11 +76,6 @@ configMap:
           cluster: prometheus-ha
           # Each Prometheus has to have unique labels.
           replica: $(POD_NAME)
-
-      remote_write:
-      - url: http://thanos-receiver.thanos.svc.cluster.local:19291/api/v1/receive
-        metadata_config:
-          send: false
 
       scrape_configs:
         # Scraper for regular Kubernetes services with HTTP metrics (excluding descheduler)
