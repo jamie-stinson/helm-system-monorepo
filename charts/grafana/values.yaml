@@ -1,46 +1,40 @@
-chart: "common-helm-library"
-repository: "ghcr.io/jamie-stinson/common-helm-library"
-version: "*.*.*"
-
-extraObjects:
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: Grafana
-    metadata:
-      name: grafana
-      labels:
-        dashboards: "grafana"
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    dashboards: "grafana"
+spec:
+  deployment:
     spec:
-      deployment:
-        spec:
-          replicas: 1
-          strategy:
-            rollingUpdate:
-              maxUnavailable: 1
-      config:
-        log:
-          mode: "console"
-        security:
-          admin_user: root
-          admin_password: secret
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: GrafanaDashboard
-    metadata:
-      name: sample-dashboard
-    spec:
-      resyncPeriod: 30s
-      instanceSelector:
-        matchLabels:
-          dashboards: "grafana"
-      json: >
-        {
-          "title": "Simple Dashboard",
-          "timezone": "browser",
-          "refresh": "5s",
-          "panels": [],
-          "time": {
-            "from": "now-6h",
-            "to": "now"
-          }
-        }
+      replicas: 1
+      strategy:
+        rollingUpdate:
+          maxUnavailable: 1
+  config:
+    log:
+      mode: "console"
+    security:
+      admin_user: root
+      admin_password: secret
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: sample-dashboard
+spec:
+  resyncPeriod: 30s
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  json: >
+    {
+      "title": "Simple Dashboard",
+      "timezone": "browser",
+      "refresh": "5s",
+      "panels": [],
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      }
+    }

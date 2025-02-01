@@ -1,19 +1,10 @@
-chart: "common-helm-library"
-repository: "ghcr.io/jamie-stinson/common-helm-library"
-version: "*.*.*"
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+spec:
+  version: 3.1.0
+  replicas: 2
+  logFormat: "json"
+  serviceAccountName: prometheus
 
-extraObjects:
-  - |
-    apiVersion: monitoring.coreos.com/v1
-    kind: Prometheus
-    metadata:
-      name: prometheus
-    spec:
-      version: 3.1.0
-      replicas: 2
-      logFormat: "json"
-      serviceAccountName: prometheus
-
-serviceAccount:
-  enabled: true
-  automountServiceAccountToken: true
