@@ -9,3 +9,7 @@ extraObjects:
       replicas: 2
       logFormat: "json"
       serviceAccountName: prometheus
+
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
