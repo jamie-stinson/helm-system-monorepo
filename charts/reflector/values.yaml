@@ -1,7 +1,5 @@
-global:
-  chart: "reflector"
-  repository: "https://emberstack.github.io/helm-charts"
-  version: "7.1.*"
+repository: "https://emberstack.github.io/helm-charts"
+version: "7.1.*"
 
 replicaCount: 2
 autoscaling:

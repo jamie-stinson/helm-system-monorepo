@@ -1,7 +1,5 @@
-global:
-  chart: "descheduler"
-  repository: "https://kubernetes-sigs.github.io/descheduler/"
-  version: "0.32.*"
+repository: "https://kubernetes-sigs.github.io/descheduler/"
+version: "0.32.*"
 
 kind: Deployment
 resources: {}

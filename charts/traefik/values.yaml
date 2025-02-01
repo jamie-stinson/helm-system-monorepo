@@ -1,7 +1,5 @@
-global:
-  chart: "traefik"
-  repository: "https://traefik.github.io/charts"
-  version: "34.1.*"
+repository: "https://traefik.github.io/charts"
+version: "34.1.*"
 
 deployment:
   replicas: 2
