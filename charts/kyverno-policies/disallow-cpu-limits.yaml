@@ -14,7 +14,7 @@ metadata:
       set may ensure apps run more effectively. This policy forbids any container in a Pod from defining CPU limits.      
 spec:
   background: true
-  validationFailureAction: Enforce
+  validationFailureAction: Audit
   rules:
   - name: check-cpu-limits
     match:
