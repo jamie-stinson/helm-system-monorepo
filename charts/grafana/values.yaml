@@ -23,8 +23,3 @@ extraObjects:
         security:
           admin_user: root
           admin_password: secret
-      deployment:
-        spec:
-          template:
-            metadata:
-              name: grafana
