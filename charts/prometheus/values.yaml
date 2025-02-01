@@ -1,3 +1,7 @@
+chart: "common-helm-library"
+repository: "ghcr.io/jamie-stinson/common-helm-library"
+version: "*.*.*"
+
 extraObjects:
   - |
     apiVersion: monitoring.coreos.com/v1
