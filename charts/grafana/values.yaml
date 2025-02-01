@@ -1,25 +1,19 @@
-chart: "common-helm-library"
-repository: "ghcr.io/jamie-stinson/common-helm-library"
-version: "*.*.*"
-
-extraObjects:
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: Grafana
-    metadata:
-      name: grafana
-      labels:
-        instance: "grafana"
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    instance: "grafana"
+spec:
+  deployment:
     spec:
-      deployment:
-        spec:
-          replicas: 1
-          strategy:
-            rollingUpdate:
-              maxUnavailable: 1
-      config:
-        log:
-          mode: "console"
-        security:
-          admin_user: root
-          admin_password: secret
+      replicas: 1
+      strategy:
+        rollingUpdate:
+          maxUnavailable: 1
+  config:
+    log:
+      mode: "console"
+    security:
+      admin_user: root
+      admin_password: secret
