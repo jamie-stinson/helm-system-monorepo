@@ -5,11 +5,7 @@ extraObjects:
     metadata:
       name: prometheus
     spec:
+      version: 3.1.0
+      replicas: 2
+      logFormat: "json"
       serviceAccountName: prometheus
-      serviceMonitorNamespaceSelector: {}
-      serviceMonitorSelector: {}
-      podMonitorSelector: {}
-      resources:
-        requests:
-          memory: 400Mi
-
