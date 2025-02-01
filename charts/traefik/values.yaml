@@ -1,0 +1,106 @@
+global:
+  chart: "traefik"
+  repository: "https://traefik.github.io/charts"
+  version: "34.1.*"
+
+deployment:
+  replicas: 2
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: "traefik"
+
+gateway:
+  enabled: false
+
+gatewayClass:
+  enabled: false
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
+
+providers:
+  kubernetesCRD:
+    enabled: false
+  kubernetesIngress:
+    enabled: true
+
+logs:
+  general:
+    format: "json"
+  access:
+    enabled: true
+    format: "json"
+
+globalArguments: []
+
+additionalArguments:
+  - "--api.insecure=true"
+
+ports:
+  traefik:
+    port: 8080
+    expose:
+      default: false
+      dashboard: true
+    protocol: TCP
+  web:
+    port: 80
+    exposedPort: 80
+    nodePort: 30080
+    expose:
+      default: true
+    protocol: TCP
+  websecure:
+    port: 443
+    exposedPort: 443
+    nodePort: 30443
+    expose:
+      default: true
+    protocol: TCP
+  intweb:
+    port: 81
+    exposedPort: 81
+    nodePort: 30081
+    expose:
+      default: true
+    protocol: TCP
+  intwebsecure:
+    port: 444
+    exposedPort: 444
+    nodePort: 30444
+    expose:
+      default: true
+    protocol: TCP
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 100
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 75
+
+service:
+  type: "NodePort"
+  additionalServices:
+    dashboard:
+      type: ClusterIP

@@ -1,0 +1,61 @@
+global:
+  chart: "descheduler"
+  repository: "https://kubernetes-sigs.github.io/descheduler/"
+  version: "0.32.*"
+
+kind: Deployment
+resources: {}
+replicas: 2
+leaderElection:
+  enabled: true
+deschedulerPolicy:
+  evictDaemonSetPods: false
+  profiles:
+    - name: default
+      pluginConfig:
+      - args:
+          evictFailedBarePods: true
+          evictLocalStoragePods: true
+          evictSystemCriticalPods: true
+          minReplicas: 0
+          nodeFit: true
+        name: DefaultEvictor
+      - name: RemoveDuplicates
+      - args:
+          targetThresholds:
+            cpu: 50
+            memory: 50
+            pods: 50
+          thresholds:
+            cpu: 20
+            memory: 20
+            pods: 20
+        name: LowNodeUtilization
+      - args:
+          includingInitContainers: true
+          podRestartThreshold: 100
+        name: RemovePodsHavingTooManyRestarts
+      - args:
+          excludeOwnerKinds:
+          - Job
+          exitCodes:
+          - 1
+          includingInitContainers: true
+          minPodLifetimeSeconds: 3600
+        name: RemoveFailedPods
+      - args:
+          maxPodLifeTimeSeconds: 86400
+          states:
+          - Pending
+          - PodInitializing
+        name: PodLifeTime
+      plugins:
+        balance:
+          enabled:
+          - RemoveDuplicates
+          - LowNodeUtilization
+        deschedule:
+          enabled:
+          - RemovePodsHavingTooManyRestarts
+          - RemoveFailedPods
+          - PodLifeTime

@@ -1,0 +1,4 @@
+global:
+  chart: "node-problem-detector"
+  repository: "ghcr.io/deliveryhero/helm-charts"
+  version: "2.3.*"

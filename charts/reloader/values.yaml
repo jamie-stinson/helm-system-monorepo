@@ -1,0 +1,17 @@
+global:
+  chart: "reloader"
+  repository: "https://stakater.github.io/stakater-charts"
+  version: "1.2.*"
+
+reloader:
+  autoReloadAll: true
+  reloadOnDelete: true
+  syncAfterRestart: true
+  logFormat: json
+  enableHA: true
+  readOnlyRootFileSystem: true
+  deployment:
+    replicas: 2
+  podDisruptionBudget:
+    enabled: true
+    maxUnavailable: 1
