@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: block-images-with-volumes
+  name: disallow-images-with-volumes
   annotations:
-    policies.kyverno.io/title: Block Images with Volumes
+    policies.kyverno.io/title: Disallow Images with Volumes
     policies.kyverno.io/category: Other
     policies.kyverno.io/severity: medium
     kyverno.io/kyverno-version: 1.6.0
@@ -18,7 +18,7 @@ metadata:
 spec:
   validationFailureAction: Audit
   rules:
-  - name: block-images-with-vols
+  - name: disallow-images-with-vols
     match:
       any:
       - resources:

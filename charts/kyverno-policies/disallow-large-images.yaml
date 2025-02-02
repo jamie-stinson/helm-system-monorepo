@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: block-large-images
+  name: disallow-large-images
   annotations:
-    policies.kyverno.io/title: Block Large Images
+    policies.kyverno.io/title: Disallow Large Images
     policies.kyverno.io/category: Other
     policies.kyverno.io/severity: medium
     kyverno.io/kyverno-version: 1.6.0
@@ -16,9 +16,9 @@ metadata:
       name an image which is unusually large to disrupt operations. This policy
       checks the size of every container image and blocks if it is over 2 Gibibytes.      
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   rules:
-  - name: block-over-twogi
+  - name: disallow-over-twogi
     match:
       any:
       - resources:

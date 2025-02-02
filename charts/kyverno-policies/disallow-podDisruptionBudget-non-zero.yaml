@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: pdb-maxunavailable
+  name: disallow-poddisruptionbudget-non-zero
   annotations:
-    policies.kyverno.io/title: PodDisruptionBudget maxUnavailable Non-Zero
+    policies.kyverno.io/title: Disallow PodDisruptionBudget non zero
     policies.kyverno.io/category: Other
     kyverno.io/kyverno-version: 1.9.0
     kyverno.io/kubernetes-version: "1.24"

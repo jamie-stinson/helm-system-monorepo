@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: require-ro-rootfs
+  name: require-read-only-root-filesystem
   annotations:
     policies.kyverno.io/title: Require Read-Only Root Filesystem
     policies.kyverno.io/category: Best Practices, EKS Best Practices, PSP Migration

@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: prevent-bare-pods
+  name: disallow-naked-pods
   annotations:
-    policies.kyverno.io/title: Prevent Bare Pods
+    policies.kyverno.io/title: Disallow Naked Pods
     pod-policies.kyverno.io/autogen-controllers: none
     policies.kyverno.io/category: Other, EKS Best Practices
     policies.kyverno.io/severity: medium
@@ -20,7 +20,7 @@ spec:
   validationFailureAction: Audit
   background: true
   rules:
-  - name: bare-pods
+  - name: naked-pods
     match:
       any:
       - resources:
@@ -32,7 +32,7 @@ spec:
         operator: NotEquals
         value: DELETE
     validate:
-      message: "Bare Pods are not allowed. They must be created by Pod controllers."
+      message: "Naked Pods are not allowed. They must be created by Pod controllers."
       deny:
         conditions:
           any:

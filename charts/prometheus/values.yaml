@@ -1,32 +1,177 @@
-chart: "common-helm-library"
-repository: "ghcr.io/jamie-stinson/common-helm-library"
-version: "*.*.*"
+namespace: "thanos"
 
-extraObjects:
-  - |
-    apiVersion: monitoring.coreos.com/v1
-    kind: Prometheus
-    metadata:
-      name: prometheus
-    spec:
-      version: 3.1.0
-      replicas: 2
-      logFormat: "json"
-      serviceAccountName: prometheus
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: GrafanaDatasource
-    metadata:
-      name: prometheus
-    spec:
-      instanceSelector:
-        matchLabels:
-          instance: "grafana"
-      datasource:
-        name: prometheus
-        type: prometheus
-        access: proxy
-        url: http://prometheus-service:9090
-        isDefault: true
-        jsonData:
-          'timeInterval': "5s"
+workload:
+  type: StatefulSet
+  image:
+    registry: quay.io
+    repository: prometheus/prometheus
+    tag: v3.1.0
+  replicaCount: 2
+  args:
+    - '--config.file=/etc/config/prometheus.yaml'
+    - '--web.console.libraries=/etc/prometheus/console_libraries'
+    - '--web.console.templates=/etc/prometheus/consoles'
+    - '--web.enable-lifecycle'
+    - '--web.enable-admin-api'
+    - "--storage.tsdb.no-lockfile"
+    - "--storage.tsdb.min-block-duration=2h"
+    - "--storage.tsdb.max-block-duration=2h"
+    - '--storage.tsdb.path=/prometheus'
+  resources:
+    preset: micro
+  storage:
+    - configMapName: prometheus
+      mountPath: /etc/config
+      name: config
+      type: configMap
+    - mountPath: /prometheus
+      name: prometheus-data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+  extraContainers:
+    - name: thanos
+      image: "quay.io/thanos/thanos:v0.31.0"
+      ports:
+        - containerPort: 10901
+      args:
+        - 'sidecar'
+        - '--objstore.config-file=/etc/config/thanos.yaml'
+        - '--tsdb.path=/prometheus'
+        - '--prometheus.url=http://localhost:9090'
+      volumeMounts:
+        - name: prometheus-data
+          mountPath: /prometheus
+        - name: config
+          mountPath: /etc/config
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: http
+      port: 9090
+      protocol: TCP
+    - name: grpc
+      port: 10901
+      protocol: TCP
+  clusterIP: "None"
+
+configMap:
+  enabled: true
+  data:
+    prometheus.yaml: |
+      global:
+        scrape_interval: 5s
+        evaluation_interval: 5s
+        external_labels:
+          cluster: prometheus-ha
+          # Each Prometheus has to have unique labels.
+          replica: ${POD_NAME}
+
+      scrape_configs:
+        # Scraper for regular Kubernetes services with HTTP metrics
+        - job_name: 'kubernetes-http-services'
+          kubernetes_sd_configs:
+            - role: endpoints
+          relabel_configs:
+            # Only keep endpoints with ports named "http-metrics"
+            - source_labels: [__meta_kubernetes_endpoint_port_name]
+              regex: http-metrics
+              action: keep
+            # Extract the namespace and service name for better labels
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+              target_label: service
+              separator: /
+              replacement: $1/$2
+            # Set instance label to the node hostname
+            - source_labels: [__meta_kubernetes_pod_node_name]
+              target_label: instance
+            # Remove unnecessary labels
+            - action: labeldrop
+              regex: __meta_kubernetes.*
+
+        # Scraper for regular Kubernetes services with HTTPS metrics
+        - job_name: 'kubernetes-https-services'
+          kubernetes_sd_configs:
+            - role: endpoints
+          scheme: https
+          tls_config:
+            insecure_skip_verify: true
+          relabel_configs:
+            # Only keep endpoints with ports named "http-metrics"
+            - source_labels: [__meta_kubernetes_endpoint_port_name]
+              regex: https-metrics
+              action: keep
+            # Extract the namespace and service name for better labels
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
+              target_label: service
+              separator: /
+              replacement: $1/$2
+            # Set instance label to the node hostname
+            - source_labels: [__meta_kubernetes_pod_node_name]
+              target_label: instance
+            # Remove unnecessary labels
+            - action: labeldrop
+              regex: __meta_kubernetes.*
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+            - nodes/proxy
+            - nodes/metrics
+            - services
+            - endpoints
+            - pods
+            - ingresses
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingresses/status
+            - ingresses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - discovery.k8s.io
+          resources:
+            - endpointslices
+          verbs:
+            - get
+            - list
+            - watch
+        - nonResourceURLs:
+            - /metrics
+          verbs:
+            - get
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: prometheus.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "prometheus"
+          port: 9090

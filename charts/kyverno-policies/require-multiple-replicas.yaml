@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: deployment-has-multiple-replicas
+  name: require-multiple-replicas
   annotations:
     policies.kyverno.io/title: Require Multiple Replicas
     policies.kyverno.io/category: Sample

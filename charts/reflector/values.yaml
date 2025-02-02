@@ -1,10 +1,41 @@
-repository: "https://emberstack.github.io/helm-charts"
-version: "7.1.*"
+workload:
+  envs:
+    - name: ES_Serilog__MinimumLevel__Default
+      value: Information
+    - name: ES_Reflector__Watcher__Timeout
+      value: ''
+    - name: ES_Reflector__Kubernetes__SkipTlsVerify
+      value: '"false"'
+  image:
+    repository: emberstack/kubernetes-reflector
+    tag: 7.1.288
+  resources:
+    preset: nano
+  storage:
+    - mountPath: /tmp
+      name: tmp
+      readOnly: false
+      type: emptyDir
 
-replicaCount: 2
-autoscaling:
+service:
+  enabled: false
+
+rbac:
   enabled: true
-  minReplicas: 2
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+            - secrets
+          verbs:
+            - '*'
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+          verbs:
+            - watch
+            - list

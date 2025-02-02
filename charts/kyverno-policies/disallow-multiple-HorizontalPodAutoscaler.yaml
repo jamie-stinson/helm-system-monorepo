@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: prevent-duplicate-hpa
+  name: disallow-duplicate-hpa
   annotations:
-    policies.kyverno.io/title: Prevent Duplicate HorizontalPodAutoscalers
+    policies.kyverno.io/title: Disallow Duplicate HorizontalPodAutoscalers
     policies.kyverno.io/category: Other
     policies.kyverno.io/severity: medium
     kyverno.io/kyverno-version: 1.11.4

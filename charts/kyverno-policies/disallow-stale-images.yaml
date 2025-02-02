@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: block-stale-images
+  name: disallow-stale-images
   annotations:
     policies.kyverno.io/title: Block Stale Images
     policies.kyverno.io/category: Other
@@ -15,16 +15,16 @@ metadata:
       This policy checks the contents of every container image and inspects them for the create time.
       If it finds any image which was built more than 6 months ago this policy blocks the deployment.      
 spec:
-  validationFailureAction: Audit 
+  validationFailureAction: Enforce
   rules:
-    - name: block-stale-images
+    - name: disallow-stale-images
       match:
         any:
         - resources:
             kinds:
             - Pod
       validate:
-        message: "Images built more than 6 months ago are prohibited."
+        message: "Images built more than 12 months ago are prohibited."
         foreach:
         - list: "request.object.spec.containers"
           context:
@@ -36,4 +36,4 @@ spec:
               all:
                 - key: "{{ time_since('', '{{ imageData.configData.created }}', '') }}"
                   operator: GreaterThan
-                  value: 4380h
+                  value: 8760h

@@ -1,104 +1,198 @@
-repository: "https://traefik.github.io/charts"
-version: "34.1.*"
+workload:
+  image:
+    repository: traefik
+    tag: v3.2.2
+  args:
+    # Entrypoints
+    - '--entryPoints.metrics.address=:9100/tcp'
+    - '--entryPoints.traefik.address=:8080/tcp'
+    - '--entryPoints.externalweb.address=:81/tcp'
+    - '--entryPoints.internalweb.address=:80/tcp'
+    - '--entryPoints.externalwebsecure.address=:444/tcp'
+    - '--entryPoints.internalwebsecure.address=:443/tcp'
+    # TLS
+    - '--entryPoints.externalwebsecure.http.tls=true'
+    - '--entryPoints.internalwebsecure.http.tls=true'
+    # Metrics
+    - '--metrics.prometheus=true'
+    - '--metrics.prometheus.entrypoint=metrics'
+    - '--metrics.addinternals=true'
+    # Dashboard
+    - '--api=true'
+    - '--api.dashboard=true'
+    - '--api.insecure=true'
+    # Providers
+    - '--providers.kubernetesingress=true'
+    - '--providers.kubernetesingress.allowemptyservices=true'
+    # Logs
+    - '--log.format=json'
+    - '--log.level=INFO'
+    # Access logs
+    - '--accesslog=true'
+    - '--accesslog.addinternals=true'
+    - '--accesslog.format=json'
+    - '--accesslog.fields.defaultmode=keep'
+    - '--accesslog.fields.headers.defaultmode=drop'
+  resources:
+    preset: micro
 
-deployment:
-  replicas: 2
+service:
+  ports:
+    - name: traefik
+      port: 8080
+      protocol: TCP
+    - name: metrics
+      port: 9100
+      protocol: TCP
 
-podDisruptionBudget:
+expose:
   enabled: true
-  maxUnavailable: 1
+  type: NodePort
+  ports:
+    - name: externalweb
+      nodePort: 30081
+      port: 81
+      protocol: TCP
+    - name: internalweb
+      nodePort: 30080
+      port: 80
+      protocol: TCP
+    - name: externalwebsecure
+      nodePort: 30444
+      port: 444
+      protocol: TCP
+    - name: internalwebsecure
+      nodePort: 30443
+      port: 443
+      protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - nodes
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - services
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - discovery.k8s.io
+          resources:
+            - endpointslices
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingressclasses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - traefik.io
+          resources:
+            - ingressroutes
+            - ingressroutetcps
+            - ingressrouteudps
+            - middlewares
+            - middlewaretcps
+            - serverstransports
+            - serverstransporttcps
+            - tlsoptions
+            - tlsstores
+            - traefikservices
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingressclasses
+            - ingresses
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - extensions
+            - networking.k8s.io
+          resources:
+            - ingresses/status
+          verbs:
+            - update
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: traefik.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "traefik"
+          port: 8080
 
 ingressClass:
   enabled: true
-  isDefaultClass: true
-  name: "traefik"
+  isDefault: true
+  controller: "traefik.io/ingress-controller"
 
-gateway:
-  enabled: false
-
-gatewayClass:
-  enabled: false
-
-updateStrategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 1
-
-providers:
-  kubernetesCRD:
-    enabled: false
-  kubernetesIngress:
-    enabled: true
-
-logs:
-  general:
-    format: "json"
-  access:
-    enabled: true
-    format: "json"
-
-globalArguments: []
-
-additionalArguments:
-  - "--api.insecure=true"
-
-ports:
-  traefik:
-    port: 8080
-    expose:
-      default: false
-      dashboard: true
-    protocol: TCP
-  web:
-    port: 80
-    exposedPort: 80
-    nodePort: 30080
-    expose:
-      default: true
-    protocol: TCP
-  websecure:
-    port: 443
-    exposedPort: 443
-    nodePort: 30443
-    expose:
-      default: true
-    protocol: TCP
-  intweb:
-    port: 81
-    exposedPort: 81
-    nodePort: 30081
-    expose:
-      default: true
-    protocol: TCP
-  intwebsecure:
-    port: 444
-    exposedPort: 444
-    nodePort: 30444
-    expose:
-      default: true
-    protocol: TCP
-
-autoscaling:
+secret:
   enabled: true
-  minReplicas: 2
-  maxReplicas: 100
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 75
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 75
+  namespace: "cert-manager"
 
-service:
-  type: "NodePort"
-  additionalServices:
-    dashboard:
-      type: ClusterIP
+certificate:
+  enabled: true
+  spec:
+    secretName: "letsencrypt-wildcard-certificate"
+    dnsNames:
+      - 'openjamlab.com'
+      - '*.openjamlab.com'
+    issuerRef:
+      name: "traefik"
+      kind: ClusterIssuer
+    secretTemplate:
+      annotations:
+        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"  
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+
+issuer:
+  enabled: true
+  type: ClusterIssuer
+  spec:
+    acme:
+      server: https://acme-v02.api.letsencrypt.org/directory
+      privateKeySecretRef:
+        name: letsencrypt-acme-key

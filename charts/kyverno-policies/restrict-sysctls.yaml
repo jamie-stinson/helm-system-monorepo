@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: restrict-sysctls
+  name: disallow-sysctls
   annotations:
-    policies.kyverno.io/title: Restrict sysctls
+    policies.kyverno.io/title: Disallow sysctls
     policies.kyverno.io/category: Pod Security Standards (Baseline)
     policies.kyverno.io/severity: medium
     policies.kyverno.io/subject: Pod

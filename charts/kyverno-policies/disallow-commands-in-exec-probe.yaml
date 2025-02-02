@@ -1,9 +1,9 @@
 apiVersion: kyverno.io/v2beta1
 kind: ClusterPolicy
 metadata:
-  name: deny-commands-in-exec-probe
+  name: disallow-commands-in-exec-probe
   annotations:
-    policies.kyverno.io/title: Deny Commands in Exec Probe
+    policies.kyverno.io/title: Disallow Commands in Exec Probe
     policies.kyverno.io/category: Other
     policies.kyverno.io/subject: Pod
     kyverno.io/kyverno-version: 1.1.0
