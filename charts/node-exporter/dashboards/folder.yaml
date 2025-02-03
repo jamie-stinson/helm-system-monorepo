@@ -3,6 +3,8 @@ kind: GrafanaFolder
 metadata:
   name: system
 spec:
+  allowCrossNamespaceImport: true
+  resyncPeriod: 1m
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
