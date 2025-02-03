@@ -47,7 +47,9 @@ grafana:
         matchLabels:
           dashboards: "grafana"
       datasource:
-        name: thanos
+        name: prometheus
         type: prometheus
+        access: proxy
+        basicAuth: false
         url: http://thanos-query-frontend.thanos.svc.cluster.local:9090
         isDefault: true
