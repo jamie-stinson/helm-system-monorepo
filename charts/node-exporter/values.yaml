@@ -41,9 +41,4 @@ service:
       protocol: TCP
       port: 9100
 
-grafana:
-  dashboard:
-    enabled: true
-    dashboards:
-      - name: main
-    
+grafanaDashboard: true
