@@ -42,12 +42,13 @@ grafana:
   datasource:
     enabled: true
     spec:
+      resyncPeriod: 30s
       allowCrossNamespaceImport: true
       instanceSelector:
         matchLabels:
           dashboards: "grafana"
       datasource:
-        name: prometheus
+        name: thanos
         type: prometheus
         access: proxy
         basicAuth: false
