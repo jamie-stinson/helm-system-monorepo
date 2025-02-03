@@ -5,7 +5,7 @@ metadata:
 spec:
   allowCrossNamespaceImport: true
   resyncPeriod: 1m
-  folderRef: system
+  folderRef: System
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
