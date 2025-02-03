@@ -46,6 +46,7 @@ configMap:
         resourceName: f75f3bba.integreatly.org
 
 rbac:
+  enabled: true
   roles:
     clusterRole:
       rules:
