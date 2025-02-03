@@ -100,13 +100,3 @@ extraObjects:
         adminPassword:
           name: grafana
           key: GF_SECURITY_ADMIN_PASSWORD
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: GrafanaFolder
-    metadata:
-      name: system
-    spec:
-      instanceSelector:
-        matchLabels:
-          dashboards: "grafana"
-      title: "System"
