@@ -37,3 +37,13 @@ ingress:
         service:
           name: "thanos-query-frontend"
           port: 9090
+
+grafana:
+  datasource:
+    enabled: true
+    spec:
+      datasource:
+        name: thanos
+        type: prometheus
+        url: http://thanos-query-frontend.thanos.svc.cluster.local:9090
+        isDefault: true
