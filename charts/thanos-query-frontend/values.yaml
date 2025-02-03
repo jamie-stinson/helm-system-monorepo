@@ -42,6 +42,9 @@ grafana:
   datasource:
     enabled: true
     spec:
+      instanceSelector:
+        matchLabels:
+          dashboards: "grafana"
       datasource:
         name: thanos
         type: prometheus
