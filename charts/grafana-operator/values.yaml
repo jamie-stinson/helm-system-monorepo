@@ -9,7 +9,7 @@ workload:
     - --health-probe-bind-address=:8081
     - --metrics-bind-address=0.0.0.0:9090
     - --pprof-addr=0.0.0.0:8888
-    - --zap-encoder=rfc3339
+    - --zap-encoder=json
     - --zap-log-level=info
     - --zap-time-encoding=rfc3339
     - --leader-elect
