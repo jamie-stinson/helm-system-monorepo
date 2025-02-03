@@ -42,6 +42,7 @@ grafana:
   datasource:
     enabled: true
     spec:
+      allowCrossNamespaceImport: true
       instanceSelector:
         matchLabels:
           dashboards: "grafana"
