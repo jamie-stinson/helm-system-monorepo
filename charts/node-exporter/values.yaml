@@ -44,3 +44,6 @@ service:
 grafana:
   dashboard:
     enabled: true
+    dashboards:
+      - name: main
+    
