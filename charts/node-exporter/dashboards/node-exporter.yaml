@@ -4,6 +4,8 @@ metadata:
   name: node-exporter
 spec:
   allowCrossNamespaceImport: true
+  resyncPeriod: 1m
+  folderRef: System
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
