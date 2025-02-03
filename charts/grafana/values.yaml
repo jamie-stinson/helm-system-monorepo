@@ -2,20 +2,27 @@ workload:
   image:
     repository: "grafana/grafana"
     tag: "11.4.0"
-  replicaCount: 2
+  replicaCount: 1
   envsSecret:
-    - name: GF_DATABASE_HOST
-      secret: grafana-database-app
-      key: host
-    - name: GF_DATABASE_NAME
-      secret: grafana-database-app
-      key: dbname
-    - name: GF_DATABASE_USER
-      secret: grafana-database-app
-      key: username
-    - name: GF_DATABASE_PASSWORD
-      secret: grafana-database-app
-      key: password
+    - name: GF_SECURITY_ADMIN_USER
+      secret: grafana
+      key: GF_SECURITY_ADMIN_USER
+    - name: GF_SECURITY_ADMIN_PASSWORD
+      secret: grafana
+      key: GF_SECURITY_ADMIN_PASSWORD
+  # Unhash to enable postgres when storage is setup
+  #   - name: GF_DATABASE_HOST
+  #     secret: grafana-database-app
+  #     key: host
+  #   - name: GF_DATABASE_NAME
+  #     secret: grafana-database-app
+  #     key: dbname
+  #   - name: GF_DATABASE_USER
+  #     secret: grafana-database-app
+  #     key: username
+  #   - name: GF_DATABASE_PASSWORD
+  #     secret: grafana-database-app
+  #     key: password
   resources:
     preset: "micro"
   storage:
@@ -48,8 +55,8 @@ configMap:
       mode = console
       [server]
       domain = ''
-      [database]
-      type = postgres
+      # [database]
+      # type = postgres
 
 ingress:
   enabled: true
@@ -67,8 +74,68 @@ ingress:
           name: "grafana"
           port: 3000
 
-postgres:
-  enabled: false
-  replicas: 3
-  version: 17.2
-  size: "5Gi"
+secret:
+  enabled: true
+
+# postgres:
+#   enabled: false
+#   replicas: 3
+#   version: 17.2
+#   size: "5Gi"
+
+extraObjects:
+  - |
+    apiVersion: grafana.integreatly.org/v1beta1
+    kind: Grafana
+    metadata:
+      name: grafana
+      labels:
+        dashboards: "grafana"
+    spec:
+      external:
+        url: http://grafana.grafana.svc.cluster.local:3000
+        adminUser:
+          name: grafana
+          key: GF_SECURITY_ADMIN_USER
+        adminPassword:
+          name: grafana
+          key: GF_SECURITY_ADMIN_PASSWORD
+  - |
+    apiVersion: grafana.integreatly.org/v1beta1
+    kind: GrafanaDashboard
+    metadata:
+      name: grafanadashboard-sample
+    spec:
+      instanceSelector:
+        matchLabels:
+          dashboards: "grafana"
+      json: >
+        {
+          "id": null,
+          "title": "Simple Dashboard",
+          "tags": [],
+          "style": "dark",
+          "timezone": "browser",
+          "editable": true,
+          "hideControls": false,
+          "graphTooltip": 1,
+          "panels": [],
+          "time": {
+            "from": "now-6h",
+            "to": "now"
+          },
+          "timepicker": {
+            "time_options": [],
+            "refresh_intervals": []
+          },
+          "templating": {
+            "list": []
+          },
+          "annotations": {
+            "list": []
+          },
+          "refresh": "5s",
+          "schemaVersion": 17,
+          "version": 0,
+          "links": []
+        }    
