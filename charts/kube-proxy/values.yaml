@@ -1,4 +1,4 @@
-namspace: "kube-system"
+namespace: "kube-system"
 
 workload:
   enabled: false
@@ -11,9 +11,6 @@ service:
     targetPort: 10249
   selector:
     k8s-app: kube-proxy
-
-service:
-  enabled: false
 
 autoscaling:
   enabled: false

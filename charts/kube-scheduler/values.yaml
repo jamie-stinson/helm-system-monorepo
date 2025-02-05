@@ -12,9 +12,6 @@ service:
   selector:
     app.kubernetes.io/name: kube-scheduler
 
-service:
-  enabled: false
-
 autoscaling:
   enabled: false
 

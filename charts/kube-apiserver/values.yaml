@@ -12,9 +12,6 @@ service:
   selector:
     app.kubernetes.io/name: kube-apiserver
 
-service:
-  enabled: false
-
 autoscaling:
   enabled: false
 

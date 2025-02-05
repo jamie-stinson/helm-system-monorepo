@@ -1,11 +1,11 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: kyverno
+  name: version-checker
 spec:
   allowCrossNamespaceImport: true
   resyncPeriod: 1m
-  folderRef: system
+  # folderRef: system
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
