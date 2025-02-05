@@ -161,6 +161,7 @@ configMap:
           bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
           tls_config:
             ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
 
         # Scraper for kubernetes scheduler
         - job_name: "kube-scheduler"
@@ -182,6 +183,7 @@ configMap:
           bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
           tls_config:
             ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
 
         # Scraper for kubernetes etcd cluster
         - job_name: "etcd"
