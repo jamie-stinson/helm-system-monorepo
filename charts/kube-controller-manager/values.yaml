@@ -1,4 +1,4 @@
-namspace: "kube-system"
+namespace: "kube-system"
 
 workload:
   enabled: false

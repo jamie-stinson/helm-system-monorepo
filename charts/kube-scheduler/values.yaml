@@ -1,4 +1,4 @@
-namspace: "kube-system"
+namespace: "kube-system"
 
 workload:
   enabled: false
@@ -23,4 +23,3 @@ pdb:
 
 serviceAccount:
   enabled: false
-

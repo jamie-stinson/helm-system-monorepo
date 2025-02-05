@@ -421,3 +421,5 @@ rbac:
             - leases
           verbs:
             - create
+
+grafanaDashboard: true

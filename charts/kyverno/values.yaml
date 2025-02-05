@@ -12,3 +12,6 @@ pdb:
 
 serviceAccount:
   enabled: false
+
+grafanaDashboard: true
+
