@@ -73,7 +73,7 @@ configMap:
 
       scrape_configs:
         # Scraper for Kubernetes services with HTTP metrics
-        - job_name: 'kubernetes-http-services'
+        - job_name: 'kube-http-services'
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
@@ -94,7 +94,7 @@ configMap:
               regex: __meta_kubernetes.*
 
         # Scraper for Kubernetes services with HTTPS metrics
-        - job_name: 'kubernetes-https-services'
+        - job_name: 'kube-https-services'
           kubernetes_sd_configs:
             - role: endpoints
           scheme: https
@@ -118,10 +118,22 @@ configMap:
               regex: __meta_kubernetes.*
 
         # Scraper for kubernetes api server
-        - job_name: 'kube-apiserver'
+        - job_name: "kube-apiserver"
           scheme: https
-          static_configs:
-            - targets: ['kubernetes.default.svc:443']
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_name]
+              regex: .*controlplane.*
+              action: keep
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:6443
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
           bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
           tls_config:
             ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
