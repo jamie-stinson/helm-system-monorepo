@@ -102,3 +102,10 @@ extraObjects:
         adminPassword:
           name: grafana
           key: GF_SECURITY_ADMIN_PASSWORD
+
+grafana:
+  folder:
+    enabled: true
+    folders:
+      - name: "system"
+        title: "System"

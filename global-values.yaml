@@ -35,3 +35,10 @@ serviceAccount:
 
 ingress:
   ingressClass: "traefik"
+
+grafana:
+  dashboard:
+    cacheDuration: 30m
+    resyncPeriod: "1m"
+  folder:
+    resyncPeriod: "1m"

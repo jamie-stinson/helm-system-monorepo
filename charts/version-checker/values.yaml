@@ -36,7 +36,7 @@ rbac:
 grafana:
   dashboard:
     enabled: true
-    contentCacheDuration: 48h
     dashboards:
       - name: version-checker
-        url: "https://grafana.com/api/dashboards/7651/revisions/44/download"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/version-checher.json"
+        folder: "System"
