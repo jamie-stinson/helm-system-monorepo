@@ -117,6 +117,60 @@ configMap:
             - action: labeldrop
               regex: __meta_kubernetes.*
 
+        # Scraper for kubernetes api server
+        - job_name: 'kube-apiserver'
+          scheme: https
+          static_configs:
+            - targets: ['kubernetes.default.svc:443']
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+        # Scraper for kubernetes proxy
+        - job_name: "kube-proxy"
+          scheme: http
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:10249
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
+
+        # Scraper for kubernetes controller manager
+        - job_name: "kube-controller-manager"
+          scheme: http
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:10257
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
+
+        # Scraper for kubernetes scheduler
+        - job_name: "kube-scheduler"
+          scheme: http
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:10259
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
+
         # Scraper for kubernetes etcd cluster
         - job_name: "etcd"
           scheme: http
@@ -135,7 +189,7 @@ configMap:
         # Scraper for containerd
         - job_name: "containerd"
           scheme: http
-          metrics_path: /metrics
+          metrics_path: /v1/metrics
           scrape_interval: 15s
           kubernetes_sd_configs:
             - role: node
