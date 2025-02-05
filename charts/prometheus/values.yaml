@@ -143,7 +143,7 @@ configMap:
 
         # Scraper for kubernetes controller manager
         - job_name: "kube-controller-manager"
-          scheme: http
+          scheme: https
           metrics_path: /metrics
           scrape_interval: 15s
           kubernetes_sd_configs:
@@ -164,7 +164,7 @@ configMap:
 
         # Scraper for kubernetes scheduler
         - job_name: "kube-scheduler"
-          scheme: http
+          scheme: https
           metrics_path: /metrics
           scrape_interval: 15s
           kubernetes_sd_configs:
