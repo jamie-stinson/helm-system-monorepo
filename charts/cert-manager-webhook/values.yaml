@@ -2,6 +2,8 @@ namespace: "cert-manager"
 installCRDs: true
 
 workload:
+  annotations:
+    match-regex.version-checker.io/cert-manager: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"
     repository: "jetstack/cert-manager-webhook"

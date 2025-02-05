@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'
   image:
     repository: "grafana/grafana"
     tag: "11.4.0"
