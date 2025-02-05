@@ -149,12 +149,18 @@ configMap:
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
+            - source_labels: [__meta_kubernetes_node_label_node_role_kubernetes_io_control_plane]
+              regex: .+
+              action: keep
             - source_labels: [__meta_kubernetes_node_address_InternalIP]
               regex: (.+)
               replacement: ${1}:10257
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
         # Scraper for kubernetes scheduler
         - job_name: "kube-scheduler"
@@ -164,12 +170,18 @@ configMap:
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
+            - source_labels: [__meta_kubernetes_node_label_node_role_kubernetes_io_control_plane]
+              regex: .+
+              action: keep
             - source_labels: [__meta_kubernetes_node_address_InternalIP]
               regex: (.+)
               replacement: ${1}:10259
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
         # Scraper for kubernetes etcd cluster
         - job_name: "etcd"
@@ -179,6 +191,9 @@ configMap:
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
+            - source_labels: [__meta_kubernetes_node_label_node_role_kubernetes_io_control_plane]
+              regex: .+
+              action: keep
             - source_labels: [__meta_kubernetes_node_address_InternalIP]
               regex: (.+)
               replacement: ${1}:2381
