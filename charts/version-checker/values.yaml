@@ -8,7 +8,7 @@ workload:
   args:
     - '--image-cache-timeout=30m'
     - '--log-level=info'
-    - '--metrics-serving-address=8080'
+    - '--metrics-serving-address=0.0.0.0:8080'
     - '--test-all-containers=true'
   resources:
     preset: nano
