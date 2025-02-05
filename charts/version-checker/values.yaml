@@ -36,7 +36,7 @@ rbac:
 grafana:
   dashboard:
     enabled: true
+    contentCacheDuration: 48h
     dashboards:
       - name: version-checker
         url: "https://grafana.com/api/dashboards/7651/revisions/44/download"
-        contentCacheDuration: 48h
