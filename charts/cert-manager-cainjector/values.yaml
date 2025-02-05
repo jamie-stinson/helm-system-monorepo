@@ -2,7 +2,7 @@ namespace: "cert-manager"
 
 workload:
   annotations:
-    match-regex.version-checker.io/cert-manager: 'v(\d+)\.(\d+)\.(\d+)'
+    match-regex.version-checker.io/cert-manager-cainjector: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"
     repository: "jetstack/cert-manager-cainjector"
