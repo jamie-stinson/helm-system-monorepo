@@ -256,7 +256,7 @@ configMap:
             # so this should only be disabled in a controlled environment. You can
             # disable certificate verification by uncommenting the line below.
             #
-            # insecure_skip_verify: true
+            insecure_skip_verify: true
           authorization:
             credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
 
