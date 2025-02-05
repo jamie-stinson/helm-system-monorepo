@@ -5,7 +5,7 @@ workload:
 
 service:
   ports:
-  - name: https-metrics
+  - name: http-metrics
     port: 10249
     protocol: TCP
     targetPort: 10249
