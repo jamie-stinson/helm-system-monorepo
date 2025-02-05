@@ -41,7 +41,7 @@ service:
     - name: traefik
       port: 8080
       protocol: TCP
-    - name: metrics
+    - name: http-metrics
       port: 9100
       protocol: TCP
 

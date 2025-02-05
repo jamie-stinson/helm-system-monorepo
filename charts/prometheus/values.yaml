@@ -72,7 +72,7 @@ configMap:
           replica: ${POD_NAME}
 
       scrape_configs:
-        # Scraper for regular Kubernetes services with HTTP metrics
+        # Scraper for Kubernetes services with HTTP metrics
         - job_name: 'kubernetes-http-services'
           kubernetes_sd_configs:
             - role: endpoints
@@ -93,7 +93,7 @@ configMap:
             - action: labeldrop
               regex: __meta_kubernetes.*
 
-        # Scraper for regular Kubernetes services with HTTPS metrics
+        # Scraper for Kubernetes services with HTTPS metrics
         - job_name: 'kubernetes-https-services'
           kubernetes_sd_configs:
             - role: endpoints
@@ -116,6 +116,36 @@ configMap:
             # Remove unnecessary labels
             - action: labeldrop
               regex: __meta_kubernetes.*
+
+        # Scraper for kubernetes etcd cluster
+        - job_name: "etcd"
+          scheme: http
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:2381
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
+
+        # Scraper for containerd
+        - job_name: "containerd"
+          scheme: http
+          metrics_path: /metrics
+          scrape_interval: 15s
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - source_labels: [__meta_kubernetes_node_address_InternalIP]
+              regex: (.+)
+              replacement: ${1}:11234
+              target_label: __address__
+            - source_labels: [__meta_kubernetes_node_name]
+              target_label: instance
 
 rbac:
   enabled: true

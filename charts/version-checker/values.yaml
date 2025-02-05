@@ -1,0 +1,33 @@
+workload:
+  image:
+    registry: quay.io
+    repository: jetstack/version-checker
+    tag: v0.8.5
+  command:
+    - version-checker
+  args:
+    - '--image-cache-timeout=30m'
+    - '--log-level=info'
+    - '--metrics-serving-address=8080'
+    - '--test-all-containers=true'
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http-metrics
+      port: 8080
+      protocol: TCP
+
+rbac:
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+          - ""
+          resources:
+          - "pods"
+          verbs:
+          - "get"
+          - "list"
+          - "watch"

@@ -1,0 +1,26 @@
+namspace: "kube-system"
+
+workload:
+  enabled: false
+
+service:
+  ports:
+  - name: https-metrics
+    port: 10259
+    protocol: TCP
+    targetPort: 10259
+  selector:
+    app.kubernetes.io/name: kube-scheduler
+
+service:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+

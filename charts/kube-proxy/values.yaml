@@ -1,0 +1,26 @@
+namspace: "kube-system"
+
+workload:
+  enabled: false
+
+service:
+  ports:
+  - name: https-metrics
+    port: 10249
+    protocol: TCP
+    targetPort: 10249
+  selector:
+    k8s-app: kube-proxy
+
+service:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+

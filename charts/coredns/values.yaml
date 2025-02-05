@@ -1,0 +1,33 @@
+namspace: "kube-system"
+workload:
+  enabled: false
+
+service:
+  labels:
+    kubernetes.io/name: CoreDNS
+    k8s-app: kube-dns
+    kubernetes.io/cluster-service: "true"
+  ports:
+  - name: dns-udp
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: 53
+  - name: http-metrics
+    port: 9153
+    protocol: TCP
+    targetPort: 9153
+  selector:
+    k8s-app: kube-dns
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+serviceAccount:
+  enabled: false

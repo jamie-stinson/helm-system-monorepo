@@ -1,0 +1,25 @@
+namspace: "kube-system"
+
+workload:
+  enabled: false
+
+service:
+  ports:
+  - name: https-metrics
+    port: 6443
+    protocol: TCP
+    targetPort: 6443
+  selector:
+    app.kubernetes.io/name: kube-apiserver
+
+service:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+serviceAccount:
+  enabled: false
