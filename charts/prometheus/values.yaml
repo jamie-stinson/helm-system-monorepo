@@ -50,6 +50,7 @@ autoscaling:
   enabled: false
 
 service:
+  clusterIP: "None"
   ports:
     - name: http
       port: 9090
@@ -57,7 +58,6 @@ service:
     - name: grpc
       port: 10901
       protocol: TCP
-  clusterIP: "None"
 
 configMap:
   enabled: true
@@ -68,7 +68,6 @@ configMap:
         evaluation_interval: 5s
         external_labels:
           cluster: prometheus-ha
-          # Each Prometheus has to have unique labels.
           replica: ${POD_NAME}
 
       scrape_configs:
@@ -77,43 +76,35 @@ configMap:
           kubernetes_sd_configs:
             - role: endpoints
           relabel_configs:
-            # Only keep endpoints with ports named "http-metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
               regex: http-metrics
               action: keep
-            # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
               target_label: service
               separator: /
               replacement: $1/$2
-            # Set instance label to the node hostname
             - source_labels: [__meta_kubernetes_pod_node_name]
               target_label: instance
-            # Remove unnecessary labels
             - action: labeldrop
               regex: __meta_kubernetes.*
 
         # Scraper for Kubernetes services with HTTPS metrics
         - job_name: 'kube-https-services'
-          kubernetes_sd_configs:
-            - role: endpoints
           scheme: https
           tls_config:
             insecure_skip_verify: true
+          kubernetes_sd_configs:
+            - role: endpoints
           relabel_configs:
-            # Only keep endpoints with ports named "http-metrics"
             - source_labels: [__meta_kubernetes_endpoint_port_name]
               regex: https-metrics
               action: keep
-            # Extract the namespace and service name for better labels
             - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name]
               target_label: service
               separator: /
               replacement: $1/$2
-            # Set instance label to the node hostname
             - source_labels: [__meta_kubernetes_pod_node_name]
               target_label: instance
-            # Remove unnecessary labels
             - action: labeldrop
               regex: __meta_kubernetes.*
 
@@ -121,7 +112,11 @@ configMap:
         - job_name: "kube-apiserver"
           scheme: https
           metrics_path: /metrics
-          scrape_interval: 15s
+          authorization:
+            type: Bearer
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -134,15 +129,11 @@ configMap:
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
-          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-          tls_config:
-            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
         # Scraper for kubernetes proxy
         - job_name: "kube-proxy"
           scheme: http
           metrics_path: /metrics
-          scrape_interval: 15s
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -157,7 +148,12 @@ configMap:
         - job_name: "kube-controller-manager"
           scheme: https
           metrics_path: /metrics
-          scrape_interval: 15s
+          authorization:
+            type: Bearer
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -170,16 +166,17 @@ configMap:
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
-          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-          tls_config:
-            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-            insecure_skip_verify: true
 
         # Scraper for kubernetes scheduler
         - job_name: "kube-scheduler"
           scheme: https
           metrics_path: /metrics
-          scrape_interval: 15s
+          authorization:
+            type: Bearer
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -192,16 +189,27 @@ configMap:
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
-          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+        # Scraper for cadvisor
+        - job_name: "kube-cadvisor"
+          scheme: https
+          metrics_path: /metrics/cadvisor
+          authorization:
+            type: Bearer
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
           tls_config:
             ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             insecure_skip_verify: true
+          kubernetes_sd_configs:
+            - role: node
+          relabel_configs:
+            - action: labelmap
+              regex: __meta_kubernetes_node_label_(.+)
 
         # Scraper for kubernetes etcd cluster
         - job_name: "etcd"
           scheme: http
           metrics_path: /metrics
-          scrape_interval: 15s
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -219,7 +227,6 @@ configMap:
         - job_name: "containerd"
           scheme: http
           metrics_path: /v1/metrics
-          scrape_interval: 15s
           kubernetes_sd_configs:
             - role: node
           relabel_configs:
@@ -229,43 +236,6 @@ configMap:
               target_label: __address__
             - source_labels: [__meta_kubernetes_node_name]
               target_label: instance
-
-        - job_name: "kubernetes-cadvisor"
-
-          # Default to scraping over https. If required, just disable this or change to
-          # `http`.
-          scheme: https
-
-          # Starting Kubernetes 1.7.3 the cAdvisor metrics are under /metrics/cadvisor.
-          # Kubernetes CIS Benchmark recommends against enabling the insecure HTTP
-          # servers of Kubernetes, therefore the cAdvisor metrics on the secure handler
-          # are used.
-          metrics_path: /metrics/cadvisor
-
-          # This TLS & authorization config is used to connect to the actual scrape
-          # endpoints for cluster components. This is separate to discovery auth
-          # configuration because discovery & scraping are two separate concerns in
-          # Prometheus. The discovery auth config is automatic if Prometheus runs inside
-          # the cluster. Otherwise, more config options have to be provided within the
-          # <kubernetes_sd_config>.
-          tls_config:
-            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-            # If your node certificates are self-signed or use a different CA to the
-            # master CA, then disable certificate verification below. Note that
-            # certificate verification is an integral part of a secure infrastructure
-            # so this should only be disabled in a controlled environment. You can
-            # disable certificate verification by uncommenting the line below.
-            #
-            insecure_skip_verify: true
-          authorization:
-            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-
-          kubernetes_sd_configs:
-            - role: node
-
-          relabel_configs:
-            - action: labelmap
-              regex: __meta_kubernetes_node_label_(.+)
 
 rbac:
   enabled: true

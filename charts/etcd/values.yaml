@@ -13,4 +13,10 @@ pdb:
 serviceAccount:
   enabled: false
 
-grafanaDashboard: true
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: etcd
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/etcd/dashboards/etcd.json"
+        folder: "System"

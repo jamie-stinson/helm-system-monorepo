@@ -4,7 +4,8 @@
       {
         "builtIn": 1,
         "datasource": {
-          "uid": "${DS_VERSION-CHECKER}"
+          "type": "prometheus",
+          "uid": "254dd849-a865-44d6-b7ab-50ccbca45be3"
         },
         "enable": true,
         "hide": true,
@@ -16,11 +17,10 @@
       }
     ]
   },
-  "description": "Dashboard for viewing the current, and latest upstream, image versions in use on a Kubernetes cluster. To be used with the version-checker project.\n\nhttps://github.com/jetstack/version-checker",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 19,
+  "id": 37,
   "links": [],
   "panels": [
     {
@@ -28,7 +28,7 @@
         "type": "prometheus",
         "uid": "254dd849-a865-44d6-b7ab-50ccbca45be3"
       },
-      "description": "",
+      "description": "Table showing the images in use on this cluster, the version in use, and the upstream latest version. Version gathering is subject to options defined on the host pod.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -37,6 +37,7 @@
               "type": "auto",
               "wrapText": false
             },
+            "filterable": true,
             "inspect": false
           },
           "mappings": [],
@@ -89,13 +90,55 @@
                 "value": "left"
               },
               {
-                "id": "color"
-              },
+                "id": "custom.width"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Image"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 324
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Latest Version"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Current Version"
+            },
+            "properties": [
+              {
+                "id": "custom.width"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Is Latest"
+            },
+            "properties": [
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "mode": "gradient",
-                  "type": "color-background"
+                  "type": "color-text",
+                  "wrapText": false
                 }
               }
             ]
@@ -103,7 +146,7 @@
         ]
       },
       "gridPos": {
-        "h": 42,
+        "h": 25,
         "w": 24,
         "x": 0,
         "y": 0
@@ -113,6 +156,7 @@
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
+          "enablePagination": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -120,20 +164,17 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "Image"
-          }
-        ]
+        "sortBy": []
       },
       "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_VERSION-CHECKER}"
+            "type": "prometheus",
+            "uid": "254dd849-a865-44d6-b7ab-50ccbca45be3"
           },
-          "expr": "sum by(image,current_version,latest_version) (version_checker_is_latest_version)",
+          "editorMode": "code",
+          "expr": "sum by(image,current_version,latest_version) (version_checker_is_latest_version{image=~\"^${registry}.*\"})",
           "format": "time_series",
           "instant": true,
           "interval": "",
@@ -141,7 +182,7 @@
           "refId": "A"
         }
       ],
-      "title": "",
+      "title": "Cluster Image Version Checks",
       "transformations": [
         {
           "id": "labelsToFields",
@@ -158,19 +199,36 @@
               "Time": true,
               "Value": false
             },
+            "includeByName": {},
             "indexByName": {
               "Time": 0,
-              "Value": 4,
-              "current_version": 2,
-              "image": 1,
-              "latest_version": 3
+              "Value": 6,
+              "current_version": 4,
+              "exported_container": 3,
+              "exported_namespace": 1,
+              "image": 2,
+              "latest_version": 5
             },
             "renameByName": {
               "Value": "Is Latest",
               "current_version": "Current Version",
+              "exported_container": "Container",
+              "exported_namespace": "Namespace",
               "image": "Image",
               "latest_version": "Latest Version"
             }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": false,
+                "field": "Image"
+              }
+            ]
           }
         }
       ],
@@ -178,32 +236,47 @@
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "label_values(version_checker_is_latest_version,image)",
+        "description": "",
+        "includeAll": true,
+        "label": "Registry",
+        "multi": true,
+        "name": "registry",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(version_checker_is_latest_version,image)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/(.*?)\\//",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-15m",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
-  "title": "version-checker-copy",
-  "uid": "Awr5zZ4Gkdada",
-  "version": 1,
+  "title": "Container Image Version Checker",
+  "uid": "feanq6uds91j4b",
+  "version": 2,
   "weekStart": ""
 }

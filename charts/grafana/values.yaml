@@ -109,3 +109,14 @@ grafana:
     folders:
       - name: "system"
         title: "System"
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: kubernetes-global
+        title: "Kubernetes / Global"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-global.json"
+        folder: "System"
+      - name: kubernetes-pods
+        title: "Kubernetes / Pods"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-pods.json"
+        folder: "System"

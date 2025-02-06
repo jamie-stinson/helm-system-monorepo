@@ -38,5 +38,6 @@ grafana:
     enabled: true
     dashboards:
       - name: version-checker
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/version-checker.json"
+        title: "Image Version Checker"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/image-version-checker.json"
         folder: "System"

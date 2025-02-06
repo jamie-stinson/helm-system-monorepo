@@ -41,4 +41,11 @@ service:
       protocol: TCP
       port: 9100
 
-grafanaDashboard: true
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: node-information
+        title: "Node Information"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/node-exporter/dashboards/node-information.json"
+        folder: "System"

@@ -424,4 +424,11 @@ rbac:
           verbs:
             - create
 
-grafanaDashboard: true
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: cert-manager
+        title: "Cert Manager"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/cert-manager-controller/dashboards/cert-manager.json"
+        folder: "System"

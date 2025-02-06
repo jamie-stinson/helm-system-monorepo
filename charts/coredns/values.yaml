@@ -33,3 +33,12 @@ serviceAccount:
   enabled: false
 
 grafanaDashboard: true
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: coredns
+        title: "CoredDNS"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/coredns/dashboards/coredns.json"
+        folder: "System"

@@ -165,3 +165,12 @@ rbac:
             - patch
             - update
             - watch
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: grafana-operator
+        title: "Grafana / Operator"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana-operator/dashboards/grafana-operator.json"
+        folder: "System"

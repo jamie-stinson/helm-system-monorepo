@@ -13,4 +13,11 @@ pdb:
 serviceAccount:
   enabled: false
 
-grafanaDashboard: true
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: argocd
+        title: "ArgoCD"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd/dashboards/argocd.json"
+        folder: "System"

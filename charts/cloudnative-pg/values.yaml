@@ -268,5 +268,3 @@ rbac:
             - get
             - list
             - watch
-
-grafanaDashboard: true

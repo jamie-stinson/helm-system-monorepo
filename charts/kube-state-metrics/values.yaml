@@ -3,6 +3,7 @@ workload:
     registry: registry.k8s.io
     repository: kube-state-metrics/kube-state-metrics
     tag: v2.14.0
+  replicaCount: 1
   args:
     - '--port=8080'
     - '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments'

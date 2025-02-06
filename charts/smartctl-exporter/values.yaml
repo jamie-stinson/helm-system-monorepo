@@ -1,0 +1,40 @@
+workload:
+  type: DaemonSet
+  image:
+    registry: "quay.io"
+    repository: "prometheuscommunity/smartctl-exporter"
+    tag: "v0.13.0"
+  args:
+    - '--smartctl.path=/usr/sbin/smartctl'
+    - '--smartctl.interval=120s'
+    - '--web.listen-address=0.0.0.0:9633'
+    - '--web.telemetry-path=/metrics'
+  resources:
+    preset: "nano"
+  storage:
+    - name: dev
+      type: hostPath
+      mountPath: /hostdev
+      hostPath: /dev
+      readOnly: true
+
+pdb:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: http-metrics
+      protocol: TCP
+      port: 9633
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: smartctl-exporter
+        title: "Disk S.M.A.R.T"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/smartctl-exporter/dashboards/smartctl-exporter.json"
+        folder: "System"
