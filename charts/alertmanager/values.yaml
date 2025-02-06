@@ -12,8 +12,8 @@ workload:
     - '--config.file=/etc/config/alertmanager.yaml'
     - '--cluster.advertise-address=[$(POD_IP)]:9094'
     - '--cluster.listen-address=0.0.0.0:9094'
-    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094
-    - '--cluster.peer=alertmanager-1.alertmanager.thanos.svc.cluster.local:9094
+    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
+    - '--cluster.peer=alertmanager-1.alertmanager.thanos.svc.cluster.local:9094'
     - '--web.listen-address=:9093'
     - '--web.route-prefix=/'
   resources:
