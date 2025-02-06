@@ -19,5 +19,5 @@ grafana:
     dashboards:
       - name: argocd
         title: "ArgoCD"
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd/dashboards/argocd.json"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argocd.json"
         folder: "System"
