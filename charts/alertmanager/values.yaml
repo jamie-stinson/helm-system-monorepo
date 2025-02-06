@@ -1,0 +1,73 @@
+namespace: "thanos"
+
+workload:
+  type: StatefulSet
+  image:
+    registry: quay.io
+    repository: prometheus/alertmanager
+    tag: v0.28.0
+  replicaCount: 2
+  args:
+    - '--storage.path=/alertmanager'
+    - '--config.file=/etc/config/alertmanager.yaml'
+    - '--cluster.advertise-address=[$(POD_IP)]:9094'
+    - '--cluster.listen-address=0.0.0.0:9094'
+    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094
+    - '--cluster.peer=alertmanager-1.alertmanager.thanos.svc.cluster.local:9094
+    - '--web.listen-address=:9093'
+    - '--web.route-prefix=/'
+  resources:
+    preset: micro
+  storage:
+    - configMapName: alertmanager
+      mountPath: /etc/config
+      name: config
+      type: configMap
+    - mountPath: /alertmanager
+      name: alertmanager-data
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+
+autoscaling:
+  enabled: false
+
+service:
+  clusterIP: "None"
+  ports:
+    - name: http
+      port: 9093
+      protocol: TCP
+    - name: cluster
+      port: 9094
+      protocol: TCP
+
+configMap:
+  enabled: true
+  data:
+    prometheus.yaml: |
+      global: null
+      receivers:
+      - name: default-receiver
+      route:
+        group_interval: 5m
+        group_wait: 10s
+        receiver: default-receiver
+        repeat_interval: 3h
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: alertmanager.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "alertmanager"
+          port: 9093
