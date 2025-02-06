@@ -10,6 +10,9 @@ workload:
   resources:
     preset: micro
 
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: http-metrics
