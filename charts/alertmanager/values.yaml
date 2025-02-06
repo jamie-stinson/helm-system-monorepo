@@ -46,7 +46,7 @@ service:
 configMap:
   enabled: true
   data:
-    prometheus.yaml: |
+    alertmanager.yaml: |
       global: null
       receivers:
       - name: default-receiver
