@@ -1,0 +1,198 @@
+namespace: "kyverno"
+
+workload:
+  image:
+    registry: "reg.kyverno.io"
+    repository: "kyverno/background-controller"
+    tag: "v1.13.3"
+  args:
+    - '--disableMetrics=false'
+    - '--otelConfig=prometheus'
+    - '--metricsPort=8000'
+    - '--resyncPeriod=15m'
+    - '--enableConfigMapCaching=true'
+    - '--enableDeferredLoading=true'
+    - '--maxAPICallResponseLength=2000000'
+    - '--loggingFormat=text'
+    - '--v=2'
+    - '--omitEvents=PolicyApplied,PolicySkipped'
+    - '--enablePolicyException=false'
+    - '--enableReporting=validate,mutate,mutateExisting,imageVerify,generate'
+  env:
+    - name: KYVERNO_SERVICEACCOUNT_NAME
+      value: kyverno-background-controller
+    - name: KYVERNO_DEPLOYMENT
+      value: kyverno-background-controller
+    - name: INIT_CONFIG
+      value: kyverno
+    - name: METRICS_CONFIG
+      value: kyverno
+  envsFromField:
+    - name: KYVERNO_NAMESPACE
+      fieldPath: metadata.namespace
+    - name: KYVERNO_POD_NAME
+      fieldPath: metadata.name
+  resources:
+    preset: "micro"
+
+service:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 9443
+    - name: http-metrics
+      protocol: TCP
+      port: 8000
+
+rbac:
+  enabled: true
+  roles:
+    role:
+      rules:
+        - apiGroups:
+            - ''
+          resourceNames:
+            - kyverno
+            - kyverno-metrics
+          resources:
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+        - apiGroups:
+            - coordination.k8s.io
+          resourceNames:
+            - kyverno-background-controller
+          resources:
+            - leases
+          verbs:
+            - delete
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+    clusterRole:
+      rules:
+        - apiGroups:
+            - apiextensions.k8s.io
+          resources:
+            - customresourcedefinitions
+          verbs:
+            - get
+        - apiGroups:
+            - kyverno.io
+          resources:
+            - policies
+            - policies/status
+            - clusterpolicies
+            - clusterpolicies/status
+            - policyexceptions
+            - updaterequests
+            - updaterequests/status
+            - globalcontextentries
+            - globalcontextentries/status
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+            - deletecollection
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+            - events.k8s.io
+          resources:
+            - events
+          verbs:
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - reports.kyverno.io
+          resources:
+            - ephemeralreports
+            - clusterephemeralreports
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+            - deletecollection
+        - apiGroups:
+            - networking.k8s.io
+          resources:
+            - ingresses
+            - ingressclasses
+            - networkpolicies
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - rbac.authorization.k8s.io
+          resources:
+            - rolebindings
+            - roles
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+            - resourcequotas
+            - limitranges
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+
+extraObjects:
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kyverno:background-controller:view
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: view
+    subjects:
+      - kind: ServiceAccount
+        name: kyverno-background-controller
+        namespace: kyverno

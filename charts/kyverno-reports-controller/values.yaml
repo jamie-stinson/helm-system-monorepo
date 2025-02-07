@@ -1,0 +1,64 @@
+namespace: "kyverno"
+
+workload:
+  image:
+    registry: "reg.kyverno.io"
+    repository: "kyverno/reports-controller"
+    tag: "v1.13.3"
+  args:
+    - '--disableMetrics=false'
+    - '--otelConfig=prometheus'
+    - '--metricsPort=8000'
+    - '--resyncPeriod=15m'
+    - '--admissionReports=true'
+    - '--aggregateReports=true'
+    - '--policyReports=true'
+    - '--validatingAdmissionPolicyReports=false'
+    - '--backgroundScan=true'
+    - '--backgroundScanWorkers=2'
+    - '--backgroundScanInterval=1h'
+    - '--skipResourceFilters=true'
+    - '--enableConfigMapCaching=true'
+    - '--enableDeferredLoading=true'
+    - '--maxAPICallResponseLength=2000000'
+    - '--loggingFormat=text'
+    - '--v=2'
+    - '--omitEvents=PolicyApplied,PolicySkipped'
+    - '--enablePolicyException=false'
+    - '--allowInsecureRegistry=false'
+    - '--registryCredentialHelpers=default,google,amazon,azure,github'
+    - '--enableReporting=validate,mutate,mutateExisting,imageVerify,generate'
+  env:
+    - name: KYVERNO_SERVICEACCOUNT_NAME
+      value: kyverno-reports-controller
+    - name: KYVERNO_DEPLOYMENT
+      value: kyverno-reports-controller
+    - name: INIT_CONFIG
+      value: kyverno
+    - name: METRICS_CONFIG
+      value: kyverno
+    - name: TUF_ROOT
+      value: /.sigstore
+  envsFromField:
+    - name: KYVERNO_NAMESPACE
+      fieldPath: metadata.namespace
+    - name: KYVERNO_POD_NAME
+      fieldPath: metadata.name
+  resources:
+    preset: "micro"
+  storage:
+    - mountPath: /.sigstore
+      name: sigstore
+      ramDisk: false
+      readOnly: false
+      sizeLimit: 5Gi
+      type: emptyDir
+
+service:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 9443
+    - name: http-metrics
+      protocol: TCP
+      port: 8000
