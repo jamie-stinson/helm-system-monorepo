@@ -37,9 +37,9 @@ workload:
     - '--enableReporting=validate,mutate,mutateExisting,imageVerify,generate'
   envs:
     - name: INIT_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: METRICS_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-admission-controller
     - name: KYVERNO_ROLE_NAME
@@ -74,9 +74,9 @@ workload:
         - name: KYVERNO_ROLE_NAME
           value: kyverno:kyverno-admission-controller
         - name: INIT_CONFIG
-          value: kyverno
+          value: kyverno-admission-controller
         - name: METRICS_CONFIG
-          value: kyverno
+          value: kyverno-admission-controller
         - name: KYVERNO_NAMESPACE
           valueFrom:
             fieldRef:

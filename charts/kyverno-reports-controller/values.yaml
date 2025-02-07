@@ -34,9 +34,9 @@ workload:
     - name: KYVERNO_DEPLOYMENT
       value: kyverno-reports-controller
     - name: INIT_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: METRICS_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: TUF_ROOT
       value: /.sigstore
   envsFromField:

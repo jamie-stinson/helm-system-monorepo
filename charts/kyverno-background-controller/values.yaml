@@ -24,9 +24,9 @@ workload:
     - name: KYVERNO_DEPLOYMENT
       value: kyverno-background-controller
     - name: INIT_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: METRICS_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
   envsFromField:
     - name: KYVERNO_NAMESPACE
       fieldPath: metadata.namespace

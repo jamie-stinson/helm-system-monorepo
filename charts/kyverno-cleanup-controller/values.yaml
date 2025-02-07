@@ -26,9 +26,9 @@ workload:
     - name: KYVERNO_DEPLOYMENT
       value: kyverno-cleanup-controller
     - name: INIT_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: METRICS_CONFIG
-      value: kyverno
+      value: kyverno-admission-controller
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-cleanup-controller
     - name: KYVERNO_ROLE_NAME
