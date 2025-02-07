@@ -62,3 +62,233 @@ service:
     - name: http-metrics
       protocol: TCP
       port: 8000
+
+rbac:
+  enabled: true
+  roles:
+    role:
+      rules:
+        - apiGroups:
+            - ''
+          resourceNames:
+            - kyverno
+            - kyverno-metrics
+          resources:
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+        - apiGroups:
+            - coordination.k8s.io
+          resourceNames:
+            - kyverno-cleanup-controller
+          resources:
+            - leases
+          verbs:
+            - delete
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+    clusterRole:
+      rules:
+        - apiGroups:
+            - apiextensions.k8s.io
+          resources:
+            - customresourcedefinitions
+          verbs:
+            - get
+        - apiGroups:
+            - kyverno.io
+          resources:
+            - policies
+            - policies/status
+            - clusterpolicies
+            - clusterpolicies/status
+            - policyexceptions
+            - updaterequests
+            - updaterequests/status
+            - globalcontextentries
+            - globalcontextentries/status
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+            - deletecollection
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+            - events.k8s.io
+          resources:
+            - events
+          verbs:
+            - create
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - reports.kyverno.io
+          resources:
+            - ephemeralreports
+            - clusterephemeralreports
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+            - deletecollection
+        - apiGroups:
+            - networking.k8s.io
+          resources:
+            - ingresses
+            - ingressclasses
+            - networkpolicies
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - rbac.authorization.k8s.io
+          resources:
+            - rolebindings
+            - roles
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+            - resourcequotas
+            - limitranges
+          verbs:
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - apiextensions.k8s.io
+          resources:
+            - customresourcedefinitions
+          verbs:
+            - get
+        - apiGroups:
+            - admissionregistration.k8s.io
+          resources:
+            - validatingwebhookconfigurations
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - update
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - namespaces
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - kyverno.io
+          resources:
+            - clustercleanuppolicies
+            - cleanuppolicies
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - kyverno.io
+          resources:
+            - globalcontextentries
+            - globalcontextentries/status
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+            - deletecollection
+        - apiGroups:
+            - kyverno.io
+          resources:
+            - clustercleanuppolicies/status
+            - cleanuppolicies/status
+          verbs:
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+            - events.k8s.io
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+            - update
+        - apiGroups:
+            - authorization.k8s.io
+          resources:
+            - subjectaccessreviews
+          verbs:
+            - create
+
+extraObjects:
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: kyverno:cleanup-controller:view
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: view
+    subjects:
+      - kind: ServiceAccount
+        name: kyverno-cleanup-controller
+        namespace: kyverno
