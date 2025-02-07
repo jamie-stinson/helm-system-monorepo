@@ -22,7 +22,7 @@ workload:
     - '--v=2'
     - '--protectManagedResources=false'
     - '--ttlReconciliationInterval=1m'
-  env:
+  envs:
     - name: KYVERNO_DEPLOYMENT
       value: kyverno-cleanup-controller
     - name: INIT_CONFIG

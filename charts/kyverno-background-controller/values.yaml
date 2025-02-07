@@ -18,7 +18,7 @@ workload:
     - '--omitEvents=PolicyApplied,PolicySkipped'
     - '--enablePolicyException=false'
     - '--enableReporting=validate,mutate,mutateExisting,imageVerify,generate'
-  env:
+  envs:
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-background-controller
     - name: KYVERNO_DEPLOYMENT
