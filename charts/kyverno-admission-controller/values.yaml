@@ -72,7 +72,7 @@ workload:
         - name: KYVERNO_SERVICEACCOUNT_NAME
           value: kyverno-admission-controller
         - name: KYVERNO_ROLE_NAME
-          value: kyverno:kyverno-admission-controller
+          value: kyverno-admission-controller
         - name: INIT_CONFIG
           value: kyverno-admission-controller
         - name: METRICS_CONFIG
@@ -119,10 +119,10 @@ service:
 configMap:
   enabled: true
   data:
-    defaultRegistry: docker.io
-    enableDefaultRegistryMutation: 'true'
+    defaultRegistry: "docker.io"
+    enableDefaultRegistryMutation: "true"
     excludeGroups: system:nodes
-    generateSuccessEvents: 'false'
+    generateSuccessEvents: "false"
     resourceFilters: >-
       [*/*,kyverno,*] [Event,*,*] [*/*,kube-system,*] [*/*,kube-public,*]
       [*/*,kube-node-lease,*] [Node,*,*] [Node/*,*,*] [APIService,*,*]
@@ -210,7 +210,7 @@ configMap:
       [ServiceMonitor,kyverno,kyverno-reports-controller]
       [Secret,kyverno,kyverno-svc.kyverno.svc.*]
       [Secret,kyverno,kyverno-cleanup-controller.kyverno.svc.*]
-    updateRequestThreshold: '1000'
+    updateRequestThreshold: "1000"
     webhookAnnotations: '{"admissions.enforcer/disabled":"true"}'
     webhooks: >-
       {"namespaceSelector":{"matchExpressions":[{"key":"kubernetes.io/metadata.name","operator":"NotIn","values":["kube-system"]},{"key":"kubernetes.io/metadata.name","operator":"NotIn","values":["kyverno"]}],"matchLabels":null}}
@@ -240,8 +240,7 @@ rbac:
         - apiGroups:
             - ''
           resourceNames:
-            - kyverno
-            - kyverno-metrics
+            - kyverno-admission-controller
           resources:
             - configmaps
           verbs:
@@ -393,7 +392,7 @@ extraObjects:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: kyverno:admission-controller:view
+      name: kyverno-admission-controller:view
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
@@ -402,3 +401,157 @@ extraObjects:
       - kind: ServiceAccount
         name: kyverno-admission-controller
         namespace: kyverno
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-view: 'true'
+      name: kyverno:rbac:view:updaterequests
+    rules:
+      - apiGroups:
+          - kyverno.io
+        resources:
+          - updaterequests
+        verbs:
+          - get
+          - list
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-view: 'true'
+      name: kyverno:rbac:view:reports
+    rules:
+      - apiGroups:
+          - reports.kyverno.io
+        resources:
+          - ephemeralreports
+          - clusterephemeralreports
+        verbs:
+          - get
+          - list
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-view: 'true'
+      name: kyverno:rbac:view:policyreports
+    rules:
+      - apiGroups:
+          - wgpolicyk8s.io
+        resources:
+          - policyreports
+          - clusterpolicyreports
+        verbs:
+          - get
+          - list
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-view: 'true'
+      name: kyverno:rbac:view:policies
+    rules:
+      - apiGroups:
+          - kyverno.io
+        resources:
+          - cleanuppolicies
+          - clustercleanuppolicies
+          - policies
+          - clusterpolicies
+        verbs:
+          - get
+          - list
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+      name: kyverno:rbac:admin:updaterequests
+    rules:
+      - apiGroups:
+          - kyverno.io
+        resources:
+          - updaterequests
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+      name: kyverno:rbac:admin:reports
+    rules:
+      - apiGroups:
+          - reports.kyverno.io
+        resources:
+          - ephemeralreports
+          - clusterephemeralreports
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+      name: kyverno:rbac:admin:policyreports
+    rules:
+      - apiGroups:
+          - wgpolicyk8s.io
+        resources:
+          - policyreports
+          - clusterpolicyreports
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      labels:
+        rbac.authorization.k8s.io/aggregate-to-admin: 'true'
+      name: kyverno:rbac:admin:policies
+    rules:
+      - apiGroups:
+          - kyverno.io
+        resources:
+          - cleanuppolicies
+          - clustercleanuppolicies
+          - policies
+          - clusterpolicies
+        verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch

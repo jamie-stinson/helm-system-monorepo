@@ -32,7 +32,7 @@ workload:
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-cleanup-controller
     - name: KYVERNO_ROLE_NAME
-      value: kyverno:cleanup-controller
+      value: kyverno-cleanup-controller
     - name: KYVERNO_SVC
       value: kyverno-cleanup-controller
   envsFromField:
@@ -59,9 +59,27 @@ rbac:
       rules:
         - apiGroups:
             - ''
+          resources:
+            - secrets
+          verbs:
+            - create
+        - apiGroups:
+            - ''
           resourceNames:
-            - kyverno
-            - kyverno-metrics
+            - kyverno-cleanup-controller.kyverno.svc.kyverno-tls-ca
+            - kyverno-cleanup-controller.kyverno.svc.kyverno-tls-pair
+          resources:
+            - secrets
+          verbs:
+            - delete
+            - get
+            - list
+            - update
+            - watch
+        - apiGroups:
+            - ''
+          resourceNames:
+            - kyverno-admission-controller
           resources:
             - configmaps
           verbs:
@@ -86,109 +104,15 @@ rbac:
             - patch
             - update
         - apiGroups:
-            - ''
+            - apps
           resources:
-            - secrets
+            - deployments
           verbs:
             - get
             - list
             - watch
     clusterRole:
       rules:
-        - apiGroups:
-            - apiextensions.k8s.io
-          resources:
-            - customresourcedefinitions
-          verbs:
-            - get
-        - apiGroups:
-            - kyverno.io
-          resources:
-            - policies
-            - policies/status
-            - clusterpolicies
-            - clusterpolicies/status
-            - policyexceptions
-            - updaterequests
-            - updaterequests/status
-            - globalcontextentries
-            - globalcontextentries/status
-          verbs:
-            - create
-            - delete
-            - get
-            - list
-            - patch
-            - update
-            - watch
-            - deletecollection
-        - apiGroups:
-            - ''
-          resources:
-            - namespaces
-            - configmaps
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - ''
-            - events.k8s.io
-          resources:
-            - events
-          verbs:
-            - create
-            - get
-            - list
-            - patch
-            - update
-            - watch
-        - apiGroups:
-            - reports.kyverno.io
-          resources:
-            - ephemeralreports
-            - clusterephemeralreports
-          verbs:
-            - create
-            - delete
-            - get
-            - list
-            - patch
-            - update
-            - watch
-            - deletecollection
-        - apiGroups:
-            - networking.k8s.io
-          resources:
-            - ingresses
-            - ingressclasses
-            - networkpolicies
-          verbs:
-            - create
-            - update
-            - patch
-            - delete
-        - apiGroups:
-            - rbac.authorization.k8s.io
-          resources:
-            - rolebindings
-            - roles
-          verbs:
-            - create
-            - update
-            - patch
-            - delete
-        - apiGroups:
-            - ''
-          resources:
-            - configmaps
-            - resourcequotas
-            - limitranges
-          verbs:
-            - create
-            - update
-            - patch
-            - delete
         - apiGroups:
             - apiextensions.k8s.io
           resources:
@@ -266,18 +190,3 @@ rbac:
             - subjectaccessreviews
           verbs:
             - create
-
-extraObjects:
-  - |
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: kyverno:cleanup-controller:view
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: view
-    subjects:
-      - kind: ServiceAccount
-        name: kyverno-cleanup-controller
-        namespace: kyverno
