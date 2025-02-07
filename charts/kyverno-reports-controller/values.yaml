@@ -88,7 +88,7 @@ rbac:
         - apiGroups:
             - coordination.k8s.io
           resourceNames:
-            - kyverno-cleanup-controller
+            - kyverno-reports-controller
           resources:
             - leases
           verbs:
@@ -283,12 +283,12 @@ extraObjects:
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: kyverno:cleanup-controller:view
+      name: kyverno:reports-controller:view
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
       name: view
     subjects:
       - kind: ServiceAccount
-        name: kyverno-cleanup-controller
+        name: kyverno-reports-controller
         namespace: kyverno
