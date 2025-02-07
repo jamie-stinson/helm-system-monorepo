@@ -228,11 +228,17 @@ rbac:
         - apiGroups:
             - kyverno.io
           resources:
-            - clustercleanuppolicies
-            - cleanuppolicies
+            - policyreports
+            - clusterpolicyreports
           verbs:
+            - create
+            - delete
+            - get
             - list
+            - patch
+            - update
             - watch
+            - deletecollection
         - apiGroups:
             - kyverno.io
           resources:
