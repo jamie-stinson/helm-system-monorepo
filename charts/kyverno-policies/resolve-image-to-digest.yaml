@@ -15,7 +15,7 @@ metadata:
       This policy resolves the image digest of each image in a container and replaces
       the image with the fully resolved reference which includes the digest rather than tag.      
 spec:
-  background: false
+  background: true
   rules:
   - name: resolve-to-digest
     match:
