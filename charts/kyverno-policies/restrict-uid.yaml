@@ -36,7 +36,7 @@ spec:
           kinds:
           - Pod
     validate:
-      message: "Group ID should be 3000."
+      message: "Group ID should be 1000."
       pattern:
         spec:
           securityContext:
