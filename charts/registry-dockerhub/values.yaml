@@ -1,0 +1,27 @@
+workload:
+  image:
+    registry: docker.io
+    repository: registry
+    tag: 2.8.1
+  envs:
+    - name: REGISTRY_PROXY_REMOTEURL
+      value: '"https://registry-1.docker.io"'
+    - name: REGISTRY_PROXY_TTL
+      value: '"0"'
+    - name: REGISTRY_STORAGE_DELETE_ENABLED
+      value: '"true"'
+  storage:
+    - mountPath: /var/lib/registry
+      name: data
+      ramDisk: false
+      readOnly: false
+      type: emptyDir
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http
+      port: 5000
+      protocol: TCP
+
