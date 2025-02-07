@@ -5,11 +5,11 @@ workload:
     tag: 2.8.1
   envs:
     - name: REGISTRY_PROXY_REMOTEURL
-      value: https://registry-1.docker.io
+      value: '"https://registry-1.docker.io"'
     - name: REGISTRY_PROXY_TTL
-      value: 0
+      value: '"0"'
     - name: REGISTRY_STORAGE_DELETE_ENABLED
-      value: 'true'
+      value: '"true"'
   storage:
     - mountPath: /var/lib/registry
       name: data
