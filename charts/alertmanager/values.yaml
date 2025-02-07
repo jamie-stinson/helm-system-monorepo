@@ -40,10 +40,6 @@ workload:
       failureThreshold: 3
       initialDelaySeconds: 15
 
-  podSecurityContext:
-    fsGroup: 2000
-    fsGroupChangePolicy: "OnRootMismatch"
-
   storage:
     - configMapName: alertmanager
       mountPath: /etc/config
