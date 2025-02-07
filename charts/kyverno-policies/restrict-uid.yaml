@@ -41,3 +41,15 @@ spec:
         spec:
           securityContext:
             runAsGroup: '1000'
+  - name: validate-fsgroup
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "fsgroup should be 1000."
+      pattern:
+        spec:
+          securityContext:
+            fsGroup: '1000'
