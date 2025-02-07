@@ -555,3 +555,12 @@ extraObjects:
           - patch
           - update
           - watch
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: kyverno
+        title: "Kyverno"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kyverno-admission-controller/dashboards/kyverno-admission-controller.json"
+        folder: "System"
