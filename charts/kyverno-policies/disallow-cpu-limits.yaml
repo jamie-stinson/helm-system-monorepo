@@ -17,12 +17,14 @@ spec:
   validationFailureAction: Audit
   rules:
   - name: check-cpu-limits
+    skipBackgroundRequests: true
     match:
       any:
       - resources:
           kinds:
           - Pod
     validate:
+      allowExistingViolations: true
       message: Containers may not define CPU limits.
       pattern:
         spec:
