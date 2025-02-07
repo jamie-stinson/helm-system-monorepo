@@ -5,7 +5,7 @@ workload:
   image:
     registry: quay.io
     repository: prometheus/alertmanager
-    tag: v0.28.0
+    tag: "@sha256:d5155cfac40a6d9250ffc97c19db2c5e190c7bc57c6b67125c94903358f8c7d8"
   replicaCount: 2
   args:
     - '--storage.path=/alertmanager'
@@ -18,6 +18,28 @@ workload:
     - '--web.route-prefix=/'
   resources:
     preset: micro
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 9093
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 9093
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+
   storage:
     - configMapName: alertmanager
       mountPath: /etc/config

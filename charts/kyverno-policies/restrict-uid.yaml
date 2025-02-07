@@ -40,16 +40,4 @@ spec:
       pattern:
         spec:
           securityContext:
-            runAsGroup: '3000'
-  - name: validate-fsgroup
-    match:
-      any:
-      - resources:
-          kinds:
-          - Pod
-    validate:
-      message: "fsgroup should be 2000."
-      pattern:
-        spec:
-          securityContext:
-            fsGroup: '2000'
+            runAsGroup: '1000'

@@ -14,7 +14,9 @@ workload:
     allowPrivilegeEscalation: false
     privileged: false
     readOnlyRootFilesystem: true
-
+    capabilities:
+      drop:
+        - ALL
 service:
   enabled: true
 
