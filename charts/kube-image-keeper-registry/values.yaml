@@ -5,7 +5,7 @@ workload:
     tag: 2.8.1
   envs:
     - name: REGISTRY_STORAGE_DELETE_ENABLED
-      value: "'true"'
+      value: '"true"'
   probes:
     readinessProbe:
       type: httpGet
