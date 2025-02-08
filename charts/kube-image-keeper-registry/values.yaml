@@ -1,3 +1,5 @@
+namespace: "kube-image-keeper"
+
 workload:
   image:
     registry: docker.io
