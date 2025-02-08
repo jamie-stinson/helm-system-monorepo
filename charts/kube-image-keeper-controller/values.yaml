@@ -49,7 +49,7 @@ workload:
 service:
   ports:
     - name: http
-      port: 443
+      port: 9443
       protocol: TCP
     - name: http-metrics
       port: 8080
@@ -226,6 +226,7 @@ extraObjects:
             name: kube-image-keeper-controller
             namespace: kube-image-keeper
             path: /mutate-core-v1-pod
+            port: 9443
         failurePolicy: Ignore
         name: mpod.kb.io
         namespaceSelector:
@@ -260,6 +261,7 @@ extraObjects:
             name: kube-image-keeper-controller
             namespace: kube-image-keeper
             path: /mutate-kuik-enix-io-v1alpha1-cachedimage
+            port: 9443
         failurePolicy: Fail
         name: mcachedimage.kb.io
         rules:
