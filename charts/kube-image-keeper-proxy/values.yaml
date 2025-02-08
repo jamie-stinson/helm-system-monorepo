@@ -50,3 +50,9 @@ service:
     - name: http-metrics
       port: 8080
       protocol: TCP
+
+pdb:
+  enabled: false
+
+autoscaling:
+  enabled: false
