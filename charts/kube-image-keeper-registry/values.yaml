@@ -5,6 +5,7 @@ workload:
     registry: docker.io
     repository: registry
     tag: 2.8.1
+  replicaCount: 1
   envs:
     - name: REGISTRY_STORAGE_DELETE_ENABLED
       value: '"true"'
@@ -47,6 +48,9 @@ workload:
     capabilities:
       drop:
         - ALL
+
+autoscaling:
+  enabled: false
 
 service:
   ports:
