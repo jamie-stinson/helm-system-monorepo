@@ -68,6 +68,7 @@ certificate:
 
 issuer:
   enabled: true
+  type: Issuer
   spec:
     selfSigned: {}
 
