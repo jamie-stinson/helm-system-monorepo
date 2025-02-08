@@ -1,0 +1,73 @@
+workload:
+  image:
+    registry: docker.io
+    repository: registry
+    tag: 2.8
+  envs:
+    - name: REGISTRY_STORAGE_DELETE_ENABLED
+      value: 'true'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/v2"
+      port: 5000
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      type: httpGet
+      path: "/v2"
+      port: 5000
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http
+      port: 5000
+      protocol: TCP
+    - name: http-metrics
+      port: 5001
+      protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+    role:
+      rules:
+        - apiGroups:
+            - apps
+            - extensions
+          resourceNames:
+            - kube-image-keeper-registry
+          resources:
+            - statefulsets
+            - deployments
+          verbs:
+            - get
+            - patch
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - pods
+          verbs:
+            - list
+        - apiGroups:
+            - ''
+          resources:
+            - pods/exec
+          verbs:
+            - create

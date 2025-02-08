@@ -1,0 +1,274 @@
+namespace: "kube-image-keeper"
+installCRDs: true
+
+workload:
+  image:
+    registry: ghcr.io
+    repository: enix/kube-image-keeper
+    tag: 1.12.0
+  command:
+    - manager
+  args:
+    - '-leader-elect'
+    - '-expiry-delay=30'
+    - '-proxy-port=7439'
+    - '-registry-endpoint=kube-image-keeper-registry.kube-image-keeper.svc.cluster.local:5000'
+    - '-max-concurrent-cached-image-reconciles=3'
+    - '-zap-log-level=INFO'
+    - '-ignore-pull-policy-always=true'
+    - '-arch=amd64'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 8081
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 8081
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+  storage:
+    - name: kube-image-keeper-controller-certificate
+      type: secret
+      mountPath: /tmp/k8s-webhook-server/serving-certs
+      secretName: kube-image-keeper-controller-certificate
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http
+      port: 9443
+      protocol: TCP
+    - name: http-metrics
+      port: 8080
+      protocol: TCP
+
+certificate:
+  enabled: true
+  spec:
+    dnsNames:
+      - kube-image-keeper-controller.kube-image-keeper.svc
+      - kube-image-keeper-controller.kube-image-keeper.svc.cluster.local
+    issuerRef:
+      kind: Issuer
+      name: kube-image-keeper-controller
+    secretName: kube-image-keeper-controller-certificate
+
+issuer:
+  enabled: true
+  spec:
+    selfSigned: {}
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+        - apiGroups:
+            - ''
+          resources:
+            - pods
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - serviceaccounts
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - pods/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - pods/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+
+extraObjects:
+  - |
+    apiVersion: admissionregistration.k8s.io/v1
+    kind: MutatingWebhookConfiguration
+    metadata:
+      annotations:
+        cert-manager.io/inject-ca-from: kube-image-keeper/kube-image-keeper-controller
+      name: kube-image-keeper-controller
+    webhooks:
+      - admissionReviewVersions:
+          - v1
+          - v1beta1
+        clientConfig:
+          service:
+            name: kube-image-keeper-controller
+            namespace: kube-image-keeper
+            path: /mutate-core-v1-pod
+        failurePolicy: Ignore
+        name: mpod.kb.io
+        namespaceSelector:
+          matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: NotIn
+              values:
+                - kube-system
+                - kube-image-keeper
+        objectSelector:
+          matchExpressions:
+            - key: kube-image-keeper.enix.io/image-caching-policy
+              operator: NotIn
+              values:
+                - ignore
+        reinvocationPolicy: IfNeeded
+        rules:
+          - apiGroups:
+              - ''
+            apiVersions:
+              - v1
+            operations:
+              - CREATE
+              - UPDATE
+            resources:
+              - pods
+        sideEffects: None
+      - admissionReviewVersions:
+          - v1
+        clientConfig:
+          service:
+            name: kube-image-keeper-controller
+            namespace: kube-image-keeper
+            path: /mutate-kuik-enix-io-v1alpha1-cachedimage
+        failurePolicy: Fail
+        name: mcachedimage.kb.io
+        rules:
+          - apiGroups:
+              - kuik.enix.io
+            apiVersions:
+              - v1alpha1
+            operations:
+              - CREATE
+              - UPDATE
+            resources:
+              - cachedimages
+        sideEffects: None

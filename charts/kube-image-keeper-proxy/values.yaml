@@ -1,0 +1,49 @@
+namespace: "kube-image-keeper"
+
+workload:
+  image:
+    registry: ghcr.io
+    repository: enix/kube-image-keeper
+    tag: 1.12.0
+  command:
+    - registry-proxy
+  args:
+    - '-v=1'
+    - '-registry-endpoint=kube-image-keeper-registry.kube-image-keeper.svc.cluster.local:5000'
+    - '-bind-address=:7439'
+    - '-metrics-bind-address=:8080'
+  envs:
+    - name: GIN_MODE
+      value: release
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 7439
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 7439
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http
+      port: 7439
+      protocol: TCP
+    - name: http-metrics
+      port: 8080
+      protocol: TCP
