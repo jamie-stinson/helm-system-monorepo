@@ -31,6 +31,8 @@ workload:
       initialDelaySeconds: 15
   resources:
     preset: nano
+  securityContext:
+    readOnlyRootFilesystem: false
 
 service:
   ports:
