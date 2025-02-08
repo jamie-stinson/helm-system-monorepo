@@ -49,7 +49,7 @@ workload:
 service:
   ports:
     - name: http
-      port: 9443
+      port: 443
       protocol: TCP
     - name: http-metrics
       port: 8080
