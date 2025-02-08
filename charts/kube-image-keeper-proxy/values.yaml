@@ -1,6 +1,7 @@
 namespace: "kube-image-keeper"
 
 workload:
+  type: DaemonSet
   image:
     registry: ghcr.io
     repository: enix/kube-image-keeper
@@ -44,6 +45,8 @@ service:
     - name: http
       port: 7439
       protocol: TCP
+      hostIP: "127.0.0.1"
+      hostPort: 7439
     - name: http-metrics
       port: 8080
       protocol: TCP
