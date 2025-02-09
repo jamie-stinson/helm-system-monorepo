@@ -37,11 +37,17 @@ workload:
 
 service:
   ports:
-    - name: http
-      port: 8080
-      protocol: TCP
     - name: http-metrics
       port: 8083
+      protocol: TCP
+
+expose:
+  enabled: true
+  type: NodePort
+  ports:
+    - name: http
+      nodePort: 30180
+      port: 8080
       protocol: TCP
 
 rbac:
