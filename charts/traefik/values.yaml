@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/traefik: docker.io/traefik 
   image:
     repository: traefik
     tag: v3.2.2
