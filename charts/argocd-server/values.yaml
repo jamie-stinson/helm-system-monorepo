@@ -48,40 +48,41 @@ rbac:
   enabled: true
   roles:
     role:
-      - apiGroups:
-          - ''
-        resources:
-          - secrets
-          - configmaps
-        verbs:
-          - create
-          - get
-          - list
-          - watch
-          - update
-          - patch
-          - delete
-      - apiGroups:
-          - argoproj.io
-        resources:
-          - applications
-          - applicationsets
-          - appprojects
-        verbs:
-          - create
-          - get
-          - list
-          - watch
-          - update
-          - delete
-          - patch
-      - apiGroups:
-          - ''
-        resources:
-          - events
-        verbs:
-          - create
-          - list 
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+            - configmaps
+          verbs:
+            - create
+            - get
+            - list
+            - watch
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - applications
+            - applicationsets
+            - appprojects
+          verbs:
+            - create
+            - get
+            - list
+            - watch
+            - update
+            - delete
+            - patch
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - list 
     clusterRole:
       rules:
         - apiGroups:
