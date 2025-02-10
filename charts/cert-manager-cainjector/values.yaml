@@ -16,12 +16,12 @@ workload:
   probes:
     readinessProbe:
       type: httpGet
-      path: "/livez"
+      path: "/metrics"
       port: 9402
       scheme: "HTTP"
     livenessProbe:
       type: httpGet
-      path: "/livez"
+      path: "/metrics"
       port: 9402
       scheme: "HTTP"
 
