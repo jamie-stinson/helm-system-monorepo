@@ -20,7 +20,7 @@ workload:
       scheme: "HTTP"
     livenessProbe:
       type: httpGet
-      path: "/livez"
+      path: "/readyz"
       port: 8080
       scheme: "HTTP"
   resources:
