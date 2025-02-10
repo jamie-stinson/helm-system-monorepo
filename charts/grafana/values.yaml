@@ -47,18 +47,20 @@ service:
 
 configMap:
   enabled: true
-  data:
-    grafana.ini: |
-      [analytics]
-      check_for_updates = false
-      [grafana_net]
-      url = https://grafana.net
-      [log]
-      mode = console
-      [server]
-      domain = ''
-      # [database]
-      # type = postgres
+  configMaps:
+    - name: "grafana"
+      data:
+        grafana.ini: |
+          [analytics]
+          check_for_updates = false
+          [grafana_net]
+          url = https://grafana.net
+          [log]
+          mode = console
+          [server]
+          domain = ''
+          # [database]
+          # type = postgres
 
 ingress:
   enabled: true
