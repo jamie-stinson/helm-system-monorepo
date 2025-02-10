@@ -19,12 +19,12 @@ workload:
   probes:
     readinessProbe:
       type: httpGet
-      path: "/readyz"
+      path: "/healthz"
       port: 10258
       scheme: "HTTPS"
     livenessProbe:
       type: httpGet
-      path: "/livez"
+      path: "/healthz"
       port: 10258
       scheme: "HTTPS"
   storage:
