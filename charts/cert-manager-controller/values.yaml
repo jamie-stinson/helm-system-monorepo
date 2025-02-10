@@ -20,7 +20,7 @@ workload:
   probes:
     readinessProbe:
       type: httpGet
-      path: "/readyz"
+      path: "/livez"
       port: 9403
       scheme: "HTTP"
     livenessProbe:
