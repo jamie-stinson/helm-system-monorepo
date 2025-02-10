@@ -34,7 +34,7 @@ workload:
     preset: nano
   envs:
     - name: ENABLE_WEBHOOKS
-      value: "false"
+      value: false
 
 service:
   ports:
