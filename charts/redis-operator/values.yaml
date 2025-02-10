@@ -32,6 +32,9 @@ workload:
       initialDelaySeconds: 15
   resources:
     preset: nano
+  envs:
+    - name: ENABLE_WEBHOOKS
+      value: "false"
 
 service:
   ports:
