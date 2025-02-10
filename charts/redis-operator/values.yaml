@@ -33,7 +33,7 @@ workload:
   resources:
     preset: nano
   envs:
-    - name: ENABLE_WEBHOOKS
+    - name: '"ENABLE_WEBHOOKS"'
       value: false
 
 service:
