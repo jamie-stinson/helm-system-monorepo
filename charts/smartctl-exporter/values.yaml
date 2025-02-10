@@ -11,6 +11,17 @@ workload:
     - '--smartctl.interval=120s'
     - '--web.listen-address=0.0.0.0:9633'
     - '--web.telemetry-path=/metrics'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 9633
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 9633
+      scheme: "HTTP"
   resources:
     preset: "nano"
   storage:

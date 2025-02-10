@@ -11,6 +11,17 @@ workload:
       value: ''
     - name: ES_Reflector__Kubernetes__SkipTlsVerify
       value: false
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 25080
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 25080
+      scheme: "HTTP"
   resources:
     preset: nano
   storage:
@@ -20,7 +31,10 @@ workload:
       type: emptyDir
 
 service:
-  enabled: false
+  ports:
+    - name: http-metrics
+      port: 25080
+      protocol: TCP
 
 rbac:
   enabled: true

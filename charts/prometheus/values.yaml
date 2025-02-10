@@ -19,6 +19,17 @@ workload:
     - "--storage.tsdb.min-block-duration=2h"
     - "--storage.tsdb.max-block-duration=2h"
     - '--storage.tsdb.path=/prometheus'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 9090
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/-/healthy"
+      port: 9090
+      scheme: "HTTP"
   resources:
     preset: micro
   storage:

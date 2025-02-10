@@ -19,6 +19,17 @@ workload:
     - '--endpoint=dns+thanos-store-0.thanos-store.thanos.svc.cluster.local:10901'
     - '--endpoint=dns+thanos-store-1.thanos-store.thanos.svc.cluster.local:10901'
     - '--query.auto-downsampling'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 10902
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/-/healthy"
+      port: 10902
+      scheme: "HTTP"
   resources:
     preset: micro
 

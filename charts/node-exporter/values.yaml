@@ -12,6 +12,17 @@ workload:
     - '--path.sysfs=/host/sys'
     - '--path.rootfs=/host/root'
     - '--path.udev.data=/host/root/run/udev/data'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 9100
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 9100
+      scheme: "HTTP"
   resources:
     preset: "nano"
   storage:

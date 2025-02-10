@@ -10,6 +10,17 @@ workload:
     - '-client.url=http://loki.loki.svc.cluster.local:3100/api/prom/push'
   resources:
     preset: micro
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/lve"
+      port: 9080
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/ready"
+      port: 9080
+      scheme: "HTTP"
   storage:
     - name: config
       type: configMap

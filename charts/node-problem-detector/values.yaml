@@ -12,6 +12,17 @@ workload:
     - '--prometheus-address=0.0.0.0'
     - '--prometheus-port=20257'
     - '--k8s-exporter-heartbeat-period=5m0s'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 20257
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 20257
+      scheme: "HTTP"
   resources:
     preset: "nano"
   securityContext:

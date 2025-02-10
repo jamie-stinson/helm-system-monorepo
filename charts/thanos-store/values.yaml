@@ -17,6 +17,17 @@ workload:
     - '--grpc-address=0.0.0.0:10901'
     - '--http-address=0.0.0.0:10902'
     - '--data-dir=/data'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 9093
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/-/ready"
+      port: 9093
+      scheme: "HTTP"
   resources:
     preset: micro
   storage:

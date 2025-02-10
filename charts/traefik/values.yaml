@@ -8,6 +8,7 @@ workload:
     # Entrypoints
     - '--entryPoints.metrics.address=:9100/tcp'
     - '--entryPoints.traefik.address=:8080/tcp'
+    - '--entryPoints.ping.address=:8082/tcp
     - '--entryPoints.externalweb.address=:81/tcp'
     - '--entryPoints.internalweb.address=:80/tcp'
     - '--entryPoints.externalwebsecure.address=:444/tcp'
@@ -19,6 +20,9 @@ workload:
     - '--metrics.prometheus=true'
     - '--metrics.prometheus.entrypoint=metrics'
     - '--metrics.addinternals=true'
+    # Healthcheck
+    - '--ping=true'
+    - '--ping.entryPoint=ping'
     # Dashboard
     - '--api=true'
     - '--api.dashboard=true'
@@ -35,6 +39,17 @@ workload:
     - '--accesslog.format=json'
     - '--accesslog.fields.defaultmode=keep'
     - '--accesslog.fields.headers.defaultmode=drop'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/ping"
+      port: 8082
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/ping"
+      port: 8082
+      scheme: "HTTP"
   resources:
     preset: micro
 
@@ -42,6 +57,9 @@ service:
   ports:
     - name: traefik
       port: 8080
+      protocol: TCP
+    - name: ping
+      port: 8082
       protocol: TCP
     - name: http-metrics
       port: 9100

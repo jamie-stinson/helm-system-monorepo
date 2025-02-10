@@ -7,6 +7,17 @@ workload:
     registry: "reg.kyverno.io"
     repository: "kyverno/background-controller"
     tag: "v1.13.3"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/health/readiness"
+      port: 9443
+      scheme: "HTTPS"
+    livenessProbe:
+      type: httpGet
+      path: "/health/liveness"
+      port: 9443
+      scheme: "HTTPS"
   args:
     - '--disableMetrics=false'
     - '--otelConfig=prometheus'

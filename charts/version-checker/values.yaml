@@ -12,6 +12,17 @@ workload:
     - '--log-level=info'
     - '--metrics-serving-address=0.0.0.0:8080'
     - '--test-all-containers=true'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 8080
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/livez"
+      port: 8080
+      scheme: "HTTP"
   resources:
     preset: nano
 

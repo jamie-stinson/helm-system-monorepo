@@ -63,13 +63,13 @@ workload:
     readinessProbe:
       type: httpGet
       path: "/health/readiness"
-      port: 8888
-      scheme: "HTTP"
+      port: 9443
+      scheme: "HTTPS"
     livenessProbe:
       type: httpGet
       path: "/health/liveness"
-      port: 8888
-      scheme: "HTTP"
+      port: 9443
+      scheme: "HTTPS"
   storage:
     - mountPath: /.sigstore
       name: sigstore

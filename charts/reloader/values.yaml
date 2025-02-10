@@ -11,6 +11,17 @@ workload:
     - '--reload-on-delete=true'
     - '--enable-ha=true'
     - '--auto-reload-all=true'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/metrics"
+      port: 9090
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/live"
+      port: 9090
+      scheme: "HTTP"
   resources:
     preset: nano
 
