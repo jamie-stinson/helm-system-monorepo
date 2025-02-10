@@ -21,12 +21,12 @@ workload:
       type: httpGet
       path: "/readyz"
       port: 10258
-      scheme: "HTTP"
+      scheme: "HTTPS"
     livenessProbe:
       type: httpGet
       path: "/livez"
       port: 10258
-      scheme: "HTTP"
+      scheme: "HTTPS"
   storage:
     - name: config
       type: configMap
