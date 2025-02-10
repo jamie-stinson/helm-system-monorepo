@@ -48,11 +48,32 @@ workload:
       image: "quay.io/thanos/thanos:v0.31.0"
       ports:
         - containerPort: 10901
+        - containerPort: 10902
       args:
         - 'sidecar'
         - '--objstore.config-file=/etc/config/thanos.yaml'
         - '--tsdb.path=/prometheus'
         - '--prometheus.url=http://localhost:9090'
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /-/ready
+          port: 10902
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /-/healthy
+          port: 10902
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
       volumeMounts:
         - name: prometheus-data
           mountPath: /prometheus
