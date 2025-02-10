@@ -1,6 +1,8 @@
 installCRDs: true
 
 workload:
+  annotations:
+    override-url.version-checker.io/alertmanager: ghcr.io/cloudnative-pg/cloudnative-pg
   image:
     registry: "ghcr.io"
     repository: "cloudnative-pg/cloudnative-pg"
@@ -9,17 +11,31 @@ workload:
     - '/manager'
   args:
     - 'controller'
+    - '--webhook-port=9443'
     - '--leader-elect'
     - '--max-concurrent-reconciles=10'
-    - '--webhook-port=9443'
+  resources:
+    preset: micro
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 9443
+      scheme: "HTTPS"
+    livenessProbe:
+      type: httpGet
+      path: "/livez"
+      port: 9443
+      scheme: "HTTPS"
   storage:
     - name: webhook-certificates
       type: secret
-      optional: true
       mountPath: "/run/secrets/cnpg.io/webhook"
       secretName: cnpg-webhook-cert
+      optional: true
 
 service:
+  # Name cannot be changed
   name: cnpg-webhook-service
   ports:
     - name: webhook
@@ -268,3 +284,12 @@ rbac:
             - get
             - list
             - watch
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: cloudnative-pg
+        title: "CloudNative-PG"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/cloudnative-pg/dashboards/cloudnative-pg.json"
+        folder: "System"

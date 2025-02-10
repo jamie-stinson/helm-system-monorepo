@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/descheduler: registry.k8s.io/descheduler/descheduler
   image:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
@@ -6,13 +8,25 @@ workload:
   command:
     - '/bin/descheduler'
   args:
+    - '--v=3'
     - '--policy-config-file=/config/policy.yaml'
     - '--descheduling-interval=5m'
-    - '--v=3'
     - '--leader-elect=true'
     - '--leader-elect-resource-namespace=descheduler'
+  priorityClassName: "system-cluster-critical"
   resources:
     preset: "nano"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 10258
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/livez"
+      port: 10258
+      scheme: "HTTP"
   storage:
     - name: config
       type: configMap
@@ -21,7 +35,6 @@ workload:
       items:
         - key: policy.yaml
           path: policy.yaml
-  priorityClassName: "system-cluster-critical"
 
 service:
   ports:

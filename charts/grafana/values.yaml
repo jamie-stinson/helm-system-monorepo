@@ -1,10 +1,10 @@
 workload:
   annotations:
+    override-url.version-checker.io/grafana: docker.io/grafana/grafana
     match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'
   image:
     repository: "grafana/grafana"
     tag: "11.4.0"
-  replicaCount: 1
   envsSecret:
     - name: GF_SECURITY_ADMIN_USER
       secret: grafana
@@ -12,32 +12,27 @@ workload:
     - name: GF_SECURITY_ADMIN_PASSWORD
       secret: grafana
       key: GF_SECURITY_ADMIN_PASSWORD
-  # Unhash to enable postgres when storage is setup
-  #   - name: GF_DATABASE_HOST
-  #     secret: grafana-database-app
-  #     key: host
-  #   - name: GF_DATABASE_NAME
-  #     secret: grafana-database-app
-  #     key: dbname
-  #   - name: GF_DATABASE_USER
-  #     secret: grafana-database-app
-  #     key: username
-  #   - name: GF_DATABASE_PASSWORD
-  #     secret: grafana-database-app
-  #     key: password
   resources:
     preset: "micro"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/api/health"
+      port: 3000
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/api/health"
+      port: 3000
+      scheme: "HTTP"
   storage:
-    - configMapName: grafana
-      mountPath: /etc/grafana
-      name: config
+    - name: config
       type: configMap
-    - name: tmp
+      mountPath: /etc/grafana
+      configMapName: grafana
+    - name: data
       type: emptyDir
       mountPath: /var/lib/grafana
-
-autoscaling:
-  enabled: false
 
 service:
   ports:
@@ -62,6 +57,9 @@ configMap:
           # [database]
           # type = postgres
 
+secret:
+  enabled: true
+
 ingress:
   enabled: true
   annotations:
@@ -77,33 +75,6 @@ ingress:
         service:
           name: "grafana"
           port: 3000
-
-secret:
-  enabled: true
-
-# postgres:
-#   enabled: false
-#   replicas: 3
-#   version: 17.2
-#   size: "5Gi"
-
-extraObjects:
-  - |
-    apiVersion: grafana.integreatly.org/v1beta1
-    kind: Grafana
-    metadata:
-      name: grafana
-      labels:
-        dashboards: "grafana"
-    spec:
-      external:
-        url: http://grafana.grafana.svc.cluster.local:3000
-        adminUser:
-          name: grafana
-          key: GF_SECURITY_ADMIN_USER
-        adminPassword:
-          name: grafana
-          key: GF_SECURITY_ADMIN_PASSWORD
 
 grafana:
   folder:
@@ -122,3 +93,21 @@ grafana:
         title: "Kubernetes / Pods"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-pods.json"
         folder: "System"
+
+extraObjects:
+  - |
+    apiVersion: grafana.integreatly.org/v1beta1
+    kind: Grafana
+    metadata:
+      name: grafana
+      labels:
+        dashboards: "grafana"
+    spec:
+      external:
+        url: http://grafana.grafana.svc.cluster.local:3000
+        adminUser:
+          name: grafana
+          key: GF_SECURITY_ADMIN_USER
+        adminPassword:
+          name: grafana
+          key: GF_SECURITY_ADMIN_PASSWORD

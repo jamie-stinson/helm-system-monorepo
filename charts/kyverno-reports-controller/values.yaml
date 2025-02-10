@@ -1,6 +1,8 @@
 namespace: "kyverno"
 
 workload:
+  annotations:
+    override-url.version-checker.io/kyverno-reports-controller: reg.kyverno.io/kyverno/reports-controller
   image:
     registry: "reg.kyverno.io"
     repository: "kyverno/reports-controller"

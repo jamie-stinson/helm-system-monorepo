@@ -1,20 +1,32 @@
 workload:
+  annotations:
+    override-url.version-checker.io/kube-state-metrics: registry.k8s.io/kube-state-metrics/kube-state-metrics
   image:
     registry: registry.k8s.io
     repository: kube-state-metrics/kube-state-metrics
     tag: v2.14.0
-  replicaCount: 1
   args:
     - '--port=8080'
     - '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments'
   resources:
     preset: micro
-
-autoscaling:
-  enabled: false
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 8888
+      scheme: "HTTPS"
+    livenessProbe:
+      type: httpGet
+      path: "/livez"
+      port: 8888
+      scheme: "HTTPS"
 
 service:
   ports:
+    - name: healthcheck
+      port: 8888
+      protocol: TCP
     - name: http-metrics
       port: 8080
       protocol: TCP

@@ -1,4 +1,9 @@
 workload:
+  annotations:
+    override-url.version-checker.io/reflector: docker.io/emberstack/kubernetes-reflector
+  image:
+    repository: emberstack/kubernetes-reflector
+    tag: 7.1.288
   envs:
     - name: ES_Serilog__MinimumLevel__Default
       value: Information
@@ -6,9 +11,6 @@ workload:
       value: ''
     - name: ES_Reflector__Kubernetes__SkipTlsVerify
       value: false
-  image:
-    repository: emberstack/kubernetes-reflector
-    tag: 7.1.288
   resources:
     preset: nano
   storage:

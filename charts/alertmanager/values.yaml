@@ -1,21 +1,22 @@
 namespace: "thanos"
 
 workload:
+  annotations:
+    override-url.version-checker.io/alertmanager: quay.io/prometheus/alertmanager
   type: StatefulSet
   image:
     registry: quay.io
     repository: prometheus/alertmanager
     tag: v0.28.0
-  replicaCount: 2
   args:
-    - '--storage.path=/alertmanager'
     - '--config.file=/etc/config/alertmanager.yaml'
-    - '--cluster.advertise-address=[$(POD_IP)]:9094'
-    - '--cluster.listen-address=0.0.0.0:9094'
-    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
-    - '--cluster.peer=alertmanager-1.alertmanager.thanos.svc.cluster.local:9094'
+    - '--storage.path=/alertmanager'
     - '--web.listen-address=:9093'
     - '--web.route-prefix=/'
+    - '--cluster.advertise-address=[$(POD_IP)]:9094'
+    - '--cluster.listen-address=0.0.0.0:9094'
+    # Each replica requires cluster peer arg
+    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
   resources:
     preset: micro
   probes:
@@ -24,41 +25,27 @@ workload:
       path: "/-/ready"
       port: 9093
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
     livenessProbe:
       type: httpGet
       path: "/-/ready"
       port: 9093
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
-
   storage:
-    - configMapName: alertmanager
-      mountPath: /etc/config
-      name: config
+    - name: config
       type: configMap
-    - mountPath: /alertmanager
-      name: alertmanager-data
+      mountPath: /etc/config
+      configMapName: alertmanager
+    - name: data
+      type: emptyDir
+      mountPath: /alertmanager
+      sizeLimit: 5Gi
       ramDisk: false
       readOnly: false
-      sizeLimit: 5Gi
-      type: emptyDir
-
-autoscaling:
-  enabled: false
 
 service:
   clusterIP: "None"
   ports:
-    - name: http
+    - name: http-metrics
       port: 9093
       protocol: TCP
     - name: cluster
@@ -95,3 +82,12 @@ ingress:
         service:
           name: "alertmanager"
           port: 9093
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: alertmanager
+        title: "Alertmanager"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/alertmanager/dashboards/alertmanager.json"
+        folder: "System"

@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/node-problem-detector: registry.k8s.io/node-problem-detector
   type: DaemonSet
   image:
     registry: "registry.k8s.io"
@@ -31,9 +33,6 @@ workload:
       readOnly: true
 
 pdb:
-  enabled: false
-
-autoscaling:
   enabled: false
 
 service:

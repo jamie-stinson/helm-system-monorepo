@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/reloader: ghcr.io/stakater/reloader
   image:
     registry: ghcr.io
     repository: stakater/reloader
@@ -19,6 +21,7 @@ service:
       protocol: TCP
 
 rbac:
+  enabled: true
   roles:
     clusterRole:
       rules:

@@ -1,6 +1,8 @@
 namespace: "kube-image-keeper"
 
 workload:
+  annotations:
+    override-url.version-checker.io/kube-image-keeper: ghcr.io/enix/kube-image-keeper
   type: DaemonSet
   image:
     registry: ghcr.io
@@ -10,35 +12,25 @@ workload:
     - registry-proxy
   args:
     - '-v=1'
-    - '-registry-endpoint=kube-image-keeper-registry.kube-image-keeper.svc.cluster.local:5000'
     - '-bind-address=:7439'
     - '-metrics-bind-address=:8080'
+    - '-registry-endpoint=kube-image-keeper-registry.kube-image-keeper.svc.cluster.local:5000'
   envs:
     - name: GIN_MODE
       value: release
+  resources:
+    preset: nano
   probes:
     readinessProbe:
       type: httpGet
       path: "/readyz"
       port: 7439
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
     livenessProbe:
       type: httpGet
       path: "/healthz"
       port: 7439
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
-  resources:
-    preset: nano
 
 service:
   ports:
@@ -51,10 +43,10 @@ service:
       port: 8080
       protocol: TCP
 
-pdb:
+autoscaling:
   enabled: false
 
-autoscaling:
+pdb:
   enabled: false
 
 rbac:

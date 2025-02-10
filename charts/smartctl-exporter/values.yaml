@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/smartctl-exporter: quay.io/prometheuscommunity/smartctl-exporter
   type: DaemonSet
   image:
     registry: "quay.io"
@@ -18,10 +20,10 @@ workload:
       hostPath: /dev
       readOnly: true
 
-pdb:
+autoscaling:
   enabled: false
 
-autoscaling:
+pdb:
   enabled: false
 
 service:

@@ -3,6 +3,7 @@ installCRDs: true
 
 workload:
   annotations:
+    override-url.version-checker.io/cert-manager-controller: quay.io/jetstack/cert-manager-controller
     match-regex.version-checker.io/cert-manager-controller: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"
@@ -16,6 +17,17 @@ workload:
     - '--max-concurrent-challenges=60'
   resources:
     preset: "micro"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 9403
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/livez"
+      port: 9403
+      scheme: "HTTP"
 
 service:
   ports:

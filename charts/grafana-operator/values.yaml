@@ -1,13 +1,15 @@
 installCRDs: true
+
 workload:
+  annotations:
+    override-url.version-checker.io/grafana-operator: ghcr.io/grafana/grafana-operator
   image:
     registry: ghcr.io
     repository: "grafana/grafana-operator"
     tag: "v5.16.0"
-  replicaCount: 2
   args:
-    - --health-probe-bind-address=:8081
     - --metrics-bind-address=0.0.0.0:9090
+    - --health-probe-bind-address=:8081
     - --pprof-addr=0.0.0.0:8888
     - --zap-encoder=json
     - --zap-log-level=info
@@ -15,14 +17,28 @@ workload:
     - --leader-elect
   resources:
     preset: "micro"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/readyz"
+      port: 8081
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 8081
+      scheme: "HTTP"
   storage:
-    - name: tmp
+    - name: tmp-dashboards
       type: emptyDir
       mountPath: /tmp/dashboards
 
 service:
   ports:
     - name: http
+      protocol: TCP
+      port: 8888
+    - name: healthcheck
       protocol: TCP
       port: 8888
     - name: http-metrics

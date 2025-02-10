@@ -1,8 +1,9 @@
 workload:
+  annotations:
+    override-url.version-checker.io/loki: docker.io/grafana/loki
   image:
     repository: grafana/loki
     tag: 3.3.2
-  replicaCount: 1
   resources:
     preset: "micro"
   args:
@@ -22,9 +23,6 @@ workload:
       type: emptyDir
       mountPath: /tmp
       readOnly: false
-
-autoscaling:
-  enabled: false
 
 service:
   ports:

@@ -1,4 +1,5 @@
 namespace: "kube-system"
+
 workload:
   enabled: false
 
@@ -31,8 +32,6 @@ pdb:
 
 serviceAccount:
   enabled: false
-
-grafanaDashboard: true
 
 grafana:
   dashboard:

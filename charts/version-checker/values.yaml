@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/version-checker: quay.io/jetstack/version-checker
   image:
     registry: quay.io
     repository: jetstack/version-checker

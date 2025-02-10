@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/node-exporter: quay.io/prometheus/node-exporter
   type: DaemonSet
   image:
     registry: "quay.io"

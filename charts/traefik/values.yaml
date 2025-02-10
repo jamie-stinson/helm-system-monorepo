@@ -198,4 +198,11 @@ issuer:
       privateKeySecretRef:
         name: letsencrypt-acme-key
 
-grafanaDashboard: true
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: traefik
+        title: "Traefik"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/traefik/dashboards/traefik.json"
+        folder: "System"

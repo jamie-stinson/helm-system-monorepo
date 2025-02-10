@@ -1,4 +1,6 @@
 workload:
+  annotations:
+    override-url.version-checker.io/promtail: docker.io/grafana/promtail
   type: DaemonSet
   image:
     repository: grafana/promtail
@@ -8,10 +10,6 @@ workload:
     - '-client.url=http://loki.loki.svc.cluster.local:3100/api/prom/push'
   resources:
     preset: micro
-  # securityContext:
-  #   runAsGroup: 0
-  #   runAsNonRoot: false
-  #   runAsUser: 0
   storage:
     - name: config
       type: configMap

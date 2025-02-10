@@ -2,7 +2,7 @@ workload:
   enabled: true
   image:
     registry: "docker.io"
-  replicaCount: 2
+  replicaCount: 1
   strategy:
     type: RollingUpdate
     maxSurge: 1
@@ -23,11 +23,27 @@ workload:
     capabilities:
       drop:
         - ALL
+  probes:
+    readinessProbe:
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+  topologySpreadConstraints:
+    preset: "spread-across-nodes"
+
 service:
   enabled: true
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 2
   maxReplicas: 12
   targetCPUUtilizationPercentage: 75

@@ -2,6 +2,8 @@ namespace: "kyverno"
 installCRDs: true
 
 workload:
+  annotations:
+    override-url.version-checker.io/kyverno-admission-controller: reg.kyverno.io/kyverno/kyverno
   image:
     registry: "reg.kyverno.io"
     repository: "kyverno/kyverno"
@@ -57,6 +59,17 @@ workload:
       fieldPath: metadata.name
   resources:
     preset: "micro"
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/health/readiness"
+      port: 8888
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/health/liveness"
+      port: 8888
+      scheme: "HTTP"
   storage:
     - mountPath: /.sigstore
       name: sigstore

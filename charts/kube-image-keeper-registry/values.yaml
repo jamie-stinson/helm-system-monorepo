@@ -1,56 +1,31 @@
 namespace: "kube-image-keeper"
 
 workload:
+  annotations:
+    override-url.version-checker.io/kube-image-registry: ghcr.io/enix/kube-image-registry
   image:
-    registry: docker.io
     repository: registry
     tag: 2.8.1
-  replicaCount: 1
   envs:
     - name: REGISTRY_STORAGE_DELETE_ENABLED
       value: true
+  resources:
+    preset: nano
   probes:
     readinessProbe:
       type: httpGet
       path: "/v2"
       port: 5000
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
     livenessProbe:
       type: httpGet
       path: "/v2"
       port: 5000
       scheme: "HTTP"
-      periodSeconds: 10
-      timeoutSeconds: 5
-      successThreshold: 1
-      failureThreshold: 3
-      initialDelaySeconds: 15
-  resources:
-    preset: nano
-  podSecurityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    fsGroup: 0
-    fsGroupChangePolicy: "Always"
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: false
-    privileged: false
-    readOnlyRootFilesystem: false
-    capabilities:
-      drop:
-        - ALL
-
-autoscaling:
-  enabled: false
+  storage:
+    - name: data
+      type: emptyDir
+      mountPath: /var/lib/registry
 
 service:
   ports:
