@@ -6,7 +6,6 @@ workload:
     repository: kube-state-metrics/kube-state-metrics
     tag: v2.14.0
   args:
-    - '--port=8888'
     - '--telemetry-port=8080'
     - '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments'
   resources:
@@ -15,19 +14,16 @@ workload:
     readinessProbe:
       type: httpGet
       path: "/readyz"
-      port: 8888
-      scheme: "HTTP"
+      port: 8080
+      scheme: "HTTPS"
     livenessProbe:
       type: httpGet
       path: "/livez"
-      port: 8888
-      scheme: "HTTP"
+      port: 8080
+      scheme: "HTTPS"
 
 service:
   ports:
-    - name: healthcheck
-      port: 8888
-      protocol: TCP
     - name: http-metrics
       port: 8080
       protocol: TCP
