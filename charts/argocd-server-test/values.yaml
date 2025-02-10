@@ -11,7 +11,6 @@ workload:
   args:
     - '--port=8080'
     - '--metrics-port=8083'
-    - '--redis=argocd-cache.argocd-test.svc.cluster.local:6379'
   probes:
     readinessProbe:
       type: httpGet
