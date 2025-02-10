@@ -2,6 +2,7 @@ namespace: "argocd-test"
 installCRDs: false
 
 workload:
+  replicaCount: 1
   type: StatefulSet
   image:
     registry: quay.io
@@ -27,6 +28,9 @@ service:
     - name: http-metrics
       port: 8082
       protocol: TCP
+
+autoscaling:
+  enabled: false
 
 rbac:
   enabled: true

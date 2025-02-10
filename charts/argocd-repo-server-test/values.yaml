@@ -6,6 +6,7 @@ workload:
     registry: quay.io
     repository: argoproj/argocd
     tag: v2.14.2
+  replicaCount: 1
   command:
     - /usr/local/bin/argocd-repo-server
   args:
@@ -46,6 +47,9 @@ workload:
       ramDisk: false
       readOnly: false
       type: emptyDir
+
+autoscaling:
+  enabled: false
 
 service:
   ports:

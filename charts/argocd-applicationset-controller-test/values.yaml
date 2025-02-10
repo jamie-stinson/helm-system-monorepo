@@ -2,6 +2,7 @@ namespace: "argocd-test"
 installCRDs: false
 
 workload:
+  replicaCount: 1
   image:
     registry: quay.io
     repository: argoproj/argocd
@@ -33,6 +34,9 @@ service:
     - name: probe
       port: 7000
       protocol: TCP
+
+autoscaling:
+  enabled: false
 
 rbac:
   enabled: true
