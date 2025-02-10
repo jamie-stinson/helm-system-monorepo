@@ -1,0 +1,147 @@
+namespace: "argocd-test"
+installCRDs: false
+
+workload:
+  image:
+    registry: quay.io
+    repository: argoproj/argocd
+    tag: v2.14.2
+  command:
+    - /usr/local/bin/argocd-server
+  args:
+    - '--port=8080'
+    - '--metrics-port=8083'
+    - '--redis=argocd-cache.argocd-test.svc.cluster.local:6379'
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 8080
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+    livenessProbe:
+      type: httpGet
+      path: "/healthz?full=true"
+      port: 8080
+      scheme: "HTTP"
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 15
+  resources:
+    preset: nano
+
+service:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+    - name: http-metrics
+      port: 8083
+      protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    role:
+      rules:
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          - configmaps
+          verbs:
+          - create
+          - get
+          - list
+          - watch
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - argoproj.io
+          resources:
+          - applications
+          - applicationsets
+          - appprojects
+          verbs:
+          - create
+          - get
+          - list
+          - watch
+          - update
+          - delete
+          - patch
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - list
+    clusterRole:
+      rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - delete
+            - get
+            - patch
+        - apiGroups:
+            - ""
+          resources:
+            - events
+          verbs:
+            - list
+            - create
+        - apiGroups:
+            - ""
+          resources:
+            - pods
+            - pods/log
+          verbs:
+            - get
+        - apiGroups:
+            - ""
+          resources:
+            - pods/exec
+          verbs:
+            - create
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - applications
+            - applicationsets
+          verbs:
+            - get
+            - list
+            - update
+            - watch
+        - apiGroups:
+            - "argoproj.io"
+          resources:
+            - "applications"
+          verbs:
+            - create
+            - delete
+            - update
+            - patch
+        - apiGroups:
+            - batch
+          resources:
+            - jobs
+          verbs:
+            - create
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - workflows
+          verbs:
+            - create

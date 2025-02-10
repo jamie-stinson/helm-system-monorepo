@@ -1,0 +1,24 @@
+namespace: "argocd-test"
+
+workload:
+  type: StatefulSet
+  image:
+    repository: redis
+    tag: 7.0.15-alpine
+  replicaCount: 2
+  args:
+    - "--save"
+    - ""
+    - "--appendonly"
+    - "no"
+  resources:
+    preset: micro
+
+autoscaling:
+  enabled: false
+
+service:
+  ports:
+    - name: redis
+      port: 6379
+      protocol: TCP
