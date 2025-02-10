@@ -15,21 +15,21 @@ workload:
     readinessProbe:
       type: httpGet
       path: "/readyz"
-      port: 8080
+      port: 8888
       scheme: "HTTPS"
     livenessProbe:
       type: httpGet
       path: "/livez"
-      port: 8080
+      port: 8888
       scheme: "HTTPS"
 
 service:
   ports:
     - name: http
-      port: 8080
+      port: 8888
       protocol: TCP
     - name: http-metrics
-      port: 8888
+      port: 8080
       protocol: TCP
 
 rbac:
