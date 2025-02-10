@@ -15,6 +15,12 @@ workload:
     - '--redis=argocd-cache.argocd-test.svc.cluster.local:6379'
   resources:
     preset: nano
+  storage:
+    - mountPath: /tmp
+      name: tmp
+      ramDisk: false
+      readOnly: false
+      type: emptyDir
 
 service:
   ports:

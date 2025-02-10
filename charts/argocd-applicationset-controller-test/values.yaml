@@ -15,6 +15,12 @@ workload:
     - --webhook-addr=:7000
   resources:
     preset: nano
+  storage:
+    - mountPath: /tmp
+      name: tmp
+      ramDisk: false
+      readOnly: false
+      type: emptyDir
 
 service:
   ports:
