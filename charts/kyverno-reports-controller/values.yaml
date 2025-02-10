@@ -33,14 +33,14 @@ workload:
   probes:
     readinessProbe:
       type: httpGet
-      path: "/health/readiness"
-      port: 9443
-      scheme: "HTTPS"
+      path: "/metrics"
+      port: 8000
+      scheme: "HTTP"
     livenessProbe:
       type: httpGet
-      path: "/health/liveness"
-      port: 9443
-      scheme: "HTTPS"
+      path: "/metrics"
+      port: 8000
+      scheme: "HTTP"
   envs:
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-reports-controller
