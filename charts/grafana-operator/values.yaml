@@ -40,7 +40,7 @@ service:
       port: 8888
     - name: healthcheck
       protocol: TCP
-      port: 8888
+      port: 8081
     - name: http-metrics
       protocol: TCP
       port: 9090
