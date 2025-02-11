@@ -54,3 +54,19 @@ service:
     - name: http-metrics
       port: 8082
       protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - '*'
+        - nonResourceURLs:
+            - '*'
+          verbs:
+            - '*'

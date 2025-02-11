@@ -54,3 +54,90 @@ service:
     - name: webhook
       port: 7000
       protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    role:
+      rules:
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - applications
+            - applicationsets
+            - applicationsets/finalizers
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - applicationsets/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - appprojects
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - get
+            - list
+            - patch
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+          verbs:
+            - create
+            - update
+            - delete
+            - get
+            - list
+            - patch
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - apps
+            - extensions
+          resources:
+            - deployments
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
