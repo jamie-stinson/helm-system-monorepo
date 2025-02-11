@@ -11,7 +11,7 @@ workload:
     - '--status-processors=20'
     - '--operation-processors=10'
     - '--app-resync=180'
-    - '--self-heal-timeout-second=5'
+    - '--self-heal-timeout-seconds=5'
     - '--repo-server'
     - argocd-repo-server:8081
     - '--logformat'
