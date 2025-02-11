@@ -13,7 +13,13 @@ workload:
     - "no"
   resources:
     preset: micro
-
+  probes:
+  readinessProbe:
+    type: tcpSocket
+    port: 6379
+  livenessProbe:
+    type: tcpSocket
+    port: 6379
 service:
   ports:
     - name: redis
