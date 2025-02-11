@@ -41,6 +41,11 @@ workload:
       mountPath: /tmp
       ramDisk: false
       readOnly: false
+    - name: gpg-keys
+      type: emptyDir
+      mountPath: /app/config/gpg/keys
+      ramDisk: false
+      readOnly: false
 
 service:
   ports:
