@@ -28,12 +28,12 @@ workload:
     readinessProbe:
       type: httpGet
       path: "/healthz"
-      port: 8081
+      port: 8084
       scheme: "HTTP"
     livenessProbe:
       type: httpGet
       path: "/healthz?full=true"
-      port: 8081
+      port: 8084
       scheme: "HTTP"
   storage:
     - name: tmp
