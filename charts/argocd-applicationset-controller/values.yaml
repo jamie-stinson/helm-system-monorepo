@@ -28,15 +28,14 @@ workload:
     preset: micro
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/healthz"
+      type: tcpSocket
       port: 8081
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
-      path: "/healthz?full=true"
-      port: 8081
-      scheme: "HTTP"
+      type: exec
+      command:
+        - pgrep
+        - -f
+        - argocd-applicationset-controller
   storage:
     - name: tmp
       type: emptyDir
