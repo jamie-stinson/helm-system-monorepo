@@ -10,7 +10,7 @@ workload:
     - '--metrics-addr=:8080'
     - '--probe-addr=:8081'
     - '--webhook-addr=:7000'
-    - '--repo-server'
+    - '--argocd-repo-server'
     - argocd-repo-server:8081
     - '--logformat'
     - text
