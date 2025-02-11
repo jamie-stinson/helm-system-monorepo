@@ -10,7 +10,7 @@ workload:
     - '--port'
     - '8080'
     - '--metrics-port'
-    - '80803'
+    - '8083'
     - '--repo-server'
     - argocd-repo-server:8081
     - '--logformat'
@@ -22,7 +22,13 @@ workload:
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
-
+  envsSecret:
+    - name: REDIS_USERNAME
+      secret: argocd-redis
+      key: redis-username
+    - name: REDIS_PASSWORD
+      secret: argocd-redis
+      key: auth
   resources:
     preset: micro
   probes:
