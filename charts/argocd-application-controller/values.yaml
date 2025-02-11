@@ -1,6 +1,7 @@
 namespace: "argocd"
 
 workload:
+  type: StatefulSet
   image:
     registry: quay.io
     repository: argoproj/argocd
