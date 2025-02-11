@@ -21,12 +21,12 @@ workload:
     readinessProbe:
       type: httpGet
       path: "/-/ready"
-      port: 9093
+      port: 10902
       scheme: "HTTP"
     livenessProbe:
       type: httpGet
       path: "/-/ready"
-      port: 9093
+      port: 10902
       scheme: "HTTP"
   resources:
     preset: micro
