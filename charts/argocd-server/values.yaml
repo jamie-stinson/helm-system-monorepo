@@ -141,23 +141,25 @@ rbac:
           verbs:
             - create
 
-configMap:
-  enabled: true
-  configMaps:
-    - name: "argocd-cm"
-      data:
-        admin.enabled: true
-        application.instanceLabelKey: argocd.argoproj.io/instance
-        application.sync.impersonation.enabled: false
-        exec.enabled: false
-        resource.customizations: |
-          networking.k8s.io/Ingress:
-            health.lua: |
-              hs = {}
-              hs.status = "Healthy"
-              return hs
-        server.rbac.log.enforce.enable: false
-        statusbadge.enabled: false
-        timeout.hard.reconciliation: 0s
-        timeout.reconciliation: 180s
-        url: https://argocd.example.com
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: argocd-cm
+    data:
+      admin.enabled: 'true'
+      application.instanceLabelKey: argocd.argoproj.io/instance
+      application.sync.impersonation.enabled: 'false'
+      exec.enabled: 'false'
+      resource.customizations: |
+        networking.k8s.io/Ingress:
+          health.lua: |
+            hs = {}
+            hs.status = "Healthy"
+            return hs
+      server.rbac.log.enforce.enable: 'false'
+      statusbadge.enabled: 'false'
+      timeout.hard.reconciliation: 0s
+      timeout.reconciliation: 180s
+      url: https://argocd.example.com
