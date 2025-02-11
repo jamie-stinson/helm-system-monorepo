@@ -207,7 +207,7 @@ grafana:
     dashboards:
       - name: kube-image-keeper
         title: "Kube Image Keeper"
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kube-image-keeper/dashboards/kube-image-keeper.json"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kube-image-keeper-controller/dashboards/kube-image-keeper.json"
         folder: "System"
 
 
