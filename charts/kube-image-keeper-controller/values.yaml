@@ -201,6 +201,16 @@ rbac:
             - create
             - patch
 
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: kube-image-keeper
+        title: "Kube Image Keeper"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kube-image-keeper/dashboards/kube-image-keeper.json"
+        folder: "System"
+
+
 extraObjects:
   - |
     apiVersion: admissionregistration.k8s.io/v1

@@ -32,9 +32,6 @@ service:
     - name: http
       port: 5000
       protocol: TCP
-    - name: http-metrics
-      port: 5001
-      protocol: TCP
 
 rbac:
   enabled: true

@@ -32,7 +32,7 @@ workload:
 
 service:
   ports:
-    - name: http-metrics
+    - name: http
       port: 25080
       protocol: TCP
 
