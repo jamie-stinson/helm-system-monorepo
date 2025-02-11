@@ -1,0 +1,21 @@
+namespace: "argocd"
+
+workload:
+  type: StatefulSet
+  image:
+    repository: redis
+    tag: 7.0.15-alpine
+  replicaCount: 1
+  args:
+    - "--save"
+    - ""
+    - "--appendonly"
+    - "no"
+  resources:
+    preset: micro
+
+service:
+  ports:
+    - name: redis
+      port: 6379
+      protocol: TCP
