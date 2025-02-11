@@ -16,7 +16,7 @@ workload:
     - text
     - '--loglevel'
     - info
-    - --enable-leader-election=true
+    # - --enable-leader-election=true
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
