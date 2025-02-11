@@ -1,0 +1,53 @@
+namespace: "argocd"
+
+workload:
+  image:
+    registry: quay.io
+    repository: argoproj/argocd
+    tag: v2.14.2
+  args:
+    - /usr/local/bin/argocd-server
+    - '--port'
+    - '8080'
+    - '--metrics-port'
+    - '80803'
+    - '--repo-server'
+    - argocd-repo-server:8081
+    - '--logformat'
+    - text
+    - '--loglevel'
+    - info
+    - '--redis'
+    - argocd-redis:6379
+  envs:
+    - name: ARGOCD_SERVER_NAME
+      value: argocd-server
+
+  resources:
+    preset: micro
+  probes:
+    readinessProbe:
+      type: httpGet
+      path: "/healthz"
+      port: 8080
+      scheme: "HTTP"
+    livenessProbe:
+      type: httpGet
+      path: "/healthz?full=true"
+      port: 8080
+      scheme: "HTTP"
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
+
+service:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+    - name: http-metrics
+      port: 8083
+      protocol: TCP
