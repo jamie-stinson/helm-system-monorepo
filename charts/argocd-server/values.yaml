@@ -21,6 +21,7 @@ workload:
     - info
     - '--redis'
     - argocd-redis:6379
+    - '--insecure'
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
