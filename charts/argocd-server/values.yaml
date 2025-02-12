@@ -148,6 +148,9 @@ extraObjects:
     kind: ConfigMap
     metadata:
       name: argocd-cm
+      labels:
+        app.kubernetes.io/name: argocd-cm
+        app.kubernetes.io/part-of: argocd
     data:
       admin.enabled: 'true'
       application.instanceLabelKey: argocd.argoproj.io/instance
@@ -169,6 +172,9 @@ extraObjects:
     kind: ConfigMap
     metadata:
       name: argocd-rbac-cm
+      labels:
+        app.kubernetes.io/name: argocd-rbac-cm
+        app.kubernetes.io/part-of: argocd
     data:
       policy.csv: ''
       policy.default: ''
@@ -179,6 +185,9 @@ extraObjects:
     kind: ConfigMap
     metadata:
       name: argocd-ssh-known-hosts-cm
+      labels:
+        app.kubernetes.io/name: argocd-ssh-known-hosts-cm
+        app.kubernetes.io/part-of: argocd
     data:
       ssh_known_hosts: >
         [ssh.github.com]:443 ecdsa-sha2-nistp256
@@ -203,7 +212,9 @@ extraObjects:
     kind: Secret
     metadata:
       name: argocd-secret
-      namespace: argocd
+      labels:
+        app.kubernetes.io/name: argocd-secret
+        app.kubernetes.io/part-of: argocd
     type: Opaque
     data:
       admin.password: null
