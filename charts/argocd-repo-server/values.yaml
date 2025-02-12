@@ -1,6 +1,7 @@
 namespace: "argocd"
 
 workload:
+  replicaCount: 2
   image:
     registry: quay.io
     repository: argoproj/argocd
@@ -18,6 +19,8 @@ workload:
   envs:
     - name: ARGOCD_REPO_SERVER_NAME
       value: argocd-repo-server
+    - name: ARGOCD_HELM_ALLOW_CONCURRENCY
+      value: true
   resources:
     preset: micro
   probes:

@@ -2,6 +2,7 @@ namespace: "argocd"
 installCRDs: true
 
 workload:
+  replicaCount: 2
   image:
     registry: quay.io
     repository: argoproj/argocd
