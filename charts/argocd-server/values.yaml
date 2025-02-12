@@ -139,6 +139,22 @@ rbac:
           verbs:
             - create
 
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: argocd.openjamlab.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
+      backend:
+        service:
+          name: "argocd-server"
+          port: 8080
+
 extraObjects:
   - |
     apiVersion: v1
