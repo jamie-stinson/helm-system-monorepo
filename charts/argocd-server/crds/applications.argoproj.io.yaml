@@ -2284,7 +2284,6 @@ metadata:
     app.kubernetes.io/name: applications.argoproj.io
     app.kubernetes.io/part-of: argocd
   name: applications.argoproj.io
-  resourceVersion: '2249448'
   uid: 849520b1-c59e-481e-91d5-f30d1f16f531
 spec:
   conversion:
