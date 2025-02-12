@@ -25,7 +25,7 @@ workload:
     - name: ARGOCD_APPLICATION_CONTROLLER_NAME
       value: argocd-application-controller
     - name: ARGOCD_CONTROLLER_REPLICAS
-      value: '2'
+      value: 2
   resources:
     preset: micro
   probes:
