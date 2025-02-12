@@ -20,7 +20,10 @@ workload:
   livenessProbe:
     type: tcpSocket
     port: 6379
+
 service:
+  labels:
+    argocd.argoproj.io/instance: argocd-redis
   ports:
     - name: redis
       port: 6379
