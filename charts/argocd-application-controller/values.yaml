@@ -25,10 +25,6 @@ workload:
       value: argocd-application-controller
     - name: ARGOCD_CONTROLLER_REPLICAS
       value: '1'
-  envsSecret:
-    - name: REDIS_PASSWORD
-      secret: argocd-redis
-      key: auth
   resources:
     preset: micro
   probes:

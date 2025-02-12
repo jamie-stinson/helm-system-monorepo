@@ -18,10 +18,6 @@ workload:
   envs:
     - name: ARGOCD_REPO_SERVER_NAME
       value: argocd-repo-server
-  envsSecret:
-    - name: REDIS_PASSWORD
-      secret: argocd-redis
-      key: auth
   resources:
     preset: micro
   probes:
