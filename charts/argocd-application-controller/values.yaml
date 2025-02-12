@@ -1,6 +1,7 @@
 namespace: "argocd"
 
 workload:
+  # Sharding is only done on a cluster level, as we run 1 cluster per argocd multiple replicas doesn't actually do anything at the moment.
   replicaCount: 3
   type: StatefulSet
   image:
