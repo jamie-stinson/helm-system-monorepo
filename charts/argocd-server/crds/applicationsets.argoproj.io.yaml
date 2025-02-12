@@ -8,13 +8,11 @@ metadata:
     meta.helm.sh/release-name: argocd
     meta.helm.sh/release-namespace: argocd
   creationTimestamp: '2025-02-06T21:07:23Z'
-  generation: 2
   labels:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: applicationsets.argoproj.io
     app.kubernetes.io/part-of: argocd
   name: applicationsets.argoproj.io
-  uid: 5ddd1d93-22fe-4e95-aecc-b0c474b16982
 spec:
   conversion:
     strategy: None
