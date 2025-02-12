@@ -5,7 +5,6 @@ workload:
   image:
     repository: redis
     tag: 7.0.15-alpine
-  replicaCount: 1
   args:
     - "--save"
     - ""

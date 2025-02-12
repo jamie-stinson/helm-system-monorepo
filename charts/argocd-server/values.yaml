@@ -2,7 +2,7 @@ namespace: "argocd"
 installCRDs: true
 
 workload:
-  replicaCount: 2
+  replicaCount: 3
   image:
     registry: quay.io
     repository: argoproj/argocd
@@ -25,6 +25,8 @@ workload:
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
+    - name: ARGOCD_API_SERVER_REPLICAS
+      valie: 3
   resources:
     preset: micro
   probes:

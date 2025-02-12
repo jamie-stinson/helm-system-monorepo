@@ -1,7 +1,7 @@
 namespace: "argocd"
 
 workload:
-  replicaCount: 2
+  replicaCount: 3
   type: StatefulSet
   image:
     registry: quay.io
