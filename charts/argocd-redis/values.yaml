@@ -17,21 +17,27 @@ workload:
     - /conf/bootstrap-pod.sh
   resources:
     preset: micro
+  podSecurityContext: {}
   securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
     capabilities:
       add:
         - SYS_RESOURCE
         - IPC_LOCK
+      drop:
+        - ALL
   storage:
     - name: conf
       type: configMap
       mountPath: /conf
       configMapName: argocd-redis
-      items:
-        - key: redis.conf
-          path: redis.conf
-        - key: bootstrap-pod.sh
-          path: bootstrap-pod.sh 
     - name: podinfo
       type: downwardAPI
       mountPath: /etc/podinfo
@@ -73,6 +79,8 @@ workload:
           do echo waiting for redis-cluster; sleep 2; done
 
 service:
+  clusterIP: "None"
+  publishNotReadyAddresses: true
   ports:
     - name: redis
       port: 6379
@@ -126,7 +134,7 @@ configMap:
             REMAINDER=$(( 16384 % $NUM_SHARDS ))
             START_SLOT=$(( $NUM_SLOTS * $MY_SHARD + ($MY_SHARD < $REMAINDER ? $MY_SHARD : $REMAINDER) ))
             END_SLOT=$(( $NUM_SLOTS * ($MY_SHARD+1) + ($MY_SHARD+1 < $REMAINDER ? $MY_SHARD+1 : $REMAINDER) - 1 ))
-            PEER_IP=$(nslookup argocd-redis-0.argocd-redis.argocd..svc.cluster.local | awk '/^Address: / { print $2 }')
+            PEER_IP=$(nslookup argocd-redis-0.argocd-redis.argocd.svc.cluster.local | awk '/^Address: / { print $2 }')
             redis-cli cluster meet $PEER_IP 6379
             redis-cli cluster addslots $(seq $START_SLOT $END_SLOT)
           else
