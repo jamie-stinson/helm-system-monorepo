@@ -164,6 +164,7 @@ extraObjects:
         app.kubernetes.io/part-of: argocd
     data:
       admin.enabled: 'true'
+      users.anonymous.enabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
       application.sync.impersonation.enabled: 'false'
       exec.enabled: 'false'
@@ -188,7 +189,7 @@ extraObjects:
         app.kubernetes.io/part-of: argocd
     data:
       policy.csv: ''
-      policy.default: ''
+      policy.default: role:admin
       policy.matchMode: glob
       scopes: '[groups]'
   - |
