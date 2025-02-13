@@ -4,7 +4,7 @@ workload:
   annotations:
     override-url.version-checker.io/argocd-redis: docker.io/redis
   type: StatefulSet
-  replicaCount: 3
+  replicaCount: 6
   image:
     repository: redis
     tag: 7.2.4-alpine
