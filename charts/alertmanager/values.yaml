@@ -15,7 +15,7 @@ workload:
     - '--web.route-prefix=/'
     - '--cluster.advertise-address=[$(POD_IP)]:9094'
     - '--cluster.listen-address=0.0.0.0:9094'
-    # Each replica requires cluster peer arg
+    # Each replica requires a cluster peer
     - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
   resources:
     preset: micro

@@ -1,23 +1,23 @@
 namespace: "argocd"
 
 workload:
+  annotations:
+    override-url.version-checker.io/argocd-applicationset-controller: quay.io/argoproj/argocd
   replicaCount: 3
   image:
     registry: quay.io
     repository: argoproj/argocd
     tag: v2.14.2
+  command:
+    - 'argocd-applicationset-controller'
   args:
-    - /usr/local/bin/argocd-applicationset-controller
     - '--metrics-addr=:8080'
     - '--probe-addr=:8081'
     - '--webhook-addr=:7000'
-    - '--argocd-repo-server'
-    - argocd-repo-server:8081
-    - '--logformat'
-    - text
-    - '--loglevel'
-    - info
-    - --enable-leader-election=true
+    - '--argocd-repo-server=argocd-repo-server:8081'
+    - '--logformat=text'
+    - '--loglevel=info'
+    - '--enable-leader-election=true'
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
@@ -42,14 +42,14 @@ workload:
 
 service:
   ports:
+    - name: webhook
+      port: 7000
+      protocol: TCP
     - name: http-metrics
       port: 8080
       protocol: TCP
     - name: healthcheck
       port: 8081
-      protocol: TCP
-    - name: webhook
-      port: 7000
       protocol: TCP
 
 rbac:

@@ -1,21 +1,21 @@
 namespace: "argocd"
 
 workload:
+  annotations:
+    override-url.version-checker.io/argocd-repo-server: quay.io/argoproj/argocd
   replicaCount: 3
   image:
     registry: quay.io
     repository: argoproj/argocd
     tag: v2.14.2
+  command:
+    - 'argocd-repo-server'
   args:
-    - /usr/local/bin/argocd-repo-server
     - '--port=8081'
     - '--metrics-port=8084'
-    - '--logformat'
-    - text
-    - '--loglevel'
-    - info
-    - '--redis'
-    - argocd-redis:6379
+    - '--logformat=text'
+    - '--loglevel=info'
+    - '--redis=argocd-redis:6379'
   envs:
     - name: ARGOCD_REPO_SERVER_NAME
       value: argocd-repo-server

@@ -17,18 +17,18 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 37,
+  "id": 17,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "254dd849-a865-44d6-b7ab-50ccbca45be3"
+        "uid": "${datasource}"
       },
-      "description": "Table showing the images in use on this cluster, the version in use, and the upstream latest version. Version gathering is subject to options defined on the host pod.",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -164,14 +164,19 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Is Latest"
+          }
+        ]
       },
       "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "254dd849-a865-44d6-b7ab-50ccbca45be3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum by(image,current_version,latest_version) (version_checker_is_latest_version{image=~\"^${registry}.*\"})",
@@ -182,7 +187,7 @@
           "refId": "A"
         }
       ],
-      "title": "Cluster Image Version Checks",
+      "title": "",
       "transformations": [
         {
           "id": "labelsToFields",
@@ -238,14 +243,29 @@
   "preload": false,
   "refresh": "5s",
   "schemaVersion": 40,
-  "tags": [],
+  "tags": [
+    "kubernetes",
+    "prometheus",
+    "version-checker"
+  ],
   "templating": {
     "list": [
       {
         "current": {
-          "text": [
-            "All"
-          ],
+          "text": "thanos",
+          "value": "b62fda65-3346-4662-8243-f8ef9c3c0a71"
+        },
+        "hide": 2,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -275,8 +295,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Container Image Version Checker",
-  "uid": "feanq6uds91j4b",
-  "version": 2,
+  "title": "Kubernetes / Image Drift",
+  "uid": "kubernetes_image_drift",
+  "version": 3,
   "weekStart": ""
 }

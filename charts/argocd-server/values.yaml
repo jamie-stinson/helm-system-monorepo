@@ -2,31 +2,26 @@ namespace: "argocd"
 installCRDs: true
 
 workload:
+  annotations:
+    override-url.version-checker.io/argocd-server: quay.io/argoproj/argocd
   replicaCount: 3
   image:
     registry: quay.io
     repository: argoproj/argocd
     tag: v2.14.2
+  command:
+    - 'argocd-server'
   args:
-    - /usr/local/bin/argocd-server
-    - '--port'
-    - '8080'
-    - '--metrics-port'
-    - '8083'
-    - '--repo-server'
-    - argocd-repo-server:8081
-    - '--logformat'
-    - text
-    - '--loglevel'
-    - info
-    - '--redis'
-    - argocd-redis:6379
+    - '--port=8080'
+    - '--metrics-port=8083'
+    - '--repo-server=argocd-repo-server:8081'
+    - '--redis=argocd-redis:6379'
+    - '--logformat=text'
+    - '--loglevel=info'
     - '--insecure'
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
-    - name: ARGOCD_API_SERVER_REPLICAS
-      valie: 3
   resources:
     preset: micro
   probes:

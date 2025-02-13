@@ -1,9 +1,11 @@
 namespace: "argocd"
 
 workload:
+  annotations:
+    override-url.version-checker.io/argocd-application-controller: quay.io/argoproj/argocd
+  type: StatefulSet
   # Sharding is only done on a cluster level, as we run argocd per cluster multiple replicas doesn't actually do anything at the moment.
   replicaCount: 1
-  type: StatefulSet
   image:
     registry: quay.io
     repository: argoproj/argocd

@@ -6,16 +6,16 @@ workload:
     tag: v3.2.2
   args:
     # Entrypoints
-    - '--entryPoints.metrics.address=:9100/tcp'
+    - '--entryPoints.internalweb.address=:80/tcp'
+    - '--entryPoints.externalweb.address=:81/tcp'
+    - '--entryPoints.internalwebsecure.address=:443/tcp'
+    - '--entryPoints.externalwebsecure.address=:444/tcp'
     - '--entryPoints.traefik.address=:8080/tcp'
     - '--entryPoints.ping.address=:8082/tcp'
-    - '--entryPoints.externalweb.address=:81/tcp'
-    - '--entryPoints.internalweb.address=:80/tcp'
-    - '--entryPoints.externalwebsecure.address=:444/tcp'
-    - '--entryPoints.internalwebsecure.address=:443/tcp'
+    - '--entryPoints.metrics.address=:9100/tcp'
     # TLS
-    - '--entryPoints.externalwebsecure.http.tls=true'
     - '--entryPoints.internalwebsecure.http.tls=true'
+    - '--entryPoints.externalwebsecure.http.tls=true'
     # Metrics
     - '--metrics.prometheus=true'
     - '--metrics.prometheus.entrypoint=metrics'
@@ -31,12 +31,12 @@ workload:
     - '--providers.kubernetesingress=true'
     - '--providers.kubernetesingress.allowemptyservices=true'
     # Logs
-    - '--log.format=json'
     - '--log.level=INFO'
+    - '--log.format=json'
     # Access logs
     - '--accesslog=true'
-    - '--accesslog.addinternals=true'
     - '--accesslog.format=json'
+    - '--accesslog.addinternals=true'
     - '--accesslog.fields.defaultmode=keep'
     - '--accesslog.fields.headers.defaultmode=drop'
   probes:
@@ -69,21 +69,21 @@ expose:
   enabled: true
   type: NodePort
   ports:
-    - name: externalweb
-      nodePort: 30081
-      port: 81
-      protocol: TCP
     - name: internalweb
       nodePort: 30080
       port: 80
       protocol: TCP
-    - name: externalwebsecure
-      nodePort: 30444
-      port: 444
+    - name: externalweb
+      nodePort: 30081
+      port: 81
       protocol: TCP
     - name: internalwebsecure
       nodePort: 30443
       port: 443
+      protocol: TCP
+    - name: externalwebsecure
+      nodePort: 30444
+      port: 444
       protocol: TCP
 
 rbac:

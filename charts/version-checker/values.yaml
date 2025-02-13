@@ -6,11 +6,11 @@ workload:
     repository: jetstack/version-checker
     tag: v0.8.5
   command:
-    - version-checker
+    - 'version-checker'
   args:
-    - '--image-cache-timeout=30m'
-    - '--log-level=info'
     - '--metrics-serving-address=0.0.0.0:8080'
+    - '--log-level=info'
+    - '--image-cache-timeout=30m'
     - '--test-all-containers=true'
   probes:
     readinessProbe:
@@ -50,7 +50,7 @@ grafana:
   dashboard:
     enabled: true
     dashboards:
-      - name: version-checker
-        title: "Image Version Checker"
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/image-version-checker.json"
+      - name: kubernetes-imge-drift
+        title: "Kubernetes / Image Drift"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/kubernetes-image-drift.json"
         folder: "System"

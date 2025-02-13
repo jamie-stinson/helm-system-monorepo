@@ -21,10 +21,10 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 1,
-  "id": 11,
+  "graphTooltip": 0,
+  "id": 13,
   "links": [],
   "panels": [
     {
@@ -1463,18 +1463,23 @@
     }
   ],
   "preload": false,
-  "refresh": "30s",
+  "refresh": "5s",
   "schemaVersion": 40,
   "tags": [
-    "Kubernetes",
-    "Prometheus"
+    "kubernetes",
+    "prometheus",
+    "cluster",
+    "performance",
+    "cpu",
+    "memory",
+    "network"
   ],
   "templating": {
     "list": [
       {
         "current": {
           "text": "thanos",
-          "value": "059dce99-85ff-4813-92f2-ea537b9ecc15"
+          "value": "b62fda65-3346-4662-8243-f8ef9c3c0a71"
         },
         "hide": 2,
         "includeAll": false,
@@ -1590,6 +1595,6 @@
   "timezone": "",
   "title": "Kubernetes / Global",
   "uid": "kubernetes_global",
-  "version": 7,
+  "version": 2,
   "weekStart": ""
 }
