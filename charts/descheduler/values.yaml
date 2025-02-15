@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/descheduler: registry.k8s.io/descheduler/descheduler
   image:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
@@ -14,16 +12,12 @@ workload:
     - '--leader-elect=true'
     - '--leader-elect-resource-namespace=descheduler'
   priorityClassName: "system-cluster-critical"
-  resources:
-    preset: "nano"
   probes:
     readinessProbe:
-      type: httpGet
       path: "/healthz"
       port: 10258
       scheme: "HTTPS"
     livenessProbe:
-      type: httpGet
       path: "/healthz"
       port: 10258
       scheme: "HTTPS"
@@ -41,65 +35,6 @@ service:
     - name: https-metrics
       protocol: TCP
       port: 10258
-
-configMap:
-  enabled: true
-  configMaps:
-    - name: "descheduler"
-      data:
-        policy.yaml: |
-          apiVersion: "descheduler/v1alpha2"
-          kind: "DeschedulerPolicy"
-          evictDaemonSetPods: false
-          profiles:
-          - name: default
-            pluginConfig:
-            - args:
-                evictFailedBarePods: true
-                evictLocalStoragePods: true
-                evictSystemCriticalPods: true
-                minReplicas: 0
-                nodeFit: true
-              name: DefaultEvictor
-            - name: RemoveDuplicates
-            - args:
-                targetThresholds:
-                  cpu: 50
-                  memory: 50
-                  pods: 50
-                thresholds:
-                  cpu: 20
-                  memory: 20
-                  pods: 20
-              name: LowNodeUtilization
-            - args:
-                includingInitContainers: true
-                podRestartThreshold: 100
-              name: RemovePodsHavingTooManyRestarts
-            - args:
-                excludeOwnerKinds:
-                - Job
-                exitCodes:
-                - 1
-                includingInitContainers: true
-                minPodLifetimeSeconds: 3600
-              name: RemoveFailedPods
-            - args:
-                maxPodLifeTimeSeconds: 86400
-                states:
-                - Pending
-                - PodInitializing
-              name: PodLifeTime
-            plugins:
-              balance:
-                enabled:
-                - RemoveDuplicates
-                - LowNodeUtilization
-              deschedule:
-                enabled:
-                - RemovePodsHavingTooManyRestarts
-                - RemoveFailedPods
-                - PodLifeTime
 
 rbac:
   enabled: true
