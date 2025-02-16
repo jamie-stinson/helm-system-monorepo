@@ -229,7 +229,6 @@ extraObjects:
               values:
                 - kube-system
                 - kube-image-keeper
-                - grafana-postgres
         objectSelector:
           matchExpressions:
             - key: kube-image-keeper.enix.io/image-caching-policy
