@@ -1,3 +1,15 @@
+service:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+
+workload:
+  enabled: false
+
+pdb:
+  enabled: false
+
 extraObjects:
   - |
     apiVersion: postgresql.cnpg.io/v1
