@@ -13,6 +13,18 @@ workload:
     - name: GF_SECURITY_ADMIN_PASSWORD
       secret: grafana
       key: GF_SECURITY_ADMIN_PASSWORD
+    - name: GF_DATABASE_HOST
+      secret: grafana-postgres-app
+      key: host
+    - name: GF_DATABASE_NAME
+      secret: grafana-postgres-app
+      key: dbname
+    - name: GF_DATABASE_USER
+      secret: grafana-postgres-app
+      key: username
+    - name: GF_DATABASE_PASSWORD
+      secret: grafana-postgres-app
+      key: password
   probes:
     readinessProbe:
       path: "/api/health"
@@ -53,8 +65,8 @@ configMap:
           mode = console
           [server]
           domain = ''
-          # [database]
-          # type = postgres
+          [database]
+          type = postgres
 
 secret:
   enabled: true
