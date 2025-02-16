@@ -10,12 +10,15 @@ workload:
 pdb:
   enabled: false
 
+autoscaling:
+  enabled: false
+
 extraObjects:
   - |
     apiVersion: postgresql.cnpg.io/v1
     kind: Cluster
     metadata:
-      name: grafana
+      name: grafana-postgres
     spec:
       description: "Test Grafana"
       imageName: ghcr.io/cloudnative-pg/postgresql:17.2
