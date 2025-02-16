@@ -19,19 +19,12 @@ workload:
     - '-zap-log-level=INFO'
     - '-ignore-pull-policy-always=true'
     - '-arch=amd64'
-  resources:
-    preset: nano
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/readyz"
       port: 8081
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz"
       port: 8081
-      scheme: "HTTP"
   storage:
     - name: kube-image-keeper-controller-certificate
       type: secret

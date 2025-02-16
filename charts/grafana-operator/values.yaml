@@ -15,19 +15,12 @@ workload:
     - --zap-log-level=info
     - --zap-time-encoding=rfc3339
     - --leader-elect
-  resources:
-    preset: "micro"
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/readyz"
       port: 8081
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz"
       port: 8081
-      scheme: "HTTP"
   storage:
     - name: tmp-dashboards
       type: emptyDir

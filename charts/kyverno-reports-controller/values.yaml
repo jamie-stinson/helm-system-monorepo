@@ -32,15 +32,11 @@ workload:
     - '--enableReporting=validate,mutate,mutateExisting,imageVerify,generate'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/metrics"
       port: 8000
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/metrics"
       port: 8000
-      scheme: "HTTP"
   envs:
     - name: KYVERNO_SERVICEACCOUNT_NAME
       value: kyverno-reports-controller
@@ -57,8 +53,6 @@ workload:
       fieldPath: metadata.namespace
     - name: KYVERNO_POD_NAME
       fieldPath: metadata.name
-  resources:
-    preset: "micro"
   storage:
     - mountPath: /.sigstore
       name: sigstore

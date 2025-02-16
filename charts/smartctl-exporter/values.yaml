@@ -13,17 +13,11 @@ workload:
     - '--web.telemetry-path=/metrics'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9633
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9633
-      scheme: "HTTP"
-  resources:
-    preset: "nano"
   storage:
     - name: dev
       type: hostPath

@@ -15,19 +15,13 @@ workload:
     - '--leader-election-namespace=$(POD_NAMESPACE)'
     - '--acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.16.2'
     - '--max-concurrent-challenges=60'
-  resources:
-    preset: "micro"
   probes:
     readinessProbe:
-      type: httpGet
       path: "/livez"
       port: 9403
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/livez"
       port: 9403
-      scheme: "HTTP"
 
 service:
   ports:

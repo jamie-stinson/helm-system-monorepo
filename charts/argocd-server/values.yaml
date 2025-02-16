@@ -2,8 +2,6 @@ namespace: "argocd"
 installCRDs: true
 
 workload:
-  annotations:
-    override-url.version-checker.io/argocd-server: quay.io/argoproj/argocd
   replicaCount: 3
   image:
     registry: quay.io
@@ -22,19 +20,13 @@ workload:
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
       path: "/healthz"
       port: 8080
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz?full=true"
       port: 8080
-      scheme: "HTTP"
   storage:
     - name: tmp
       type: emptyDir

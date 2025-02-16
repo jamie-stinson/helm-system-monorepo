@@ -1,8 +1,6 @@
 namespace: "kube-image-keeper"
 
 workload:
-  annotations:
-    override-url.version-checker.io/kube-image-keeper: ghcr.io/enix/kube-image-keeper
   type: DaemonSet
   image:
     registry: ghcr.io
@@ -18,19 +16,12 @@ workload:
   envs:
     - name: GIN_MODE
       value: release
-  resources:
-    preset: nano
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/readyz"
       port: 7439
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz"
       port: 7439
-      scheme: "HTTP"
 
 service:
   ports:
@@ -42,12 +33,6 @@ service:
     - name: http-metrics
       port: 8080
       protocol: TCP
-
-autoscaling:
-  enabled: false
-
-pdb:
-  enabled: false
 
 rbac:
   enabled: true

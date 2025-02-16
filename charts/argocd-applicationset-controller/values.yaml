@@ -21,8 +21,6 @@ workload:
   envs:
     - name: ARGOCD_SERVER_NAME
       value: argocd-server
-  resources:
-    preset: micro
   probes:
     readinessProbe:
       type: tcpSocket

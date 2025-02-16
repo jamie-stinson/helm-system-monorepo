@@ -2,8 +2,6 @@ namespace: "kyverno"
 installCRDs: true
 
 workload:
-  annotations:
-    override-url.version-checker.io/kyverno-admission-controller: reg.kyverno.io/kyverno/kyverno
   image:
     registry: "reg.kyverno.io"
     repository: "kyverno/kyverno"
@@ -57,16 +55,12 @@ workload:
       fieldPath: metadata.namespace
     - name: KYVERNO_POD_NAME
       fieldPath: metadata.name
-  resources:
-    preset: "micro"
   probes:
     readinessProbe:
-      type: httpGet
       path: "/health/readiness"
       port: 9443
       scheme: "HTTPS"
     livenessProbe:
-      type: httpGet
       path: "/health/liveness"
       port: 9443
       scheme: "HTTPS"

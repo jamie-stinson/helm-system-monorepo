@@ -21,17 +21,11 @@ workload:
     - '--storage.tsdb.path=/prometheus'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/-/ready"
       port: 9090
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/-/healthy"
       port: 9090
-      scheme: "HTTP"
-  resources:
-    preset: micro
   storage:
     - configMapName: prometheus
       mountPath: /etc/config

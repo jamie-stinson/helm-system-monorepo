@@ -9,19 +9,9 @@ workload:
     - '--port=8080'
     - '--telemetry-port=8888'
     - '--resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments'
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/readyz"
       port: 8888
-      scheme: "HTTP"
-    livenessProbe:
-      type: httpGet
-      path: "/livez"
-      port: 8080
-      scheme: "HTTP"
 
 service:
   ports:

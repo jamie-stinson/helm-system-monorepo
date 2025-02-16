@@ -1,8 +1,6 @@
 namespace: "thanos"
 
 workload:
-  annotations:
-    override-url.version-checker.io/alertmanager: quay.io/prometheus/alertmanager
   type: StatefulSet
   image:
     registry: quay.io
@@ -17,19 +15,13 @@ workload:
     - '--cluster.listen-address=0.0.0.0:9094'
     # Each replica requires a cluster peer
     - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
       path: "/-/ready"
       port: 9093
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/-/ready"
       port: 9093
-      scheme: "HTTP"
   storage:
     - name: config
       type: configMap

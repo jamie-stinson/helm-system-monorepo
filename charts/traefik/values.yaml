@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/traefik: docker.io/traefik 
   image:
     repository: traefik
     tag: v3.2.2
@@ -41,17 +39,11 @@ workload:
     - '--accesslog.fields.headers.defaultmode=drop'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/ping"
       port: 8082
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/ping"
       port: 8082
-      scheme: "HTTP"
-  resources:
-    preset: micro
 
 service:
   ports:

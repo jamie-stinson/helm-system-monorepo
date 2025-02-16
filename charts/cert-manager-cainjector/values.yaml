@@ -2,7 +2,6 @@ namespace: "cert-manager"
 
 workload:
   annotations:
-    override-url.version-checker.io/cert-manager-cainjector: quay.io/jetstack/cert-manager-cainjector
     match-regex.version-checker.io/cert-manager-cainjector: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"
@@ -11,19 +10,13 @@ workload:
   args:
     - '--v=2'
     - '--leader-election-namespace=$(POD_NAMESPACE)'
-  resources:
-    preset: "micro"
   probes:
     readinessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9402
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9402
-      scheme: "HTTP"
 
 service:
   ports:

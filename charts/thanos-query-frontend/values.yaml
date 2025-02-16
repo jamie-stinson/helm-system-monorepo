@@ -1,8 +1,6 @@
 namespace: "thanos"
 
 workload:
-  annotations:
-    override-url.version-checker.io/thanos-query-frontend: quay.io/thanos/thanos
   image:
     registry: quay.io
     repository: thanos/thanos
@@ -13,17 +11,11 @@ workload:
     - '--query-frontend.downstream-url=http://thanos-query.thanos.svc.cluster.local:10902'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/-/ready"
       port: 9090
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/-/healthy"
       port: 9090
-      scheme: "HTTP"
-  resources:
-    preset: micro
 
 autoscaling:
   enabled: false

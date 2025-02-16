@@ -12,19 +12,13 @@ workload:
     - name: GF_SECURITY_ADMIN_PASSWORD
       secret: grafana
       key: GF_SECURITY_ADMIN_PASSWORD
-  resources:
-    preset: "micro"
   probes:
     readinessProbe:
-      type: httpGet
       path: "/api/health"
       port: 3000
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/api/health"
       port: 3000
-      scheme: "HTTP"
   storage:
     - name: config
       type: configMap

@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/node-problem-detector: registry.k8s.io/node-problem-detector
   type: DaemonSet
   image:
     registry: "registry.k8s.io"
@@ -14,17 +12,11 @@ workload:
     - '--k8s-exporter-heartbeat-period=5m0s'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/metrics"
       port: 20257
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/metrics"
       port: 20257
-      scheme: "HTTP"
-  resources:
-    preset: "nano"
   securityContext:
     runAsUser: 0
     runAsGroup: 0
@@ -42,9 +34,6 @@ workload:
       mountPath: /etc/localtime
       hostPath: /etc/localtime
       readOnly: true
-
-pdb:
-  enabled: false
 
 service:
   ports:

@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/version-checker: quay.io/jetstack/version-checker
   image:
     registry: quay.io
     repository: jetstack/version-checker
@@ -13,18 +11,8 @@ workload:
     - '--image-cache-timeout=30m'
     - '--test-all-containers=true'
   probes:
-    readinessProbe:
-      type: httpGet
-      path: "/readyz"
-      port: 8080
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/readyz"
-      port: 8080
-      scheme: "HTTP"
-  resources:
-    preset: nano
 
 service:
   ports:
@@ -50,7 +38,7 @@ grafana:
   dashboard:
     enabled: true
     dashboards:
-      - name: kubernetes-imge-drift
+      - name: kubernetes-image-drift
         title: "Kubernetes / Image Drift"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/version-checker/dashboards/kubernetes-image-drift.json"
         folder: "System"

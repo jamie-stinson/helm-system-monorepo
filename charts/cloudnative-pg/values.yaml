@@ -14,16 +14,11 @@ workload:
     - '--webhook-port=9443'
     - '--leader-elect'
     - '--max-concurrent-reconciles=10'
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
-      path: "/readyz"
       port: 9443
       scheme: "HTTPS"
     livenessProbe:
-      type: httpGet
       path: "/readyz"
       port: 9443
       scheme: "HTTPS"

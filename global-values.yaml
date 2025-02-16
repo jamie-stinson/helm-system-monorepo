@@ -7,6 +7,8 @@ workload:
     type: RollingUpdate
     maxSurge: 1
     maxUnavailable: 1
+  resources:
+    preset: "nano"
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
@@ -25,12 +27,20 @@ workload:
         - ALL
   probes:
     readinessProbe:
+      type: httpGet
+      scheme: "HTTP"
+      path: "/readyz"
+      port: 8080
       periodSeconds: 10
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 3
       initialDelaySeconds: 15
     livenessProbe:
+      type: httpGet
+      scheme: "HTTP"
+      path: "/livez"
+      port: 8080
       periodSeconds: 10
       timeoutSeconds: 5
       successThreshold: 1
@@ -66,3 +76,6 @@ grafana:
     resyncPeriod: "1m"
   folder:
     resyncPeriod: "1m"
+
+versionChecker:
+  imageOverride: true

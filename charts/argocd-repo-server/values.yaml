@@ -1,8 +1,6 @@
 namespace: "argocd"
 
 workload:
-  annotations:
-    override-url.version-checker.io/argocd-repo-server: quay.io/argoproj/argocd
   replicaCount: 3
   image:
     registry: quay.io
@@ -21,19 +19,13 @@ workload:
       value: argocd-repo-server
     - name: ARGOCD_HELM_ALLOW_CONCURRENCY
       value: true
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
       path: "/healthz"
       port: 8084
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz?full=true"
       port: 8084
-      scheme: "HTTP"
   storage:
     - name: tmp
       type: emptyDir

@@ -26,19 +26,13 @@ workload:
       value: argocd-application-controller
     - name: ARGOCD_CONTROLLER_REPLICAS
       value: 1
-  resources:
-    preset: micro
   probes:
     readinessProbe:
-      type: httpGet
       path: "/healthz"
       port: 8082
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/healthz?full=true"
       port: 8082
-      scheme: "HTTP"
   storage:
     - name: tmp
       type: emptyDir

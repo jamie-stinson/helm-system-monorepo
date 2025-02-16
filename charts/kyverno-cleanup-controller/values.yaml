@@ -26,12 +26,10 @@ workload:
     - '--ttlReconciliationInterval=1m'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/health/readiness"
       port: 9443
       scheme: "HTTPS"
     livenessProbe:
-      type: httpGet
       path: "/health/liveness"
       port: 9443
       scheme: "HTTPS"
@@ -53,8 +51,6 @@ workload:
       fieldPath: metadata.namespace
     - name: KYVERNO_POD_NAME
       fieldPath: metadata.name
-  resources:
-    preset: "micro"
 
 service:
   ports:

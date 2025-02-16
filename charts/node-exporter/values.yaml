@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/node-exporter: quay.io/prometheus/node-exporter
   type: DaemonSet
   image:
     registry: "quay.io"
@@ -14,17 +12,11 @@ workload:
     - '--path.udev.data=/host/root/run/udev/data'
   probes:
     readinessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9100
-      scheme: "HTTP"
     livenessProbe:
-      type: httpGet
       path: "/metrics"
       port: 9100
-      scheme: "HTTP"
-  resources:
-    preset: "nano"
   storage:
     - name: proc
       type: hostPath
@@ -41,12 +33,6 @@ workload:
       mountPath: /host/root
       hostPath: /
       readOnly: true
-
-pdb:
-  enabled: false
-
-autoscaling:
-  enabled: false
 
 service:
   ports:
