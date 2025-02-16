@@ -5,7 +5,7 @@ configMapGenerator:
   - name: descheduler
     namespace: descheduler
     files:
-      - config/
+      - config/*.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
