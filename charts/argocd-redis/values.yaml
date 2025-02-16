@@ -19,6 +19,9 @@ workload:
       type: tcpSocket
       port: 6379
 
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: redis
