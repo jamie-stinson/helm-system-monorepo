@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/reflector: docker.io/emberstack/kubernetes-reflector
   image:
     repository: emberstack/kubernetes-reflector
     tag: 7.1.288

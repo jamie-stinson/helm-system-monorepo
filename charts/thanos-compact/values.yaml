@@ -1,8 +1,6 @@
 namespace: "thanos"
 
 workload:
-  annotations:
-    override-url.version-checker.io/thanos-compact: quay.io/thanos/thanos
   type: Deployment
   image:
     registry: quay.io

@@ -1,9 +1,6 @@
 namespace: "thanos"
 
 workload:
-  annotations:
-    override-url.version-checker.io/prometheus: quay.io/prometheus/prometheus
-    override-url.version-checker.io/thanos: quay.io/thanos/thanos
   type: StatefulSet
   image:
     registry: quay.io

@@ -2,8 +2,6 @@ namespace: "kube-image-keeper"
 installCRDs: true
 
 workload:
-  annotations:
-    override-url.version-checker.io/kube-image-controller: ghcr.io/enix/kube-image-keeper
   image:
     registry: ghcr.io
     repository: enix/kube-image-keeper

@@ -1,8 +1,6 @@
 installCRDs: true
 
 workload:
-  annotations:
-    override-url.version-checker.io/cloudnative-pg: ghcr.io/cloudnative-pg/cloudnative-pg
   image:
     registry: "ghcr.io"
     repository: "cloudnative-pg/cloudnative-pg"

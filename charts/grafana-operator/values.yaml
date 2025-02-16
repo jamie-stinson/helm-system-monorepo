@@ -1,8 +1,6 @@
 installCRDs: true
 
 workload:
-  annotations:
-    override-url.version-checker.io/grafana-operator: ghcr.io/grafana/grafana-operator
   image:
     registry: ghcr.io
     repository: "grafana/grafana-operator"

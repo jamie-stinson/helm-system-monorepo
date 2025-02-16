@@ -1,6 +1,5 @@
 workload:
   annotations:
-    override-url.version-checker.io/grafana: docker.io/grafana/grafana
     match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'
   image:
     repository: "grafana/grafana"

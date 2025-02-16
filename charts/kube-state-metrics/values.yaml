@@ -1,6 +1,4 @@
 workload:
-  annotations:
-    override-url.version-checker.io/kube-state-metrics: registry.k8s.io/kube-state-metrics/kube-state-metrics
   image:
     registry: registry.k8s.io
     repository: kube-state-metrics/kube-state-metrics

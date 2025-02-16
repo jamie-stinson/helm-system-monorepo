@@ -3,7 +3,6 @@ installCRDs: true
 
 workload:
   annotations:
-    override-url.version-checker.io/cert-manager-controller: quay.io/jetstack/cert-manager-controller
     match-regex.version-checker.io/cert-manager-controller: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"

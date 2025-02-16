@@ -2,7 +2,6 @@ namespace: "cert-manager"
 
 workload:
   annotations:
-    override-url.version-checker.io/cert-manager-webhook: quay.io/jetstack/cert-manager-webhook
     match-regex.version-checker.io/cert-manager-webhook: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     registry: "quay.io"
