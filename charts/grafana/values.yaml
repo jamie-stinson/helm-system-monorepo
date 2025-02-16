@@ -1,6 +1,4 @@
 workload:
-  # Disable multi reploica until database added
-  replicaCount: 1
   annotations:
     match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'
   image:
@@ -40,10 +38,6 @@ workload:
     - name: data
       type: emptyDir
       mountPath: /var/lib/grafana
-
-autoscaling:
-  # Disable multi reploica until database added
-  enabled: false
 
 service:
   ports:
