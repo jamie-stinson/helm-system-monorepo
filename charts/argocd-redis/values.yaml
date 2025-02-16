@@ -1,6 +1,7 @@
 namespace: "argocd"
 
 workload:
+  replicaCount: 1
   type: StatefulSet
   image:
     repository: redis
@@ -27,8 +28,6 @@ service:
 # redis cluster disabled until supported by argocd
 
 # workload:
-#   annotations:
-#     override-url.version-checker.io/argocd-redis: docker.io/redis
 #   type: StatefulSet
 #   replicaCount: 6
 #   image:
