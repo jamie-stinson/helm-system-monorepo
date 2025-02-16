@@ -68,9 +68,6 @@ configMap:
           [database]
           type = postgres
 
-secret:
-  enabled: true
-
 ingress:
   enabled: true
   annotations:
