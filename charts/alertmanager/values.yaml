@@ -14,7 +14,6 @@ workload:
     # Each replica requires a cluster peer
     - '--cluster.peer=alertmanager-0.alertmanager.alertmanager.svc.cluster.local:9094'
     - '--cluster.peer=alertmanager-1.alertmanager.alertmanager.svc.cluster.local:9094'
-    - '--cluster.peer=alertmanager-2.alertmanager.alertmanager.svc.cluster.local:9094'
 
   probes:
     readinessProbe:
@@ -34,6 +33,9 @@ workload:
       sizeLimit: 5Gi
       ramDisk: false
       readOnly: false
+
+autoscaling:
+  enabled: false
 
 service:
   clusterIP: "None"
