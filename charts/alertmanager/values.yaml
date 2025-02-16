@@ -13,6 +13,9 @@ workload:
     - '--cluster.listen-address=0.0.0.0:9094'
     # Each replica requires a cluster peer
     - '--cluster.peer=alertmanager-0.alertmanager.alertmanager.svc.cluster.local:9094'
+    - '--cluster.peer=alertmanager-1.alertmanager.alertmanager.svc.cluster.local:9094'
+    - '--cluster.peer=alertmanager-2.alertmanager.alertmanager.svc.cluster.local:9094'
+
   probes:
     readinessProbe:
       path: "/-/ready"
