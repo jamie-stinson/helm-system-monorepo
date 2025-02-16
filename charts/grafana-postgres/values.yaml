@@ -22,14 +22,14 @@ extraObjects:
     metadata:
       name: grafana-postgres
       labels:
-        kube-image-keeper.enix.io/image-caching-policy=ignore
+        kube-image-keeper.enix.io/image-caching-policy: ignore
     spec:
       description: "Test Grafana"
       imageName: ghcr.io/cloudnative-pg/postgresql:17.2
       instances: 2
       inheritedMetadata:
         labels:
-          kube-image-keeper.enix.io/image-caching-policy=ignore
+          kube-image-keeper.enix.io/image-caching-policy: ignore
       bootstrap:
         initdb:
           database: grafana
