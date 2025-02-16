@@ -44,6 +44,9 @@ service:
       port: 8082
       protocol: TCP
 
+autoscaling:
+  enabled: false
+
 rbac:
   enabled: true
   roles:
