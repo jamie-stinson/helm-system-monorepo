@@ -24,7 +24,7 @@ extraObjects:
     spec:
       description: "Test Grafana"
       imageName: ghcr.io/cloudnative-pg/postgresql:17.2
-      instances: 3
+      instances: 2
       bootstrap:
         initdb:
           database: grafana
