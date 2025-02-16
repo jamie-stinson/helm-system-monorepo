@@ -10,12 +10,6 @@ workload:
     - name: "GF_SECURITY_ADMIN_PASSWORD"
       value: "admin"
   envsSecret:
-    - name: GF_SECURITY_ADMIN_USER
-      secret: grafana
-      key: GF_SECURITY_ADMIN_USER
-    - name: GF_SECURITY_ADMIN_PASSWORD
-      secret: grafana
-      key: GF_SECURITY_ADMIN_PASSWORD
     - name: GF_DATABASE_HOST
       secret: grafana-postgres-app
       key: host
