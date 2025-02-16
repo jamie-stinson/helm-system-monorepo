@@ -4,6 +4,11 @@ workload:
   image:
     repository: "grafana/grafana"
     tag: "11.5.1"
+  envs:
+    - name: "GF_SECURITY_ADMIN_USER"
+      value: "admin"
+    - name: "GF_SECURITY_ADMIN_PASSWORD"
+      value: "admin"
   envsSecret:
     - name: GF_SECURITY_ADMIN_USER
       secret: grafana
