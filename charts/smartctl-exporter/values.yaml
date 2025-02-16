@@ -23,12 +23,6 @@ workload:
       hostPath: /dev
       readOnly: true
 
-autoscaling:
-  enabled: false
-
-pdb:
-  enabled: false
-
 service:
   ports:
     - name: http-metrics

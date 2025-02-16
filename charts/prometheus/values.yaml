@@ -71,9 +71,6 @@ workload:
         - name: config
           mountPath: /etc/config
 
-autoscaling:
-  enabled: false
-
 service:
   clusterIP: "None"
   ports:

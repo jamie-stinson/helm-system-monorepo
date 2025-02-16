@@ -1,7 +1,6 @@
 namespace: "argocd"
 
 workload:
-  replicaCount: 3
   image:
     registry: quay.io
     repository: argoproj/argocd

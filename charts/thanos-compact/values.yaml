@@ -36,9 +36,6 @@ workload:
       sizeLimit: 15Gi
       type: emptyDir
 
-autoscaling:
-  enabled: false
-
 service:
   ports:
     - name: grpc

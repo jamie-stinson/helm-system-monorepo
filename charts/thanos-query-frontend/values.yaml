@@ -17,9 +17,6 @@ workload:
       path: "/-/healthy"
       port: 9090
 
-autoscaling:
-  enabled: false
-
 service:
   ports:
     - name: http

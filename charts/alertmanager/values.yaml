@@ -1,5 +1,3 @@
-namespace: "thanos"
-
 workload:
   type: StatefulSet
   image:
@@ -14,7 +12,7 @@ workload:
     - '--cluster.advertise-address=[$(POD_IP)]:9094'
     - '--cluster.listen-address=0.0.0.0:9094'
     # Each replica requires a cluster peer
-    - '--cluster.peer=alertmanager-0.alertmanager.thanos.svc.cluster.local:9094'
+    - '--cluster.peer=alertmanager-0.alertmanager.alertmanager.svc.cluster.local:9094'
   probes:
     readinessProbe:
       path: "/-/ready"

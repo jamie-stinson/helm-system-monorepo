@@ -24,12 +24,12 @@ workload:
 
 service:
   ports:
-    - name: healthz
-      protocol: TCP
-      port: 9403
     - name: http-metrics
       protocol: TCP
       port: 9402
+    - name: healthz
+      protocol: TCP
+      port: 9403
 
 rbac:
   enabled: true
