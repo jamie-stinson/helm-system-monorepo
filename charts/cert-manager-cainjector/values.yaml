@@ -6,7 +6,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "jetstack/cert-manager-cainjector"
-    tag: "v1.16.2"
+    tag: "v1.17.1"
   args:
     - '--v=2'
     - '--leader-election-namespace=$(POD_NAMESPACE)'

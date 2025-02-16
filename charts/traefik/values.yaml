@@ -1,7 +1,7 @@
 workload:
   image:
     repository: traefik
-    tag: v3.2.2
+    tag: v3.3.3
   args:
     # Entrypoints
     - '--entryPoints.internalweb.address=:80/tcp'

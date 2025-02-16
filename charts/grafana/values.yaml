@@ -5,7 +5,7 @@ workload:
     match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'
   image:
     repository: "grafana/grafana"
-    tag: "11.4.0"
+    tag: "11.5.1"
   envsSecret:
     - name: GF_SECURITY_ADMIN_USER
       secret: grafana

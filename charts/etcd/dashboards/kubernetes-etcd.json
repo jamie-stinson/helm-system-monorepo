@@ -1,47 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "datasource",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "11.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -64,12 +21,10 @@
       }
     ]
   },
-  "description": "Etcd Cluster Overview showing details scraped from the etcd Prometheus metrics endpoint.",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 21473,
   "graphTooltip": 0,
-  "id": null,
+  "id": 13,
   "links": [
     {
       "asDropdown": true,
@@ -86,31 +41,455 @@
       "url": ""
     }
   ],
-  "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "P4169E866C3094E38"
+        "uid": "${datasource}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Percent",
+            "axisPlacement": "auto",
+            "axisSoftMax": 1,
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 1,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 0
       },
-      "id": 88,
-      "panels": [],
+      "id": 98,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P4169E866C3094E38"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(process_cpu_seconds_total{job=\"etcd\"}[$__rate_interval])) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
           "refId": "A"
         }
       ],
+      "title": "Etcd CPU Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Percent",
+            "axisPlacement": "auto",
+            "axisSoftMax": 1,
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 99,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(process_resident_memory_bytes{job=\"etcd\"}) by (instance) / sum(node_memory_MemTotal_bytes) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Etcd Memory Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "The total number of bytes received / transmitted from grpc clients",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(etcd_network_client_grpc_received_bytes_total{job=\"$job\"}[$__rate_interval])) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "- sum(rate(etcd_network_client_grpc_sent_bytes_total{job=\"$job\"}[$__rate_interval])) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Etcd Client Bandwidth",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "The total number of bytes received / transmitted from peers",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 101,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(rate(etcd_network_peer_grpc_received_bytes_total{job=\"$job\"}[$__rate_interval])) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "- sum(rate(etcd_network_peer_grpc_sent_bytes_total{job=\"$job\"}[$__rate_interval])) by (instance)",
+          "interval": "$resolution",
+          "legendFormat": "{{ instance }}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Etcd Peer Bandwidth",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 88,
+      "panels": [],
       "title": "Status",
       "type": "row"
     },
@@ -170,7 +549,7 @@
         "h": 3,
         "w": 2,
         "x": 0,
-        "y": 1
+        "y": 17
       },
       "id": 90,
       "options": {
@@ -178,6 +557,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -190,7 +570,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -266,7 +646,7 @@
         "h": 3,
         "w": 4,
         "x": 2,
-        "y": 1
+        "y": 17
       },
       "id": 93,
       "options": {
@@ -274,6 +654,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -286,7 +667,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -539,7 +920,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Is Leader?"
+              "options": "Leader"
             },
             "properties": [
               {
@@ -678,6 +1059,34 @@
                 "value": 110
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Instance"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "applyToRow": false,
+                  "mode": "gradient",
+                  "type": "color-background",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ccccdc",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.minWidth",
+                "value": 120
+              }
+            ]
           }
         ]
       },
@@ -685,7 +1094,7 @@
         "h": 6,
         "w": 18,
         "x": 6,
-        "y": 1
+        "y": 17
       },
       "id": 74,
       "maxDataPoints": 100,
@@ -702,16 +1111,18 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": false,
           "expr": "(etcd_mvcc_db_total_size_in_bytes{instance=~\"$instance\",job=~\"$job\"} / etcd_server_quota_backend_bytes{instance=~\"$instance\",job=~\"$job\"})*100",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
@@ -723,9 +1134,11 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": false,
           "expr": "process_resident_memory_bytes{instance=~\"$instance\",job=~\"$job\"}",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
@@ -740,6 +1153,7 @@
           "exemplar": false,
           "expr": "sum(etcd_debugging_mvcc_keys_total{instance=~\"$instance\",job=~\"$job\"}) by (instance)",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
@@ -751,6 +1165,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": true,
           "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{instance=~\"$instance\",job=~\"$job\"}[5m])) by (instance, le))",
           "format": "table",
@@ -765,6 +1180,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": true,
           "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{instance=~\"$instance\",job=~\"$job\"}[5m])) by (instance, le))",
           "format": "table",
@@ -782,6 +1198,7 @@
           "exemplar": true,
           "expr": "sum(etcd_server_is_leader{instance=~\"$instance\",job=~\"$job\"}) by (instance)",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
@@ -793,9 +1210,11 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": false,
           "expr": "sum(etcd_debugging_mvcc_db_compaction_keys_total{instance=~\"$instance\",job=~\"$job\"}) by (instance)",
           "format": "table",
+          "hide": false,
           "instant": true,
           "interval": "",
           "intervalFactor": 1,
@@ -821,6 +1240,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": true,
           "expr": "etcd_server_quota_backend_bytes{instance=~\"$instance\",job=~\"$job\"} - etcd_mvcc_db_total_size_in_bytes{instance=~\"$instance\",job=~\"$job\"}",
           "format": "table",
@@ -835,6 +1255,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "exemplar": true,
           "expr": "etcd_server_quota_backend_bytes{instance=~\"$instance\",job=~\"$job\"}",
           "format": "time_series",
@@ -859,8 +1280,11 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "cluster": true,
+              "instance": false,
               "job": true
             },
+            "includeByName": {},
             "indexByName": {
               "Time": 0,
               "Value #A": 8,
@@ -884,7 +1308,7 @@
               "Value #C": "# Keys",
               "Value #D": "WAL Sync 99p",
               "Value #E": "DB Sync 99p",
-              "Value #F": "Is Leader?",
+              "Value #F": "Leader",
               "Value #G": "Compacted Keys",
               "Value #H": "Urgent Defragmentation",
               "Value #I": "DB Capacity",
@@ -956,7 +1380,7 @@
         "h": 3,
         "w": 3,
         "x": 0,
-        "y": 4
+        "y": 20
       },
       "id": 91,
       "options": {
@@ -964,6 +1388,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -976,7 +1401,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1052,7 +1477,7 @@
         "h": 3,
         "w": 3,
         "x": 3,
-        "y": 4
+        "y": 20
       },
       "id": 92,
       "options": {
@@ -1060,6 +1485,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1072,7 +1498,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.0.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1093,462 +1519,14 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "P4169E866C3094E38"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
-      },
-      "id": 95,
-      "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P4169E866C3094E38"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Traffic",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 30,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 0,
-        "y": 8
-      },
-      "id": 22,
-      "interval": "$interval",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.2.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "exemplar": true,
-          "expr": "rate(etcd_network_client_grpc_received_bytes_total{instance=~\"$instance\",job=~\"$job\"}[5m])",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
-          "metric": "etcd_network_client_grpc_received_bytes_total",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "title": "Client Traffic In",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 30,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 6,
-        "y": 8
-      },
-      "id": 21,
-      "interval": "$interval",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.2.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "exemplar": true,
-          "expr": "rate(etcd_network_client_grpc_sent_bytes_total{instance=~\"$instance\",job=~\"$job\"}[5m])",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
-          "metric": "etcd_network_client_grpc_sent_bytes_total",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "title": "Client Traffic Out",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 30,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 12,
-        "y": 8
-      },
-      "id": 20,
-      "interval": "$interval",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.2.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "exemplar": true,
-          "expr": "sum(rate(etcd_network_peer_received_bytes_total{instance=~\"$instance\",job=~\"$job\"}[5m])) by (instance)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
-          "metric": "etcd_network_peer_received_bytes_total",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "title": "Peer Traffic In",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 30,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 18,
-        "y": 8
-      },
-      "id": 16,
-      "interval": "$interval",
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "8.2.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "exemplar": true,
-          "expr": "sum(rate(etcd_network_peer_sent_bytes_total{instance=~\"$instance\",job=~\"$job\"}[5m])) by (instance)",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
-          "metric": "etcd_network_peer_sent_bytes_total",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "title": "Peer Traffic Out",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "P4169E866C3094E38"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 15
+        "y": 23
       },
       "id": 97,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P4169E866C3094E38"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Keys",
       "type": "row"
     },
@@ -1569,6 +1547,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -1616,7 +1595,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 16
+        "y": 24
       },
       "id": 58,
       "interval": "$interval",
@@ -1635,7 +1614,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1671,6 +1650,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -1718,7 +1698,7 @@
         "h": 7,
         "w": 8,
         "x": 9,
-        "y": 16
+        "y": 24
       },
       "id": 52,
       "interval": "$interval",
@@ -1735,7 +1715,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1782,6 +1762,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -1829,7 +1810,7 @@
         "h": 7,
         "w": 7,
         "x": 17,
-        "y": 16
+        "y": 24
       },
       "id": 48,
       "interval": "$interval",
@@ -1846,7 +1827,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1867,27 +1848,14 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "P4169E866C3094E38"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 31
       },
       "id": 76,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "P4169E866C3094E38"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "General Info",
       "type": "row"
     },
@@ -1908,6 +1876,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -1938,8 +1907,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1955,7 +1923,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "id": 29,
       "interval": "$interval",
@@ -1972,7 +1940,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2010,6 +1978,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2040,8 +2009,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2057,7 +2025,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 32
       },
       "id": 1,
       "interval": "$interval",
@@ -2076,7 +2044,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2128,6 +2096,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 29,
             "gradientMode": "opacity",
@@ -2159,8 +2128,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2176,7 +2144,7 @@
         "h": 10,
         "w": 6,
         "x": 0,
-        "y": 31
+        "y": 39
       },
       "id": 7,
       "interval": "$interval",
@@ -2193,7 +2161,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2244,6 +2212,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2274,8 +2243,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2291,7 +2259,7 @@
         "h": 10,
         "w": 6,
         "x": 6,
-        "y": 31
+        "y": 39
       },
       "id": 3,
       "interval": "$interval",
@@ -2310,7 +2278,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2360,6 +2328,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2390,8 +2359,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2407,7 +2375,7 @@
         "h": 10,
         "w": 6,
         "x": 12,
-        "y": 31
+        "y": 39
       },
       "id": 60,
       "interval": "$interval",
@@ -2426,7 +2394,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2471,6 +2439,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2501,8 +2470,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2518,7 +2486,7 @@
         "h": 10,
         "w": 6,
         "x": 18,
-        "y": 31
+        "y": 39
       },
       "id": 62,
       "interval": "$interval",
@@ -2537,7 +2505,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2586,6 +2554,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2616,8 +2585,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2633,7 +2601,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 41
+        "y": 49
       },
       "id": 56,
       "interval": "$interval",
@@ -2650,7 +2618,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2687,6 +2655,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2717,8 +2686,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2734,7 +2702,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 41
+        "y": 49
       },
       "id": 9,
       "interval": "$interval",
@@ -2751,7 +2719,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2788,6 +2756,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2818,8 +2787,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2835,7 +2803,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 41
+        "y": 49
       },
       "id": 40,
       "interval": "$interval",
@@ -2852,7 +2820,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2926,6 +2894,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -2956,8 +2925,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2973,7 +2941,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 41
+        "y": 49
       },
       "id": 41,
       "interval": "$interval",
@@ -2990,7 +2958,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3039,6 +3007,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3069,8 +3038,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3086,7 +3054,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 47
+        "y": 55
       },
       "id": 54,
       "interval": "$interval",
@@ -3103,7 +3071,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3139,6 +3107,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3169,8 +3138,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3186,7 +3154,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 47
+        "y": 55
       },
       "id": 19,
       "interval": "$interval",
@@ -3203,7 +3171,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3242,6 +3210,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3272,8 +3241,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3289,7 +3257,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 47
+        "y": 55
       },
       "id": 5,
       "interval": "$interval",
@@ -3306,7 +3274,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3344,6 +3312,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3374,8 +3343,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3391,7 +3359,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 47
+        "y": 55
       },
       "id": 2,
       "interval": "$interval",
@@ -3412,7 +3380,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3465,6 +3433,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3495,8 +3464,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3512,7 +3480,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 61
       },
       "id": 23,
       "interval": "$interval",
@@ -3529,7 +3497,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3578,6 +3546,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 30,
             "gradientMode": "opacity",
@@ -3608,8 +3577,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3625,7 +3593,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 53
+        "y": 61
       },
       "id": 8,
       "interval": "$interval",
@@ -3642,7 +3610,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "8.2.5",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3677,107 +3645,82 @@
       "type": "timeseries"
     }
   ],
+  "preload": false,
   "refresh": "1m",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [
     "etcd",
-    "prometheus"
+    "prometheus",
+    "kubernetes",
+    "performance",
+    "cpu",
+    "memory",
+    "network"
   ],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "Prometheus",
-          "value": "PBFA97CFB590B2093"
+          "text": "thanos",
+          "value": "b62fda65-3346-4662-8243-f8ef9c3c0a71"
         },
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Data Source",
-        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
-        "current": {},
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(etcd_cluster_version,job)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Job",
-        "multi": false,
-        "name": "job",
-        "options": [],
-        "query": {
-          "query": "label_values(etcd_cluster_version,job)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 5,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "current": {},
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${datasource}"
-        },
-        "definition": "label_values({job=\"$job\"}, instance)",
-        "hide": 0,
+        "definition": "label_values(etcd_cluster_version{job=\"$job\"},instance)",
         "includeAll": true,
-        "label": "Instance",
-        "multi": true,
-        "name": "instance",
+        "name": "node",
         "options": [],
         "query": {
-          "query": "label_values({job=\"$job\"}, instance)",
-          "refId": "StandardVariableQuery"
+          "qryType": 1,
+          "query": "label_values(etcd_cluster_version{job=\"$job\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 5,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "auto": true,
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "selected": false,
           "text": "1m",
           "value": "1m"
         },
-        "hide": 0,
-        "label": "Interval",
-        "name": "interval",
+        "name": "resolution",
         "options": [
           {
             "selected": false,
-            "text": "auto",
-            "value": "$__auto_interval_interval"
+            "text": "1s",
+            "value": "1s"
           },
           {
             "selected": false,
             "text": "15s",
             "value": "15s"
+          },
+          {
+            "selected": false,
+            "text": "30s",
+            "value": "30s"
           },
           {
             "selected": true,
@@ -3786,86 +3729,53 @@
           },
           {
             "selected": false,
+            "text": "3m",
+            "value": "3m"
+          },
+          {
+            "selected": false,
             "text": "5m",
             "value": "5m"
-          },
-          {
-            "selected": false,
-            "text": "10m",
-            "value": "10m"
-          },
-          {
-            "selected": false,
-            "text": "30m",
-            "value": "30m"
-          },
-          {
-            "selected": false,
-            "text": "1h",
-            "value": "1h"
-          },
-          {
-            "selected": false,
-            "text": "3h",
-            "value": "3h"
-          },
-          {
-            "selected": false,
-            "text": "6h",
-            "value": "6h"
-          },
-          {
-            "selected": false,
-            "text": "12h",
-            "value": "12h"
-          },
-          {
-            "selected": false,
-            "text": "1d",
-            "value": "1d"
           }
         ],
-        "query": "15s,1m,5m,10m,30m,1h,3h,6h,12h,1d",
-        "queryValue": "",
+        "query": "1s,15s,30s,1m,3m,5m",
         "refresh": 2,
-        "skipUrlSync": false,
         "type": "interval"
+      },
+      {
+        "current": {
+          "text": "etcd",
+          "value": "etcd"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(etcd_cluster_version,job)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Job",
+        "name": "job",
+        "options": [],
+        "query": {
+          "query": "label_values(etcd_cluster_version,job)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 5,
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-15m",
     "to": "now"
   },
-  "timeRangeUpdatedDuringEditOrView": false,
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "browser",
-  "title": "Etcd Cluster Overview",
-  "uid": "etcd_cluster",
-  "version": 3,
+  "title": "Kubernetes / Etcd",
+  "uid": "etcd_cluster_test",
+  "version": 13,
   "weekStart": ""
 }

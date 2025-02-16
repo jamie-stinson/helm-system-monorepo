@@ -2,7 +2,7 @@ workload:
   image:
     registry: quay.io
     repository: jetstack/version-checker
-    tag: v0.8.5
+    tag: v0.8.6
   command:
     - 'version-checker'
   args:

@@ -4,7 +4,7 @@ workload:
   image:
     registry: quay.io
     repository: thanos/thanos
-    tag: v0.31.0
+    tag: v0.37.2
   args:
     - 'query-frontend'
     - '--http-address=0.0.0.0:9090'

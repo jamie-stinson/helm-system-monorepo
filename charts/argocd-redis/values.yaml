@@ -5,7 +5,7 @@ workload:
   type: StatefulSet
   image:
     repository: redis
-    tag: 7.0.15-alpine
+    tag: 7.4.2-alpine
   args:
     - "--save"
     - ""

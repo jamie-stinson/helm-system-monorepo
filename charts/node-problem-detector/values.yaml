@@ -3,7 +3,7 @@ workload:
   image:
     registry: "registry.k8s.io"
     repository: "node-problem-detector/node-problem-detector"
-    tag: "v0.8.19"
+    tag: "v0.8.20"
   args:
     - '--logtostderr'
     - '--config.system-log-monitor=/config/kernel-monitor.json'

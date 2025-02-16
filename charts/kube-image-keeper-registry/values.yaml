@@ -3,7 +3,7 @@ namespace: "kube-image-keeper"
 workload:
   image:
     repository: registry
-    tag: 2.8.1
+    tag: 2.8.3
   envs:
     - name: REGISTRY_STORAGE_DELETE_ENABLED
       value: true

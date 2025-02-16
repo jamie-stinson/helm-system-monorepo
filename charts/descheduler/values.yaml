@@ -2,7 +2,7 @@ workload:
   image:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"
-    tag: "v0.31.0"
+    tag: "v0.32.2"
   command:
     - '/bin/descheduler'
   args:

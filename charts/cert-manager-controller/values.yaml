@@ -7,7 +7,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "jetstack/cert-manager-controller"
-    tag: "v1.16.2"
+    tag: "v1.17.1"
   args:
     - '--v=2'
     - '--cluster-resource-namespace=$(POD_NAMESPACE)'
