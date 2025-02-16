@@ -32,11 +32,9 @@ extraObjects:
       enableSuperuserAccess: false
       storage:
         storageClass: "hostpath-csi"
-        size: 5Gi
+        size: 3Gi
       resources:
         requests:
-          cpu: "50m"
-          memory: "100Mi"
-      affinity:
-        enablePodAntiAffinity: true
-        topologyKey: kubernetes.io/hostname
+          cpu: "10m"
+          memory: "10Mi"
+
