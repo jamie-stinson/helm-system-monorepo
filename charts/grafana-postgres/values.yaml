@@ -1,0 +1,24 @@
+extraObjects:
+  - |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: grafana
+    spec:
+      description: "Test Grafana"
+      imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+      instances: 3
+      bootstrap:
+        initdb:
+          database: grafana
+          owner: grafana
+      enableSuperuserAccess: false
+      storage:
+        emptyDir: {}
+      resources:
+        requests:
+          cpu: "50m"
+          memory: "100Mi"
+      affinity:
+        enablePodAntiAffinity: true
+        topologyKey: kubernetes.io/hostname
