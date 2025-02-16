@@ -92,6 +92,18 @@ grafana:
         title: "Kubernetes / Pods"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-pods.json"
         folder: "System"
+      - name: kubernetes-api-server
+        title: "Kubernetes / API Server"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-api-server.json"
+        folder: "System"
+      - name: compute-cluster
+        title: "Compute / Cluster"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/compute-cluster.json"
+        folder: "System"
+      - name: compute-nodes
+        title: "Compute / Nodes"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/compute-nodes.json"
+        folder: "System"
 
 extraObjects:
   - |
