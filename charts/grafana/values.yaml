@@ -60,7 +60,11 @@ configMap:
           domain = ''
           [database]
           type = postgres
-
+          [auth.anonymous]
+          enabled = true
+          org_role = Admin
+          [auth]
+          disable_login_form = true
 ingress:
   enabled: true
   annotations:
@@ -118,9 +122,4 @@ extraObjects:
     spec:
       external:
         url: http://grafana.grafana.svc.cluster.local:3000
-        adminUser:
-          name: grafana
-          key: GF_SECURITY_ADMIN_USER
-        adminPassword:
-          name: grafana
-          key: GF_SECURITY_ADMIN_PASSWORD
+
