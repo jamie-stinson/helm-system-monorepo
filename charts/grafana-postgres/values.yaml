@@ -35,8 +35,6 @@ extraObjects:
           database: grafana
           owner: grafana
       enableSuperuserAccess: false
-      postgresUID: k8s
-      postgresGID: k8s
       storage:
         storageClass: "nfs-client"
         size: 5Gi
