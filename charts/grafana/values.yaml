@@ -4,12 +4,13 @@ workload:
   image:
     repository: "grafana/grafana"
     tag: "11.5.1"
-  envs:
-    - name: "GF_SECURITY_ADMIN_USER"
-      value: "admin"
-    - name: "GF_SECURITY_ADMIN_PASSWORD"
-      value: "admin"
   envsSecret:
+    - name: GF_SECURITY_ADMIN_USER
+      secret: grafana
+      key: GF_SECURITY_ADMIN_USER
+    - name: GF_SECURITY_ADMIN_PASSWORD
+      secret: grafana
+      key: GF_SECURITY_ADMIN_PASSWORD
     - name: GF_DATABASE_HOST
       secret: grafana-postgres-app
       key: host
@@ -37,6 +38,9 @@ workload:
     - name: data
       type: emptyDir
       mountPath: /var/lib/grafana
+
+secret:
+  enabled: true
 
 service:
   ports:
