@@ -26,6 +26,7 @@ workload:
     - '--api.dashboard=true'
     - '--api.insecure=true'
     # Providers
+    - "--providers.file.filename=/config/traefik.yaml"
     - '--providers.kubernetesingress=true'
     - '--providers.kubernetesingress.allowemptyservices=true'
     # Logs
@@ -44,6 +45,32 @@ workload:
     livenessProbe:
       path: "/ping"
       port: 8082
+  storage:
+    - name: traefik
+      type: configMap
+      mountPath: /config
+      configMapName: traefik
+    - name: letsencrypt-wildcard-certificate
+      type: secret
+      optional: false
+      mountPath: /tls
+      secretName: letsencrypt-wildcard-certificate
+
+configMap:
+  enabled: true
+  configMaps:
+    - name: "traefik"
+      data:
+        traefik.yaml: |
+          tls:
+            certificates:
+              - certFile: /tls/tls.crt
+                keyFile: /tls/tls.key
+            stores:
+              default:
+                defaultCertificate:
+                  certFile: /tls/tls.crt
+                  keyFile: /tls/tls.key
 
 service:
   ports:
@@ -167,8 +194,7 @@ ingress:
       path: /
       pathType: "Prefix"
       tls:
-        enabled: true
-        secretName: "letsencrypt-wildcard-certificate"
+        enabled: false
       backend:
         service:
           name: "traefik"
