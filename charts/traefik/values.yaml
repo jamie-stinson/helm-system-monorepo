@@ -190,6 +190,8 @@ ingress:
     - host: traefik.openjamlab.com
       path: /
       pathType: "Prefix"
+      tls:
+        enabled: false
       backend:
         service:
           name: "traefik"
