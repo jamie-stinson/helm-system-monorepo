@@ -71,8 +71,7 @@ ingress:
       path: /
       pathType: "Prefix"
       tls:
-        enabled: true
-        secretName: "letsencrypt-wildcard-certificate"
+        enabled: false
       backend:
         service:
           name: "alertmanager"
