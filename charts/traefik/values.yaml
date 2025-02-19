@@ -63,6 +63,9 @@ configMap:
       data:
         traefik.yaml: |
           tls:
+            certificates:
+              - certFile: /tls/tls.crt
+                keyFile: /tls/tls.key
             stores:
               default:
                 defaultCertificate:
