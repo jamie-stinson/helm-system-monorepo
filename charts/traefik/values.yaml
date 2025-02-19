@@ -194,7 +194,8 @@ ingress:
       path: /
       pathType: "Prefix"
       tls:
-        enabled: false
+        enabled: true
+        secretName: "letsencrypt-wildcard-certificate"
       backend:
         service:
           name: "traefik"
