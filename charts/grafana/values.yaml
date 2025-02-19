@@ -7,10 +7,10 @@ workload:
   envsSecret:
     - name: GF_SECURITY_ADMIN_USER
       secret: grafana
-      key: GF_SECURITY_ADMIN_USER
+      key: ADMIN_USER
     - name: GF_SECURITY_ADMIN_PASSWORD
       secret: grafana
-      key: GF_SECURITY_ADMIN_PASSWORD
+      key: ADMIN_PASSWORD
     - name: GF_DATABASE_HOST
       secret: grafana-postgres-app
       key: host
@@ -38,9 +38,6 @@ workload:
     - name: data
       type: emptyDir
       mountPath: /var/lib/grafana
-
-secret:
-  enabled: true
 
 service:
   ports:
@@ -124,7 +121,7 @@ extraObjects:
         url: http://grafana.grafana.svc.cluster.local:3000
         adminUser:
           name: grafana
-          key: GF_SECURITY_ADMIN_USER
+          key: ADMIN_USER
         adminPassword:
           name: grafana
-          key: GF_SECURITY_ADMIN_PASSWORD
+          key: ADMIN_PASSWORD

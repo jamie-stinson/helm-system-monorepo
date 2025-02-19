@@ -26,6 +26,7 @@ workload:
     - '--api.dashboard=true'
     - '--api.insecure=true'
     # Providers
+    - "--providers.file.filename=/config/traefik.yaml"
     - '--providers.kubernetesingress=true'
     - '--providers.kubernetesingress.allowemptyservices=true'
     # Logs
@@ -44,6 +45,29 @@ workload:
     livenessProbe:
       path: "/ping"
       port: 8082
+  storage:
+    - name: traefik
+      type: configMap
+      mountPath: /config
+      configMapName: traefik
+    - name: letsencrypt-wildcard-certificate
+      type: secret
+      optional: false
+      mountPath: /tls
+      secretName: letsencrypt-wildcard-certificate
+
+configMap:
+  enabled: true
+  configMaps:
+    - name: "traefik"
+      data:
+        traefik.yaml: |
+          tls:
+            stores:
+              default:
+                defaultCertificate:
+                  certFile: /tls/tls.crt
+                  keyFile: /tls/tls.key
 
 service:
   ports:
@@ -166,9 +190,6 @@ ingress:
     - host: traefik.openjamlab.com
       path: /
       pathType: "Prefix"
-      tls:
-        enabled: true
-        secretName: "letsencrypt-wildcard-certificate"
       backend:
         service:
           name: "traefik"
@@ -179,10 +200,6 @@ ingressClass:
   isDefault: true
   controller: "traefik.io/ingress-controller"
 
-secret:
-  enabled: true
-  namespace: "cert-manager"
-
 certificate:
   enabled: true
   spec:
@@ -192,18 +209,21 @@ certificate:
       - '*.openjamlab.com'
     issuerRef:
       name: "traefik"
-      kind: ClusterIssuer
-    secretTemplate:
-      annotations:
-        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"  
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
-        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      kind: Issuer
 
 issuer:
   enabled: true
-  type: ClusterIssuer
+  type: Issuer
   spec:
     acme:
+      email: "jamiestinson1@icloud.com"
+      solvers:
+        - dns01:
+            cloudflare:
+              email: "jamiestinson1@icloud.com"
+              apiTokenSecretRef:
+                name: cloudflare
+                key: API_TOKEN
       server: https://acme-v02.api.letsencrypt.org/directory
       privateKeySecretRef:
         name: letsencrypt-acme-key
