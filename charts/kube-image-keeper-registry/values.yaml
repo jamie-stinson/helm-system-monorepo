@@ -16,8 +16,9 @@ workload:
       port: 5000
   storage:
     - name: data
-      type: emptyDir
+      type: pvc
       mountPath: /var/lib/registry
+      claimName: "kube-image-keeper-registry"
 
 service:
   ports:
