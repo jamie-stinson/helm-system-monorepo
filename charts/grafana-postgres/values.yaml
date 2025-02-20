@@ -36,10 +36,9 @@ extraObjects:
           owner: grafana
       enableSuperuserAccess: false
       storage:
-        storageClass: "nfs-client"
+        storageClass: "nfs-csi"
         size: 5Gi
       resources:
         requests:
           cpu: "10m"
           memory: "10Mi"
-
