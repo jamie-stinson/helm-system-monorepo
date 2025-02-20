@@ -3775,7 +3775,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Kubernetes / Etcd",
-  "uid": "etcd_cluster_test",
+  "uid": "kubernetes_etcd",
   "version": 13,
   "weekStart": ""
 }
