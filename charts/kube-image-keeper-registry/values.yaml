@@ -85,7 +85,9 @@ extraObjects:
         - retrans=2
       csi:
         driver: nfs.csi.k8s.io
-        volumeHandle: nfs-server.default.svc.cluster.local/share##
+      # volumeHandle format: {nfs-server-address}#{sub-dir-name}#{share-name}
+      # make sure this value is unique for every share in the cluster
+        volumeHandle: 10.0.0.10#kube-image-keeper-registry#applications
         volumeAttributes:
           server: 10.0.0.10
           share: /mnt/data-pool/applications
