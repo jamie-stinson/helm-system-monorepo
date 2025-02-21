@@ -2,7 +2,7 @@ workload:
   image:
     registry: ghcr.io
     repository: stakater/reloader
-    tag: v1.2.1
+    tag: v1.3.0
   args:
     - '--log-format=json'
     - '--log-level=info'

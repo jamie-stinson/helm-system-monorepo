@@ -8,8 +8,8 @@ workload:
     - '--entryPoints.externalweb.address=:81/tcp'
     - '--entryPoints.internalwebsecure.address=:443/tcp'
     - '--entryPoints.externalwebsecure.address=:444/tcp'
-    - '--entryPoints.traefik.address=:8080/tcp'
-    - '--entryPoints.ping.address=:8082/tcp'
+    - '--entryPoints.ping.address=:8080/tcp'
+    - '--entryPoints.traefik.address=:8082/tcp'
     - '--entryPoints.metrics.address=:9100/tcp'
     # TLS
     - '--entryPoints.internalwebsecure.http.tls=true'
@@ -41,10 +41,8 @@ workload:
   probes:
     readinessProbe:
       path: "/ping"
-      port: 8082
     livenessProbe:
       path: "/ping"
-      port: 8082
   storage:
     - name: traefik
       type: configMap
@@ -52,9 +50,9 @@ workload:
       configMapName: traefik
     - name: letsencrypt-wildcard-certificate
       type: secret
-      optional: false
       mountPath: /tls
       secretName: letsencrypt-wildcard-certificate
+      optional: false
 
 configMap:
   enabled: true
@@ -74,10 +72,10 @@ configMap:
 
 service:
   ports:
-    - name: traefik
+    - name: ping
       port: 8080
       protocol: TCP
-    - name: ping
+    - name: traefik
       port: 8082
       protocol: TCP
     - name: http-metrics

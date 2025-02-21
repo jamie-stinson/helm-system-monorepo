@@ -72,7 +72,7 @@ ingress:
 
 grafana:
   dashboard:
-    cacheDuration: 30m
+    cacheDuration: 1h
     resyncPeriod: "1m"
   folder:
     resyncPeriod: "1m"

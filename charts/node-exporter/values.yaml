@@ -3,7 +3,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "prometheus/node-exporter"
-    tag: "v1.8.2"
+    tag: "v1.9.0"
   args:
     - '--web.listen-address=0.0.0.0:9100'
     - '--path.procfs=/host/proc'
@@ -39,12 +39,3 @@ service:
     - name: http-metrics
       protocol: TCP
       port: 9100
-
-grafana:
-  dashboard:
-    enabled: true
-    dashboards:
-      - name: node-information
-        title: "Node Information"
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/node-exporter/dashboards/node-information.json"
-        folder: "System"

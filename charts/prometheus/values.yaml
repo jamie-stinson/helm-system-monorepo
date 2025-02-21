@@ -5,7 +5,7 @@ workload:
   image:
     registry: quay.io
     repository: prometheus/prometheus
-    tag: v3.1.0
+    tag: v3.2.0
   args:
     - '--config.file=/etc/config/prometheus.yaml'
     - '--web.console.libraries=/etc/prometheus/console_libraries'
@@ -226,6 +226,22 @@ configMap:
             - job_name: "kube-cadvisor"
               scheme: https
               metrics_path: /metrics/cadvisor
+              authorization:
+                type: Bearer
+                credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              tls_config:
+                ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                insecure_skip_verify: true
+              kubernetes_sd_configs:
+                - role: node
+              relabel_configs:
+                - action: labelmap
+                  regex: __meta_kubernetes_node_label_(.+)
+
+            # Kubelet
+            - job_name: "kubelet"
+              scheme: https
+              metrics_path: /metrics
               authorization:
                 type: Bearer
                 credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
