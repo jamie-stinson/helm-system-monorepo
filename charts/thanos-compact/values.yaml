@@ -11,9 +11,9 @@ workload:
     - '--objstore.config-file=/etc/config/thanos.yaml'
     - '--data-dir=/data'
     - "--log.level=info"
-    - "--retention.resolution-raw=2d"
-    - "--retention.resolution-5m=10d"
-    - "--retention.resolution-1h=10d"
+    - "--retention.resolution-raw=0d"
+    - "--retention.resolution-5m=0d"
+    - "--retention.resolution-1h=0d"
     - "--consistency-delay=15m"
     - "--wait"
     - "--wait-interval=5m"
