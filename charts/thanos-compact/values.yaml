@@ -47,3 +47,6 @@ service:
     - name: cluster
       port: 19000
       protocol: TCP
+
+autoscaling:
+  enabled: false
