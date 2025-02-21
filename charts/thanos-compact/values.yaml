@@ -2,6 +2,8 @@ namespace: "thanos"
 
 workload:
   type: Deployment
+  # Only 1 needs to be ran
+  replicaCount: 1
   image:
     registry: quay.io
     repository: thanos/thanos
