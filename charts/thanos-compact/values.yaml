@@ -9,7 +9,7 @@ workload:
   args:
     - 'compact'
     - '--objstore.config-file=/etc/config/thanos.yaml'
-    - '--data-dir=/data'
+    - '--data-dir=/thanos'
     - "--log.level=info"
     - "--retention.resolution-raw=0d"
     - "--retention.resolution-5m=0d"
