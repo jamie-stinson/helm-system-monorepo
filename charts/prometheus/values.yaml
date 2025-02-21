@@ -341,7 +341,7 @@ extraObjects:
       name: thanos
     spec:
       capacity:
-        storage: 50Gi
+        storage: 200Gi
       accessModes:
         - ReadWriteMany
       persistentVolumeReclaimPolicy: Retain
