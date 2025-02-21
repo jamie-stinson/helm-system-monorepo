@@ -29,12 +29,10 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    - mountPath: /data
-      name: data
-      ramDisk: false
-      readOnly: false
-      sizeLimit: 15Gi
-      type: emptyDir
+    - name: thanos-data
+      type: pvc
+      mountPath: /thanos
+      claimName: "thanos"
 
 service:
   ports:

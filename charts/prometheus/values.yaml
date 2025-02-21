@@ -24,10 +24,10 @@ workload:
       path: "/-/healthy"
       port: 9090
   storage:
-    - configMapName: prometheus
-      mountPath: /etc/config
-      name: config
+    - name: config
       type: configMap
+      mountPath: /etc/config
+      configMapName: prometheus
     - name: prometheus-data
       type: pvcTemplate
       mountPath: /prometheus
@@ -36,6 +36,10 @@ workload:
       storageClass: "nfs-csi"
       size: "50Gi"
       readOnly: false
+    - name: thanos-data
+      type: pvc
+      mountPath: /thanos
+      claimName: "thanos"
   extraContainers:
     - name: thanos
       image: "quay.io/thanos/thanos:v0.37.2"
@@ -68,10 +72,12 @@ workload:
         successThreshold: 1
         timeoutSeconds: 5
       volumeMounts:
-        - name: prometheus-data
-          mountPath: /prometheus
         - name: config
           mountPath: /etc/config
+        - name: prometheus-data
+          mountPath: /prometheus
+        - name: thanos-data
+          mountPath: /thanos
 
 service:
   clusterIP: "None"
@@ -265,7 +271,7 @@ configMap:
         thanos.yaml: |
           type: FILESYSTEM
           config:
-            directory: "/data"
+            directory: "/thanos"
 
 rbac:
   enabled: true
@@ -324,3 +330,47 @@ ingress:
         service:
           name: "prometheus"
           port: 9090
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      annotations:
+        pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+      name: thanos
+    spec:
+      capacity:
+        storage: 50Gi
+      accessModes:
+        - ReadWriteMany
+      persistentVolumeReclaimPolicy: Retain
+      storageClassName: nfs-csi
+      mountOptions:
+        - rw
+        - noatime
+        - nodiratime
+        - nfsvers=4.2
+        - hard
+        - nointr
+        - timeo=600
+        - retrans=2
+      csi:
+        driver: nfs.csi.k8s.io
+        volumeHandle: "10.0.0.10/thanos"
+        volumeAttributes:
+          server: 10.0.0.10
+          share: /mnt/data-pool/applications/thanos
+  - |
+    kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: thanos
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 200Gi
+      volumeName: thanos
+      storageClassName: nfs-csi
