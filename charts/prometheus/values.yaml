@@ -284,6 +284,12 @@ configMap:
                   target_label: __address__
                 - source_labels: [__meta_kubernetes_node_name]
                   target_label: instance
+          
+            # Solution to monitor NFS usage
+            - job_name: 'directory-size-exporter'
+              static_configs:
+                - targets: ['10.0.0.10:8000']
+
         thanos.yaml: |
           type: FILESYSTEM
           config:
