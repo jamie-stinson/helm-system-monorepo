@@ -196,11 +196,10 @@ grafana:
   dashboard:
     enabled: true
     dashboards:
-      - name: kube-image-keeper
-        title: "Kube Image Keeper"
-        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kube-image-keeper-controller/dashboards/kube-image-keeper.json"
+      - name: kubernetes-image-cache
+        title: "Kubernetes / Image Cache"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/kube-image-keeper-controller/dashboards/kubernetes-image-cache.json"
         folder: "System"
-
 
 extraObjects:
   - |
@@ -222,6 +221,13 @@ extraObjects:
             port: 9443
         failurePolicy: Ignore
         name: mpod.kb.io
+        namespaceSelector:
+          matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: NotIn
+              values:
+                - kube-system
+                - kube-image-keeper
         objectSelector:
           matchExpressions:
             - key: kube-image-keeper.enix.io/image-caching-policy
