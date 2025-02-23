@@ -222,13 +222,6 @@ extraObjects:
             port: 9443
         failurePolicy: Ignore
         name: mpod.kb.io
-        namespaceSelector:
-          matchExpressions:
-            - key: kubernetes.io/metadata.name
-              operator: NotIn
-              values:
-                - kube-system
-                - kube-image-keeper
         objectSelector:
           matchExpressions:
             - key: kube-image-keeper.enix.io/image-caching-policy
