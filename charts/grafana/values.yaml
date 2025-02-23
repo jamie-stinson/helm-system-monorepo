@@ -106,6 +106,10 @@ grafana:
         title: "Compute / Nodes"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/compute-nodes.json"
         folder: "System"
+      - name: kubernetes-storage
+        title: "Kubernetes / Storage"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana/dashboards/kubernetes-storage.json"
+        folder: "System"
 
 extraObjects:
   - |
