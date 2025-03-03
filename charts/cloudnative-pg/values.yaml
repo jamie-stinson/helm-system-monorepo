@@ -4,7 +4,7 @@ workload:
   image:
     registry: "ghcr.io"
     repository: "cloudnative-pg/cloudnative-pg"
-    tag: "1.25.0"
+    tag: "1.25.1"
   command:
     - '/manager'
   args:

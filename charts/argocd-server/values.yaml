@@ -5,7 +5,7 @@ workload:
   image:
     registry: quay.io
     repository: argoproj/argocd
-    tag: v2.14.2
+    tag: v2.14.3
   command:
     - 'argocd-server'
   args:
@@ -142,6 +142,19 @@ ingress:
         service:
           name: "argocd-server"
           port: 8080
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: argocd-application-overview
+        title: "ArgoCD / Application / Overview"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argocd-application-overview.json"
+        folder: "System"
+      - name: argocd-operational-overview
+        title: "ArgoCD / Operational / Overview"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argocd-application-overview.json"
+        folder: "System"
 
 extraObjects:
   - |
