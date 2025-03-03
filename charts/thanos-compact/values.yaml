@@ -19,6 +19,7 @@ workload:
     - "--consistency-delay=15m"
     - "--wait"
     - "--wait-interval=5m"
+    - "--delete-delay=0"
   probes:
     readinessProbe:
       path: "/-/ready"
