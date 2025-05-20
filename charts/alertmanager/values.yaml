@@ -67,7 +67,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: alertmanager.openjamlab.com
+    - host: alertmanager.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

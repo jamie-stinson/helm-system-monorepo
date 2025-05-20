@@ -188,7 +188,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: traefik.openjamlab.com
+    - host: traefik.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
@@ -208,8 +208,8 @@ certificate:
   spec:
     secretName: "letsencrypt-wildcard-certificate"
     dnsNames:
-      - 'openjamlab.com'
-      - '*.openjamlab.com'
+      - 'projectwhitebox.com'
+      - '*.projectwhitebox.com'
     issuerRef:
       name: "traefik"
       kind: Issuer

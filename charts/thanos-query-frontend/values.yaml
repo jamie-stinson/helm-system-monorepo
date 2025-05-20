@@ -28,7 +28,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: thanos.openjamlab.com
+    - host: thanos.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

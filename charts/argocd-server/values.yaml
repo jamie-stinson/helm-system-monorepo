@@ -133,7 +133,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: argocd.openjamlab.com
+    - host: argocd.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

@@ -343,7 +343,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: prometheus.openjamlab.com
+    - host: prometheus.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

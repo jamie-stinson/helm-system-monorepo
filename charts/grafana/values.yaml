@@ -67,7 +67,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: grafana.openjamlab.com
+    - host: grafana.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
