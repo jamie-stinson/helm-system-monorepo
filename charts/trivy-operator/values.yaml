@@ -105,7 +105,10 @@ workload:
       value: ""
     - name: "TRIVY_SERVER_HEALTH_CHECK_CACHE_EXPIRATION"
       value: "10h"
-
+    - name: "OPERATOR_LEADER_ELECTION_ENABLED"
+      value: "true"
+    - name: "OPERATOR_LEADER_ELECTION_ID"
+      value: "trivy-operator-lock"
 service:
   ports:
     - name: healthcheck
