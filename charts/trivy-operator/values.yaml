@@ -118,57 +118,49 @@ service:
 configMap:
   enabled: true
   configMaps:
-    - name: "trivy-operator"
+    - name: trivy-operator-config
       data:
-        compliance.failEntriesLimit: '10'
-        configAuditReports.scanner: Trivy
-        node.collector.imageRef: ghcr.io/aquasecurity/node-collector:0.3.1
-        node.collector.nodeSelector: 'true'
-        nodeCollector.volumeMounts: >-
-          [{"mountPath":"/var/lib/etcd","name":"var-lib-etcd","readOnly":true},{"mountPath":"/var/lib/kubelet","name":"var-lib-kubelet","readOnly":true},{"mountPath":"/var/lib/kube-scheduler","name":"var-lib-kube-scheduler","readOnly":true},{"mountPath":"/var/lib/kube-controller-manager","name":"var-lib-kube-controller-manager","readOnly":true},{"mountPath":"/etc/systemd","name":"etc-systemd","readOnly":true},{"mountPath":"/lib/systemd/","name":"lib-systemd","readOnly":true},{"mountPath":"/etc/kubernetes","name":"etc-kubernetes","readOnly":true},{"mountPath":"/etc/cni/net.d/","name":"etc-cni-netd","readOnly":true}]
-        nodeCollector.volumes: >-
-          [{"hostPath":{"path":"/var/lib/etcd"},"name":"var-lib-etcd"},{"hostPath":{"path":"/var/lib/kubelet"},"name":"var-lib-kubelet"},{"hostPath":{"path":"/var/lib/kube-scheduler"},"name":"var-lib-kube-scheduler"},{"hostPath":{"path":"/var/lib/kube-controller-manager"},"name":"var-lib-kube-controller-manager"},{"hostPath":{"path":"/etc/systemd"},"name":"etc-systemd"},{"hostPath":{"path":"/lib/systemd"},"name":"lib-systemd"},{"hostPath":{"path":"/etc/kubernetes"},"name":"etc-kubernetes"},{"hostPath":{"path":"/etc/cni/net.d/"},"name":"etc-cni-netd"}]
-        policies.bundle.insecure: 'false'
-        policies.bundle.oci.ref: mirror.gcr.io/aquasec/trivy-checks:1
-        report.recordFailedChecksOnly: 'true'
-        scanJob.compressLogs: 'true'
-        scanJob.podTemplateContainerSecurityContext: >-
-          {"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true}
-        scanJob.useGCRServiceAccount: 'true'
-        vulnerabilityReports.scanner: Trivy
-    - name: "trivy-operator-trivy-config"
+        OPERATOR_LOG_DEV_MODE: "false"
+        OPERATOR_SCAN_JOB_TIMEOUT: "5m"
+        OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
+        OPERATOR_CONCURRENT_NODE_COLLECTOR_LIMIT: "1"
+        OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"
+        OPERATOR_BATCH_DELETE_LIMIT: "10"
+        OPERATOR_BATCH_DELETE_DELAY: "10s"
+        OPERATOR_METRICS_BIND_ADDRESS: ":8080"
+        OPERATOR_HEALTH_PROBE_BIND_ADDRESS: ":9090"
+        OPERATOR_VULNERABILITY_SCANNER_ENABLED: "true"
+        OPERATOR_SBOM_GENERATION_ENABLED: "true"
+        OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED: "true"
+        OPERATOR_RBAC_ASSESSMENT_SCANNER_ENABLED: "true"
+        OPERATOR_INFRA_ASSESSMENT_SCANNER_ENABLED: "true"
+        OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED: "true"
+        OPERATOR_CLUSTER_COMPLIANCE_ENABLED: "true"
+
+    - name: trivy-operator-trivy-config
       data:
-        trivy.additionalVulnerabilityReportFields: ''
-        trivy.command: image
-        trivy.dbRepository: mirror.gcr.io/aquasec/trivy-db
-        trivy.dbRepositoryInsecure: 'false'
-        trivy.filesystemScanCacheDir: /var/trivyoperator/trivy-db
-        trivy.imagePullPolicy: IfNotPresent
-        trivy.imageScanCacheDir: /tmp/trivy/.cache
-        trivy.includeDevDeps: 'false'
-        trivy.javaDbRepository: mirror.gcr.io/aquasec/trivy-java-db
-        trivy.mode: Standalone
-        trivy.repository: mirror.gcr.io/aquasec/trivy
-        trivy.resources.limits.cpu: 500m
-        trivy.resources.limits.memory: 500M
-        trivy.resources.requests.cpu: 100m
-        trivy.resources.requests.memory: 100M
-        trivy.sbomSources: ''
-        trivy.severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
-        trivy.skipJavaDBUpdate: 'false'
-        trivy.slow: 'true'
-        trivy.supportedConfigAuditKinds: >-
-          Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota
-        trivy.tag: 0.62.1
-        trivy.timeout: 5m0s
-        trivy.useBuiltinRegoPolicies: 'false'
-        trivy.useEmbeddedRegoPolicies: 'true'
+        trivy.repository: "mirror.gcr.io/aquasec/trivy"
+        trivy.tag: "0.62.1"
+        trivy.imagePullPolicy: "IfNotPresent"
+        trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
+        trivy.timeout: "5m0s"
+        trivy.mode: "Standalone"
+        trivy.resources.requests.cpu: "100m"
+        trivy.resources.requests.memory: "100M"
+        trivy.resources.limits.cpu: "500m"
+        trivy.resources.limits.memory: "500M"
 
 rbac:
   enabled: true
   roles:
     clusterRole:
       rules:
+        - apiGroups:
+            - '*'
+          resources:
+            - '*'
+          verbs:
+            - '*'
         - apiGroups:
             - ''
           resources:
