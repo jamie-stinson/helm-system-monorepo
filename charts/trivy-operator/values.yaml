@@ -126,6 +126,8 @@ configMap:
         trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
         trivy.timeout: "5m0s"
         trivy.mode: "Standalone"
+        trivy.dbRepository: "mirror.gcr.io/aquasec/trivy-db"
+        trivy.javaDbRepository: "mirror.gcr.io/aquasec/trivy-java-db"
 
 rbac:
   enabled: true
