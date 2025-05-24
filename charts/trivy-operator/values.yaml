@@ -127,6 +127,7 @@ configMap:
         trivy.mode: "Standalone"
         trivy.dbRepository: "mirror.gcr.io/aquasec/trivy-db"
         trivy.javaDbRepository: "mirror.gcr.io/aquasec/trivy-java-db"
+        trivy.slow: "true"
 
 rbac:
   enabled: true
