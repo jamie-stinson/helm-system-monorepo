@@ -4,7 +4,7 @@ workload:
   image:
     registry: "reg.kyverno.io"
     repository: "kyverno/background-controller"
-    tag: "v1.13.4"
+    tag: "v1.14.1"
   probes:
     readinessProbe:
       path: "/metrics"

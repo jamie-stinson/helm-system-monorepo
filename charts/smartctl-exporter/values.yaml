@@ -3,7 +3,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "prometheuscommunity/smartctl-exporter"
-    tag: "v0.13.0"
+    tag: "v0.14.0"
   args:
     - '--smartctl.path=/usr/sbin/smartctl'
     - '--smartctl.interval=120s'

@@ -3,7 +3,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "prometheus/node-exporter"
-    tag: "v1.9.0"
+    tag: "v1.9.1"
   args:
     - '--web.listen-address=0.0.0.0:9100'
     - '--path.procfs=/host/proc'

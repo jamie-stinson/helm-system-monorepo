@@ -6,7 +6,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "jetstack/cert-manager-webhook"
-    tag: "v1.17.1"
+    tag: "v1.17.2"
   args:
     - '--v=2'
     - '--secure-port=10250'

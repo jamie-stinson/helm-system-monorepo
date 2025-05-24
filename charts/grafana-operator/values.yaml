@@ -4,7 +4,7 @@ workload:
   image:
     registry: ghcr.io
     repository: "grafana/grafana-operator"
-    tag: "v5.16.0"
+    tag: "v5.18.0"
   args:
     - --metrics-bind-address=0.0.0.0:9090
     - --health-probe-bind-address=:8081

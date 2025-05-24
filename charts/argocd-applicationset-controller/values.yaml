@@ -4,7 +4,7 @@ workload:
   image:
     registry: quay.io
     repository: argoproj/argocd
-    tag: v2.14.4
+    tag: v3.0.3
   command:
     - 'argocd-applicationset-controller'
   args:
