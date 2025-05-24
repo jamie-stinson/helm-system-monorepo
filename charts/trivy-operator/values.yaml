@@ -156,12 +156,6 @@ rbac:
     clusterRole:
       rules:
         - apiGroups:
-            - '*'
-          resources:
-            - '*'
-          verbs:
-            - '*'
-        - apiGroups:
             - ''
           resources:
             - configmaps
