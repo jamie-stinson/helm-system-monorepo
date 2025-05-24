@@ -15,7 +15,21 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-
+  envsConfigMap:
+    - name: trivy-operator-config
+      configMap: trivy-operator-config
+  envs:
+    - name: OPERATOR_NAMESPACE
+      value: triv-operator
+    - name: OPERATOR_TARGET_NAMESPACES
+      value: ''
+    - name: OPERATOR_EXCLUDE_NAMESPACES
+      value: ''
+    - name: OPERATOR_TARGET_WORKLOADS
+      value: >-
+        pod,replicaset,replicationcontroller,statefulset,daemonset,cronjob,job
+    - name: OPERATOR_SERVICE_ACCOUNT
+      value: triv-operator-trivy-operator
 service:
   ports:
     - name: healthcheck
