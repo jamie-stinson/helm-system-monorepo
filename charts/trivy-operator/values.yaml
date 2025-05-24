@@ -126,9 +126,6 @@ configMap:
         trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
         trivy.timeout: "5m0s"
         trivy.mode: "Standalone"
-        trivy.resources.requests.cpu: "100m"
-        trivy.resources.requests.memory: "100Mi"
-
 
 rbac:
   enabled: true
