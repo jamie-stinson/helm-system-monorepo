@@ -19,8 +19,6 @@ workload:
     - name: trivy-operator-config
       configMap: trivy-operator-config
   envs:
-    - name: OPERATOR_NAMESPACE
-      value: triv-operator
     - name: OPERATOR_TARGET_NAMESPACES
       value: ''
     - name: OPERATOR_EXCLUDE_NAMESPACES
