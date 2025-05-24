@@ -122,7 +122,6 @@ configMap:
       data:
         trivy.repository: "mirror.gcr.io/aquasec/trivy"
         trivy.tag: "0.62.1"
-        trivy.imagePullPolicy: "IfNotPresent"
         trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
         trivy.timeout: "5m0s"
         trivy.mode: "Standalone"
