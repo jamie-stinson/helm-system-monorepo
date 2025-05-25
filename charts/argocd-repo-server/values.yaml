@@ -13,7 +13,6 @@ workload:
     - '--metrics-port=8084'
     - '--logformat=text'
     - '--loglevel=info'
-    - '--redis=argocd-redis:6379'
   envs:
     - name: ARGOCD_REPO_SERVER_NAME
       value: argocd-repo-server
@@ -37,7 +36,22 @@ workload:
       mountPath: /app/config/gpg/keys
       ramDisk: false
       readOnly: false
-
+  envsConfigMap:
+    - name: ARGOCD_REPOSERVER_LOGFORMAT
+      configMap: argocd-cmd-params-cm
+      key: reposerver.log.format
+    - name: ARGOCD_REPOSERVER_LOG_LEVEL
+      configMap: argocd-cmd-params-cm
+      key: reposerver.log.level
+    - name: ARGOCD_REPOSERVER_PARALLELISM_LIMIT
+      configMap: argocd-cmd-params-cm
+      key: reposerver.parallelism.limit
+    - name: REDIS_SERVER
+      configMap: argocd-cmd-params-cm
+      key: redis.server
+    - name: ARGOCD_SERVER_OTLP_ADDRESS
+      configMap: argocd-cmd-params-cm
+      key: otlp.address
 service:
   ports:
     - name: http

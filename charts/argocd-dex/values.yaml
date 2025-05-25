@@ -9,9 +9,13 @@ workload:
     - '/shared/argocd-dex'
   args:
     - 'rundex'
-  envs:
-    - name: "ARGOCD_DEX_SERVER_DISABLE_TLS"
-      value: "false"
+  envsConfigMap:
+    - name: ARGOCD_DEXSERVER_LOGFORMAT
+      configMap: argocd-cmd-params-cm
+      key: dexserver.log.format
+    - name: ARGOCD_DEXSERVER_LOG_LEVEL
+      configMap: argocd-cmd-params-cm
+      key: dexserver.log.level
   probes:
     readinessProbe:
       path: "/healthz/ready"

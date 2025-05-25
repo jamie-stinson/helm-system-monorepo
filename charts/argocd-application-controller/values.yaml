@@ -11,20 +11,49 @@ workload:
     digest: "sha256:204287a6b59982127c03f8c4b5e748ad843fdb7b14d28c08796846c35f097bce"
   command:
     - 'argocd-application-controller'
-  args:
-    - '--status-processors=5' # concurrent checking
-    - '--operation-processors=5' # concurrent deployment
-    - '--app-resync=180'
-    - '--self-heal-timeout-seconds=5'
-    - '--repo-server=argocd-repo-server:8081'
-    - '--redis=argocd-redis:6379'
-    - '--logformat=text'
-    - '--loglevel=info'
   envs:
     - name: ARGOCD_APPLICATION_CONTROLLER_NAME
       value: argocd-application-controller
     - name: ARGOCD_CONTROLLER_REPLICAS
       value: 1
+  envsConfigMap:
+    - name: ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER
+      configMap: argocd-cmd-params-cm
+      key: repo.server
+    - name: ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER_TIMEOUT_SECONDS
+      configMap: argocd-cmd-params-cm
+      key: controller.repo.server.timeout.seconds
+    - name: ARGOCD_APPLICATION_CONTROLLER_STATUS_PROCESSORS
+      configMap: argocd-cmd-params-cm
+      key: controller.status.processors
+    - name: ARGOCD_APPLICATION_CONTROLLER_OPERATION_PROCESSORS
+      configMap: argocd-cmd-params-cm
+      key: controller.operation.processors
+    - name: ARGOCD_APPLICATION_CONTROLLER_LOGFORMAT
+      configMap: argocd-cmd-params-cm
+      key: controller.log.format
+    - name: ARGOCD_APPLICATION_CONTROLLER_LOGLEVEL
+      configMap: argocd-cmd-params-cm
+      key: controller.log.level
+    - name: ARGOCD_APPLICATION_CONTROLLER_SELF_HEAL_TIMEOUT_SECONDS
+      configMap: argocd-cmd-params-cm
+      key: controller.self.heal.timeout.seconds
+    - name: ARGOCD_APPLICATION_CONTROLLER_SYNC_TIMEOUT
+      configMap: argocd-cmd-params-cm
+      key: controller.sync.timeout.seconds
+    - name: REDIS_SERVER
+      configMap: argocd-cmd-params-cm
+      key: redis.server
+    - name: ARGOCD_APPLICATION_CONTROLLER_OTLP_ADDRESS
+      configMap: argocd-cmd-params-cm
+      key: otlp.address
+    - name: ARGOCD_APPLICATION_NAMESPACES
+      configMap: argocd-cmd-params-cm
+      key: application.namespaces
+    - name: ARGOCD_IGNORE_NORMALIZER_JQ_TIMEOUT
+      configMap: argocd-cmd-params-cm
+      key: controller.ignore.normalizer.jq.timeout
+
   probes:
     readinessProbe:
       path: "/healthz"
