@@ -207,7 +207,9 @@ extraObjects:
       policy.csv: ''
       policy.default: role:admin
       policy.matchMode: glob
-      scopes: '[groups]'
+      scopes: '[groups, email]'
+      policy.csv: |
+        g:github:jamie-stinson, role:admin
   - |
     apiVersion: v1
     kind: ConfigMap
