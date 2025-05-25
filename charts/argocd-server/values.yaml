@@ -323,14 +323,16 @@ extraObjects:
     data:
       url: https://argocd.projectwhitebox.com:30443
 
-      oidc.config: |
-        name: GitHub
-        issuer: https://github.com/login/oauth
-        clientID: Ov23li7VGI4N6AGCt8O1
-        clientSecret: $argocd:dex.github.clientSecret
-        requestedScopes: ["openid", "profile", "email", "read:org"]
-        orgs:
-          - jamie-stinson-org
+      dex.config: |
+        connectors:
+          - type: github
+            id: github
+            name: GitHub
+            config:
+              clientID: Ov23li7VGI4N6AGCt8O1
+              clientSecret: $argocd:dex.github.clientSecret
+              orgs:
+                - jamie-stinson-org
 
       admin.enabled: 'true'
       users.anonymous.enabled: "true"
