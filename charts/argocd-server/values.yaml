@@ -169,6 +169,13 @@ extraObjects:
         app.kubernetes.io/part-of: argocd
     data:
       url: https://argocd.projectwhitebox.com:30443
+    oidc.config: |
+      name: GitHub
+      issuer: https://argocd.projectwhitebox.com:30443/api/dex
+      clientID: Ov23li7VGI4N6AGCt8O1
+      clientSecret: $argocd:dex.github.clientSecret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
       dex.config: |
         connectors:
           - type: github
