@@ -332,7 +332,7 @@ extraObjects:
               clientID: Ov23li7VGI4N6AGCt8O1
               clientSecret: $argocd:dex.github.clientSecret
               orgs:
-                - jamie-stinson-org
+                - name: jamie-stinson-org
 
       admin.enabled: 'true'
       users.anonymous.enabled: "true"
