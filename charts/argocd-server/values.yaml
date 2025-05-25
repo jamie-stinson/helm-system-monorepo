@@ -14,6 +14,7 @@ workload:
     - '--metrics-port=8083'
     - '--repo-server=argocd-repo-server:8081'
     - '--redis=argocd-redis:6379'
+    - '--dex-server=argocd-dex.argocd.svc.cluster.local:5556'
     - '--logformat=text'
     - '--loglevel=info'
     - '--insecure'
