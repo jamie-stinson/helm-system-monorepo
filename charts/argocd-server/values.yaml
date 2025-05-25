@@ -204,7 +204,6 @@ extraObjects:
         app.kubernetes.io/name: argocd-rbac-cm
         app.kubernetes.io/part-of: argocd
     data:
-      policy.csv: ''
       policy.default: role:admin
       policy.matchMode: glob
       scopes: '[groups, email]'
