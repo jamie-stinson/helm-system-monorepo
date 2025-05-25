@@ -327,7 +327,7 @@ extraObjects:
         name: Google
         issuer: https://accounts.google.com
         clientID: 429988516792-6qth0tcf84cqe9g22fe9l6aupdbublje.apps.googleusercontent.com
-        clientSecret: $argocd:dex.google.clientSecret
+        clientSecret: $argocd:dex.github.clientSecret
         requestedScopes: ["openid", "profile", "email"]
 
 
