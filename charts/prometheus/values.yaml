@@ -6,6 +6,7 @@ workload:
     registry: quay.io
     repository: prometheus/prometheus
     tag: v3.4.0
+    digest: "sha256:43670ae74ec8e4e2e55a578102376aac4274857f21b272e3c8a0057f427ed25c"
   args:
     - '--config.file=/etc/config/prometheus.yaml'
     - '--web.console.libraries=/etc/prometheus/console_libraries'
@@ -42,7 +43,7 @@ workload:
       claimName: "thanos"
   extraContainers:
     - name: thanos
-      image: "quay.io/thanos/thanos:v0.37.2"
+      image: "quay.io/thanos/thanos:v0.38.0@sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6"
       ports:
         - containerPort: 10901
         - containerPort: 10902
