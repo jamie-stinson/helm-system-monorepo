@@ -8,7 +8,7 @@ workload:
     registry: "quay.io"
     repository: "jetstack/cert-manager-controller"
     tag: "v1.17.2"
-    digest: "sha256:5da73b0d42def802217c969fdbfbd5f9a8a24a395f53f24aaf3662e7c9f97afb"
+    digest: "sha256:466dead1d21b853cbd14b3608be0b75163a25d3f5d34c99eec3ea8740712c62e"
   args:
     - '--v=2'
     - '--cluster-resource-namespace=$(POD_NAMESPACE)'

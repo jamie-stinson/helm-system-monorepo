@@ -7,7 +7,7 @@ workload:
     registry: "quay.io"
     repository: "jetstack/cert-manager-webhook"
     tag: "v1.17.2"
-    digest: "sha256:5da73b0d42def802217c969fdbfbd5f9a8a24a395f53f24aaf3662e7c9f97afb"
+    digest: "sha256:57daadb1cee21729fd98739a62ce46efe35ef5dd1e66a307d55a1208d88674d4"
   args:
     - '--v=2'
     - '--secure-port=10250'
