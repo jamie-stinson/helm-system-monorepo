@@ -323,16 +323,13 @@ extraObjects:
     data:
       url: https://argocd.projectwhitebox.com:30443
 
-      dex.config: |
-        connectors:
-          - type: github
-            id: github
-            name: GitHub
-            config:
-              clientID: Ov23li7VGI4N6AGCt8O1
-              clientSecret: $argocd:dex.github.clientSecret
-              orgs:
-                - name: jamie-stinson-org
+      oidc.config: |
+        name: Google
+        issuer: https://accounts.google.com
+        clientID: 429988516792-6qth0tcf84cqe9g22fe9l6aupdbublje.apps.googleusercontent.com
+        clientSecret: $argocd:dex.google.clientSecret
+        requestedScopes: ["openid", "profile", "email"]
+
 
       admin.enabled: 'true'
       users.anonymous.enabled: "true"
@@ -467,7 +464,7 @@ extraObjects:
       policy.matchMode: glob
       scopes: '[groups, email]'
       policy.csv: |
-        g, jamie-stinson-org, role:admin
+        g, jamiestinson1@icloud.com, role:admin
   - |
     apiVersion: v1
     kind: ConfigMap
