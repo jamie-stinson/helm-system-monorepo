@@ -8,6 +8,7 @@ workload:
     registry: quay.io
     repository: argoproj/argocd
     tag: v3.0.3
+    digest: "sha256:204287a6b59982127c03f8c4b5e748ad843fdb7b14d28c08796846c35f097bce"
   command:
     - 'argocd-application-controller'
   args:
