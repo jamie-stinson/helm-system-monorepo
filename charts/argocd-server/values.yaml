@@ -333,7 +333,7 @@ extraObjects:
               redirectURI: https://argocd.projectwhitebox.com:30443/api/dex/callback
               orgs:
                 - name: jamie-stinson-org
-        issuer: https://argocd.projectwhitebox.com:30443/api/dex
+        issuer: https://argocd.projectwhitebox.com:30443/auth/callback
         staticClients:
         - id: argo-cd
           name: Argo CD
