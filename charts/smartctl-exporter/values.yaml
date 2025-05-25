@@ -4,6 +4,7 @@ workload:
     registry: "quay.io"
     repository: "prometheuscommunity/smartctl-exporter"
     tag: "v0.14.0"
+    digest: "sha256:a13840e6df4e3c6a3b25c46e15d5156f7c5109acad97f9b92a6955bd658b62c3"
   args:
     - '--smartctl.path=/usr/sbin/smartctl'
     - '--smartctl.interval=120s'

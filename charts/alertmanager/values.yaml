@@ -4,6 +4,7 @@ workload:
     registry: quay.io
     repository: prometheus/alertmanager
     tag: v0.28.1
+    digest: "sha256:220da6995a919b9ee6e0d3da7ca5f09802f3088007af56be22160314d2485b54"
   args:
     - '--config.file=/etc/config/alertmanager.yaml'
     - '--storage.path=/alertmanager'

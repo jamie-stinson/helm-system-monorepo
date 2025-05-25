@@ -3,6 +3,7 @@ workload:
     registry: quay.io
     repository: jetstack/version-checker
     tag: v0.9.2
+    digest: "sha256:8a08806216fb09a701855f0c7ce3fc8c93b0a4989481b0985683e5d086fe9673"
   command:
     - 'version-checker'
   args:

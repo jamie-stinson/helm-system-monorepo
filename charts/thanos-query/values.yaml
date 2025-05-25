@@ -5,6 +5,7 @@ workload:
     registry: quay.io
     repository: thanos/thanos
     tag: v0.38.0
+    digest: "sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6"
   args:
     - 'query'
     - '--grpc-address=0.0.0.0:10901'
