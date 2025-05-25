@@ -180,7 +180,12 @@ extraObjects:
               clientSecret: $argocd:dex.github.clientSecret
               orgs:
                 - name: jamie-stinson-org
-
+        staticClients:
+          - id: argo-cd-cli
+            name: Argo CD
+            redirectURIs:
+              - https://argocd.projectwhitebox.com:30443/auth/callback
+            secretEnv: dex.github.clientSecret
       admin.enabled: 'true'
       users.anonymous.enabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
