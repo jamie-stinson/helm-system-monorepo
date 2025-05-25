@@ -144,7 +144,6 @@ workload:
       configMap: argocd-cmd-params-cm
       key: reposerver.parallelism.limit
 
-
 configMap:
   enabled: true
   configMaps:
@@ -331,7 +330,6 @@ extraObjects:
             name: GitHub
             config:
               clientID: Ov23li7VGI4N6AGCt8O1
-              cliClientID: Ov23li7VGI4N6AGCt8O1
               clientSecret: $argocd:dex.github.clientSecret
               orgs:
                 - name: jamie-stinson-org
@@ -468,7 +466,7 @@ extraObjects:
       policy.matchMode: glob
       scopes: '[groups, email]'
       policy.csv: |
-        g, jamie-stinson, role:admin
+        g, jamie-stinson-org, role:admin
   - |
     apiVersion: v1
     kind: ConfigMap
