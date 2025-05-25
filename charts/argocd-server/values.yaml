@@ -188,7 +188,6 @@ configMap:
         server.staticassets: "/shared/app"
         server.x.frame.options: "sameorigin"
 
-
 service:
   ports:
     - name: http
@@ -331,8 +330,22 @@ extraObjects:
             config:
               clientID: Ov23li7VGI4N6AGCt8O1
               clientSecret: $argocd:dex.github.clientSecret
+              redirectURI: https://argocd.projectwhitebox.com:30443/api/dex/callback
               orgs:
                 - name: jamie-stinson-org
+        issuer: https://argocd.projectwhitebox.com:30443/api/dex
+        staticClients:
+        - id: argo-cd
+          name: Argo CD
+          redirectURIs:
+          - https://argocd.projectwhitebox.com:30443/auth/callback
+          secret: $argocd:dex.github.clientSecret
+        - id: argo-cd-cli
+          name: Argo CD CLI
+          redirectURIs:
+          - http://localhost
+          - http://localhost:8085/auth/callback
+          secret: $argocd:dex.github.clientSecret
       admin.enabled: 'true'
       users.anonymous.enabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
