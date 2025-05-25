@@ -9,6 +9,9 @@ workload:
     - '/shared/argocd-dex'
   args:
     - 'rundex'
+  envs:
+    - name: "ARGOCD_DEX_SERVER_DISABLE_TLS"
+      value: "true"
   probes:
     readinessProbe:
       path: "/healthz/ready"
