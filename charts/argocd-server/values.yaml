@@ -333,6 +333,7 @@ extraObjects:
       users.anonymous.enabled: "false"
       application.instanceLabelKey: argocd.argoproj.io/instance
       application.sync.impersonation.enabled: 'false'
+      users.session.duration: '24h'
       exec.enabled: 'false'
       resource.customizations.ignoreResourceUpdates.ConfigMap: |
         jqPathExpressions:
@@ -361,12 +362,76 @@ extraObjects:
       resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout: |
         jqPathExpressions:
           - '.metadata.annotations."notified.notifications.argoproj.io"'
+      # Enable resource.customizations.ignoreResourceUpdates rules. If "false," those rules are not applied, and all updates
+      # to resources are applied to the cluster cache. Default is true.
+      resource.ignoreResourceUpdatesEnabled: "true"
+
+      # Configuration to define customizations ignoring differences during watched resource updates to skip application reconciles.
+      resource.customizations.ignoreResourceUpdates.all: |
+        jsonPointers:
+        - /metadata/resourceVersion
+
+      # Configuration to define customizations ignoring differences during watched resource updates can be configured via splitted sub key.
+      resource.customizations.ignoreResourceUpdates.argoproj.io_Application: |
+        jsonPointers:
+        - /status
+
+      # jsonPointers and jqPathExpressions can be specified.
       resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler: |
         jqPathExpressions:
-          - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
-          - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
-          - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
-          - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
+        - '.metadata.annotations."autoscaling.alpha.kubernetes.io/behavior"'
+        - '.metadata.annotations."autoscaling.alpha.kubernetes.io/conditions"'
+        - '.metadata.annotations."autoscaling.alpha.kubernetes.io/metrics"'
+        - '.metadata.annotations."autoscaling.alpha.kubernetes.io/current-metrics"'
+        jsonPointers:
+        - /metadata/annotations/autoscaling.alpha.kubernetes.io~1behavior
+        - /metadata/annotations/autoscaling.alpha.kubernetes.io~1conditions
+        - /metadata/annotations/autoscaling.alpha.kubernetes.io~1metrics
+        - /metadata/annotations/autoscaling.alpha.kubernetes.io~1current-metrics
+
+      resource.customizations.health.certmanager.k8s.io_Certificate: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" and condition.status == "False" then
+                hs.status = "Degraded"
+                hs.message = condition.message
+                return hs
+              end
+              if condition.type == "Ready" and condition.status == "True" then
+                hs.status = "Healthy"
+                hs.message = condition.message
+                return hs
+              end
+            end
+          end
+        end
+        hs.status = "Progressing"
+        hs.message = "Waiting for certificate"
+        return hs
+
+      resource.customizations.health.cert-manager.io_Certificate: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" and condition.status == "False" then
+                hs.status = "Degraded"
+                hs.message = condition.message
+                return hs
+              end
+              if condition.type == "Ready" and condition.status == "True" then
+                hs.status = "Healthy"
+                hs.message = condition.message
+                return hs
+              end
+            end
+          end
+        end
+        hs.status = "Progressing"
+        hs.message = "Waiting for certificate"
+        return hs
       resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice: |
         jsonPointers:
           - /metadata
