@@ -18,6 +18,11 @@ workload:
     livenessProbe:
       path: "/metrics"
       port: 9100
+  tolerations:
+    - key: "exampleTaint"
+      operator: "Equal"
+      value: "exampleTaintValue"
+      effect: "NoSchedule"
   storage:
     - name: proc
       type: hostPath
