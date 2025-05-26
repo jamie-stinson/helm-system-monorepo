@@ -35,11 +35,8 @@ workload:
       configMap: argocd-cmd-params-cm
       key: applicationsetcontroller.policy
     - name: ARGOCD_APPLICATIONSET_CONTROLLER_REPO_SERVER
-      valueFrom:
-        configMapKeyRef:
-          key: repo.server
-          name: argocd-cmd-params-cm
-          optional: true
+      configMap: argocd-cmd-params-cm
+      key: repo.server
   probes:
     readinessProbe:
       type: tcpSocket
