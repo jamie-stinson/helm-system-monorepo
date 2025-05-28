@@ -76,7 +76,7 @@ configMap:
           auth_url = https://accounts.google.com/o/oauth2/v2/auth
           token_url = https://oauth2.googleapis.com/token
           api_url = https://openidconnect.googleapis.com/v1/userinfo
-          allowed_domains = projectwhitebox.com
+          allowed_domains = gmail.com
           hosted_domain = projectwhitebox.com
           use_pkce = true
           allow_assign_grafana_admin = true
