@@ -61,8 +61,12 @@ configMap:
           url = https://grafana.net
           [log]
           mode = console
+          [server]
+          root_url = "https://grafana.projectwhitebox.com:30443"
           [database]
           type = postgres
+          [auth.basic]
+          enabled = false
           [auth.google]
           enabled = true
           allow_sign_up = false
