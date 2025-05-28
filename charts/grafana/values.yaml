@@ -24,6 +24,9 @@ workload:
     - name: GF_DATABASE_PASSWORD
       secret: grafana-postgres-app
       key: password
+    - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+      secret: grafana
+      key: CLIENT_SECRET
   probes:
     readinessProbe:
       path: "/api/health"
@@ -58,11 +61,23 @@ configMap:
           url = https://grafana.net
           [log]
           mode = console
-          [server]
-          domain = ''
           [database]
           type = postgres
-
+          [auth.google]
+          enabled = true
+          allow_sign_up = false
+          auto_login = false
+          client_id = 429988516792-kal30q6sm0dall260ldrllk6rk2msb95.apps.googleusercontent.com
+          scopes = openid email profile
+          auth_url = https://accounts.google.com/o/oauth2/v2/auth
+          token_url = https://oauth2.googleapis.com/token
+          api_url = https://openidconnect.googleapis.com/v1/userinfo
+          allowed_domains = projectwhitebox.com
+          hosted_domain = projectwhitebox.com
+          use_pkce = true
+          allow_assign_grafana_admin = true
+          skip_org_role_sync = false
+          role_attribute_path = email=='jamiestinson123@gmail.com' && 'GrafanaAdmin' || 'Viewer'
 ingress:
   enabled: true
   annotations:

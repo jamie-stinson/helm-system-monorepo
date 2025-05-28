@@ -523,11 +523,11 @@ extraObjects:
         app.kubernetes.io/name: argocd-rbac-cm
         app.kubernetes.io/part-of: argocd
     data:
-      policy.default: role:admin
+      policy.default: role:readonly
       policy.matchMode: glob
       scopes: '[groups, email]'
       policy.csv: |
-        g, jamiestinson1@icloud.com, role:admin
+        g, jamiestinson123@gmail.com, role:admin
   - |
     apiVersion: v1
     kind: ConfigMap
