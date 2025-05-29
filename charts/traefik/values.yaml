@@ -2,7 +2,7 @@ workload:
   image:
     repository: traefik
     tag: v3.4.0
-    digest: "sha256:35125525f4771b7a72c9813d47fb9f935fa62ed262eac874334235036ad0ae64"
+    digest: "sha256:06b2f92ba6cb9fdc2de99d41c22b862f196871ad55c26269083eaef39dd4fa99"
   args:
     # Entrypoints
     - '--entryPoints.internalweb.address=:80/tcp'
