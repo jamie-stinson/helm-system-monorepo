@@ -131,7 +131,7 @@ rbac:
           verbs: ["create", "update"]
         - apiGroups: ["coordination.k8s.io"]
           resources: ["leases"]
-          resourceNames: descheduler
+          resourceNames: ["descheduler"]
           verbs: ["get", "patch", "delete"]
         - apiGroups: ["metrics.k8s.io"]
           resources: ["pods", "nodes"]
