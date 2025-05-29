@@ -6,7 +6,7 @@ workload:
   image:
     repository: redis
     tag: 8.0.1
-    digest: "sha256:b3ad79880c88e302deb5e0fed6cee3e90c0031eb90cd936b01ef2f83ff5b3ff2"
+    digest: "sha256:5ccc8af4cdb4f8fe6fe87eb71f7cf8ea41517a6fd26a18965fe904cf776ec47b"
   args:
     - "--save"
     - ""
