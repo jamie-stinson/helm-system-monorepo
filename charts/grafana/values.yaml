@@ -69,7 +69,7 @@ configMap:
           disable_login_form = true
           [auth.google]
           enabled = true
-          allow_sign_up = false
+          allow_sign_up = true
           auto_login = false
           client_id = 429988516792-kal30q6sm0dall260ldrllk6rk2msb95.apps.googleusercontent.com
           scopes = openid email profile
