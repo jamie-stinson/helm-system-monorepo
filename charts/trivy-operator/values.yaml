@@ -15,10 +15,6 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-    - name: trivy-ignore-policy
-      type: configMap
-      mountPath: /etc/trivy/policy
-      configMapName: trivy-ignore-policy
   envs:
     - name: OPERATOR_TARGET_NAMESPACES
       value: ''
@@ -134,18 +130,6 @@ configMap:
         trivy.mode: "Standalone"
         trivy.dbRepository: "mirror.gcr.io/aquasec/trivy-db"
         trivy.javaDbRepository: "mirror.gcr.io/aquasec/trivy-java-db"
-        trivy.ignorePolicy: "/etc/trivy/policy/ignore.rego"
-    - name: trivy-ignore-policy
-      data:
-        ignore.rego: |
-          package trivy
-
-          default ignore = false
-
-          ignore {
-            input.VulnerabilityID == "KSV023"
-            contains(input.Target, "smartctl-exporter")
-          }
 
 rbac:
   enabled: true
