@@ -54,7 +54,7 @@ workload:
     - name: "OPERATOR_HEALTH_PROBE_BIND_ADDRESS"
       value: ":9090"
     - name: "OPERATOR_INFRA_ASSESSMENT_SCANNER_ENABLED"
-      value: "true"
+      value: "false"
     - name: "OPERATOR_LOG_DEV_MODE"
       value: "false"
     - name: "OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT"
