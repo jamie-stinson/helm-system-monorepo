@@ -242,7 +242,8 @@ grafana:
         folder: "System"
 
 extraObjects:
-  - apiVersion: networking.k8s.io/v1
+  - |
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
       annotations:
