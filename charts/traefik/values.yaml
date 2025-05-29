@@ -1,7 +1,7 @@
 workload:
   image:
     repository: traefik
-    tag: v3.4.0
+    tag: v3.4.1
     digest: "sha256:06b2f92ba6cb9fdc2de99d41c22b862f196871ad55c26269083eaef39dd4fa99"
   args:
     # Entrypoints
