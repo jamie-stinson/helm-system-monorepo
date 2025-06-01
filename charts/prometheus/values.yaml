@@ -362,7 +362,7 @@ extraObjects:
       name: thanos
     spec:
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       resources:
         requests:
           storage: 200Gi
