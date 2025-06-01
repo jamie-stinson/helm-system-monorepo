@@ -286,3 +286,19 @@ grafana:
         title: "CloudNative-PG"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/cloudnative-pg/dashboards/cloudnative-pg.json"
         folder: "System"
+
+storageClass:
+  enabled: true
+  annotations:
+    openebs.io/cas-type: local
+    cas.openebs.io/config: |
+      - name: StorageType
+        value: hostpath
+      - name: BasePath
+        value: /var/mnt/storage
+  provisioner: "openebs.io/local"
+  volumeBindingMode: "WaitForFirstConsumer"
+  reclaimPolicy: "Delete"
+  allowVolumeExpansion: {}
+  parameters: []
+  mountOptions: []

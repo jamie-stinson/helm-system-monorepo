@@ -34,8 +34,8 @@ workload:
       mountPath: /prometheus
       accessModes:
         - "ReadWriteOnce"
-      storageClass: "nfs-csi"
-      size: "50Gi"
+      storageClass: "local-ssd-disk"
+      size: "10Gi"
       readOnly: false
     - name: thanos-data
       type: pvc
@@ -356,35 +356,6 @@ ingress:
 
 extraObjects:
   - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      annotations:
-        pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
-      name: thanos
-    spec:
-      capacity:
-        storage: 200Gi
-      accessModes:
-        - ReadWriteMany
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: nfs-csi
-      mountOptions:
-        - rw
-        - noatime
-        - nodiratime
-        - nfsvers=4.2
-        - hard
-        - nointr
-        - timeo=600
-        - retrans=2
-      csi:
-        driver: nfs.csi.k8s.io
-        volumeHandle: "10.0.0.10/thanos"
-        volumeAttributes:
-          server: 10.0.0.10
-          share: /mnt/data-pool/applications/thanos
-  - |
     kind: PersistentVolumeClaim
     apiVersion: v1
     metadata:
@@ -395,5 +366,4 @@ extraObjects:
       resources:
         requests:
           storage: 200Gi
-      volumeName: thanos
-      storageClassName: nfs-csi
+      storageClassName: replica-hdd-pool
