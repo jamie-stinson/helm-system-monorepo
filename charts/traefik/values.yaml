@@ -240,26 +240,3 @@ grafana:
         title: "Traefik"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/traefik/dashboards/traefik.json"
         folder: "System"
-
-extraObjects:
-  - |
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: internalweb, internalwebsecure
-      name: longhorn
-      namespace: longhorn-system
-    spec:
-      ingressClassName: traefik
-      rules:
-      - host: longhorn.projectwhitebox.com
-        http:
-          paths:
-          - backend:
-              service:
-                name: longhorn-frontend
-                port:
-                  number: 80
-            path: /
-            pathType: Prefix
