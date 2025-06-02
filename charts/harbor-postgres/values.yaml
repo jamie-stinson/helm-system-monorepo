@@ -40,7 +40,6 @@ extraObjects:
           owner: harbor
           postInitSQL:
             - CREATE DATABASE clair OWNER harbor
-            - CREATE DATABASE clair OWNER harbor
             - CREATE DATABASE notary_server OWNER harbor
             - CREATE DATABASE notary_signer OWNER harbor
             - COMMIT
