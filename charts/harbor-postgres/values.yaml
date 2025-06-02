@@ -1,0 +1,60 @@
+namespace: "harbor"
+
+service:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+
+workload:
+  enabled: false
+
+pdb:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: harbor-postgres
+    spec:
+      description: "Harbor Database"
+      imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+      instances: 3
+      postgresql:
+        synchronous:
+          method: any
+          number: 1
+          dataDurability: required
+      affinity:
+        enablePodAntiAffinity: true
+        topologyKey: kubernetes.io/hostname
+        podAntiAffinityType: required
+      bootstrap:
+        initdb:
+          database: registry
+          owner: harbor
+          postInitSQL:
+            - CREATE DATABASE clair OWNER harbor
+            - CREATE DATABASE clair OWNER harbor
+            - CREATE DATABASE notary_server OWNER harbor
+            - CREATE DATABASE notary_signer OWNER harbor
+            - COMMIT
+      enableSuperuserAccess: false
+      storage:
+        pvcTemplate:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: "local-ssd-disk"
+          volumeMode: Filesystem
+      resources:
+        requests:
+          cpu: "10m"
+          memory: "10Mi"
