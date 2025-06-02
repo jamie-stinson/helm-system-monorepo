@@ -17,7 +17,7 @@ workload:
     - "--storage.tsdb.max-block-duration=2h"
     - '--storage.tsdb.path=/prometheus'
   envsSecret:
-    - name: AWS_SECRET_ACCESS_KEY
+    - name: S3_SECRET_KEY
       secret: thanos
       key: CONSOLE_SECRET_KEY
   probes:
@@ -295,7 +295,7 @@ configMap:
             endpoint: myminio-hl.minio.svc.cluster.local:9000
             insecure: true
             access_key: minio-generated-user
-            secret_key: $(AWS_SECRET_ACCESS_KEY)
+            secret_key: $(S3_SECRET_KEY)
 
 rbac:
   enabled: true
