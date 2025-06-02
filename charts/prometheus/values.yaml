@@ -46,6 +46,12 @@ workload:
       ports:
         - containerPort: 10901
         - containerPort: 10902
+      env:
+      - name: OBJSTORE_CONFIG
+        valueFrom:
+          secretKeyRef:
+            key: thanos.yaml
+            name: thanos-objstore-config
       args:
         - 'sidecar'
         - '--objstore.config=$(OBJSTORE_CONFIG)'
