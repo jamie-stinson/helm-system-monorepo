@@ -37,6 +37,11 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
 
 service:
   ports:
