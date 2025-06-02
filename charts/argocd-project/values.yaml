@@ -1,0 +1,86 @@
+namespace: "argocd"
+
+workload:
+  enabled: false
+
+service:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+pdb:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: argoproj.io/v1alpha1
+    kind: ApplicationSet
+    metadata:
+      name: system
+    spec:
+      generators:
+        - git:
+            files:
+              - path: charts/*/values.yaml
+            repoURL: https://github.com/jamie-stinson/helm-system-monorepo.git
+            revision: HEAD
+      goTemplate: true
+      template:
+        metadata:
+          name: "{{ index .path.segments 1 }}"
+        spec:
+          destination:
+            name: "in-cluster"
+            namespace: "{{ if .namespace }}{{ .namespace }}{{ else }}{{ index .path.segments 1 }}{{ end }}"
+          project: "production"
+          revisionHistoryLimit: 3
+          syncPolicy:
+            automated:
+              prune: true
+              allowEmpty: true
+              selfHeal: true
+            retry:
+              backoff:
+                duration: 5s
+                factor: 2
+                maxDuration: 3m
+              limit: 3
+      templatePatch: |
+        spec:
+          syncPolicy:
+            syncOptions:
+              - Validate=true
+              - CreateNamespace=true
+              - PrunePropagationPolicy=foreground
+              - PruneLast=true
+              {{- if .dirInstall }}
+              - ServerSideApply=false
+              {{- else}}
+              - ServerSideApply=true
+              {{- end }}
+              - RespectIgnoreDifferences=false
+              - ApplyOutOfSyncOnly=false
+          sources:
+            {{- if not .dirInstall }}
+            - repoURL: "ghcr.io/jamie-stinson/common-helm-library"
+              chart: "common-helm-library"
+              targetRevision: "1.*.*"
+              helm:
+                releaseName: "{{ index .path.segments 1 }}"
+                valueFiles:
+                  - "$values/global-values.yaml"
+                  - "$values/charts/{{ index .path.segments 1 }}/values.yaml"
+            {{- end }}
+            - repoURL: https://github.com/jamie-stinson/helm-system-monorepo.git
+              targetRevision: HEAD
+              ref: values
+              {{- if .installCRDs }}
+              path: charts/{{ index .path.segments 1 }}/crds
+              {{- end }}
+              {{- if .dirInstall }}
+              path: charts/{{ index .path.segments 1 }}
+              {{- end }}
