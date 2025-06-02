@@ -17,9 +17,9 @@ workload:
     - "--storage.tsdb.max-block-duration=2h"
     - '--storage.tsdb.path=/prometheus'
   envsSecret:
-    - name: S3_SECRET_KEY
-      secret: thanos
-      key: CONSOLE_SECRET_KEY
+    - name: OBJSTORE_CONFIG
+      secret: thanos-objstore-config
+      key: thanos.yaml
   probes:
     readinessProbe:
       path: "/-/ready"
@@ -48,7 +48,7 @@ workload:
         - containerPort: 10902
       args:
         - 'sidecar'
-        - '--objstore.config-file=/etc/config/thanos.yaml'
+        - '--objstore.config=$(OBJSTORE_CONFIG)'
         - '--tsdb.path=/prometheus'
         - '--prometheus.url=http://localhost:9090'
       readinessProbe:
@@ -288,14 +288,6 @@ configMap:
               static_configs:
                 - targets: ['10.0.0.10:8000']
 
-        thanos.yaml: |
-          type: s3
-          config:
-            bucket: thanos
-            endpoint: myminio-hl.minio.svc.cluster.local:9000
-            insecure: true
-            access_key: minio-generated-user
-            secret_key: $(S3_SECRET_KEY)
 
 rbac:
   enabled: true

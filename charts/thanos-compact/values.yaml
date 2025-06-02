@@ -10,12 +10,12 @@ workload:
     tag: v0.38.0
     digest: "sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6"
   envsSecret:
-    - name: AWS_SECRET_ACCESS_KEY
-      secret: thanos
-      key: CONSOLE_SECRET_KEY
+    - name: OBJSTORE_CONFIG
+      secret: thanos-objstore-config
+      key: thanos.yaml
   args:
     - 'compact'
-    - '--objstore.config-file=/etc/config/thanos.yaml'
+    - '--objstore.config=$(OBJSTORE_CONFIG)'
     - '--data-dir=/thanos'
     - "--log.level=info"
     - "--retention.resolution-raw=0d"
