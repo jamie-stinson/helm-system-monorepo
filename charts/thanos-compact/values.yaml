@@ -37,9 +37,9 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    - name: tmp
+    - name: thanos
       type: emptyDir
-      mountPath: /tmp
+      mountPath: /thanos
       ramDisk: false
       readOnly: false
 
