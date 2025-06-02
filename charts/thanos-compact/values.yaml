@@ -1,0 +1,54 @@
+namespace: "thanos"
+
+workload:
+  type: Deployment
+  # Only 1 needs to be ran
+  replicaCount: 1
+  image:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.38.0
+    digest: "sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6"
+  envsSecret:
+    - name: AWS_SECRET_ACCESS_KEY
+      secret: thanos
+      key: CONSOLE_SECRET_KEY
+  args:
+    - 'compact'
+    - '--objstore.config-file=/etc/config/thanos.yaml'
+    - '--data-dir=/thanos'
+    - "--log.level=info"
+    - "--retention.resolution-raw=0d"
+    - "--retention.resolution-5m=0d"
+    - "--retention.resolution-1h=0d"
+    - "--consistency-delay=15m"
+    - "--wait"
+    - "--wait-interval=5m"
+    - "--delete-delay=0"
+  probes:
+    readinessProbe:
+      path: "/-/ready"
+      port: 10902
+    livenessProbe:
+      path: "/-/healthy"
+      port: 10902
+  storage:
+    - configMapName: prometheus
+      mountPath: /etc/config
+      name: config
+      type: configMap
+
+service:
+  ports:
+    - name: grpc
+      port: 10901
+      protocol: TCP
+    - name: http
+      port: 10902
+      protocol: TCP
+    - name: cluster
+      port: 19000
+      protocol: TCP
+
+autoscaling:
+  enabled: false
