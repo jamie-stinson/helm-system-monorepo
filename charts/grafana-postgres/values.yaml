@@ -21,23 +21,28 @@ extraObjects:
     kind: Cluster
     metadata:
       name: grafana-postgres
-      labels:
-        kube-image-keeper.enix.io/image-caching-policy: ignore
     spec:
-      description: "Test Grafana"
+      description: "Grafana Database"
       imageName: ghcr.io/cloudnative-pg/postgresql:17.5
-      instances: 1
-      inheritedMetadata:
-        labels:
-          kube-image-keeper.enix.io/image-caching-policy: ignore
+      instances: 3
+      affinity:
+        enablePodAntiAffinity: true
+        topologyKey: kubernetes.io/hostname
+        podAntiAffinityType: required
       bootstrap:
         initdb:
           database: grafana
           owner: grafana
       enableSuperuserAccess: false
       storage:
-        storageClass: "local-ssd-disk"
-        size: 5Gi
+        pvcTemplate:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: "local-ssd-disk"
+          volumeMode: Filesystem
       resources:
         requests:
           cpu: "10m"
