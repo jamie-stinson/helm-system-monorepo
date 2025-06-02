@@ -295,6 +295,7 @@ configMap:
             endpoint: myminio-hl.minio.svc.cluster.local:9000
             insecure: true
             access_key: minio-generated-user
+            secret_key: $(AWS_SECRET_ACCESS_KEY)
 
 rbac:
   enabled: true
