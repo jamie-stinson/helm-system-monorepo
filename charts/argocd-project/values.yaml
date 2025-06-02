@@ -21,6 +21,7 @@ extraObjects:
     kind: ApplicationSet
     metadata:
       name: system
+      namespace: argocd
     spec:
       generators:
         - git:
@@ -84,3 +85,20 @@ extraObjects:
               {{- if .dirInstall }}
               path: charts/{{ index .path.segments 1 }}
               {{- end }}
+  - |
+    apiVersion: argoproj.io/v1alpha1
+    kind: AppProject
+    metadata:
+      name: "production"
+      namespace: argocd
+    spec:
+      sourceNamespaces:
+        - "*"
+      sourceRepos:
+        - "*"
+      clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'
+      destinations:
+        - server: https://kubernetes.default.svc
+          namespace: "*"
