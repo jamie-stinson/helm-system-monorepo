@@ -1,0 +1,172 @@
+namespace: "kube-image-keeper"
+
+workload:
+  type: DaemonSet
+  image:
+    registry: ghcr.io
+    repository: enix/kube-image-keeper
+    tag: 1.13.1
+  command:
+    - registry-proxy
+  args:
+    - '-v=1'
+    - '-bind-address=:7439'
+    - '-metrics-bind-address=:8080'
+    - '-registry-endpoint=kube-image-keeper-registry.kube-image-keeper.svc.cluster.local:5000'
+  envs:
+    - name: GIN_MODE
+      value: release
+  probes:
+    readinessProbe:
+      port: 7439
+    livenessProbe:
+      path: "/healthz"
+      port: 7439
+
+service:
+  ports:
+    - name: http
+      port: 7439
+      protocol: TCP
+      hostIP: "127.0.0.1"
+      hostPort: 7439
+    - name: http-metrics
+      port: 8080
+      protocol: TCP
+
+rbac:
+  enabled: true
+  roles:
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
+        - apiGroups:
+            - ''
+          resources:
+            - pods
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - serviceaccounts
+          verbs:
+            - list
+            - watch
+        - apiGroups:
+            - ''
+          resources:
+            - pods/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - pods/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - cachedimages/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories
+          verbs:
+            - create
+            - delete
+            - get
+            - list
+            - patch
+            - update
+            - watch
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories/finalizers
+          verbs:
+            - update
+        - apiGroups:
+            - kuik.enix.io
+          resources:
+            - repositories/status
+          verbs:
+            - get
+            - patch
+            - update
+        - apiGroups:
+            - ''
+          resources:
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+            - patch
