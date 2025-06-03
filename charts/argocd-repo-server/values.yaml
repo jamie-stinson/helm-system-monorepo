@@ -4,7 +4,7 @@ workload:
   image:
     registry: quay.io
     repository: argoproj/argocd
-    tag: v3.0.4
+    tag: v3.0.5
   command:
     - 'argocd-repo-server'
   args:
