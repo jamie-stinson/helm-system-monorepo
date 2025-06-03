@@ -4,7 +4,6 @@ workload:
   image:
     repository: "grafana/grafana"
     tag: "12.0.1"
-    digest: "sha256:432dfbf0dec067892d5d56917140a44e46b05ec7249f76b9f3df6bfa932b84bd"
   envsSecret:
     - name: GF_SECURITY_ADMIN_USER
       secret: grafana

@@ -4,7 +4,6 @@ workload:
     registry: "registry.k8s.io"
     repository: "node-problem-detector/node-problem-detector"
     tag: "v0.8.20"
-    digest: "sha256:52f0618e9bc2cea60b7aa9d9c962a0b84dace6ef3cff62d1e1a29c92ba1c4177"
   args:
     - '--logtostderr'
     - '--config.system-log-monitor=/config/kernel-monitor.json'
