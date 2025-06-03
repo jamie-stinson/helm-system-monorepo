@@ -4,8 +4,8 @@ workload:
   replicaCount: 1
   type: StatefulSet
   image:
-    repository: redis
-    tag: 8.0.2
+    repository: "redis"
+    tag: "8.0.2"
   args:
     - "--save"
     - ""

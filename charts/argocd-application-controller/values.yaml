@@ -5,9 +5,9 @@ workload:
   # Sharding is only done on a cluster level, as we run argocd per cluster multiple replicas doesn't actually do anything at the moment.
   replicaCount: 1
   image:
-    registry: quay.io
-    repository: argoproj/argocd
-    tag: v3.0.5
+    registry: "quay.io"
+    repository: "argoproj/argocd"
+    tag: "v3.0.5"
   command:
     - 'argocd-application-controller'
   envs:
