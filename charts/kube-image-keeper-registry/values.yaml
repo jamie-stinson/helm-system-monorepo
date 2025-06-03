@@ -15,8 +15,6 @@ workload:
       value: us-east-1
     - name: REGISTRY_STORAGE_S3_REGIONENDPOINT
       value: http://minio-hl.minio.svc.cluster.local:9000
-    - name: REGISTRY_STORAGE_DELETE_ENABLED
-      value: true
   envsSecret:
     - name: REGISTRY_STORAGE_S3_ACCESSKEY
       secret: secret-name
