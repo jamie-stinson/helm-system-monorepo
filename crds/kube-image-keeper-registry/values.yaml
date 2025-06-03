@@ -6,7 +6,24 @@ workload:
     tag: 3.0.0
   envs:
     - name: REGISTRY_STORAGE_DELETE_ENABLED
+      value: 'true'
+    - name: REGISTRY_STORAGE
+      value: s3
+    - name: REGISTRY_STORAGE_S3_BUCKET
+      value: kuik
+    - name: REGISTRY_STORAGE_S3_REGION
+      value: us-east-1
+    - name: REGISTRY_STORAGE_S3_REGIONENDPOINT
+      value: http://minio-hl.minio.svc.cluster.local:9000
+    - name: REGISTRY_STORAGE_DELETE_ENABLED
       value: true
+  envsSecret:
+    - name: REGISTRY_STORAGE_S3_ACCESSKEY
+      secret: secret-name
+      key: accessKey
+    - name: REGISTRY_STORAGE_S3_SECRETKEY
+      secret: secret-name
+      key: secretKey
   probes:
     readinessProbe:
       path: "/v2"
@@ -14,11 +31,6 @@ workload:
     livenessProbe:
       path: "/v2"
       port: 5000
-  storage:
-    - name: data
-      type: pvc
-      mountPath: /var/lib/registry
-      claimName: "kube-image-keeper-registry"
 
 service:
   ports:
@@ -58,47 +70,3 @@ rbac:
             - pods/exec
           verbs:
             - create
-
-extraObjects:
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      annotations:
-        pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
-      name: kube-image-keeper-registry
-    spec:
-      capacity:
-        storage: 50Gi
-      accessModes:
-        - ReadWriteMany
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: nfs-csi
-      mountOptions:
-        - rw
-        - noatime
-        - nodiratime
-        - nfsvers=4.2
-        - hard
-        - nointr
-        - timeo=600
-        - retrans=2
-      csi:
-        driver: nfs.csi.k8s.io
-        volumeHandle: "10.0.0.10/kube-image-keeper-registry"
-        volumeAttributes:
-          server: 10.0.0.10
-          share: /mnt/data-pool/applications/kube-image-keeper-registry
-  - |
-    kind: PersistentVolumeClaim
-    apiVersion: v1
-    metadata:
-      name: kube-image-keeper-registry
-    spec:
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 10Gi
-      volumeName: kube-image-keeper-registry
-      storageClassName: nfs-csi
