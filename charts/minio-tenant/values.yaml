@@ -36,7 +36,7 @@ extraObjects:
         enableSFTP: false
       image: quay.io/minio/minio:RELEASE.2025-04-08T15-41-24Z
       imagePullPolicy: IfNotPresent
-      mountPath: /export
+      mountPath: ""
       podManagementPolicy: Parallel
       pools:
         - name: pool
