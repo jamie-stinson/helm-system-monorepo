@@ -4,7 +4,7 @@ workload:
   image:
     registry: quay.io
     repository: prometheus/prometheus
-    tag: v3.4.0
+    tag: v3.4.1
   args:
     - '--config.file=/etc/config/prometheus.yaml'
     - '--web.console.libraries=/etc/prometheus/console_libraries'
