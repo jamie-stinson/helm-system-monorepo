@@ -17,12 +17,17 @@ workload:
       value: localpv-charts-helm
     - name: LEADER_ELECTION_ENABLED
       value: 'true'
-
   probes:
     readinessProbe: {}
     livenessProbe:
       type: exec
       command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
 
 service:
   enabled: false
