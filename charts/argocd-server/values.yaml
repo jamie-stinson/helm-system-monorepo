@@ -312,6 +312,20 @@ grafana:
 
 extraObjects:
   - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: argocd
+      namespace: argocd
+    spec:
+      encryptedData:
+        dex.github.clientSecret: AgBhklfIAONrcrfYss1oNRNE10qvF2v8kbd9BZaTm74othoopZpziZfaXCYt9cQHryRqjOtYT4jRxUPgwMB7JofR7IUhdA+aaaTvl4g6XyG1Lud8UFaLNX5TBTV3INBkRpE8tcIh5D87ZdCFw4tNY9d6vhLujZRSC5Iwc492iIt/RP4fCzLLp1LHgKFt3+AztcLii9ucU9V2NZn50VO+PTWwpzgxCojQTnzkaqXhOuf7cyJ0J5mqTMMhATjwXQKkvfu2Xr5HLPevf5ySIY69fyKFuhGqaWHNAIxAazJ9R5XJBtHiS0v907YQD0lk5M0IlDe2ZK1uNGAnWGdYuV9bmNAYLRRQgqFO8KhSO2UMWZ4DXjprjI/Q3lHq80MAOc5rBP8z9NRBKTiqfcK4iCX2z1vGZDQXEFBD/nVuNjmSiEIbIKyNhZ3pI2n3vTqZ2baGFBX8cWxYnze3DpNLqwBa78n5N04QRsISgerYnbsAo4xR1W4f9BfuszRhPnBkPKsE9EHLbJYqYEZfYlm7Vpet5Dfg6Qgmef0N/XZk0vhQ3oV/oXrWioEnh2L+Ex9CMzNKnnW3Rmb1WBK8SbAm6zyNT4RW7+Zpl2oLtxFdmPV2aLlVELgq6v6S+7hqUZgSSHKIbKAT1Filxm2xuiDsxYWCkFdVneynBD142Kdng8NLsxOyvHuEsJ2atlrEHjw9/rn4mDP3afBWOcR0gBDz8f6w+X0fwKtTrJSBFsnPSzoWBUgQUNYJjg==
+      template:
+        metadata:
+          name: argocd
+          namespace: argocd
+        type: Opaque
+  - |
     apiVersion: v1
     kind: ConfigMap
     metadata:

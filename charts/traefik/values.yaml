@@ -239,3 +239,19 @@ grafana:
         title: "Traefik"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/traefik/dashboards/traefik.json"
         folder: "System"
+
+extraObjects:
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: cloudflare
+      namespace: traefik
+    spec:
+      encryptedData:
+        API_TOKEN: AgAx/UpyGxp8anJhTotaO0J0GafHNn88NT05cBRnj5LwXzP4s/UiH/CQpLRQInpG3lHVboXd1zBt3MinXyHHVse80oFRRDj5LKMM1tr7CkU1BjEpsygtGQCVC7qM+0UyxcSfJeDwa8wfsje87N2FtqPlx4r2kIpEHxGdzHi6Pw7mB60UJ6FhuHd2MATABYL3XKVpekKwZWdlteeREwptyL4DYWyyuFITHIU5AtlsuomR9cQ5yDfvLB3QlFN9wWCjKBnMAYTESsaE9s5z6e9AiT4HXjU0DsH/QCLE4pBdXDFRbh9oy9L8xpYT9JRiEWcdXj19mRCpHKYxp7toyzspbyV5g1aKChjGyICaCB1BTALgqt6Ufcj5OhUCjI/G9AXsaScSJR5+GEjZ/DZWnun9CKTtk7MBdZU+bGyK/TLk7D75hqbdCSAImTHzr8LnLl3W6C0rCYv2P6G38FpcaWIBSf9HB9T4cu0fBWIJ55H5BI5YUP9yKtEDqEOOR1XmDdfngUxqiTy7eDAA4i2aNeuE2laqGoCY9hnajbj+hg93yrjwGdg9dISJG8B3dXYfmsCrDxwVqrje1EKFirHGPnCJ1TNJX5evodGGJ4tsbbHh53hZUcCymJ9JIoAc3n7o1ZwkUrXgOQb2Ehqrdq0cZz6Hts9kaDhhlOY9I9ADh63RAOEap0cyoG/3ZvMkLbXaD1RaUAhHZCqN56eO90NXyDaQKWJiz+zhCVg6UemdpWYF80G7wkbJxMWLDnFG
+      template:
+        metadata:
+          name: cloudflare
+          namespace: traefik
+        type: Opaque

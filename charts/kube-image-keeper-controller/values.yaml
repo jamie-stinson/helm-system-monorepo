@@ -203,6 +203,21 @@ grafana:
 
 extraObjects:
   - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: secret-name
+      namespace: kube-image-keeper
+    spec:
+      encryptedData:
+        accessKey: AgBhKA2lNfNoVhTX/XzA1RjA9fvZoWMeIjYi3+ia9Vq26/c3fhm3BMiHyNbKo1DYwHYLLsXV7bIOUUS4QRugeyvuSydBmSh0LiO2z1DIzBPUiDuVLwyzzrDqSEBsRuxt1kK279UVQxppcFHYAhU+JmdyhgwVZzhU/A6DywVNJoYU2m1mz8CgmoebKVmYHFmIcToKGM58WAp6grqfkRiV5cSDT/RFaTREFkr6B6VElJo6f8MSgiMTseaeoQ3D2K+X7D8rXxzEBj5ylXU73XSUOLhCxXmmhDNZe4Fjy3V8NNNJtRmcyIsPvkKydAnE9/Jws1Kdmw0Q/gYFo+q3+M6/ggFqMmiXpnkbG70OaqI/gKSzW6V9Zx6OEQ5Sd/rrtjuLd9ST4hxF7KN147POW84QbpUoUpIco2LDvjiQsxQiXanEZPqewsVuBaabUfP2zVxpAM93qENslU4RJmyojX4qx9E324alaTuSkP4wRZnR5WzhJJHnLcZ9T8SYDadAGWB8uxF39Wls2pW6xJpAgddLBF2uB0PxuD4hnzyymd/lXmM3Xs4nq13/NB6W6M62IGChm+2B6qCuF+e8wmnvuDgiTZT6fsZTWa8ymYPuCcvlkFah21TpaBT5HJoSJO8WKwdbNLFp9Pfb7ZAK/Zd/jjYdkrXTIvA2c08q/fmujf7J8yBq2IsT9MazDlST6owWiRd4sPMU4YIbVXlI/hqXnMdv5AyB6LDdFQ==
+        secretKey: AgBtk6Mtbe2bwHV/EQSP3L/km/iRMF7QYUmmyyOKo39mW/FlUHUacJQlrjfc2WabVDGfy3Gis8GgwGzy7po4W4I6XVmLtcUoCbQw6WVjbudtSMn9sGqOuAadQev5+zHvGqqHI/Cbvl12GFRcroEnE4FqclVKrZZMGmnfyOMmmjNMs1/lL4vKskHu2ibbAL4r/26ZdEQE/9i399P2r+g6euY3MRGyX8QKWu9zYqAf7HGP6cN3ZU7LZ50yi4pmDa1fXMu8Y8uEmVH4FEsjjjB7L2PCmzPyO9W4/IshZDkUlhQriwmxurgpKf7EjScDXS6LDXI/9Wepi1KosqCPEN1iaXKGo71E3rAaCsVBUmc6gntK5ok2/yw6QCMF0ieZvzM4zQedi5D0hfyYJpzBSdhMq+aahJphT2hxOWp4+JcbViV9SQlu62AKlaVfltCvhdDw3dvzgAN8ER8EMDmJapHFwkDalPCfa8ZPwsyDKqvsw2C/ir6D0ek6v1BDHIiP1803uqtU94OAYVvALL20f/uIRtFD5kEmgzFmzipOYnqTbWgMNea629GWtDSdMGt924wlkO47nXqe2vbz6sz2bSBdjDiXSAhYLpuG3Wug/PGFIsJbb4TgLN0ZXHbAi32d/c5Qp93RC+qDJavfAvlMfCKwczHdM3kUygbgubb+qU4ntCRJkkyZds63vnBbKp9o+jcX/jLe1xeOoIXnjsPp2ojz3zSzDGWxh2jTLt4C1AvRg7RipPxbIppXxnU=
+      template:
+        metadata:
+          name: secret-name
+          namespace: kube-image-keeper
+        type: Opaque
+  - |
     apiVersion: admissionregistration.k8s.io/v1
     kind: MutatingWebhookConfiguration
     metadata:

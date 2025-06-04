@@ -147,3 +147,19 @@ extraObjects:
         adminPassword:
           name: grafana
           key: ADMIN_PASSWORD
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: grafana
+      namespace: grafana
+    spec:
+      encryptedData:
+        ADMIN_PASSWORD: AgAZkH5VZ1Gq77P4QqQNaROVl6blrEXSRy9OvtEteCHYv5OxWpyKdxKD4kDV+LYRt2lgOvA1jShTIM20JXJXdPTavtPexYFhKHPy39QLXuDda2WR8MaxBtML53uKI/Arx4dhg9cvZprEqEodtTRJ436pXz6hSOD1WahOCxnZhzmglJaqXC7r87Ytxe8QaMXr7vpQSJRG1nxRS++f7E6jskTG7AiniwagiqeaGyfr3D6MMEhmqFZE1+4B2JV8WGEo/PnvuLqH/u2gW8OeItuNSaEBKYK62B6KeWrBz5HNRoeYLUGfwrKOLldTceTFzMF3jTw4yRYmr5tO6bfaupsHKSXjrVzMxMYADJ1ZZ7u4VS0Vs+RQl/2oY1jDzqWfOyEsP0kIZFxeehjDpbQehhKepMYrdx+jPcL5eAm0Ou/1y64UC+hqeY1P7mL3zPpTxl+SiCzpdXVVzCAt8B9xutmPsKN7BLWL/j/Z04dZSxgqnz9JVMptrm4zex2HRj6HH1KdPlJ5SbDffGcKZQ08GUwwt0fgSNnLoEkOMhWtY4jD9ps3XzgAdGHomMIHfOOM+wWow0GZy5JdZK3BrnNFpjn5AmYAulV0p66fBeKucCLHZbwq4+9eUYeYwtg07X9TZSpKSRJW7022iXps3AVCERmW2p2BZ8kkT/LTnEjszvxDxKbC5uJIyBVHR4codAcbOjl9u98iCV8O6Uz/Qo5pOcbML9TArBH6vNPXya1+giYfaPujJEKQ4QQvyZUmFnhWQ52Gk1g7OWJhT0xmF+ffEY0u0hGb
+        ADMIN_USER: AgB4L3SlO4J779WXnNSbuzbj5ldFVulfeYh2yKezrX77ePvdBCXgunQl7j71NhzGNCfxrAFluxMBj47tixdSKkXYsACjc0xOuca1w/loszObPev7ym+TUQHNs++Fv6Rjkm1W3vPVDL/v32j5AO5nvb6cpeveUyMeIrYqgXlXeK914uSmPhGrQIwIBHJ6r9sx4C6FJBsVMXtiOro4c33glrQo8C8g1yeXfq6CvcGQpiL69ZIbTmwTUHVEZOa/C66WqrIq0/jxoplFLpBR/9zXeltCeo8gvCDREmv+I578ANc98FLXezUn9h9q58dCMYp/aSzBrvNacfNsYv1ddsDpNeSnN4JnAplYjixiDf5T3b2FUTH2AVQLmKATkM9dhM57S7qMCCokn+N8rcnlr+TFLD+opj2mNCVmH+RsYE2Ets4tDU9Dw1zheywBHsY+EDYy912HKoV2Dt0BR6DodbbHsZtOv/vHGucMWgodw07/priRmROzUwIdQxoV6eFaQRAHv0arjPwA0MxaU8CYfJ3u8KcT2cT+jtyGcl6akEZUthpYQK5cwF24IhS1K8Qeod13Go2PPupluzduqiAZgJDNhzzGnt1DyX250o3qTd5ED1tBGlbeADf1w4cCi7YkoEk2zj6erFKL2Exuo96YiU9+8jGbpiotQ/jml2GCTvlzzerqns3yoDt9PzeTrPrc1jUQpxWGqKur7A==
+        CLIENT_SECRET: AgA4+IszdWswf7chF4EYrvrP2tbn9c9H/uSQvEhKjUH2xpZ0SspAuC30ybg9096CK6dO/2/raoJZdtj0UwyN5zCBdh8mYGVA8jTb/2mg9pN902osq8/FwGkaM5b10wmOmKy79uHeXam/Zfy6Ed/lnwr0SNAI1imfo+kMDn/h1620UUrtXhOeYBYQRmP318vkEqDomjoVnd2XS3t9LZaEKALLqb+b4tR4Ynpu2D6gLWF5UDlGs1uus0x32j+/eXOHpRUqmgcMQoXZY19axbmtobgw50+mnZyJ5IS9y0BkpL+JDOlTQ5F65tbrh6C1UB4hnfWwW6yHdTbiJQwE39GiswKNQUWUekCfBagLjRCBtkfr8mfc7dXZ4E6JXjNFgF1dAaq76eAUYmwCPJEkPg5jqP5ACupkh6bihI6oFH1EnMRVtfZc3U+oX42FAxmY0MgJEPr4NyCIQMzjy9OUb1Pph1DCqkSXDpcyigvKUWCMaJJCp6zr4dZXk8b0hKtOvjr441KE18aaewqkT+O2o6Tm0IUY7IfNrWcTq1+kH2P4fGhmwRJCVO2OyMsOnDw1HJcITymNByVX17f+o9IQGu/e5RdjodzqRiiiaHIU0c8fLj94l9/lUtGR+jiTG/sMYVMZKVTWnImunK14I7rC6SOWro4BOTVFC5t0SoNXAid23KopcCkFlyTgsa0bP+7q5zBAUX2GRwK1Urhok5WHqL4J6yffh7wiFEos+VMjD/y4SCzpaoqzbg==
+      template:
+        metadata:
+          name: grafana
+          namespace: grafana
+        type: Opaque
