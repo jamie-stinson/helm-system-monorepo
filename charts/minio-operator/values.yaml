@@ -6,6 +6,8 @@ workload:
     registry: quay.io
     repository: minio/operator
     tag: v7.1.1
+  command:
+    - controller
   envs:
     - name: "OPERATOR_STS_ENABLED"
       value: "on"
