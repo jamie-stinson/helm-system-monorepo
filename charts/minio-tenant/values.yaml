@@ -46,7 +46,7 @@ extraObjects:
             metadata:
               name: data
             spec:
-              storageClassName: minio-local-filesystem-sc
+              storageClassName: minio-operator
               accessModes:
                 - ReadWriteOnce
               volumeMode: Filesystem
