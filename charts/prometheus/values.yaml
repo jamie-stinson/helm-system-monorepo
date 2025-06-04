@@ -17,7 +17,7 @@ workload:
     - '--storage.tsdb.path=/prometheus'
   envsSecret:
     - name: OBJSTORE_CONFIG
-      secret: thanos-objstore-config
+      secret: thanos
       key: thanos.yaml
   probes:
     readinessProbe:
@@ -50,7 +50,7 @@ workload:
         valueFrom:
           secretKeyRef:
             key: thanos.yaml
-            name: thanos-objstore-config
+            name: thanos
       args:
         - 'sidecar'
         - '--objstore.config=$(OBJSTORE_CONFIG)'

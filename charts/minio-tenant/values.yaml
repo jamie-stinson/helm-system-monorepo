@@ -15,6 +15,21 @@ pdb:
 serviceAccount:
   enabled: false
 
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: minio.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "mini-console"
+          port: 9090
+
 extraObjects:
   - |
     apiVersion: minio.min.io/v2
