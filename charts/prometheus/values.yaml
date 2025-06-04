@@ -36,7 +36,7 @@ workload:
       mountPath: /prometheus
       accessModes:
         - "ReadWriteOnce"
-      storageClass: "local-ssd-disk"
+      storageClass: "openebs"
       size: "10Gi"
       readOnly: false
   extraContainers:

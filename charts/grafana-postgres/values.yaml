@@ -51,7 +51,7 @@ extraObjects:
           resources:
             requests:
               storage: 5Gi
-          storageClassName: "local-ssd-disk"
+          storageClassName: "openebs"
           volumeMode: Filesystem
       resources:
         requests:
