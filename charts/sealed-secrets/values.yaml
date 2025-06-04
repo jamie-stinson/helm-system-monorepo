@@ -14,6 +14,7 @@ workload:
     - ':8081'
   probes:
     readinessProbe:
+      path: "/healthz"
       port: 8080
     livenessProbe:
       path: "/healthz"
