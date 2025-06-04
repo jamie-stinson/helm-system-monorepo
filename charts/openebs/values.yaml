@@ -20,7 +20,9 @@ workload:
     - name: OPENEBS_NAMESPACE
       value: 'openebs'
   probes:
-    readinessProbe: {}
+    readinessProbe:
+      type: exec
+      command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
     livenessProbe:
       type: exec
       command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
