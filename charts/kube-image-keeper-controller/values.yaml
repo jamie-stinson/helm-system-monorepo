@@ -229,6 +229,7 @@ extraObjects:
                 - kube-system
                 - kube-image-keeper
                 - openebs
+                - minio
         objectSelector:
           matchExpressions:
             - key: kube-image-keeper.enix.io/image-caching-policy
