@@ -214,3 +214,11 @@ rbac:
             - patch
             - update
             - deletecollection
+
+storageClass:
+  enabled: true
+  provisioner: "kubernetes.io/no-provisioner"
+  reclaimPolicy: "Retain"
+  allowVolumeExpansion: "true"
+  volumeBindingMode: "WaitForFirstConsumer"
+
