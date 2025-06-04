@@ -12,6 +12,10 @@ workload:
     - name: "OPERATOR_STS_ENABLED"
       value: "on"
   probes: {}
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp/sts
 
 service:
   ports:
