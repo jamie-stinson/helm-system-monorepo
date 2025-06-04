@@ -27,7 +27,7 @@ ingress:
         enabled: false
       backend:
         service:
-          name: "mini-console"
+          name: "minio-console"
           port: 9090
 
 extraObjects:
