@@ -17,6 +17,8 @@ workload:
       value: localpv-charts-helm
     - name: LEADER_ELECTION_ENABLED
       value: 'true'
+    - name: OPENEBS_NAMESPACE
+      value: 'openebs'
   probes:
     readinessProbe: {}
     livenessProbe:
