@@ -18,9 +18,8 @@ workload:
       path: "/metrics"
       port: 9100
   tolerations:
-    - key: "exampleTaint"
-      operator: "Equal"
-      value: "exampleTaintValue"
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
       effect: "NoSchedule"
   storage:
     - name: proc
