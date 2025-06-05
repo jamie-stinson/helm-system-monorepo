@@ -12,7 +12,8 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 8080
-  nodeSelector: "worker-8spr56sk"
+  nodeSelector: 
+    kubernetes.io/hostname: "worker-8spr56sk"
   storage:
     - name: sabnzbd-data
       type: pvcTemplate
@@ -43,3 +44,6 @@ ingress:
         service:
           name: "sabnzbd"
           port: 8080
+
+autoscaling:
+  enabled: false
