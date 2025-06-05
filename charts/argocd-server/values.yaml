@@ -319,9 +319,11 @@ extraObjects:
       namespace: argocd
     spec:
       encryptedData:
-        dex.github.clientSecret: AgBCpGCA2oAd5I4BNoOXdRvNEZIEdQP1wkEzsKvna7oJiudTOdZ4FSPUWPYf8hAdXG2qptXovJeBEhtTvPC1SZjYMUHw9uT7NAdiYlmO1mWZSrpTvwTN39d7ZkkGayPvqzTc4QzJ+j6R5YvUCEg7dC7XVKxQ2PpuY0hkiIwumrYL9eBaEyRtwKtmOeG+GSi4SkHMwTIrHPHHcmafAHAmUIjktz6SGqoF0FJ1pDU7iJfAC80gtUcLcNy9jctEaqLbzfugsOiedHrntwtRGWKgoYAGPoPtYXNkH2+FNcqB3KKPRdk5d0YoKRl9gAAXiVvaeJ4ZauDh+RzEIIAlGLP3ECian6mdHvdp6hVYS8wNAGOlry6OBw2RdHLean3k2X5lJ3HYA5qt2zBs3yu0Xl/ALoxexxmsRaoYF1MXEBku8iDQPpb8p186pHmx4SQ5Ir2tlir6fMG0GWhP4X2hR5Jslxm6tZKYhbIDBavJ3sYFtoe6FC6KpPEz8uAdJHBsj/Jv9W0p3KsmO0cQrwuMuhk3zQaEHWEuA1Mnn8gkcee7UUGgw7WuRa+kIOmacwOBAJmXosp7BDGRZ8SFqx3JwJ+ZyjRDdDHWKqfRp+szkpWhHWdSSnhm56s6YHneBIonab+GgDa9KkoarKcH0CVQ5cTWK299PehwSJT2HFZRkI3z8sxHsF0rjWRa0GKMuTogNTOKb/G+LaNGxZnbc5UOB9Oq6/2qN5pzG8+TRn12AgjdhRyKBry+rU0=
+        dex.github.clientSecret: AgCK9itDX4S5tVW4p3CeRTOfP9XSHuCDL3rpWFZjCBQmWQ2a2JTk5qXZdOl5oTfGVr1uufkGvRgKwXWVqk6sFJeyWL0SxJwMzdzIdEJQT1ARWGHlfn1vJYHVT5iT1W/lRSOjx/f/PgdwD65dObb6m7ZOIyflIjeb/wMGGl5GdHAYy6Xlq4r5LgYTrx+dip7dmhU8rKSQ7xPNWQg5t+Tvix+2IbZz2RzU5iJAZhGmmD/8bkFPSEAES9XYcZGZO0cLqwI7gr2WevDikncpildPCDE7yERix3jNinVnpaDsl6I6boUDJPXkq81HqW8vL49FThIBPV3+VLyx6WFjYL/UvqF2W9xqllTZacWW5bQTiwIpNvpON24a6FKmwdDNALoaN7EVpxSO2Otljjx3Iw4rLfoXLKKqu+VRwVz8UYa3y34014Y7JWbyui7rMsTVfwqvx/8fRew44rfWNwzUnBBXGCQNgmTT2BEf3+26mbKdQfburz569bnckh/nf0kKr2klhkAQaYZHU70CyI0PSIoZEuuUjaniJlpkV8EtQ0bLuAA8BeEOcsUlGR4pZtbeaN5x7yKASiV9KxEWU4ZWEKmSfNQ69SSNifule2c8duiQe0gY+zh4ZA5ZWYomR+e+EYjgUYgduokTQA5E1YxdhjGJQK/0f1NJaFohQbDF0APV0YAjMra7YGfkTgnJyjX4YEEgeCXgXl480lN7z5/3UOhEdSN4Rjp7Cs0DZEV1U6u33W7SjhhkxM8=
       template:
         metadata:
+          labels:
+            app.kubernetes.io/part-of: argocd
           name: argocd
           namespace: argocd
   - |
