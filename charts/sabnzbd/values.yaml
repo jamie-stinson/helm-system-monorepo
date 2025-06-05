@@ -23,6 +23,11 @@ workload:
       storageClass: "openebs"
       size: "10Gi"
       readOnly: false
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
 
 service:
   ports:
