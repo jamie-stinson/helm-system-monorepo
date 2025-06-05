@@ -1,6 +1,7 @@
 namespace: "kube-image-keeper"
 
 workload:
+  type: StatefulSet
   image:
     registry: ghcr.io
     repository: home-operations/sabnzbd
@@ -12,9 +13,6 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 8080
-  podSecurityContext:
-    fsGroup: 65534
-    fsGroupChangePolicy: "OnRootMismatch"
   nodeSelector: 
     kubernetes.io/hostname: "worker-8spr56sk"
   storage:
