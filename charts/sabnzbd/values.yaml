@@ -1,0 +1,45 @@
+namespace: "kube-image-keeper"
+
+workload:
+  image:
+    registry: ghcr.io
+    repository: home-operations/sabnzbd
+    tag: 4.5.1
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 8080
+    livenessProbe:
+      type: tcpSocket
+      port: 8080
+  nodeSelector: "worker-8spr56sk"
+  storage:
+    - name: sabnzbd-data
+      type: pvcTemplate
+      mountPath: /config
+      accessModes:
+        - "ReadWriteOnce"
+      storageClass: "openebs"
+      size: "10Gi"
+      readOnly: false
+
+service:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: newsabnzbd.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "sabnzbd"
+          port: 8080
