@@ -6,6 +6,9 @@ workload:
     registry: ghcr.io
     repository: home-operations/sabnzbd
     tag: 4.5.1
+  envs:
+    - name: "SABNZBD__HOST_WHITELIST_ENTRIES"
+      value: "newsabnzbd.projectwhitebox.com"
   probes:
     readinessProbe:
       type: tcpSocket
