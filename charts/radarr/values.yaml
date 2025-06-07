@@ -48,7 +48,7 @@ ingress:
       backend:
         service:
           name: "radarr"
-          port: 8080
+          port: 7878
 
 autoscaling:
   enabled: false
