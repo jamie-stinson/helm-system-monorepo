@@ -19,6 +19,13 @@ workload:
       value: "true"
     - name: OTEL_TRACES_EXPORTER
       value: "none"
+  envsSecret:
+    - name: REGISTRY_STORAGE_S3_ACCESSKEY
+      secret: kube-image-keeper
+      key: S3_ACCESS_KEY
+    - name: REGISTRY_STORAGE_S3_SECRETKEY
+      secret: kube-image-keeper
+      key: S3_SECRET_KEY
   probes:
     readinessProbe:
       path: "/v2"
@@ -65,3 +72,20 @@ rbac:
             - pods/exec
           verbs:
             - create
+
+extraObjects:
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: kube-image-keeper
+      namespace: kube-image-keeper
+    spec:
+      encryptedData:
+        S3_ACCESS_KEY: AgCTiQl1QqrnRZ6XF2KYzg03YftKsxYkQipaSKc1VaXi5RkgndMuS8tb3PUQRnwcFFm7Ol0DJaHb4GnBcOrUgz04isSTew08VamSn+KJB14+fLkwPxPCITK2ncOGPcAsjKZt7c1bItjP+HVBc0Yqv9hfXcW0UDp+90S+tEaipJCflOUnP7oV3gZOffOSWf9qlg85tyekqK7bPoou3FUNeeG/qeS3v00dZjsEkwQSq+DFnHXzva4EqFYIJDGlK4H3M9fAWXomLAZ/jKHW740OjF0bgKXCMCFPRCB1+g/uhXfYZvyJBRnWXIkgjeSlD2GCOOWaMrqshYDNEQtvoLSQIP+HwN2+84deFoFNCtvBpZT2ZBsCEOfvY+ApFfv82h7htc83stTWk2kqmRX9jjQZk6ArOLVEfVkpiebFLSsZ6PKQYj3rvxvSyAFfQkvk6FjmUwKr3gL7A1UqwhLroh1eXqRKHKY9enuDAsw/O091cmFkpAimrEKEtKW2fvUNHmTTKaRqNG65ph22SJX/5YwgBsz3ufWdby0OeNrSofomrptPwN38US4Q/BF+H9QZtSOfOVr9Uomue5Cr61JZELp4ioWAXoTDERqgAm+fY0128ENeH5cLsluMcLak1yU/PdjFh8t3z1dISCQYLfBvJKXXWJRB66OsET1KT8LFBjKv42ebc4D7kk6xutfI3aYDdn6waatSTgB3mTbT5PfqjcKXVQ5bcs3yTAM=
+        S3_SECRET_KEY: AgB6pL3lizG71LxcZpRk7Ykc9323U8d2wrv2TJ5/2bLE+yGYPd+DJeUb0FXNk6YmsRTTp895oznEBvTKndWmNxyuVA1wxlXvEjrGW/XMZZ0Y7K35yj63wodA0X5AHXQ8PEVyLm5SVziwInTCOx7FLrdUzXHeRAc933FJ6LRrxdaPMxs/grxFWiJPBSuPweHr4KRpS8qw4pBhZdTlqmi6e2N8W2bAbf1g+9d2SF2lJwiTQG/KGHQcO+xQIQjdDRnVj4ZuhZYitZc6ivR2Yv69sat2xz2JEikBY1L7RlChQcuL8S03Wj+V+OQ7MjF1CrQ6v1D3J6PdVc/yhMPGoWOm7Yi93Pk8fTJ0v0RMSohp1cM6oPfAstcwSezS4QVKe9RnQazmzo4hcNrjmDyWR1EeTwxzjv5vGqVG3SMhaq657QRww5cVAp5zADrGp+siuyR4luXz1knYBydGXNbzHfltWmZq+nbtX43XF55WPbX883xDNv+bV50FoECnhUSgi4JVSqh35d3l6cn/xYPJNYfmEZ0Dz6R1Hqnd3nKW5ig6pBoWnS9SR1DM0gwrVFi9Vt8w1cFL9CxowTRd57UuSMgbGToLvLnlb6ZOPaul6IyLq2ZygLMKoNwHBeTOfoGmIoDgOPIV1KXYGby/FqCnr6HXWC4FnVrerpQ2Pu4fKf+ZojiH9nasBS1Hxfy6qZmWk0aLkX9yu2B++B2gEWNgt+Z2/9RiHluGs9n/F3BrarHCrlwuovnZzFG6jc9uVA==
+      template:
+        metadata:
+          name: kube-image-keeper
+          namespace: kube-image-keeper
+        type: Opaque
