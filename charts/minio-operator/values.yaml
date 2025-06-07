@@ -278,6 +278,7 @@ extraObjects:
                   operator: In
                   values:
                     - worker-qszsdjpr
+  - |
     apiVersion: v1
     kind: PersistentVolume
     metadata:
