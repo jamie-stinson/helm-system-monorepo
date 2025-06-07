@@ -66,9 +66,8 @@ extraObjects:
         fsType: ext4
         volumeHandle: media-2
   - |
-    allowVolumeExpansion: true                                                                                                                                                                  apiVersion: storage.k8s.io/v1
-    kind: StorageClass                                                                                                                                                                          metadata:                                                                                                                                                                                     annotations:                                                                                                                                                                                  longhorn.io/last-applied-configmap: |                                                                                                                                                         kind: StorageClass
     apiVersion: storage.k8s.io/v1
+    kind: StorageClass
     metadata:
       name: longhorn2x
       annotations:
