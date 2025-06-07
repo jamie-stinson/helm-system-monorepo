@@ -20,10 +20,10 @@ workload:
   probes:
     readinessProbe:
       type: tcpSocket
-      port: 8989
+      port: 9696
     livenessProbe:
       type: tcpSocket
-      port: 8989
+      port: 9696
   storage:
     - name: config
       type: emptyDir
@@ -32,7 +32,7 @@ workload:
 service:
   ports:
     - name: http
-      port: 8989
+      port: 9696
       protocol: TCP
 
 ingress:
@@ -48,7 +48,7 @@ ingress:
       backend:
         service:
           name: "prowlarr"
-          port: 8989
+          port: 9696
 
 autoscaling:
   enabled: false
