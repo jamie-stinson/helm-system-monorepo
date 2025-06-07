@@ -1,4 +1,5 @@
 workload:
+  type: "StatefulSet"
   image:
     registry: ghcr.io
     repository: home-operations/sabnzbd
