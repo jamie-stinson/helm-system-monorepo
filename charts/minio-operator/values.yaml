@@ -215,13 +215,6 @@ rbac:
             - update
             - deletecollection
 
-storageClass:
-  enabled: true
-  provisioner: "kubernetes.io/no-provisioner"
-  reclaimPolicy: "Retain"
-  allowVolumeExpansion: "true"
-  volumeBindingMode: "WaitForFirstConsumer"
-
 extraObjects:
   - |
     apiVersion: bitnami.com/v1alpha1
