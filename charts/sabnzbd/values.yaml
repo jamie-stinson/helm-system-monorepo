@@ -14,10 +14,13 @@ workload:
       type: tcpSocket
       port: 8080
   storage:
-    - name: sabnzbd-config
-      type: pvc
+    - name: sabnzbd-data
+      type: pvcTemplate
       mountPath: /config
-      claimName: "config"
+      accessModes:
+        - "ReadWriteOnce"
+      storageClass: "longhorn2x"
+      size: "10Gi"
       readOnly: false
     - name: tmp
       type: emptyDir
@@ -48,18 +51,3 @@ ingress:
 
 autoscaling:
   enabled: false
-
-extraObjects:
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: config
-    spec:
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 100Gi
-      storageClassName: longhorn-static
-      volumeName: config

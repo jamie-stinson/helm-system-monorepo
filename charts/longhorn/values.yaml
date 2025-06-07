@@ -35,23 +35,6 @@ extraObjects:
     apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: config
-    spec:
-      capacity:
-        storage: 100Gi
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteMany
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: longhorn-static
-      csi:
-        driver: driver.longhorn.io
-        fsType: ext4
-        volumeHandle: config
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
       name: media-1
     spec:
       capacity:
@@ -82,3 +65,26 @@ extraObjects:
         driver: driver.longhorn.io
         fsType: ext4
         volumeHandle: media-2
+  - |
+    allowVolumeExpansion: true                                                                                                                                                                  apiVersion: storage.k8s.io/v1
+    kind: StorageClass                                                                                                                                                                          metadata:                                                                                                                                                                                     annotations:                                                                                                                                                                                  longhorn.io/last-applied-configmap: |                                                                                                                                                         kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: longhorn2x
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "false"
+    provisioner: driver.longhorn.io
+    allowVolumeExpansion: true
+    reclaimPolicy: "Delete"
+    volumeBindingMode: Immediate
+    parameters:
+      numberOfReplicas: "2"
+      staleReplicaTimeout: "30"
+      fromBackup: ""
+      fsType: "ext4"
+      nfsOptions: "vers=4.1,hard,timeo=600,retrans=2,noac,nolock,local_lock=all"
+      dataLocality: "disabled"
+      unmapMarkSnapChainRemoved: "ignored"
+      disableRevisionCounter: "true"
+      dataEngine: "v1"
+      backupTargetName: "default"
