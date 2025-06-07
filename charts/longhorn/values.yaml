@@ -55,7 +55,7 @@ extraObjects:
       name: media-1
     spec:
       capacity:
-        storage: 7.81 Ti
+        storage: 7.81Ti
       volumeMode: Filesystem
       accessModes:
         - ReadWriteMany
@@ -72,7 +72,7 @@ extraObjects:
       name: media-2
     spec:
       capacity:
-        storage: 7.81 Ti
+        storage: 7.81Ti
       volumeMode: Filesystem
       accessModes:
         - ReadWriteMany
