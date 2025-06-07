@@ -40,7 +40,7 @@ extraObjects:
     spec:
       application:
         namespace: kube-image-keeper
-        serviceaccount: kube-image-keeper
+        serviceaccount: kube-image-keeper-registry
       policies:
         - readwrite
   - |
