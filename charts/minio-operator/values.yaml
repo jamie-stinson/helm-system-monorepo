@@ -381,7 +381,7 @@ extraObjects:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - worker-vPfwkb6a
+                    - worker-vpfwkb6a
   - |
     apiVersion: v1
     kind: PersistentVolume
@@ -407,4 +407,4 @@ extraObjects:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - worker-vPfwkb6a
+                    - worker-vpfwkb6a
