@@ -10,7 +10,7 @@ workload:
     - name: DB_USER
       secret: jellyseerr-postgres-app
       key: username
-    - name: DB_PASSWORD
+    - name: DB_PASS
       secret: jellyseerr-postgres-app
       key: password
   envs:
