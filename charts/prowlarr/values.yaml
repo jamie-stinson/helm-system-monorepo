@@ -1,0 +1,55 @@
+workload:
+  type: "StatefulSet"
+  image:
+    registry: ghcr.io
+    repository: home-operations/prowlarr
+    tag: 1.37.0
+  envsSecret:
+    - name: PROWLARR__POSTGRES__HOST
+      secret: prowlarr-postgres-app
+      key: host
+    - name: PROWLARR__POSTGRES__USER
+      secret: prowlarr-postgres-app
+      key: username
+    - name: PROWLARR__POSTGRES__PASSWORD
+      secret: prowlarr-postgres-app
+      key: password
+  envs:
+    - name: "PROWLARR__POSTGRES__PORT"
+      value: "5432"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 8989
+    livenessProbe:
+      type: tcpSocket
+      port: 8989
+  storage:
+    - name: config
+      type: emptyDir
+      mountPath: /config
+
+service:
+  ports:
+    - name: http
+      port: 8989
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: newprowlarr.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "prowlarr"
+          port: 8989
+
+autoscaling:
+  enabled: false
+  

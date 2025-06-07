@@ -1,0 +1,50 @@
+workload:
+  image:
+    registry: ghcr.io
+    repository: fallenbagel/jellyseerr
+    tag: 2.5.2
+  envsSecret:
+    - name: DB_HOST
+      secret: jellyseerr-postgres-app
+      key: host
+    - name: DB_USER
+      secret: jellyseerr-postgres-app
+      key: username
+    - name: DB_PASSWORD
+      secret: jellyseerr-postgres-app
+      key: password
+  envs:
+    - name: "DB_TYPE"
+      value: "postgres"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 5055
+    livenessProbe:
+      type: tcpSocket
+      port: 5055
+
+service:
+  ports:
+    - name: http
+      port: 5055
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: newjellyseerr.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "jellyseerr"
+          port: 5055
+
+autoscaling:
+  enabled: false
+  
