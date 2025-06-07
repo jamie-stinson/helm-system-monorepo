@@ -32,6 +32,18 @@ ingress:
 
 extraObjects:
   - |
+    apiVersion: sts.min.io/v1alpha1
+    kind: PolicyBinding
+    metadata:
+      name: kube-image-keepr
+      namespace: minio
+    spec:
+      application:
+        namespace: kube-image-keeper
+        serviceaccount: kube-image-keeper
+      policies:
+        - readwrite
+  - |
     apiVersion: minio.min.io/v2
     kind: Tenant
     metadata:
