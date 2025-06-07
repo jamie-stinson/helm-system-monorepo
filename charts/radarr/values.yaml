@@ -1,14 +1,50 @@
 workload:
-  enabled: false
+  type: "StatefulSet"
+  image:
+    registry: ghcr.io
+    repository: home-operations/radarr
+    tag: 5.26.0
+  envsSecret:
+    - name: RADARR__POSTGRES__HOST
+      secret: radarr-postgres-app
+      key: host
+    - name: RADARR__POSTGRES__USER
+      secret: radarr-postgres-app
+      key: username
+    - name: RADARR__POSTGRES__PASSWORD
+      secret: radarr-postgres-app
+      key: password
+  envs:
+    - name: "RADARR__POSTGRES__PORT"
+      value: "5432"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 7878
+    livenessProbe:
+      type: tcpSocket
+      port: 7878
 
 service:
-  enabled: false
+  ports:
+    - name: http
+      port: 7878
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: newradarr.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "radarr"
+          port: 7878
 
 autoscaling:
-  enabled: false
-
-pdb:
-  enabled: false
-
-serviceAccount:
   enabled: false
