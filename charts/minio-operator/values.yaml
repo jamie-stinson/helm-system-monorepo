@@ -360,7 +360,7 @@ extraObjects:
     apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: minio-pv-vPfwkb6a-disk1
+      name: minio-pv-vpfwkb6a-disk1
       labels:
         type: local
         disk: disk1
@@ -386,7 +386,7 @@ extraObjects:
     apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: minio-pv-vPfwkb6a-disk2
+      name: minio-pv-vpfwkb6a-disk2
       labels:
         type: local
         disk: disk1
