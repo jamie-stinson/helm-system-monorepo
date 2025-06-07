@@ -1,0 +1,65 @@
+workload:
+  image:
+    registry: ghcr.io
+    repository: home-operations/sabnzbd
+    tag: 4.5.1
+  envs:
+    - name: "SABNZBD__HOST_WHITELIST_ENTRIES"
+      value: "newsabnzbd.projectwhitebox.com"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 8080
+    livenessProbe:
+      type: tcpSocket
+      port: 8080
+  storage:
+    - name: sabnzbd-config
+      type: pvc
+      mountPath: /config
+      claimName: "config"
+      readOnly: false
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
+
+service:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: newsabnzbd.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "sabnzbd"
+          port: 8080
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: config
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 100Gi
+      storageClassName: longhorn-static
+      volumeName: config
