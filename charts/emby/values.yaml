@@ -3,27 +3,23 @@ namespace: "media"
 workload:
   type: "StatefulSet"
   image:
-    registry: ghcr.io
-    repository: home-operations/sabnzbd
-    tag: 4.5.1
-  envs:
-    - name: "SABNZBD__HOST_WHITELIST_ENTRIES"
-      value: "newsabnzbd.projectwhitebox.com"
+    repository: linuxserver/emby
+    tag: beta-version-4.9.0.56
   probes:
     readinessProbe:
       type: tcpSocket
-      port: 8080
+      port: 8096
     livenessProbe:
       type: tcpSocket
-      port: 8080
+      port: 8096
   storage:
-    - name: sabnzbd-data
+    - name: emby-data
       type: pvcTemplate
       mountPath: /config
       accessModes:
         - "ReadWriteOnce"
       storageClass: "longhorn2x"
-      size: "10Gi"
+      size: "50Gi"
       readOnly: false
     - name: media-1
       type: pvc
@@ -42,7 +38,7 @@ workload:
 service:
   ports:
     - name: http
-      port: 8080
+      port: 8096
       protocol: TCP
 
 ingress:
@@ -50,43 +46,15 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: newsabnzbd.projectwhitebox.com
+    - host: emby.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
         enabled: false
       backend:
         service:
-          name: "sabnzbd"
-          port: 8080
+          name: "emby"
+          port: 8096
 
 autoscaling:
   enabled: false
-
-extraObjects:
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: media-1
-    spec:
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 7.81Ti
-      storageClassName: longhorn-static
-      volumeName: media-1
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: media-2
-    spec:
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 7.81Ti
-      storageClassName: longhorn-static
-      volumeName: media-2
