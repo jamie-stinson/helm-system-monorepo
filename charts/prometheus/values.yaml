@@ -36,7 +36,7 @@ workload:
       mountPath: /prometheus
       accessModes:
         - "ReadWriteOnce"
-      storageClass: "longhorn"
+      storageClass: "openebs"
       size: "25Gi"
       readOnly: false
   extraContainers:

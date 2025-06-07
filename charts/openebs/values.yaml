@@ -107,7 +107,6 @@ rbac:
 storageClass:
   enabled: true
   annotations:
-    argocd.argoproj.io/tracking-id: openebs:storage.k8s.io/StorageClass:openebs/openebs-hostpath
     cas.openebs.io/config: |
       - name: StorageType
         value: "hostpath"
