@@ -23,6 +23,10 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 5055
+  storage:
+    - name: config
+      type: emptyDir
+      mountPath: /app/config
 
 service:
   ports:
