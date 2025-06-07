@@ -3,29 +3,12 @@ namespace: "media"
 workload:
   type: "StatefulSet"
   image:
-    repository: linuxserver/emby
-    tag: beta-version-4.9.0.56
+    registry: "ghcr.io"
+    repository: home-operations/emby
+    tag: 4.8.11
   envs:
     - name: "TZ"
       value: "Europe/London"
-  podSecurityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    fsGroup: 0
-    fsGroupChangePolicy: "Always"
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    privileged: false
-    readOnlyRootFilesystem: FALSE
-    seccompProfile:
-      type: RuntimeDefault
-    capabilities:
-      drop:
-        - ALL
   probes:
     readinessProbe:
       type: tcpSocket
@@ -53,11 +36,6 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-      ramDisk: false
-      readOnly: false
-    - name: run
-      type: emptyDir
-      mountPath: /run
       ramDisk: false
       readOnly: false
 
