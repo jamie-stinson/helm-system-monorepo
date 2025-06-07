@@ -32,17 +32,20 @@ ingress:
 
 extraObjects:
   - |
-    apiVersion: sts.min.io/v1alpha1
-    kind: PolicyBinding
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
     metadata:
-      name: kube-image-keepr
+      name: kube-image-keeper
       namespace: minio
     spec:
-      application:
-        namespace: kube-image-keeper
-        serviceaccount: kube-image-keeper-registry
-      policies:
-        - readwrite
+      encryptedData:
+        CONSOLE_ACCESS_KEY: AgBRV9dZmOS1XqkxQygBk4L2kMQTHOYN2MDGsyG299MLNBZ5RyJEBIuFHhEeM3h0q3iqqFp4jVU4VlEqTo0TUY9XY/trZWVQeM3Bc26JaxBZTFsBolFJCqEL0hkWevsp3KSZJhFKYSElMZo43+KuET/rZVIA31IV7ZntiUwYuysrI4+RANTBIY0NMNGOL+0SAfmYlMJdP4kYVETGiBqWGwH7+Jymaiy0i5VZ8OhfS3VVEn40SS57IVwE+MdLNEkiUE+DQI1jPPzsSBHa5Ju2U9e0+a+fGzSQ5la8Le5VYFpkr5Mb8B53CL4Rg9i8QYCxLX+Ikvu54XSxM1PQpyjYl3dusUf8locMJLNIfNihKyd7qCxMq/MKuaqTsdFY3BB7O+6v4VrEerWWz3F7ZXWUR7ladjUiMz0LVNNwjtwpowtyjpm/Pc4ySUtJrfella3z/MqUpFYqV70iOxdgBfJ4kzShkgA76doGUm4Eq+tCX68adcgbdy1o3yO4XpGnmBf29r4sGyazFQUlXz0tKWx6S0wb/azdDuzGLGmwn3dz81LDSIvi//BriP0VwP283xzb07OWYgCi+U2A/zmpXlofVWORP1TPEHC3Qz1KOVjGokL7exONbTJR+jOcOHh7Sy0OKo4Wdiy+ged0SfaJm/Y7QLRMNELv1ldqi3eeHu47dcR+s5TV6o3mb5P04YyKw/+rz36NykvctQgKBSAeW20dHExra3yI5xM=
+        CONSOLE_SECRET_KEY: AgBwDHokTId0H4Rut7k4Nu592NmSRVeqSArekuNw8e3958I/izdV5upexP4ieBoG+EAqFWmUjePaOyWHYNpQ1i3qeZbBIqPX3KOhnGp8x0Qo37NIWnkb8Wivg+3LyiDPsPifpKH4AI1g37KYQJ/NqnzpKOq62fxQi7sV0Y8k3QYVTWd/hkX1tZDjJisOZKtVfTHlkpvcOCmcRCxe2Pa25PY3vMM8Qhy5kw+manmS3+k14nkXdjCF9c5ijksqV7Gty5Cb8GIKt9xQV83DXc6O7RMQumnFxfH9jr2Y1A5NPaGMvWHg5iNopnD1peoto9pIcSeg1pZuUFQbQ4MFJIKiiyF41WypraiFCaios2QSOJ/yLpyiwwGKXG34N5nO7cwckg5nJHz0ROOKNcq4d5TYV/j7iAup0FYqkloWXKR1WLC0xVsJ9JMHrs1E4v4hBMYhSjFJOmK2BzSk08W4CMhGmwkpA/UfxTmwW/3HwNKX2oEsRczbl0JcFAFikkhiUzURJcN4wxKOiNKFkaTuEUgzXmWLHMYSfwZwM1WSdDs3YnM0CWVw8rGusHNn9sU0kRaL3KdMamJJjza+loHKkRATOBPCf/LPQ9YAm4G2ZYPU1BA1aFkItuVNj12uMniIewZXWXGpoHVbkToCdJvzsxnUHzfOLjVyi3Pjhy68N1OIInJSXhdmIDuRz+MlQW2+r3E/9Itp+jzgDbwFgezEX1+6w5xW4MbFEZjjOdcjXrrWvlXb7Um+nDHwK4oqqw==
+      template:
+        metadata:
+          name: kube-image-keeper
+          namespace: minio
+        type: Opaque
   - |
     apiVersion: minio.min.io/v2
     kind: Tenant
@@ -88,3 +91,4 @@ extraObjects:
       subPath: /data
       users:
         - name: thanos
+        - name: kube-image-keeper

@@ -5,8 +5,6 @@ workload:
     repository: registry
     tag: 3.0.0
   envs:
-    - name: "AWS_WEB_IDENTITY_TOKEN_FILE"
-      value: "/var/run/secrets/kubernetes.io/serviceaccount/token"
     - name: REGISTRY_STORAGE_DELETE_ENABLED
       value: "true"
     - name: REGISTRY_STORAGE
