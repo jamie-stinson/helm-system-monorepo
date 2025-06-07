@@ -24,6 +24,10 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 7878
+  storage:
+    - name: config
+      type: emptyDir
+      mountPath: /config
 
 service:
   ports:
@@ -44,7 +48,7 @@ ingress:
       backend:
         service:
           name: "radarr"
-          port: 7878
+          port: 8080
 
 autoscaling:
   enabled: false
