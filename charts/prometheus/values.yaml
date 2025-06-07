@@ -36,8 +36,8 @@ workload:
       mountPath: /prometheus
       accessModes:
         - "ReadWriteOnce"
-      storageClass: "openebs"
-      size: "10Gi"
+      storageClass: "longhorn"
+      size: "25Gi"
       readOnly: false
   extraContainers:
     - name: thanos

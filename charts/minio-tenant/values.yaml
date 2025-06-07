@@ -55,19 +55,19 @@ extraObjects:
       podManagementPolicy: Parallel
       pools:
         - name: pool
-          servers: 3
-          volumesPerServer: 2
+          servers: 4
+          volumesPerServer: 1
           volumeClaimTemplate:
             metadata:
               name: data
             spec:
-              storageClassName: minio-operator
+              storageClassName: longhorn
               accessModes:
                 - ReadWriteOnce
               volumeMode: Filesystem
               resources:
                 requests:
-                  storage: 9.09Ti
+                  storage: 500Gi
       poolsMetadata:
         annotations: {}
         labels: {}

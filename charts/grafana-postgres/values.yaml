@@ -50,8 +50,8 @@ extraObjects:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 5Gi
-          storageClassName: "openebs"
+              storage: 25Gi
+          storageClassName: "longhorn"
           volumeMode: Filesystem
       resources:
         requests:
