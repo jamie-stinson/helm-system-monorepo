@@ -5,6 +5,17 @@ workload:
   image:
     repository: linuxserver/emby
     tag: beta-version-4.9.0.56
+  envs:
+    - name: "TZ"
+      value: "Europe/London"
+    - name: "PUID"
+      value: "1000"
+    - name: "UID"
+      value: "1000"
+    - name: "GUID"
+      value: "1000"
+    - name: "GID"
+      value: "1000"
   probes:
     readinessProbe:
       type: tcpSocket
