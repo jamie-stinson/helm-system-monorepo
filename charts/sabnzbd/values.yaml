@@ -33,6 +33,10 @@ workload:
       type: pvc
       mountPath: /data/media2
       claimName: "media-2"
+    - name: downloads
+      type: pvc
+      mountPath: /data/downloads
+      claimName: "media-2"
     - name: tmp
       type: emptyDir
       mountPath: /tmp
@@ -90,3 +94,16 @@ extraObjects:
           storage: 7.81Ti
       storageClassName: longhorn-static
       volumeName: media-2
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: downloads
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 350Gi
+      storageClassName: longhorn-static
+      volumeName: downloads
