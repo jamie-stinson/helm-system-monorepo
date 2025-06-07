@@ -41,10 +41,10 @@ extraObjects:
         podAntiAffinityType: required
       bootstrap:
         initdb:
-          database: radarr-main
+          database: "radarr-main"
           owner: radarr
           postInitSQL:
-            - CREATE DATABASE radarr-log OWNER radarr
+            - CREATE DATABASE "radarr-log" OWNER radarr
             - COMMIT
       enableSuperuserAccess: false
       storage:
