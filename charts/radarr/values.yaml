@@ -18,8 +18,6 @@ workload:
       secret: radarr
       key: API_KEY
   envs:
-    # - name: "RADARR__AUTH__APIKEY"
-    #   value: "b65df3285da53491ddc4a284b8e50bc7"
     - name: "RADARR__POSTGRES__PORT"
       value: "5432"
     - name: RADARR__AUTH__METHOD
