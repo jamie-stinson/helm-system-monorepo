@@ -14,9 +14,18 @@ workload:
     - name: RADARR__POSTGRES__PASSWORD
       secret: radarr-postgres-app
       key: password
+    - name: RADARR__AUTH__APIKEY
+      secret: radarr
+      key: API_KEY
   envs:
     - name: "RADARR__POSTGRES__PORT"
       value: "5432"
+    - name: RADARR__APP__INSTANCENAME
+      value: "radarr"  
+    - name: RADARR__AUTH__METHOD
+      value: External
+    - name: RADARR__AUTH__REQUIRED
+      value: DisabledForLocalAddresses
   probes:
     readinessProbe:
       type: tcpSocket
@@ -132,3 +141,17 @@ extraObjects:
         requests:
           storage: 1Ti
       volumeName: radarr-movies
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: radarr
+      namespace: radarr
+    spec:
+      encryptedData:
+        API_KEY: AgAKNDgdOr9HXHuNOTwNDsIa+8lAft6sHfSW4ATbgC01wcA9YVmXUjqQmBpuOd43T5FKzOTtr84u3YLBqq49HpbcZKyEKQjFZZ7wsD0T3meI6GxtHbDRGyy+xkFS2M4mzNjyO+4VpsskaW7n/Js5mo+Y+1Pd+08uvumZ0jaCta3wG+4O0xb8JPibBCnMngWe8xJEUiXmoH0iigp7zuaH1LjlFPtSe3FKF+z1ZrSesz1b1niKPpT2bF0otNbuQesrzJk3nqbxpfW5b3o/1Cu3RPecrTzR6rPchmg4jIjdm9/iyTzf8tuqHN2WLnyGu1hAE/flpHxkCCKb9IjamJg/2ln/0JjWz+Lx0nHN1z/5mT/Oj26GEGgn/UxE/CPdlWpnXJ3IMaoa30BgWbGV/ySRnftjNcut4KLD2WUWhX4WvwmtiQL5/ntRG7scaC+ALNmCYJihxhIlZkBxbA+jJn0v+wnZO5qnYDmm3cP6xzie2yntw84c61Z6PuIauZWISBkyRe1YPx9owMAVesbTuUIu7qJnhLVo1u7G4fjs6AIqt9xthbs+99M5PQ7PDt8JWhlhmqmIz4k77tGxb2yF/stxAUYfPXg7UR3pkmYF7eLq2hve9+K0rfW+byMosojkJS1hqcz9GYo3u29gtnp8Ukjc2EeqMrTTPRhe3lrOP+7PaYIERhzSHka7TfhHeVwQ4XRvmhZTlYX+PQAv2tsZ+jjIsj/pElECaS6iewj6dOiSKGiNpGo=
+      template:
+        metadata:
+          name: radarr
+          namespace: radarr
+        type: Opaque

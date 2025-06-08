@@ -14,9 +14,18 @@ workload:
     - name: SONARR__POSTGRES__PASSWORD
       secret: sonarr-postgres-app
       key: password
+    - name: SONARR__AUTH__APIKEY
+      secret: sonarr
+      key: API_KEY
   envs:
     - name: "SONARR__POSTGRES__PORT"
       value: "5432"
+    - name: SONARR__APP__INSTANCENAME
+      value: "sonarr"  
+    - name: SONARR__AUTH__METHOD
+      value: External
+    - name: SONARR__AUTH__REQUIRED
+      value: DisabledForLocalAddresses
   probes:
     readinessProbe:
       type: tcpSocket
@@ -171,3 +180,17 @@ extraObjects:
         requests:
           storage: 1Ti
       volumeName: sonarr-anime
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: sonarr
+      namespace: sonarr
+    spec:
+      encryptedData:
+        API_KEY: AgB3q2nL8nakLZi5uT02KlwGkyqiTwzSR3xHjYgCDVMruPNj8ghOlvAwqQOSocWWKRb1Odl3NFynx9QNvuLTiMlLizQlEgx/c2r8VwVTYCoh3Li9eD+iagQpdxw/fiUDcIAbsnzqhSNZfTonN0UC+Q+Nj+NArtprqhpthHYgAE8cMy6jU9GEXIHNr1PHjszNXaec1zzk65TtBFR/fto+0CjjIfmeagRP6U6xKCYXl+dM2kO+I67QNh4CGadaY9vPhNg/8+v3bVUPeSbKEJCQc98hfHZPkPnkU+DX24VpKycD+GNKDfuC+iSti+QflytuEgXv7Rj8YGOKHSjla+MA1Q9+mqGswr6HUOpkRgJ6xd/rnGKXpennvtw69p2YHl23XP8/Fi56JeeQKa4+Pjc34/L0vrWwjbFlRznT2EBqKNWbR0OJEgIeQh1ilpqmNRo8d+yGLMAF0WpHRuB14imtkyJpqQgB+joJZX3O3fi+bNiK86IA79z367OuqURjyzUOAZcwsFJYsE+s2ai63prQcxAo2C1Gz7EIBoT3jAxy7GtxzEMilEZpt5nvfB3ViW21FrkEcJ+0e0BsTTP1itJsbB2WAB0MF9zGTqRt9oakVg2/qWNvdKUD+hIO+9d9L+yXik+Cu473MGT4idSCwP/SAx29/eal8euYQTpzlVxqBDLMbs40MpEz4kTEECvlQMkGlZdaq2xsVKtjmznGVyVxYf619Vvz90EQqh6gy9kbVUoBSWo=
+      template:
+        metadata:
+          name: sonarr
+          namespace: sonarr
+        type: Opaque
