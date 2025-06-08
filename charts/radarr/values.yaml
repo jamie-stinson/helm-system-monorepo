@@ -36,14 +36,6 @@ workload:
       type: pvc
       mountPath: /media/movies
       claimName: "radarr-movies"
-    - name: radarr-tv
-      type: pvc
-      mountPath: /media/tv
-      claimName: "radarr-tv"
-    - name: radarr-anime
-      type: pvc
-      mountPath: /media/anime
-      claimName: "radarr-anime"
 
 service:
   ports:
@@ -140,73 +132,3 @@ extraObjects:
         requests:
           storage: 1Ti
       volumeName: radarr-movies
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: radarr-tv
-    spec:
-      capacity:
-        storage: 1Ti
-      accessModes:
-        - ReadWriteMany
-      nfs:
-        server: 10.0.0.10
-        path: "/mnt/media-pool/tv"
-      mountOptions:
-        - nfsvers=4.1 
-        - hard      
-        - noatime
-        - rsize=1048576 
-        - wsize=1048576 
-        - proto=tcp
-        - sync
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: radarr-tv
-      namespace: radarr
-    spec:
-      accessModes:
-        - ReadWriteMany
-      storageClassName: ""
-      resources:
-        requests:
-          storage: 1Ti
-      volumeName: radarr-tv
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: radarr-anime
-    spec:
-      capacity:
-        storage: 1Ti
-      accessModes:
-        - ReadWriteMany
-      nfs:
-        server: 10.0.0.10
-        path: "/mnt/media-pool/anime"
-      mountOptions:
-        - nfsvers=4.1 
-        - hard      
-        - noatime
-        - rsize=1048576 
-        - wsize=1048576 
-        - proto=tcp
-        - sync
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: radarr-anime
-      namespace: radarr
-    spec:
-      accessModes:
-        - ReadWriteMany
-      storageClassName: ""
-      resources:
-        requests:
-          storage: 1Ti
-      volumeName: radarr-anime

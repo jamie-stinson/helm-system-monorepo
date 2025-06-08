@@ -28,6 +28,18 @@ workload:
     - name: config
       type: emptyDir
       mountPath: /config
+    - name: sonarr-downloads
+      type: pvc
+      mountPath: /downloads
+      claimName: "sonarr-downloads"
+    - name: sonarr-tv
+      type: pvc
+      mountPath: /media/tv
+      claimName: "sonarr-tv"
+    - name: sonarr-anime
+      type: pvc
+      mountPath: /media/anime
+      claimName: "sonarr-anime"
 
 service:
   ports:
@@ -53,3 +65,109 @@ ingress:
 autoscaling:
   enabled: false
   
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: sonarr-downloads
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/downloads"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - sync
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: sonarr-downloads
+      namespace: sonarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: sonarr-downloads
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: sonarr-tv
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/media-pool/tv"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - sync
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: sonarr-tv
+      namespace: sonarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: sonarr-tv
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: sonarr-anime
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/media-pool/anime"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - sync
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: sonarr-anime
+      namespace: sonarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: sonarr-anime
