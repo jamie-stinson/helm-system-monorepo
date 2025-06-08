@@ -20,10 +20,10 @@ workload:
   envs:
     - name: "RADARR__POSTGRES__PORT"
       value: "5432"
-    # - name: RADARR__AUTH__METHOD
-    #   value: "External"
-    # - name: RADARR__AUTH__REQUIRED
-    #   value: "Enabled"
+    - name: RADARR__AUTH__METHOD
+      value: "External"
+    - name: RADARR__AUTH__REQUIRED
+      value: "Enabled"
   probes:
     readinessProbe:
       type: tcpSocket
