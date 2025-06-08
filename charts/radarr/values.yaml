@@ -95,8 +95,8 @@ extraObjects:
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: sabnzbd-downloads
-      namespace: sabnzbd
+      name: radarr-downloads
+      namespace: radarr
     spec:
       accessModes:
         - ReadWriteMany
@@ -104,7 +104,7 @@ extraObjects:
       resources:
         requests:
           storage: 1Ti
-      volumeName: sabnzbd-downloads
+      volumeName: radarr-downloads
   - |
     apiVersion: v1
     kind: PersistentVolume
@@ -131,7 +131,7 @@ extraObjects:
     kind: PersistentVolumeClaim
     metadata:
       name: radarr-movies
-      namespace: sabnzbd
+      namespace: radarr
     spec:
       accessModes:
         - ReadWriteMany
@@ -166,7 +166,7 @@ extraObjects:
     kind: PersistentVolumeClaim
     metadata:
       name: radarr-tv
-      namespace: sabnzbd
+      namespace: radarr
     spec:
       accessModes:
         - ReadWriteMany
@@ -201,7 +201,7 @@ extraObjects:
     kind: PersistentVolumeClaim
     metadata:
       name: radarr-anime
-      namespace: sabnzbd
+      namespace: radarr
     spec:
       accessModes:
         - ReadWriteMany
