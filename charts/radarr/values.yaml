@@ -14,9 +14,9 @@ workload:
     - name: RADARR__POSTGRES__PASSWORD
       secret: radarr-postgres-app
       key: password
-    - name: RADARR__AUTH__APIKEY
-      secret: radarr
-      key: API_KEY
+    # - name: RADARR__AUTH__APIKEY
+    #   secret: radarr
+    #   key: API_KEY
   envs:
     - name: "RADARR__POSTGRES__PORT"
       value: "5432"
