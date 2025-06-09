@@ -51,6 +51,8 @@ workload:
     - name: run
       type: emptyDir
       mountPath: /run
+  securityContext:
+    readOnlyRootFilesystem: false
 
 service:
   ports:
