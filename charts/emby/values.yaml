@@ -1,9 +1,8 @@
 workload:
   type: "StatefulSet"
   image:
-    registry: "ghcr.io"
-    repository: home-operations/emby
-    tag: 4.8.11
+    repository: emby/embyserver
+    tag: 4.9.0.56
   strategy:
     type: OnDelete
   priorityClassName: "system-cluster-critical"
