@@ -51,21 +51,19 @@ workload:
     - name: run
       type: emptyDir
       mountPath: /run
-  initContainers:
-  - name: setup-s6-overlay
-    image: docker.io/linuxserver/emby:beta-version-4.9.0.56
-    securityContext:
-      privileged: true
-      runAsUser: 0
-      runAsGroup: 0
-      runAsNonRoot: false
-    volumeMounts:
-    - name: run
-      mountPath: /run
-    command:
-    - sh
-    - -c
-    - chown 1000:1000 /run
+  podSecurityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
+    fsGroup: 0
+    fsGroupChangePolicy: {}
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: false
 
 service:
   ports:
