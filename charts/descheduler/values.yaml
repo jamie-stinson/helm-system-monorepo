@@ -48,57 +48,94 @@ configMap:
         policy.yaml: |
           apiVersion: "descheduler/v1alpha2"
           kind: "DeschedulerPolicy"
-          evictDaemonSetPods: false
           profiles:
-          - name: default
-            pluginConfig:
-            - args:
-                evictFailedBarePods: true
-                evictLocalStoragePods: true
-                evictSystemCriticalPods: true
-                minReplicas: 0
-                nodeFit: true
-              name: DefaultEvictor
-            - name: RemoveDuplicates
-            - args:
-                targetThresholds:
-                  cpu: 50
-                  memory: 50
-                  pods: 50
-                thresholds:
-                  cpu: 20
-                  memory: 20
-                  pods: 20
-              name: LowNodeUtilization
-            - args:
-                includingInitContainers: true
-                podRestartThreshold: 100
-              name: RemovePodsHavingTooManyRestarts
-            - args:
-                excludeOwnerKinds:
-                - Job
-                exitCodes:
-                - 1
-                includingInitContainers: true
-                minPodLifetimeSeconds: 3600
-              name: RemoveFailedPods
-            - args:
-                maxPodLifeTimeSeconds: 86400
-                states:
-                - Pending
-                - PodInitializing
-              name: PodLifeTime
-            plugins:
-              balance:
-                enabled:
-                - RemoveDuplicates
-                - LowNodeUtilization
-              deschedule:
-                enabled:
-                - RemovePodsHavingTooManyRestarts
-                - RemoveFailedPods
-                - PodLifeTime
-
+            - name: Default
+              pluginConfig:
+                - name: DefaultEvictor
+                  args:
+                    evictFailedBarePods: true
+                    evictLocalStoragePods: true
+                    evictSystemCriticalPods: false
+                    ignorePvcPods: false
+                    evictDaemonSetPods: true
+                    minReplicas: 0
+                    nodeFit: true
+                - name: "RemovePodsHavingTooManyRestarts"
+                  args:
+                    podRestartThreshold: 100
+                    includingInitContainers: true
+                    includingEphemeralContainers: true
+                    states:
+                    - CrashLoopBackOff
+                - name: "RemoveFailedPods"
+                  args:
+                    reasons:
+                    - "OutOfcpu"
+                    - "CreateContainerConfigError"
+                    includingInitContainers: true
+                    excludeOwnerKinds:
+                    - "Job"
+                    minPodLifetimeSeconds: 3600
+                - name: "LowNodeUtilization"
+                  args:
+                    targetThresholds:
+                      cpu: 60
+                      memory: 60
+                      pods: 50
+                    thresholds:
+                      cpu: 20
+                      memory: 20
+                      pods: 20
+                - name: "RemovePodsViolatingNodeAffinity"
+                  args:
+                    nodeAffinityType:
+                    - "requiredDuringSchedulingIgnoredDuringExecution"
+                - name: RemovePodsViolatingNodeTaints
+                - name: RemovePodsViolatingInterPodAntiAffinity
+                - name: "RemovePodsViolatingTopologySpreadConstraint"
+                  args:
+                    constraints:
+                      - DoNotSchedule
+                      - ScheduleAnyway
+                - name: "PodLifeTime"
+                  args:
+                    maxPodLifeTimeSeconds: 3600 # 1 hour
+                    states:
+                      # Pod Phase Status
+                      - Running
+                      - Pending
+                      - Succeeded
+                      - Failed
+                      - Unknown
+                      # Pod Reason
+                      - NodeAffinity
+                      - NodeLost
+                      - Shutdown
+                      - UnexpectedAdmissionError
+                      # Container State Waiting Condition
+                      - PodInitializing
+                      - ContainerCreating
+                      - ImagePullBackOff
+                      - CrashLoopBackOff
+                      - CreateContainerConfigError
+                      - ErrImagePull
+                      - CreateContainerError
+                      - InvalidImageName
+                - name: "RemoveDuplicates"
+              plugins:
+                deschedule:
+                  enabled:
+                    - "RemovePodsHavingTooManyRestarts"
+                    - "RemoveFailedPods"
+                    - "RemovePodsViolatingNodeAffinity"
+                    - "RemovePodsViolatingNodeTaints"
+                    - "RemovePodsViolatingInterPodAntiAffinity"
+                    - "PodLifeTime"
+                balance:
+                  enabled:
+                    - "RemoveDuplicates"
+                    - "LowNodeUtilization"
+                    - "RemovePodsViolatingTopologySpreadConstraint"
 rbac:
   enabled: true
   roles:

@@ -24,6 +24,8 @@ workload:
       value: "External"
     - name: RADARR__AUTH__REQUIRED
       value: "Enabled"
+  strategy:
+    type: OnDelete
   probes:
     readinessProbe:
       type: tcpSocket
