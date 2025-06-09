@@ -102,8 +102,6 @@ configMap:
                     states:
                       - Running
                       - Pending
-                      - Succeeded
-                      - Failed
                       - Unknown
                       - NodeAffinity
                       - NodeLost
@@ -116,7 +114,7 @@ configMap:
                       - CreateContainerConfigError
                       - ErrImagePull
                       - CreateContainerError
-                      - InvalidImageName                      
+                      - InvalidImageName                  
                 - name: "RemoveDuplicates"
               plugins:
                 deschedule:
