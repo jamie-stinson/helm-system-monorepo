@@ -70,6 +70,36 @@ extraObjects:
               serviceAccountName: recyclarr
       schedule: 0 0 * * *
       successfulJobsHistoryLimit: 1
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: radarr
+      namespace: recyclarr
+    spec:
+      encryptedData:
+        API_KEY: AgAuMwITxoU94MUgT8Yfw+9PK+NA84Z6LcipPq5AKn2qqH/09OQlpo6qwpd8ZZ7V7zrMPmDM6xwfw5k1P2YB1QMZT01Q3aQrUGOe/f4LB3W94AE89RDwLfx86DW+DSoXKkWUyGNUFJRtUItKWZRUsiGecMWgBkfXBflG9Jjxu6HwY3JnlYxQ3YNHBtYw0j1qpwWuc11V4hgRNIVHyutvQ2SljFqf6NOGmkEMJiR3d1DsDBxI/93iGk6svM26SjM9GTORzMHzXZ2FLdkN6AXqjtuwa7gTzMs119hfucVdui6v0Skvy3/9iRg4w8pBbYXijJV4JufW94txbRo8QlobPVIgsLBVwcW1dUIsN4TNS2/N+Ufxq/N+1HBAYU1+8/DCT/+nND7f2eoinMnmVfKpfy29mNCryE2syT5hTUAtIaL9z3hiImKSoSlcOIzjAVUxRFrtzqpGEv+hUO7+g1OcRfKQlPfVvfJTYUljV1L/aBN08DdRKzAOTngO5bYex27cfuqpECTCsbB6JSiStcUABaREwnGsqz9hXsHy3G6kEgXVcXvpvDe1r4wuIS4/aytB36WuoNTcvmt9ulSovjr52xJIsF8CLuMWljPJTw/W9a06dktqVp7J7Co0B5tyH4cWfuo+RmoP3xcMAdXQy3vMHWDTbNH83lyH5P+jwWtyNab0FfikqGsqwHaqr76ErmkjYQs6hY88RgCFr18+bm2Bvp66MC0XSik8HZRLuxrWeSBz/g==
+      template:
+        metadata:
+          name: radarr
+          namespace: recyclarr
+        type: Opaque
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      creationTimestamp: null
+      name: sonarr
+      namespace: recyclarr
+    spec:
+      encryptedData:
+        API_KEY: AgAYjAk5VGOOXQJA9DHlTZUq6McIBJ+qMq5FT3fryfcfwUTZ71r0C17CXORVJBLI5a9tA6BgYtycRsC/6RxCq9c5Czi8gDUCffeU+MbMiiuHIgTHkY8wt06ikn89iQZTLVTVxKWkyHSZd8hKw+2bQ8azfpawyuxmcHrkirAgwQtNjmRYdLAQ2z4QUBGXu2YdP37YKHqPkwItBRSMLBmpA/BvKQWdYOB198u9pTGSnMQy5P2henobOZ1TMt5hRTmQT2vpXak1unluviuIGeSooagJa/lzoXLT5z07mW2Ma0h9hCJUJUpmcd/LR6BZiWI4lD7Jo0HeL1YLFs3VhhrZL3wPddImhsvkf1sEcd/32hLQUKT3IgHDyYcYIElTUH2AM58674zaY07eBcnQhlgtRrKHFIBfqNx0gZ2NMEm9lDWPfELZid+pVY/ncdOszziSVX84RadY+/qXlJEOvK3Q5DTydqCI8NscXMDE8V36ERcFbvbAoWKZyX2aW5qygk+6BoFcb6bXNl/9A+TyAophRdvjGX8MGYbnylTH1iP4OUHcz5jt9fKmwyILCyxO84IFtinD2VIiFtaTW32nkHEhMknaLA5X9mPPJXpWiJy8EGdh29wLv7Q6Yd5nKHGAlcc1CJyKgB9QO6QDkVSxHF7yPaTwe/kK6Ilce1Bp7pSVYzOIEfra9JPxQeTvHcxkxy2OG5fhqSFeFvyYgYa5FLdVEWCZ8Ra+ppnE41vJsgjNLiXOtQ==
+      template:
+        metadata:
+          creationTimestamp: null
+          name: sonarr
+          namespace: recyclarr
+        type: Opaque
 
 configMap:
   enabled: true
