@@ -42,9 +42,9 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-    - name: run
-      type: emptyDir
-      mountPath: /var/run/s6
+  securityContext:
+    readOnlyRootFilesystem: false
+  
 service:
   ports:
     - name: http
