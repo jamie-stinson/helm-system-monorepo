@@ -44,7 +44,7 @@ workload:
       mountPath: /tmp
     - name: run
       type: emptyDir
-      mountPath: /run
+      mountPath: /var/run/s6
 service:
   ports:
     - name: http
