@@ -1,6 +1,7 @@
 workload:
   type: "StatefulSet"
   image:
+    registry: "ghcr.io"
     repository: home-operations/emby
     tag: 4.8.11
   strategy:
