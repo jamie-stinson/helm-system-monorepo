@@ -100,18 +100,15 @@ configMap:
                   args:
                     maxPodLifeTimeSeconds: 3600 # 1 hour
                     states:
-                      # Pod Phase Status
                       - Running
                       - Pending
                       - Succeeded
                       - Failed
                       - Unknown
-                      # Pod Reason
                       - NodeAffinity
                       - NodeLost
                       - Shutdown
                       - UnexpectedAdmissionError
-                      # Container State Waiting Condition
                       - PodInitializing
                       - ContainerCreating
                       - ImagePullBackOff
@@ -119,7 +116,7 @@ configMap:
                       - CreateContainerConfigError
                       - ErrImagePull
                       - CreateContainerError
-                      - InvalidImageName
+                      - InvalidImageName                      
                 - name: "RemoveDuplicates"
               plugins:
                 deschedule:
