@@ -37,7 +37,7 @@ service:
 ingress:
   enabled: true
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure, externalweb, externalwebsecure"
   hosts:
     - host: newjellyseerr.projectwhitebox.com
       path: /
