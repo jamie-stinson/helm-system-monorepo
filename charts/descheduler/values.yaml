@@ -85,17 +85,6 @@ configMap:
                       cpu: 20
                       memory: 20
                       pods: 20
-                - name: "RemovePodsViolatingNodeAffinity"
-                  args:
-                    nodeAffinityType:
-                    - "requiredDuringSchedulingIgnoredDuringExecution"
-                - name: RemovePodsViolatingNodeTaints
-                - name: RemovePodsViolatingInterPodAntiAffinity
-                - name: "RemovePodsViolatingTopologySpreadConstraint"
-                  args:
-                    constraints:
-                      - DoNotSchedule
-                      - ScheduleAnyway
                 - name: "PodLifeTime"
                   args:
                     maxPodLifeTimeSeconds: 3600 # 1 hour
@@ -121,15 +110,11 @@ configMap:
                   enabled:
                     - "RemovePodsHavingTooManyRestarts"
                     - "RemoveFailedPods"
-                    - "RemovePodsViolatingNodeAffinity"
-                    - "RemovePodsViolatingNodeTaints"
-                    - "RemovePodsViolatingInterPodAntiAffinity"
                     - "PodLifeTime"
                 balance:
                   enabled:
                     - "RemoveDuplicates"
                     - "LowNodeUtilization"
-                    - "RemovePodsViolatingTopologySpreadConstraint"
 rbac:
   enabled: true
   roles:
