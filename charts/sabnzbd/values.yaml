@@ -23,7 +23,7 @@ workload:
       claimName: "sabnzbd-config"
     - name: sabnzbd-downloads
       type: pvc
-      mountPath: /downloads
+      mountPath: /data/downloads
       claimName: "sabnzbd-downloads"
     - name: tmp
       type: emptyDir

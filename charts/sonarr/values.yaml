@@ -39,15 +39,15 @@ workload:
       mountPath: /config
     - name: sonarr-downloads
       type: pvc
-      mountPath: /downloads
+      mountPath: /data/downloads
       claimName: "sonarr-downloads"
     - name: sonarr-tv
       type: pvc
-      mountPath: /media/tv
+      mountPath: /data/tv
       claimName: "sonarr-tv"
     - name: sonarr-anime
       type: pvc
-      mountPath: /media/anime
+      mountPath: /data/anime
       claimName: "sonarr-anime"
 
 service:
