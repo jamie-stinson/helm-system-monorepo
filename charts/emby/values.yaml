@@ -56,7 +56,7 @@ workload:
     runAsGroup: 0
     runAsNonRoot: false
     fsGroup: 0
-    fsGroupChangePolicy: {}
+    fsGroupChangePolicy: "OnRootMismatch"
   securityContext:
     runAsUser: 0
     runAsGroup: 0
