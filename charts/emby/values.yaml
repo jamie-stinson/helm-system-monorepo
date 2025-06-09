@@ -61,8 +61,6 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-  securityContext:
-    readOnlyRootFilesystem: false
   
 service:
   ports:
