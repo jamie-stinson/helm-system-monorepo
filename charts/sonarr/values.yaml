@@ -1,4 +1,5 @@
 workload:
+  enabled: false
   type: "StatefulSet"
   image:
     registry: ghcr.io
