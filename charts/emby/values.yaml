@@ -35,6 +35,9 @@ workload:
       type: pvc
       mountPath: /transcode
       claimName: "emby-transcode"
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
 
 service:
   ports:
