@@ -11,6 +11,10 @@ workload:
       value: "1000"
     - name: "PGID"
       value: "1000"
+    - name: S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES
+      value: "1"
+    - name: S6_READ_ONLY_ROOT
+      value: "1"
     - name: "TZ"
       value: "Europe/London"
   probes:
@@ -93,7 +97,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -128,7 +133,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -163,7 +169,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -198,7 +205,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -233,7 +241,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -248,5 +257,3 @@ extraObjects:
         requests:
           storage: 1Ti
       volumeName: emby-transcode
-
-
