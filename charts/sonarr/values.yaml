@@ -37,11 +37,10 @@ workload:
     - name: config
       type: emptyDir
       mountPath: /config
-    - name: downloads
-      type: emptyDir
+    - name: sonarr-downloads
+      type: pvc
       mountPath: /downloads
-      ramDisk: false
-      readOnly: false
+      claimName: "sonarr-downloads"
     - name: sonarr-tv
       type: pvc
       mountPath: /media/tv
