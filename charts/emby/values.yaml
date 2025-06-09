@@ -1,22 +1,11 @@
 workload:
   type: "StatefulSet"
   image:
-    repository: linuxserver/emby
-    tag: beta-version-4.9.0.56
+    repository: home-operations/emby
+    tag: 4.8.11
   strategy:
     type: OnDelete
   priorityClassName: "system-cluster-critical"
-  envs:
-    - name: "PUID"
-      value: "0"
-    - name: "PGID"
-      value: "0"
-    - name: S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES
-      value: "1"
-    - name: S6_READ_ONLY_ROOT
-      value: "1"
-    - name: "TZ"
-      value: "Europe/London"
   probes:
     readinessProbe:
       type: tcpSocket
@@ -48,22 +37,6 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
-    - name: run
-      type: emptyDir
-      mountPath: /run
-  podSecurityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    fsGroup: 0
-    fsGroupChangePolicy: "OnRootMismatch"
-  securityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
-    allowPrivilegeEscalation: false
-    privileged: false
-    readOnlyRootFilesystem: false
 
 service:
   ports:
