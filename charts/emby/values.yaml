@@ -1,12 +1,18 @@
 workload:
   type: "StatefulSet"
   image:
-    registry: ghcr.io
-    repository: home-operations/emby
-    tag: 4.8.11
+    repository: linuxserver/emby
+    tag: beta-version-4.9.0.56
   strategy:
     type: OnDelete
   priorityClassName: "system-cluster-critical"
+  envs:
+    - name: "PUID"
+      value: "1000"
+    - name: "PGID"
+      value: "1000"
+    - name: "TZ"
+      value: "Europe/London"
   probes:
     readinessProbe:
       type: tcpSocket
