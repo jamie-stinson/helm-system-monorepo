@@ -56,6 +56,9 @@ workload:
     image: docker.io/linuxserver/emby:beta-version-4.9.0.56
     securityContext:
       privileged: true
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
     volumeMounts:
     - name: run
       mountPath: /run
