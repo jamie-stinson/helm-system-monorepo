@@ -1,8 +1,8 @@
 workload:
   type: "StatefulSet"
   image:
-    repository: emby/embyserver
-    tag: 4.9.0.56
+    repository: linuxserver/emby
+    tag: beta-version-4.9.0.56
   strategy:
     type: OnDelete
   priorityClassName: "system-cluster-critical"
@@ -23,8 +23,8 @@ workload:
     runAsUser: 0
     runAsGroup: 0
     runAsNonRoot: false
-    allowPrivilegeEscalation: false
-    privileged: false
+    allowPrivilegeEscalation: true
+    privileged: true
     readOnlyRootFilesystem: false
   probes:
     readinessProbe:
