@@ -76,7 +76,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolume
@@ -97,7 +98,8 @@ extraObjects:
         - rsize=1048576 
         - wsize=1048576 
         - proto=tcp
-        - sync
+        - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
