@@ -64,7 +64,6 @@ configMap:
                   args:
                     podRestartThreshold: 100
                     includingInitContainers: true
-                    includingEphemeralContainers: true
                     states:
                     - CrashLoopBackOff
                 - name: "RemoveFailedPods"
