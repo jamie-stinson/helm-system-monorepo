@@ -74,7 +74,7 @@ configMap:
                     includingInitContainers: true
                     excludeOwnerKinds:
                     - "Job"
-                    minPodLifetimeSeconds: 3600
+                    minPodLifetimeSeconds: 600
                 - name: "LowNodeUtilization"
                   args:
                     targetThresholds:
@@ -87,9 +87,8 @@ configMap:
                       pods: 20
                 - name: "PodLifeTime"
                   args:
-                    maxPodLifeTimeSeconds: 3600 # 1 hour
+                    maxPodLifeTimeSeconds: 600
                     states:
-                      - Running
                       - Pending
                       - Unknown
                       - NodeAffinity
