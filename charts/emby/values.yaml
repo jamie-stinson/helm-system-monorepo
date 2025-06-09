@@ -51,8 +51,18 @@ workload:
     - name: run
       type: emptyDir
       mountPath: /run
-  securityContext:
-    readOnlyRootFilesystem: false
+  initContainers:
+  - name: setup-s6-overlay
+    image: docker.io/linuxserver/emby:beta-version-4.9.0.56
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: run
+      mountPath: /run
+    command:
+    - sh
+    - -c
+    - chown 1000:1000 /run
 
 service:
   ports:
