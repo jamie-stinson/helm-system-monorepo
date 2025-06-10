@@ -93,6 +93,7 @@ extraObjects:
         - wsize=1048576 
         - proto=tcp
         - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
@@ -128,6 +129,7 @@ extraObjects:
         - wsize=1048576 
         - proto=tcp
         - async
+        - nconnect=8
   - |
     apiVersion: v1
     kind: PersistentVolumeClaim
