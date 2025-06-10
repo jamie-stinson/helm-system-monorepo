@@ -39,7 +39,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure, externalweb, externalwebsecure"
   hosts:
-    - host: newjellyseerr.projectwhitebox.com
+    - host: request.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

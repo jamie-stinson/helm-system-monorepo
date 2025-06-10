@@ -69,7 +69,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure, externalweb, externalwebsecure"
   hosts:
-    - host: newemby.projectwhitebox.com
+    - host: watch.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
