@@ -220,6 +220,6 @@ extraObjects:
           volumes:
             - name: config
               persistentVolumeClaim:
-                claimName: adguard-confi
+                claimName: adguard-config
             - emptyDir: {}
               name: data
