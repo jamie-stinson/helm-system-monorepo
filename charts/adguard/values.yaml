@@ -204,8 +204,6 @@ extraObjects:
             runAsGroup: 0
             runAsNonRoot: false
             runAsUser: 0
-          serviceAccount: adguard
-          serviceAccountName: adguard
           terminationGracePeriodSeconds: 30
           topologySpreadConstraints:
             - labelSelector:
