@@ -111,10 +111,10 @@ configMap:
               api_key: !env_var RADARR_API_KEY
 
               media_naming:
-                folder: jellyfin
+                folder: emby
                 movie:
                   rename: true
-                  standard: jellyfin
+                  standard: emby
 
               quality_profiles:
                 - name: Default
