@@ -35,15 +35,16 @@ workload:
       port: 7878
   storage:
     - name: config
-      type: emptyDir
+      type: pvc
       mountPath: /config
+      claimName: "radarr-config"
     - name: radarr-downloads
       type: pvc
-      mountPath: /downloads
+      mountPath: /data/downloads
       claimName: "radarr-downloads"
     - name: radarr-movies
       type: pvc
-      mountPath: /media/movies
+      mountPath: /data/movies
       claimName: "radarr-movies"
 
 service:
@@ -155,3 +156,39 @@ extraObjects:
           name: radarr
           namespace: radarr
         type: Opaque
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: radarr-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/radarr"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: radarr-config
+      namespace: radarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: radarr-config
