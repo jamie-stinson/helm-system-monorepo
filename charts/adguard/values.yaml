@@ -1,0 +1,68 @@
+workload:
+  replicaCount: 3
+  image:
+    repository: adguard/adguardhome
+    tag: v0.107.62
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 30004
+    livenessProbe:
+      type: tcpSocket
+      port: 30004
+  storage:
+    - name: config
+      type: pvc
+      mountPath: /opt/adguardhome/conf
+      claimName: "adguard-confi"
+    - name: data
+      type: emptyDir
+      mountPath: /opt/adguardhome/work
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - adguard
+        topologyKey: "kubernetes.io/hostname"
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: adguard-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/adguard"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: adguard-config
+      namespace: adguard
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: adguard-config
