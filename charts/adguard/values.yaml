@@ -186,9 +186,9 @@ extraObjects:
                     - ALL
                 privileged: false
                 readOnlyRootFilesystem: true
-                runAsGroup: 1000
-                runAsNonRoot: true
-                runAsUser: 1000
+                runAsGroup: 0
+                runAsNonRoot: false
+                runAsUser: 0
                 seccompProfile:
                   type: RuntimeDefault
               terminationMessagePath: /dev/termination-log
@@ -202,11 +202,11 @@ extraObjects:
           restartPolicy: Always
           schedulerName: default-scheduler
           securityContext:
-            fsGroup: 1000
+            fsGroup: 0
             fsGroupChangePolicy: Always
-            runAsGroup: 1000
-            runAsNonRoot: true
-            runAsUser: 1000
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
           serviceAccount: adguard
           serviceAccountName: adguard
           terminationGracePeriodSeconds: 30
