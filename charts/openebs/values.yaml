@@ -8,7 +8,7 @@ workload:
     - name: OPENEBS_IO_ENABLE_ANALYTICS
       value: 'true'
     - name: OPENEBS_IO_BASE_PATH
-      value: /var/mnt/storage
+      value: "/var/mnt/openebs-data/disk1"
     - name: OPENEBS_IO_HELPER_IMAGE
       value: openebs/linux-utils:4.2.0
     - name: OPENEBS_IO_HELPER_POD_HOST_NETWORK
@@ -111,7 +111,7 @@ storageClass:
       - name: StorageType
         value: "hostpath"
       - name: BasePath
-        value: "/var/mnt/storage"
+        value: "/var/mnt/openebs-data/disk1"
     openebs.io/cas-type: local
     storageclass.kubernetes.io/is-default-class: 'true'
   provisioner: "openebs.io/local"
