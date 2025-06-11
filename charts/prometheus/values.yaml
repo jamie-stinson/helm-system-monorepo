@@ -51,6 +51,18 @@ workload:
           secretKeyRef:
             key: thanos.yaml
             name: thanos
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
       args:
         - 'sidecar'
         - '--objstore.config=$(OBJSTORE_CONFIG)'
