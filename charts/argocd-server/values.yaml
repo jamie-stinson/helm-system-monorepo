@@ -335,7 +335,7 @@ extraObjects:
         app.kubernetes.io/name: argocd-cm
         app.kubernetes.io/part-of: argocd
     data:
-      url: https://argocd.projectwhitebox.com:30443
+      url: https://argocd.projectwhitebox.com
 
       oidc.config: |
         name: Google
