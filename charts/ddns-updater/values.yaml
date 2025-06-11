@@ -1,0 +1,76 @@
+workload:
+  image:
+    repository: qmcgaw/ddns-updater
+    tag: 2.9.0
+  envs:
+    - name: "TZ"
+      valie: "Europe/London"
+    - name: "period"
+      value: "1m"
+  storage:
+    - name: config
+      type: pvc
+      mountPath: /updater/data
+      claimName: "ddns-updater-config"
+
+service:
+  ports:
+    - name: http
+      port: 8000
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: ddns.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "ddns-updater"
+          port: 8000
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: ddns-updater-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/ddns-updater"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: ddns-updater-config
+      namespace: ddns-updater
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: ddns-updater-config
