@@ -12,6 +12,13 @@ workload:
       type: pvc
       mountPath: /updater/data
       claimName: "ddns-updater-config"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 8000
+    livenessProbe:
+      type: tcpSocket
+      port: 8000
 
 service:
   ports:
