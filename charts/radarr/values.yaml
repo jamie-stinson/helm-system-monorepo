@@ -58,7 +58,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: newradarr.projectwhitebox.com
+    - host: radarr.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

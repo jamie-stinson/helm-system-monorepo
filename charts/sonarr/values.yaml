@@ -62,7 +62,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: newsonarr.projectwhitebox.com
+    - host: sonarr.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:

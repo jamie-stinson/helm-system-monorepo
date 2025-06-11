@@ -6,7 +6,7 @@ workload:
     tag: 4.5.1
   envs:
     - name: "SABNZBD__HOST_WHITELIST_ENTRIES"
-      value: "newsabnzbd.projectwhitebox.com"
+      value: "sabnzbd.projectwhitebox.com"
   probes:
     readinessProbe:
       type: tcpSocket
@@ -42,7 +42,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: newsabnzbd.projectwhitebox.com
+    - host: sabnzbd.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
