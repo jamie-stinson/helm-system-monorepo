@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.16.3
+    controller-gen.kubebuilder.io/version: v0.17.3
   name: grafanaalertrulegroups.grafana.integreatly.org
 spec:
   group: grafana.integreatly.org
@@ -131,7 +131,6 @@ spec:
                 default: 10m0s
                 description: How often the resource is synced, defaults to 10m0s if
                   not set
-                format: duration
                 pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                 type: string
               rules:
@@ -224,6 +223,16 @@ spec:
                           type: string
                       required:
                       - receiver
+                      type: object
+                    record:
+                      properties:
+                        from:
+                          type: string
+                        metric:
+                          type: string
+                      required:
+                      - from
+                      - metric
                       type: object
                     title:
                       example: Always firing
@@ -329,6 +338,8 @@ spec:
                 format: date-time
                 type: string
             type: object
+        required:
+        - spec
         type: object
     served: true
     storage: true
