@@ -504,20 +504,20 @@ extraObjects:
         ### Kyverno intermediate and reporting resources excluded reduce the number
         of watched events and improve performance
 
-        - apiGroups:
-          - kyverno.io
-          - reports.kyverno.io
-          - wgpolicyk8s.io
-          kinds:
-          - PolicyReport
-          - ClusterPolicyReport
-          - EphemeralReport
-          - ClusterEphemeralReport
-          - AdmissionReport
-          - ClusterAdmissionReport
-          - BackgroundScanReport
-          - ClusterBackgroundScanReport
-          - UpdateRequest
+        # - apiGroups:
+        #   - kyverno.io
+        #   - reports.kyverno.io
+        #   - wgpolicyk8s.io
+        #   kinds:
+        #   - PolicyReport
+        #   - ClusterPolicyReport
+        #   - EphemeralReport
+        #   - ClusterEphemeralReport
+        #   - AdmissionReport
+        #   - ClusterAdmissionReport
+        #   - BackgroundScanReport
+        #   - ClusterBackgroundScanReport
+        #   - UpdateRequest
       resource.customizations: |
         networking.k8s.io/Ingress:
           health.lua: |
