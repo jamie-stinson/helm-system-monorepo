@@ -7,7 +7,7 @@ workload:
   image:
     registry: "quay.io"
     repository: "argoproj/argocd"
-    tag: "v3.0.5"
+    tag: "v3.0.6"
   command:
     - 'argocd-application-controller'
   envs:
