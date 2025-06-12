@@ -40,6 +40,15 @@ extraObjects:
       name: minio
       namespace: minio
     spec:
+      env:
+        - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+          value: "https://accounts.google.com/.well-known/openid-configuration"
+        - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+          value: "429988516792-n90gu7jaur1njs5c7o51m3ne81h6mkqs.apps.googleusercontent.com"
+        - name: MINIO_IDENTITY_OPENID_SCOPES
+          value: "openid,profile,email"
+        - name: MINIO_IDENTITY_OPENID_CLAIM_NAME
+          value: "groups"
       buckets:
         - name: thanos
         - name: kuik

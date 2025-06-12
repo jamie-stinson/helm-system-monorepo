@@ -48,7 +48,7 @@ workload:
           protocol: TCP
         - containerPort: 10902
           name: http
-          protocol: TCP     
+          protocol: TCP
       env:
       - name: OBJSTORE_CONFIG
         valueFrom:
