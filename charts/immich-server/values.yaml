@@ -38,7 +38,7 @@ workload:
       type: pvc
       mountPath: /usr/src/app/upload/thumbs
       claimName: "immich-thumbnails"
-    - name: thumbnails
+    - name: profiles
       type: pvc
       mountPath: /usr/src/app/upload/profile
       claimName: "immich-profiles"
