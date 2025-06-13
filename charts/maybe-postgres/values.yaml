@@ -41,7 +41,7 @@ extraObjects:
         podAntiAffinityType: required
       bootstrap:
         initdb:
-          database: "maybe"
+          database: "maybe_production"
           owner: maybe
       enableSuperuserAccess: false
       storage:
