@@ -38,22 +38,8 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 3000
-  storage:
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp
-      ramDisk: false
-      readOnly: false
-    - name: home-rails
-      type: emptyDir
-      mountPath: /home/rails
-      ramDisk: false
-      readOnly: false
-    - name: rails
-      type: emptyDir
-      mountPath: /rails
-      ramDisk: false
-      readOnly: false
+  securityContext:
+    readOnlyRootFilesystem: false
 
 service:
   ports:
