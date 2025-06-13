@@ -34,6 +34,14 @@ workload:
       type: pvc
       mountPath: /usr/src/app/upload
       claimName: "immich-library"
+    - name: thumbnails
+      type: pvc
+      mountPath: /usr/src/app/upload/thumbs
+      claimName: "immich-thumbnails"
+    - name: thumbnails
+      type: pvc
+      mountPath: /usr/src/app/upload/profile
+      claimName: "immich-profiles"
 
 service:
   ports:
@@ -96,3 +104,75 @@ extraObjects:
         requests:
           storage: 1Ti
       volumeName: immich-library
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: immich-thumbnails
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/immich-thumbnails"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: immich-thumbnails
+      namespace: immich
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: immich-thumbnails
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: immich-profiles
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/immich-profiles"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: immich-profiles
+      namespace: immich
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: immich-profiles
