@@ -1,0 +1,82 @@
+workload:
+  image:
+    registry: ghcr.io
+    repository: maybe-finance/maybe
+    tag: v0.5.0
+  envsSecret:
+    - name: SECRET_KEY_BASE
+      secret: maybe
+      key: SECRET_KEY_BASE
+    - name: S3_ACCESS_KEY_ID
+      secret: maybe
+      key: S3_ACCESS_KEY_ID
+    - name: S3_SECRET_ACCESS_KEY
+      secret: maybe
+      key: S3_SECRET_ACCESS_KEY
+    - name: DB_HOST
+      secret: maybe-postgres-app
+      key: host
+    - name: POSTGRES_USER
+      secret: maybe-postgres-app
+      key: username
+    - name: POSTGRES_PASSWORD
+      secret: maybe-postgres-app
+      key: password
+  envs:
+    - name: "SELF_HOSTED"
+      value: "true"
+    - name: "APP_DOMAIN"
+      value: "maybe.projectwhitebox.com"
+    - name: "ACTIVE_STORAGE_SERVICE"
+      value: "amazon"
+    - name: "S3_BUCKET"
+      value: "maybe"
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 3000
+    livenessProbe:
+      type: tcpSocket
+      port: 3000
+
+service:
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: maybe.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "maybe"
+          port: 3000
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: maybe
+      namespace: maybe
+    spec:
+      encryptedData:
+        S3_ACCESS_KEY_ID: AgCCndLxHi3ha5ZCVMXOIqCJIp8QJga+OXwjdi7cDavITRBPnFEVGajFcUGAGzjqMUHczb5WUUJXrHBvKXRe4Qrk4jXA5sP3uWZCSfFoPfmrehBC2oiFx7ZVIZtLsCJfiO1N68Fell4AUuIu6UXDW59Os67+LGBxoXg+Z8Kt3ULBwhZlNSr66UuzwD8U1HB/1Z8wRMdBrDgxn4gSmNTMDQiKGa+mgilyLSPy44x34xZ/W6890RT4n1t2H4P60vCD+sOh+MLdXjIzCAutClgoxJDOdOlmXcyrHe3xvyco5zEGYpFBUuLNZdpT03cbhiivwlPCwRxg+9uid1eQSxtLJeRjKOR+PbImzWcR+5h8iEdpzz7AHMww0Z8Txbi6uaqHLisabHcahJF7x/iimuhwDaR41dqKMTirKlrOSkDEb7bWcEKw8uyBpPxgRpT6OyuW2mrAiZqkLTbUX0hfBJKDia9XrgFocp2KsEIYfdMASGVWn266eS8l6ouvImTiZVQ669QvA74A/R8LfK6f49EjjS0X49cmf6QPSxKag54EAxWyCwxvO2kBStPCZjiJ15TRmCxpjez54N/O6zAPlWwZc4pwg98/eThkZXcIgx21z1cjN/54CmljFGhBmA8D2PabxgaVYOsvuuHGrgVIvQKGQHPzObMRbX4Aq0FtetuIAgyTKgO8wX7kpPfYnXun4BlYuss/uw8yRDwdmuiTINku/Z66w7bKdyQ=
+        S3_SECRET_ACCESS_KEY: AgAMp9BXLKx2OmIBHWJVq24XQImC7y4uwb/WIHbymFPv4tBMrUBeSmrPdhTB3Q6kHl+aLfJGin2bjIJr8yljq+9Fdf53KdovRRN9Cb7f60+lnSb2F6kSVpk6ur8CYGCk++Is6EHO1DJNSYneuXzx7oB9f1B9SjtocovvD2TvpXhjkR7H6e+mIltJruwdMFoNnXNqniFA21+9tUqRUNdTBm9lH/avXGWu54PkeyBCabAw/X3E2kDcsLHTM9VwHoi1lkH5+vdlaj0dsgs0RJlO1pknpVhEEOSUjBpIWes2feYzCZDWTqbgGzIKZ0fnNWtUBMLj2wlYq9VI9QFWzH2dNI9gxcb8z+GPWIR0Lv14K8vsoOgB6SFvmyudEce+qE2vqtQT/KqykmMqZjfQIGkiFDk9LPFdZUqPIYaIH/cj5TKF+WmakPLreT3baLihGrdtPxDTozg3V3VH7GM2ISAnynKxhwoTp9lnrgc8CNhO6ricybcI1bT56sGefTuA3eyTnValMbmH58P5HiBbquh+8KSHQ7B9c2aE+YaaCHA7CRtLqwYVllH1qzt59gJe2ugKOXVXuWb83ScqFk3Xaydpg8QwuuTmRmBuPr7ZOJp4Jgq8riTQoWkpKOyfUAOUJ1Vtw+UCB7eRucbLUVolVJ3ba4An2eRfNOCzh3CRNHJf4PWadiVPsuxkVfjVHDHyeG7C4xSuAE2bKG0vB5bkhFZVRPhPCnfImzBJ7i7XGOXQrPFGlMEu7hmJYKgDlA==
+        SECRET_KEY_BASE: AgBUSyBPXSHVBOIvsBSZEKN/8oZymeSOof2UvJ1fO158S26rLzxpbVn1hiApQ3rRCeBsTVKG6bc9f0Ebbpis6vFczMb4XjbjrC6B0XnFVTKyrfwdYHKXqtEqxoUVDVryr9RRRalLimK8/oE95y3M7Q4Hwc8IkPURs64WPD4CVI0A9ps5LJcXLF6HKaSlTZUCbWJckiAbmXNTw15/SDVpf1IV05m9poqNg0TCvl8Aa2u9Os7MpvxUJUOq3VuCMtuP8pDU4Tv23d82E13GURq2RNGdjbls4EtftywdzoSJfQNXtT9n73W92hG+QzAZapxdkHOeT4jizhI6YANPurYCC8fNQjyRwUdJI3pmt5b7cfnSi0KUdsG5ID0MFbKcrfVOraXJLL0eDlPPkCLWc0rGu9JnoVm9ByfLZ3rjAhhhmF4rtP0wqwbftaRt18LY2xb2RiSNQiDoPaAC2Fcf0z+hjzUdPyKBQLx055GuHQzHXIdwmwQIwtprRQNDT0SAZQkKqfBp9ypNAcHwSsl+dnZr1j1Yzwe+ctEDYcs7vDeCHrNvT2BQrQSyQeKqBksiD0ju1cA2mLhDbJyuuJUoRirdywFJVwAjab4+eTIR/uqfhGDLfpoetzZTrxeXJHwXsa7/KuON9bwnz8ztZNtdDrs6xu4pRTDG06ItK2aXkNZebMM52l16+RVzW2JfSBvkkRctOfq8SDi6FYGPZu5O1M+68ATw7fGOf3phqZ0AuGkmkGUsHDzgCR1SFdoFJj8AULoybNSru6jaQzaC8dZwOlHrV+RQS+ZdfIhI3ikRiTfr/IIzTvvdOuxTAQ0gIWpRwPgmiGI0kAA2IPppeDpu18+ycCbDya/qpQvnxuN/AouUrxFCCek=
+      template:
+        metadata:
+          name: maybe
+          namespace: maybe
+        type: Opaque

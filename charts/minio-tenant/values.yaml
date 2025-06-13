@@ -57,6 +57,7 @@ extraObjects:
         - name: thanos
         - name: kuik
         - name: media
+        - name: maybe
       configuration:
         name: minio
       features:
