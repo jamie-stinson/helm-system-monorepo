@@ -1,0 +1,59 @@
+namespace: "immich"
+
+service:
+  enabled: false
+
+serviceAccount:
+  enabled: false
+
+workload:
+  enabled: false
+
+pdb:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: postgresql.cnpg.io/v1
+    kind: Cluster
+    metadata:
+      name: immich-postgres
+      labels:
+        kube-image-keeper.enix.io/image-caching-policy: ignore
+    spec:
+      description: "Immich Database"
+      imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+      instances: 2
+      inheritedMetadata:
+        labels:
+          kube-image-keeper.enix.io/image-caching-policy: ignore
+      postgresql:
+        synchronous:
+          method: any
+          number: 1
+          dataDurability: required
+      affinity:
+        enablePodAntiAffinity: true
+        topologyKey: kubernetes.io/hostname
+        podAntiAffinityType: required
+      bootstrap:
+        initdb:
+          database: "immich"
+          owner: immich
+      enableSuperuserAccess: false
+      storage:
+        pvcTemplate:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 25Gi
+          storageClassName: "openebs"
+          volumeMode: Filesystem
+      resources:
+        requests:
+          cpu: "10m"
+          memory: "10Mi"
