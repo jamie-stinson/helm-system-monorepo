@@ -2,7 +2,7 @@ workload:
   image:
     registry: ghcr.io
     repository: maybe-finance/maybe
-    tag: v0.5.0
+    tag: 0.5.0
   envsSecret:
     - name: SECRET_KEY_BASE
       secret: maybe
