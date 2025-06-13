@@ -35,6 +35,9 @@ workload:
     - name: cache
       type: emptyDir
       mountPath: /cache
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
 
 service:
   ports:
