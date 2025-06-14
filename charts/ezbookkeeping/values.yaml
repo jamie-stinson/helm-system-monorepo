@@ -3,9 +3,6 @@ workload:
     repository: mayswind/ezbookkeeping
     tag: 0.9.0
   envsSecret:
-    - name: EBK_DATABASE_HOST
-      secret: ezbookkeeping-postgres-app
-      key: host
     - name: EBK_DATABASE_USER
       secret: ezbookkeeping-postgres-app
       key: username
@@ -24,6 +21,8 @@ workload:
   envs:
     - name: "EBK_DATABASE_TYPE"
       value: "postgres"
+    - name: "EBK_DATABASE_HOST"
+      value: "ezbookkeeping-postgres-rw:5432"
     - name: "EBK_DATABASE_NAME"
       value: "ezbookkeeping"
     - name: "EBK_SERVER_DOMAIN"
