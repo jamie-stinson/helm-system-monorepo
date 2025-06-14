@@ -70,6 +70,7 @@ autoscaling:
 
 extraObjects:
   - |
+    apiVersion: bitnami.com/v1alpha1
     kind: SealedSecret
     metadata:
       name: ezbookkeping
