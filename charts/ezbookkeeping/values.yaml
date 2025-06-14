@@ -23,7 +23,7 @@ workload:
       key: EBK_STORAGE_MINIO_SECRET_ACCESS_KEY
   envs:
     - name: "EBK_DATABASE_TYPE"
-      value: "postgresql"
+      value: "postgres"
     - name: "EBK_DATABASE_NAME"
       value: "ezbookkeeping"
     - name: "EBK_SERVER_DOMAIN"
