@@ -38,7 +38,7 @@ workload:
   storage:
     - name: config
       type: configMap
-      mountPath: /ezbookkeeping/conf/ezbookkeeping.ini
+      mountPath: /ezbookkeeping/conf
       configMapName: ezbookkeeping
     - name: log
       type: emptyDir
