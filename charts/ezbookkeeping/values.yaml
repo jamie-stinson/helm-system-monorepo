@@ -190,8 +190,8 @@ configMap:
           type = minio
 
           # For "minio" storage only, the minio connection configuration
-          minio_endpoint = ezbookkeeping.minio.svc.cluster.local:80
-          minio_location = /
+          minio_endpoint = ezbookkeeping.minio.svc.cluster.local
+          minio_location = us-west-1
 
           # For "minio" storage only, whether enable ssl for minio connection
           minio_use_ssl = false
