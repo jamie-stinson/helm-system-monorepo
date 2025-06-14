@@ -58,6 +58,7 @@ extraObjects:
         - name: kuik
         - name: media
         - name: maybe
+        - name: ezbookkeeping
       configuration:
         name: minio
       features:
