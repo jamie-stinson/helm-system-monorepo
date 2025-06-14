@@ -41,7 +41,7 @@ workload:
       configMapName: ezbookkeeping
     - name: log
       type: emptyDir
-      mountPath: /ezbookkeeping/log/ezbookkeeping.log
+      mountPath: /ezbookkeeping/log
 
 service:
   ports:
