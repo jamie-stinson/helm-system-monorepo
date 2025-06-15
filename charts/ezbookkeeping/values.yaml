@@ -109,7 +109,7 @@ configMap:
           http_port = 8080
 
           # The full url used to access ezBookkeeping in browser
-          root_url = https://%(domain)s:%(http_port)s/
+          root_url = https://ebk.projectwhitebox.com/
 
           # https certification and its key file
           cert_file =
