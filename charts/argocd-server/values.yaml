@@ -46,6 +46,9 @@ workload:
     - name: ARGOCD_SERVER_REPO_SERVER
       configMap: argocd-cmd-params-cm
       key: repo.server
+    - name: ARGOCD_SERVER_REPO_SERVER_TIMEOUT_SECONDS
+      configMap: argocd-cmd-params-cm
+      key: server.repo.server.timeout.seconds
     - name: ARGOCD_SERVER_DEX_SERVER
       configMap: argocd-cmd-params-cm
       key: server.dex.server
@@ -158,11 +161,13 @@ configMap:
         controller.ignore.normalizer.jq.timeout: "1s"
         controller.log.format: "text"
         controller.log.level: "info"
-        controller.operation.processors: "10"
-        controller.repo.server.timeout.seconds: "60"
+        controller.operation.processors: "300"
+        controller.repo.server.timeout.seconds: "180"
         controller.self.heal.timeout.seconds: "5"
-        controller.status.processors: "20"
+        controller.status.processors: "600"
         controller.sync.timeout.seconds: "0"
+        controller.kubectl.parallelism.limit: "100"
+        controller.sharding.algorithm: "round-robin"
         dexserver.log.format: "text"
         dexserver.log.level: "info"
         notificationscontroller.log.format: "text"
@@ -172,7 +177,7 @@ configMap:
         repo.server: "argocd-repo-server:8081"
         reposerver.log.format: "text"
         reposerver.log.level: "info"
-        reposerver.parallelism.limit: "0"
+        reposerver.parallelism.limit: "100"
         server.basehref: "/"
         server.dex.server: "https://argocd-dex.argocd.svc.cluster.local:5556"
         server.dex.server.strict.tls: "false"
@@ -186,7 +191,7 @@ configMap:
         server.rootpath: ""
         server.staticassets: "/shared/app"
         server.x.frame.options: "sameorigin"
-
+        server.repo.server.timeout.seconds: "180"
 service:
   ports:
     - name: http

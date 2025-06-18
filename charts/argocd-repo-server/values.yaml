@@ -15,8 +15,12 @@ workload:
   envs:
     - name: ARGOCD_REPO_SERVER_NAME
       value: argocd-repo-server
+    - name: ARGOCD_EXEC_TIMEOUT
+      value: "180"
+    - name: ARGOCD_GIT_ATTEMPTS_COUNT
+      value: "3"
     - name: ARGOCD_HELM_ALLOW_CONCURRENCY
-      value: true
+      value: "true"
   probes:
     readinessProbe:
       path: "/healthz"
