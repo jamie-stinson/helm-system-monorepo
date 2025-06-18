@@ -341,7 +341,7 @@ extraObjects:
         app.kubernetes.io/part-of: argocd
     data:
       url: https://argocd.projectwhitebox.com
-
+      webhook.maxPayloadSizeMB: "50"
       oidc.config: |
         name: Google
         issuer: https://accounts.google.com
@@ -575,14 +575,41 @@ extraObjects:
         github.com ssh-rsa
         AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
   - |
-    apiVersion: v1
-    kind: Secret
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
     metadata:
       name: argocd-secret
-      labels:
-        app.kubernetes.io/name: argocd-secret
-        app.kubernetes.io/part-of: argocd
-    type: Opaque
-    data:
-      admin.password: null
-      admin.passwordMtime: null
+      namespace: argocd
+    spec:
+      encryptedData:
+        webhook.github.secret: AgAFGnh12QunotWpOZufkfVn4HI12Z4W3Y8JzEJQAeMSOBxf8QD0KoqldS8pBLHdYFHq9g9icRz/r5gZVHS8ZFw2FJeJde+NKY/8C8qRFfsslfNlOdf8fM9FugFWokFgy7Zin+cRspFNTvaZJcLBGFHYTiYo6QqnbluJh2OCdM0p5R0Q9w4CiSa8zeNNZwHB1TL9PLp9Z1toaCVy3T7/AADwmqrM4lLo6XtZREyKwF3GcJK0aHUhAlcIYWvxYZPZhKlLzI0ENGkbFjoPKGT8pIJ2aGWKWZDIX3cHExCExnpiN8RbLqrHDyLyzdF/pjdscAUCkbysx50Sexaso2rN/n2E/msq+Uz1u0+tYHNVhx3HtOi20H2wpoe8eI4dFF3HVtp9kf9WH2njEaIgWopZOniPFfjj4pkfinX983+fnEju/RtFI1YY71uuMsIMIMtphiDNcMuKF4gJrX3A3UmABqCB3W10+0LEfNjDX1/76DyN8xutNtW0sLn7sDzPKm5UBlJBNZXSJGLOEEjzkxn0HtPSdAm/Ery2+fA10lzBna+qo99GRwEGlEuJWuIIrvswhpOFwb7GyHSP9+SfzavPMy8FpKfIjvGVaZ9Bzm4lz/8klC3gKnIJA/sKifAtmmyqvYNbr0z8NS/ekeT8sydoK9uucYFwGgk5H0cgU9fws1edNyC8Qy/v+AzgHHA0lcBvMtyjNCKyZguTNFqm4mCIBh2VKDmmxV4Os1Hl
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: argocd-secret
+            app.kubernetes.io/part-of: argocd
+          name: argocd-secret
+          namespace: argocd
+        type: Opaque
+  - |
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: externalwebsecure
+      name: argocd-server-webhook
+      namespace: argocd
+    spec:
+      ingressClassName: traefik
+      rules:
+        - host: argocd.projectwhitebox.com
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: argocd-server
+                    port:
+                      number: 8080
+                path: /api/webhook
+                pathType: Prefix
+      tls: null
