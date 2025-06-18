@@ -6,8 +6,8 @@ workload:
     repository: argoproj/kubectl-argo-rollouts
     tag: v1.8.3
   command:
-    - 'dashboard'
   args:
+    - 'dashboard'
     - '--loglevel=info'
     - '--kloglevel=0'
   probes:
