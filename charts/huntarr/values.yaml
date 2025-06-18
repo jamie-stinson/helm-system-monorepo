@@ -1,0 +1,89 @@
+workload:
+  type: "StatefulSet"
+  image:
+    registry: ghcr.io
+    repository: plexguide/huntarr
+    tag: 8.0.4
+  envs:
+    - name: "TZ"
+      value: "Europe/London"
+    - name: "PUID"
+      value: "1000"
+    - name: "PGID"
+      value: "1000"
+  strategy:
+    type: OnDelete
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 9705
+    livenessProbe:
+      type: tcpSocket
+      port: 9705
+  storage:
+    - name: config
+      type: pvc
+      mountPath: /config
+      claimName: "huntarr-config"
+
+service:
+  ports:
+    - name: http
+      port: 9705
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: huntarr.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "huntarr"
+          port: 9705
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: huntarr-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/huntarr"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: huntarr-config
+      namespace: huntarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: huntarr-config
