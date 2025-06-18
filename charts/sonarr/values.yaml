@@ -50,11 +50,45 @@ workload:
       type: pvc
       mountPath: /data/anime
       claimName: "sonarr-anime"
+  extraContainers:
+    - name: exportarr
+      image: "ghcr.io/onedr0p/exportarr:v2.2.0"
+      ports:
+        - containerPort: 9707
+          name: http-metrics
+          protocol: TCP
+      env:
+        - name: "PORT"
+          value: "9707"
+        - name: "URL"
+          value: "http://localhost:8989"
+        - name: APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: sonarr
+              key: API_KEY
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      command:
+        - sonarr
 
 service:
   ports:
     - name: http
       port: 8989
+      protocol: TCP
+    - name: http-metrics
+      port: 9707
       protocol: TCP
 
 ingress:
