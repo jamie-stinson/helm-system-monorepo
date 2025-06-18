@@ -23,15 +23,21 @@ workload:
     readinessProbe:
       type: exec
       command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
+      initialDelaySeconds: 30
+      periodSeconds: 60
     livenessProbe:
       type: exec
       command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
+      initialDelaySeconds: 30
+      periodSeconds: 60
   storage:
     - name: tmp
       type: emptyDir
       mountPath: /tmp
       ramDisk: false
       readOnly: false
+  strategy:
+    type: "Recreate"
 
 service:
   enabled: false
