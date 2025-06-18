@@ -3,7 +3,7 @@ installCRDs: true
 workload:
   image:
     repository: "bitnami/sealed-secrets-controller"
-    tag: "0.29.0"
+    tag: "0.30.0"
   args:
     - '--update-status'
     - '--key-prefix'
@@ -12,13 +12,27 @@ workload:
     - ':8080'
     - '--listen-metrics-addr'
     - ':8081'
+    - '--log-level'
+    - 'info'
+    - '--log-format'
+    - 'json'
   probes:
     readinessProbe:
       path: "/healthz"
       port: 8080
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
     livenessProbe:
       path: "/healthz"
       port: 8080
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
   storage:
     - name: tmp-dashboards
       type: emptyDir
@@ -106,3 +120,12 @@ rbac:
           verbs:
             - create
             - list
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+      - name: sealed-secrets
+        title: "Sealed Secrets"
+        url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/sealed-secrets/dashboards/sealed-secrets.json"
+        folder: "System"
