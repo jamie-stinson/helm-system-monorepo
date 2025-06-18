@@ -79,7 +79,7 @@ workload:
         runAsUser: 1000
         seccompProfile:
           type: RuntimeDefault
-      command:
+      args:
         - sonarr
 
 service:
