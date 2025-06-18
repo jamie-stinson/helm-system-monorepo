@@ -17,7 +17,6 @@ spec:
     shortNames:
       - ro
     singular: rollout
-  preserveUnknownFields: false
   scope: Namespaced
   versions:
     - additionalPrinterColumns:

@@ -1,5 +1,4 @@
 namespace: "argocd"
-installCRDs: true
 
 workload:
   image:

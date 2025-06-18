@@ -17,7 +17,6 @@ spec:
     shortNames:
       - exp
     singular: experiment
-  preserveUnknownFields: false
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
