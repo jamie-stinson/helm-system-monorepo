@@ -1,0 +1,8 @@
+helm:
+  parameters:
+  - name: image.name
+    value: quay.io/jetstack/cert-manager-controller
+    forcestring: true
+  - name: workload.image.tag
+    value: v1.18.1
+    forcestring: true
