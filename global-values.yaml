@@ -1,7 +1,5 @@
 workload:
   enabled: true
-  image:
-    registry: "docker.io"
   replicaCount: 1
   strategy:
     type: RollingUpdate

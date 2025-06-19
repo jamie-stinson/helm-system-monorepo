@@ -4,6 +4,7 @@ workload:
   replicaCount: 1
   type: StatefulSet
   image:
+    registry: "docker.io"
     repository: "redis"
     tag: "8.0.2"
   args:

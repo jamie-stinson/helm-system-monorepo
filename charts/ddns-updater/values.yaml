@@ -1,5 +1,6 @@
 workload:
   image:
+    registry: "docker.io"
     repository: qmcgaw/ddns-updater
     tag: 2.9.0
   envs:

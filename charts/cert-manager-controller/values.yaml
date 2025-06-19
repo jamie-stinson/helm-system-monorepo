@@ -8,7 +8,6 @@ workload:
   annotations:
     match-regex.version-checker.io/cert-manager-controller: 'v(\d+)\.(\d+)\.(\d+)'
   image:
-    registry: "quay.io"
     repository: "quay.io/jetstack/cert-manager-controller"
     tag: "v1.18.1"
   args:

@@ -1,6 +1,7 @@
 workload:
   type: "StatefulSet"
   image:
+    registry: "docker.io"
     repository: linuxserver/emby
     tag: beta-version-4.9.0.56
   strategy:
