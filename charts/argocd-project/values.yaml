@@ -56,7 +56,7 @@ extraObjects:
         metadata:
           annotations:
             argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/repo-3091197634
-            argocd-image-updater.argoproj.io/write-back-target: "helmvalues:charts/{ $appName }}/values.yaml"
+            argocd-image-updater.argoproj.io/write-back-target: "helmvalues:/charts/{ $appName }}/values.yaml"
             argocd-image-updater.argoproj.io/git-branch: main
             argocd-image-updater.argoproj.io/git-repository: https://github.com/jamie-stinson/helm-system-monorepo.git
             argocd-image-updater.argoproj.io/{{ $appName }}.force-update: "true"
