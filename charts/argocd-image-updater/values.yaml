@@ -7,6 +7,8 @@ workload:
     tag: v0.16.0
   strategy:
     type: Recreate
+  args:
+    - run
   probes:
     readinessProbe:
       path: "/healthz"
