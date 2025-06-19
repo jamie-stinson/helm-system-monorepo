@@ -59,7 +59,7 @@ extraObjects:
             argocd-image-updater.argoproj.io/git-branch: main
             argocd-image-updater.argoproj.io/git-repository: https://github.com/jamie-stinson/helm-system-monorepo
             argocd-image-updater.argoproj.io/{{ $appName }}.force-update: "true"
-            argocd-image-updater.argoproj.io/{{ $appName }}.helm.image-tag: "workload.image.tag"
+            argocd-image-updater.argoproj.io/{{ $appName }}.helm.image-tag: "{{ $appName }}.workload.image.tag"
             argocd-image-updater.argoproj.io/{{ $appName }}.update-strategy: "semver"
             {{- range $key, $value := .autoPatching.annotations }}
             {{ $key }}: {{ $value | squote }}
