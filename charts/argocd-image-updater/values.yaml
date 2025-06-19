@@ -1,0 +1,66 @@
+namespace: "argocd"
+
+workload:
+  image:
+    registry: quay.io
+    repository: argoprojlabs/argocd-image-updater
+    tag: v0.16.0
+  strategy:
+    type: Recreate
+  probes:
+    readinessProbe:
+      path: "/healthz"
+      port: 8080
+    livenessProbe:
+      path: "/healthz"
+      port: 8080
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /tmp
+      ramDisk: false
+      readOnly: false
+
+configMap:
+  enabled: true
+  configMaps:
+    - name: "argocd-image-updater-config"
+      data:
+        kube.events: 'false'
+        log.level: info
+
+service:
+  enabled: false
+
+rbac:
+  enabled: true
+  roles:
+    role:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - secrets
+            - configmaps
+          verbs:
+            - get
+            - list
+            - watch
+
+    clusterRole:
+      rules:
+        - apiGroups:
+            - ''
+          resources:
+            - events
+          verbs:
+            - create
+        - apiGroups:
+            - argoproj.io
+          resources:
+            - applications
+          verbs:
+            - get
+            - list
+            - update
+            - patch
