@@ -1,10 +1,12 @@
 namespace: "cert-manager"
-
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "cert-manager-webhook=quay.io/jetstack/cert-manager-webhook:~v1"
 workload:
   annotations:
     match-regex.version-checker.io/cert-manager-webhook: 'v(\d+)\.(\d+)\.(\d+)'
   image:
-    registry: "quay.io"
     repository: "jetstack/cert-manager-webhook"
     tag: "v1.18.0"
   args:

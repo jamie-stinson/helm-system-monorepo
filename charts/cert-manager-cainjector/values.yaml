@@ -1,10 +1,12 @@
 namespace: "cert-manager"
-
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "cert-manager-cainjector=quay.io/jetstack/cert-manager-cainjector:~v1"
 workload:
   annotations:
     match-regex.version-checker.io/cert-manager-cainjector: 'v(\d+)\.(\d+)\.(\d+)'
   image:
-    registry: "quay.io"
     repository: "jetstack/cert-manager-cainjector"
     tag: "v1.18.0"
   args:
