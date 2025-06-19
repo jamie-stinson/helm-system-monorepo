@@ -1,7 +1,10 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "traefik=docker.io/traefik:~v3"
 workload:
   image:
-    registry: "docker.io"
-    repository: traefik
+    repository: docker.io/traefik
     tag: v3.4.1
   args:
     # Entrypoints

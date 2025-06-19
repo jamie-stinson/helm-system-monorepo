@@ -1,7 +1,10 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "reloader=ghcr.io/stakater/reloader:~v1"
 workload:
   image:
-    registry: ghcr.io
-    repository: stakater/reloader
+    repository: ghcr.io/stakater/reloader
     tag: v1.4.2
   args:
     - '--log-format=json'

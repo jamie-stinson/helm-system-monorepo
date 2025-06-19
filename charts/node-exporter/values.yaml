@@ -1,8 +1,11 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "node-exporter=quay.io/prometheus/node-exporter:~v1"
 workload:
   type: DaemonSet
   image:
-    registry: "quay.io"
-    repository: "prometheus/node-exporter"
+    repository: "quay.io/prometheus/node-exporter"
     tag: "v1.9.1"
   args:
     - '--web.listen-address=0.0.0.0:9100'
