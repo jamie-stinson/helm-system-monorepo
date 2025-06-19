@@ -1,5 +1,9 @@
 namespace: "cert-manager"
 installCRDs: true
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "cert-manager-controller=quay.io/jetstack/cert-manager-controller:~v1"
 
 workload:
   annotations:

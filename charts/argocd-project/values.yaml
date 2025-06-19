@@ -51,6 +51,18 @@ extraObjects:
                 maxDuration: 3m
               limit: 3
       templatePatch: |
+        {{- $appName := index .path.segments 1 -}}
+        {{- if .autoPatching.enabled }}
+        metadata:
+          annotations:
+            argocd-image-updater.argoproj.io/write-back-method: git
+            argocd-image-updater.argoproj.io/{{ $appName }}.helm.image-name: "workload.image.repository"
+            argocd-image-updater.argoproj.io/{{ $appName }}.helm.image-tag: "workload.image.tag"
+            argocd-image-updater.argoproj.io/{{ $appName }}.update-strategy: "semver"
+            {{- range $key, $value := .autoPatching.annotations }}
+            {{ $key }}: {{ $value | squote }}
+            {{- end }}
+        {{- end }}
         spec:
           syncPolicy:
             syncOptions:
