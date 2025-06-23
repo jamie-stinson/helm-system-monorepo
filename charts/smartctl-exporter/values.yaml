@@ -34,7 +34,7 @@ workload:
     runAsNonRoot: false
     allowPrivilegeEscalation: true
     privileged: true
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false # temp
 
 service:
   ports:
