@@ -6,10 +6,7 @@ workload:
     tag: "v0.14.0"
   args:
     - '--smartctl.path=/usr/sbin/smartctl'
-    - '--smartctl.device=/hostdev/sda'
-    - '--smartctl.device=/hostdev/sdb'
-    - '--smartctl.device=/hostdev/sdc'
-    - '--smartctl.device=/hostdev/sdd'
+    - '--smartctl.device-include=/hostdev/sd.*'
     - '--smartctl.interval=60s'
     - '--web.listen-address=0.0.0.0:9633'
     - '--web.telemetry-path=/metrics'
@@ -25,7 +22,6 @@ workload:
       type: hostPath
       mountPath: /hostdev
       hostPath: /dev
-      readOnly: true
   podSecurityContext:
     runAsUser: 0
     runAsGroup: 0
