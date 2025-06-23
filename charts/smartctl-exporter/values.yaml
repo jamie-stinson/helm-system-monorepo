@@ -6,7 +6,7 @@ workload:
     tag: "v0.14.0"
   args:
     - '--smartctl.path=/usr/sbin/smartctl'
-    - '--smartctl.device-include=/hostdev/sd.*'
+    - '--smartctl.device-exclude=/hostdev/sd.*'
     - '--smartctl.interval=60s'
     - '--web.listen-address=0.0.0.0:9633'
     - '--web.telemetry-path=/metrics'
