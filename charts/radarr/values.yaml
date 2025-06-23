@@ -3,7 +3,7 @@ workload:
   image:
     registry: ghcr.io
     repository: home-operations/radarr
-    tag: 5.26.0
+    tag: 5.26.2
   envsSecret:
     - name: RADARR__POSTGRES__HOST
       secret: radarr-postgres-app

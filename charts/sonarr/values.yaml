@@ -3,7 +3,7 @@ workload:
   image:
     registry: ghcr.io
     repository: home-operations/sonarr
-    tag: 4.0.14
+    tag: 4.0.15
   envsSecret:
     - name: SONARR__POSTGRES__HOST
       secret: sonarr-postgres-app
