@@ -6,7 +6,11 @@ workload:
     tag: "v0.14.0"
   args:
     - '--smartctl.path=/usr/sbin/smartctl'
-    - '--smartctl.interval=120s'
+    - '--smartctl.device=/dev/sda'
+    - '--smartctl.device=/dev/sdb'
+    - '--smartctl.device=/dev/sdc'
+    - '--smartctl.device=/dev/sdd'
+    - '--smartctl.interval=60s'
     - '--web.listen-address=0.0.0.0:9633'
     - '--web.telemetry-path=/metrics'
   probes:
