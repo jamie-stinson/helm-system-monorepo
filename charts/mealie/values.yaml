@@ -15,7 +15,7 @@ workload:
       valie: "false"
     - name: "PUID"
       value: "1000"
-    - name: "GUID"
+    - name: "PGID"
       value: "1000"
     - name: "TZ"
       value: "Europe/London"
@@ -54,6 +54,11 @@ workload:
     - name: OIDC_CLIENT_SECRET
       secret: mealie
       key: OIDC_CLIENT_SECRET
+  storage:
+    - name: tmp
+      type: emptyDir
+      mountPath: /app/data
+
 service:
   ports:
   - name: http
