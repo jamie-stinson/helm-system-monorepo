@@ -38,7 +38,7 @@ workload:
     - name: "OIDC_CLIENT_ID"
       value: "429988516792-hpicb5767cg7qlr32pjkgfl4ceub6lss.apps.googleusercontent.com"
     - name: "OIDC_AUTO_REDIRECT"
-      value: "false"
+      value: "true"
     - name: "OIDC_PROVIDER_NAME"
       value: "Google"
   envsSecret:
