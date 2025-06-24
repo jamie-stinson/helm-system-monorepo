@@ -43,7 +43,7 @@ extraObjects:
         retentionPolicy: "7d"
         barmanObjectStore:
           destinationPath: "s3://postgres-backups/prowlarr"
-          endpointURL: postgres-backups.minio.svc.cluster.local
+          endpointURL: minio.minio.svc.cluster.local
           s3Credentials:
             accessKeyId:
               name: prowlarr-postgres-s3
