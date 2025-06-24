@@ -22,7 +22,7 @@ workload:
     - name: "BASE_URL"
       value: "http://mealie.projectwhitebox.com"
     - name: "ALLOW_PASSWORD_LOGIN"
-      valie: "true"
+      value: "true"
     - name: "DB_ENGINE"
       value: "postgres"
     - name: "POSTGRES_PORT"
@@ -40,7 +40,7 @@ workload:
     - name: "OIDC_AUTO_REDIRECT"
       value: "true"
     - name: "OIDC_PROVIDER_NAME"
-      valie: "Google"
+      value: "Google"
   envsSecret:
     - name: POSTGRES_SERVER
       secret: mealie-postgres-app
