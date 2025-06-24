@@ -22,7 +22,7 @@ workload:
     - name: "BASE_URL"
       value: "http://mealie.projectwhitebox.com"
     - name: "ALLOW_PASSWORD_LOGIN"
-      valie: "false"
+      valie: "true"
     - name: "DB_ENGINE"
       value: "postgres"
     - name: "POSTGRES_PORT"
