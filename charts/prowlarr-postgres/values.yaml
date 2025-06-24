@@ -17,6 +17,21 @@ autoscaling:
 
 extraObjects:
   - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: prowlarr-postgres-s3
+      namespace: prowlarr
+    spec:
+      encryptedData:
+        S3_ACCESS_KEY: AgAmR00dqf1dh5hKZoqvh4MCwFDYqrJG//L5snJoZKj/8z1YPznQWjGsq0O6g5jRPtA/Ct0sOia1ju/4y7OqV9ft+JZoT/lYc4f6hhvRX2KRCQ6NkAizztw13Pbaww45Fzz+WMdbAPchjRcPnYqlQ47/MskZl722TSnzEbs6HeZohcmQoGeLPfLkhe/oFjUDK1qIVtYVEo7YLd3ZJyUqrewccUIX56XQDaSTsUiYdVisq4CeWsan7kKZRXaYjbRN/jjpOBlowicip2s02wshSATLNGA+Pss+5NEVwoTabB2XIdWjUnNgRwUcq4OIddS82E2uBswoUvv1lvIto7bWxW1bq6TieMh3Mv2PF0zssxaMG9rveoY17y1Z7l7v7qg8kJxgg62dzV8ki6HNwQEzzTsR4+NBd+LaVUiB+F0Lw4eDTNSA/YcaPAeVvFitqamG10zA1XSGiBpFcGNgnd30omtRoXeVyQriE0x7N0mMwhWmbl240NLJLdWbuXFpEjKoXvBublDPo/fxJeYpr+RbUBME/gJejLTYDw/sMFXzmdyeN2THbX49hcIODcWg5KcFnMNiR3Yq9kFyqtiVn9zBCJAMDWbW330Fj7dny/GnwSaVEE2nz6Fdd0b9IM+bKDCKT4mKvb2Yvys+L7TE4E5gsSUmltHWTiyYw0Q04TELJL05oxS5Jty3b0ycIASseP3MdrG0MGaElgET0TZk0WOuYoHxbi9ZYg==
+        S3_SECRET_KEY: AgA6W8N6WFVZev2/tTtne/hbJB8VhTndVdUmWdTJ/7XatIjyT4qZ3hNVj6ky7D84CQnNjUQA3Ddje2t20gkkor7iFFo7fQdKFulSE0+v8FzOZ3ze1o5oErroAYi8oY8IpLsl/L/vAlr4f38JCaDTLT15Xkeena4Qvp8jrzeaMixZU82VadWQOKoTqJR+ONN8gk7SZO1eL+EQQlHbgzoAp4aFxMm1qkgbdIAjh0B8vqjaKeJz7j0DvW9cprzI3lprzrK4LCgxxs8liOrJbfTX5ObDFXIHfX+xNfl0nC9r2RxXEJZ+nkubM4PY/BM+xE8eVAhFdsNmCt7wt0ZmRMH4r9m+1/K6PUlwKUncsYLrUWlt4xFMJ5quuzySSIjEA/ge9xIhdmGnbwfBB6sRahi+Vok5mNqmHG4/kY+Ub0J5TlYp2XPnIoXLwIarZHP++6kyrm94uXFzadRzZSNuW18JNt5UL6ggqBh9pHAjnDqjbq4BrGVxlksNMy9zIOKo57R9BYmA6RAw0CtxqwZ7QvOEcoXx7lbwSAqr4icDze0pD5ifPCwLZDJoDFdTciKfpRXY+5cFEyC9kbhD4HnW712naPcqvHphdzxgzIJIIchbZOMgCR9JbrUhGfJBYnOzrJ1BfsEq1jliIPPQ84rCgjN23apujfd8mc4AkbzLOJAYtetWCm753W7VVlqaXV1Qp/qLNsnmvrhqcT/Uxa23c46t/B5CLYJ6B7ri/uzFhdYqDrvGX6vlpmwbWd5M
+      template:
+        metadata:
+          name: prowlarr-postgres-s3
+          namespace: prowlarr
+        type: Opaque
+  - |
     apiVersion: postgresql.cnpg.io/v1
     kind: Cluster
     metadata:
