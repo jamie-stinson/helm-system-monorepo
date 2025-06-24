@@ -58,7 +58,7 @@ workload:
     - name: tmp
       type: emptyDir
       mountPath: /app/data
-    - nane: data
+    - name: data
       type: emptyDir
       mountPath: /nltk_data
 service:
