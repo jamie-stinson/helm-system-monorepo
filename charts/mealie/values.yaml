@@ -55,9 +55,10 @@ workload:
       secret: mealie
       key: OIDC_CLIENT_SECRET
   storage:
-    - name: tmp
-      type: emptyDir
+    - name: mealie-data
+      type: pvc
       mountPath: /app/data
+      claimName: "mealie-data"
     - name: data
       type: emptyDir
       mountPath: /nltk_data
@@ -99,3 +100,39 @@ extraObjects:
           name: mealie
           namespace: mealie
         type: Opaque
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: mealie-data
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/mealie"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: mealie-data
+      namespace: radarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: mealie-data
