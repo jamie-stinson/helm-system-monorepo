@@ -127,7 +127,7 @@ extraObjects:
     kind: PersistentVolumeClaim
     metadata:
       name: mealie-data
-      namespace: radarr
+      namespace: mealie
     spec:
       accessModes:
         - ReadWriteMany
