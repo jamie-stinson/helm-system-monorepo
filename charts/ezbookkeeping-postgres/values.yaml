@@ -31,10 +31,10 @@ extraObjects:
         labels:
           kube-image-keeper.enix.io/image-caching-policy: ignore
       postgresql:
-        synchronous:
-          method: any
-          number: 1
-          dataDurability: required
+        # synchronous:
+        #   method: any
+        #   number: 1
+        #   dataDurability: required
       affinity:
         enablePodAntiAffinity: true
         topologyKey: kubernetes.io/hostname
