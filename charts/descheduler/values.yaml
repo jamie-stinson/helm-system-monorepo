@@ -1,4 +1,5 @@
 workload:
+  enabled: false
   image:
     registry: "registry.k8s.io"
     repository: "descheduler/descheduler"

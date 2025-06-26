@@ -1,6 +1,7 @@
 namespace: "thanos"
 
 workload:
+  enabled: false
   image:
     registry: quay.io
     repository: thanos/thanos

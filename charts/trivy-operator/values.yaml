@@ -4,6 +4,7 @@ autoPatching:
   annotations:
     argocd-image-updater.argoproj.io/image-list: "trivy-operator=mirror.gcr.io/aquasec/trivy-operator:~v0"
 workload:
+  enabled: false
   image:
     repository: "mirror.gcr.io/aquasec/trivy-operator"
     tag: "0.27.1"

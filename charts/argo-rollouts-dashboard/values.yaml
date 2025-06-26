@@ -1,6 +1,7 @@
 namespace: "argocd"
 
 workload:
+  enabled: false
   image:
     registry: quay.io
     repository: argoproj/kubectl-argo-rollouts

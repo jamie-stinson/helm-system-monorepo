@@ -3,6 +3,7 @@ autoPatching:
   annotations:
     argocd-image-updater.argoproj.io/image-list: "node-exporter=quay.io/prometheus/node-exporter:~v1"
 workload:
+  enabled: false
   type: DaemonSet
   image:
     repository: "quay.io/prometheus/node-exporter"

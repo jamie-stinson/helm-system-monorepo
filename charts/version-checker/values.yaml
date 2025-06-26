@@ -3,6 +3,7 @@ autoPatching:
   annotations:
     argocd-image-updater.argoproj.io/image-list: "version-checker=quay.io/jetstack/version-checker:~v0"
 workload:
+  enabled: false
   image:
     repository: quay.io/jetstack/version-checker
     tag: v0.9.3

@@ -1,6 +1,7 @@
 installCRDs: true
 
 workload:
+  enabled: false
   image:
     registry: ghcr.io
     repository: "grafana/grafana-operator"
