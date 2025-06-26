@@ -7,7 +7,7 @@ workload:
   replicaCount: 1
   image:
     repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
-    tag: v2.15.0
+    tag: v2.16.0
   args:
   - '--port=8080'
   - '--telemetry-port=8888'
