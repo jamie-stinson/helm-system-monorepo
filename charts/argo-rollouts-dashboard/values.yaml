@@ -27,6 +27,9 @@ service:
       port: 3100
       protocol: TCP
 
+autoscaling:
+  enabled: false
+
 ingress:
   enabled: true
   annotations:

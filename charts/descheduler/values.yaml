@@ -35,6 +35,9 @@ workload:
         - key: policy.yaml
           path: policy.yaml
 
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: https-metrics

@@ -37,6 +37,9 @@ service:
       protocol: TCP
       port: 9090
 
+autoscaling:
+  enabled: false
+
 configMap:
   enabled: true
   configMaps:

@@ -44,6 +44,9 @@ workload:
       type: emptyDir
       mountPath: /var/lib/grafana
 
+autoscaling:
+  enabled: false
+
 service:
   ports:
     - name: http

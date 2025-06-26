@@ -36,6 +36,9 @@ workload:
 service:
   enabled: false
 
+autoscaling:
+  enabled: false
+
 rbac:
   enabled: true
   roles:
