@@ -5,7 +5,7 @@ autoPatching:
 workload:
   image:
     repository: docker.io/traefik
-    tag: v3.4.1
+    tag: 3.4.3
   args:
   # Entrypoints
   - '--entryPoints.internalweb.address=:80/tcp'
