@@ -1,6 +1,7 @@
 namespace: "immich"
 
 workload:
+  enabled: false
   image:
     registry: ghcr.io
     repository: ghcr.io/immich-app/immich-machine-learning
