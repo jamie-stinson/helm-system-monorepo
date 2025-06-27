@@ -1,7 +1,6 @@
 namespace: "immich"
 
 workload:
-  enabled: false
   image:
     registry: ghcr.io
     repository: immich-app/immich-server
