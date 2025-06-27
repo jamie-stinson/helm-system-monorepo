@@ -16,6 +16,13 @@ workload:
       port: 8080
   strategy:
     type: OnDelete
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "1000m"
+      memory: "3Gi"
   storage:
     - name: sabnzbd-config
       type: pvc
