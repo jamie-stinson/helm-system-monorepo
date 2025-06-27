@@ -3,19 +3,6 @@ workload:
     registry: ghcr.io
     repository: fallenbagel/jellyseerr
     tag: 2.6.0
-  envsSecret:
-    - name: DB_HOST
-      secret: jellyseerr-postgres-app
-      key: host
-    - name: DB_USER
-      secret: jellyseerr-postgres-app
-      key: username
-    - name: DB_PASS
-      secret: jellyseerr-postgres-app
-      key: password
-  envs:
-    - name: "DB_TYPE"
-      value: "postgres"
   probes:
     readinessProbe:
       type: tcpSocket
