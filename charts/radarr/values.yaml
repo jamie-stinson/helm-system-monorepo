@@ -23,6 +23,7 @@ workload:
       type: tcpSocket
       port: 7878
   resources:
+    preset: ""
     custom:
       requests:
         cpu: "100m"

@@ -23,6 +23,7 @@ workload:
   strategy:
     type: OnDelete
   resources:
+    preset: ""
     custom:
       requests:
         cpu: "100m"
