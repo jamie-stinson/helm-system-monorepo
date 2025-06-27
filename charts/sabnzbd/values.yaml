@@ -90,7 +90,7 @@ extraObjects:
         - ReadWriteMany
       nfs:
         server: 10.0.0.10
-        path: "/mnt/data-pool/downloads"
+        path: "/mnt/media-pool/downloads"
       mountOptions:
         - nfsvers=4.1 
         - hard      
