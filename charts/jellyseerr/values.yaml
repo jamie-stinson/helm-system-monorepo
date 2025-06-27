@@ -1,4 +1,5 @@
 workload:
+  enabled: false
   image:
     registry: ghcr.io
     repository: fallenbagel/jellyseerr
