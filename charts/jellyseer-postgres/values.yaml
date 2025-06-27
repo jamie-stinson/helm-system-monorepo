@@ -21,24 +21,10 @@ extraObjects:
     kind: Cluster
     metadata:
       name: jellyseerr-postgres
-      labels:
-        kube-image-keeper.enix.io/image-caching-policy: ignore
     spec:
       description: "Jellyseerr Database"
       imageName: ghcr.io/cloudnative-pg/postgresql:17.5
-      instances: 2
-      inheritedMetadata:
-        labels:
-          kube-image-keeper.enix.io/image-caching-policy: ignore
-      postgresql:
-        synchronous:
-          method: any
-          number: 1
-          dataDurability: required
-      affinity:
-        enablePodAntiAffinity: true
-        topologyKey: kubernetes.io/hostname
-        podAntiAffinityType: required
+      instances: 1
       bootstrap:
         initdb:
           database: "jellyseerr"

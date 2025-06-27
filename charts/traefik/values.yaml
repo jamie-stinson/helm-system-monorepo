@@ -3,6 +3,7 @@ autoPatching:
   annotations:
     argocd-image-updater.argoproj.io/image-list: "traefik=docker.io/traefik:~v3"
 workload:
+  replicas: 2
   image:
     repository: docker.io/traefik
     tag: v3.4.3
