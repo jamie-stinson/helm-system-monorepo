@@ -4,21 +4,10 @@ workload:
     repository: home-operations/prowlarr
     tag: 1.37.0
   envsSecret:
-    - name: PROWLARR__POSTGRES__HOST
-      secret: prowlarr-postgres-app
-      key: host
-    - name: PROWLARR__POSTGRES__USER
-      secret: prowlarr-postgres-app
-      key: username
-    - name: PROWLARR__POSTGRES__PASSWORD
-      secret: prowlarr-postgres-app
-      key: password
     - name: PROWLARR__AUTH__APIKEY
       secret: prowlarr
       key: API_KEY
   envs:
-    - name: "PROWLARR__POSTGRES__PORT"
-      value: "5432"
     - name: PROWLARR__AUTH__METHOD
       value: "External"
     - name: PROWLARR__AUTH__REQUIRED
@@ -32,8 +21,9 @@ workload:
       port: 9696
   storage:
     - name: config
-      type: emptyDir
+      type: pvc
       mountPath: /config
+      claimName: "prowlarr-config"
   extraContainers:
     - name: exportarr
       image: "ghcr.io/onedr0p/exportarr:v2.2.0"
@@ -110,3 +100,39 @@ extraObjects:
           name: prowlarr
           namespace: prowlarr
         type: Opaque
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: prowlarr-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/prowlarr"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: prowlarr-config
+      namespace: prowlarr
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: prowlarr-config
