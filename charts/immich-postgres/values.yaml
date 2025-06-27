@@ -29,7 +29,9 @@ extraObjects:
         initdb:
           database: "immich"
           owner: immich
-      enableSuperuserAccess: false
+      enableSuperuserAccess: true
+      superuserSecret:
+        name: app-secret
       storage:
         pvcTemplate:
           accessModes:
