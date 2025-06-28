@@ -15,6 +15,15 @@ workload:
     - name: DB_PASSWORD
       secret: immich-postgres-app
       key: password
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
   envs:
     - name: "DB_DATABASE_NAME"
       value: "immich"

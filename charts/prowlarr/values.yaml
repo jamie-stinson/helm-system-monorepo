@@ -19,6 +19,15 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 9696
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
   storage:
     - name: config
       type: pvc

@@ -10,6 +10,15 @@ workload:
     tag: "v3.0.6"
   command:
     - 'argocd-application-controller'
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
   envs:
     - name: ARGOCD_APPLICATION_CONTROLLER_NAME
       value: argocd-application-controller

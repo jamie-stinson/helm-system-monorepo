@@ -15,6 +15,15 @@ workload:
       type: pvc
       mountPath: /app/config
       claimName: "jellyseerr-config"
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
 
 service:
   ports:
