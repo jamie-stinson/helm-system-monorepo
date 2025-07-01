@@ -32,7 +32,7 @@ workload:
     - name: "OIDC_AUTH_ENABLED"
       value: "true"
     - name: "OIDC_SIGNUP_ENABLED"
-      value: "true"
+      value: "false"
     - name: "OIDC_CONFIGURATION_URL"
       value: "https://accounts.google.com/.well-known/openid-configuration"
     - name: "OIDC_CLIENT_ID"
