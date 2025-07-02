@@ -2,7 +2,7 @@ workload:
   image:
     registry: ghcr.io
     repository: fallenbagel/jellyseerr
-    tag: 2.6.0
+    tag: 2.7.0
   probes:
     readinessProbe:
       type: tcpSocket
@@ -10,6 +10,25 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 5055
+  envsSecret:
+    - name: DB_HOST
+      secret: jellyseerr-postgres-app
+      key: host
+    - name: DB_USER
+      secret: jellyseerr-postgres-app
+      key: username
+    - name: DB_PASS
+      secret: jellyseerr-postgres-app
+      key: password
+    - name: DB_PORT
+      secret: jellyseerr-postgres-app
+      key: port
+    - name: DB_NAME
+      secret: jellyseerr-postgres-app
+      key: dbname
+  envs:
+    - name: "DB_TYPE"
+      value: "postgres"
   storage:
     - name: jellyseerr-config
       type: pvc
