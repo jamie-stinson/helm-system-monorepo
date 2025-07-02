@@ -91,7 +91,7 @@ extraObjects:
         - ReadWriteMany
       nfs:
         server: 10.0.0.10
-        path: "/mnt/media-pool/immich"
+        path: "/mnt/hdd-pool/immich"
       mountOptions:
         - nfsvers=4.1 
         - hard      
