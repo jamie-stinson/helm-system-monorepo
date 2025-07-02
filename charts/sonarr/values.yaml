@@ -156,7 +156,7 @@ extraObjects:
         - ReadWriteMany
       nfs:
         server: 10.0.0.10
-        path: "/mnt/media-pool/tv"
+        path: "/mnt/hdd-pool/tv"
       mountOptions:
         - nfsvers=4.1 
         - hard      
@@ -192,7 +192,7 @@ extraObjects:
         - ReadWriteMany
       nfs:
         server: 10.0.0.10
-        path: "/mnt/media-pool/anime"
+        path: "/mnt/hdd-pool/anime"
       mountOptions:
         - nfsvers=4.1 
         - hard      

@@ -1,3 +1,4 @@
+namespace: "grafana"
 installCRDs: true
 
 workload:
@@ -190,21 +191,3 @@ grafana:
         title: "Grafana / Operator"
         url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/grafana-operator/dashboards/grafana-operator.json"
         folder: "System"
-
-extraObjects:
-  - |
-    apiVersion: bitnami.com/v1alpha1
-    kind: SealedSecret
-    metadata:
-      name: grafana
-      namespace: grafana-operator
-    spec:
-      encryptedData:
-        ADMIN_PASSWORD: AgAxwg3rYRvL9QwE9VOGPTJH1CT2/J1iXnlF5ZJGLKz+Sc3DpbqLXGZn0aDQiykZ0sUpEWrj3U/zf0avZRPvlnErq1pdgV16yLe1tZm3fVSgquTyb3mcHCk5ePPKXNTuaX5SBTR9987ojWNHMbShjs4YrK/FuQlLTnQQzc4u+h7EAYIDFkNomjqrB5NgnUPrvgSDTJZupl+Pu3iWGuddu7fUM0HZ+atvhz+ypGhwO34pMVN8adt6wpZN/yMfj3VujiAjKoYMpYNsYW8IlbaGLR4hEfhRzmUHViuhDBIneAqSiP7FItPY2+PTmYEiSqyjCLUNZx04W8ZMnXJ27wuAI3QORI/2qn5XvvE3g3LGM4FJvu9zzbE0z0/Xr8e6YBNrLmyXgDs0ibqTz3K8OHh65ajlD+D2h32xi+/QCwLrFOv+mJGsqVGem5P6siePy6uDdMKFs9owa8Hvk72WDmwJ0w0P+/mnfffKLUoSN3K0K0AVxvLisJVLO64CFlaJORrqTKgLQFziixIOp1wvI0Zz+QN/Bxadx7clcGqoanxMs0LlJenHPv4YcHvasxNonRjNfwP26VkrMEDXKP5Rb9w6kOhvj9l3aMNM9VEro+s7CDwMNS9x1NGYkOmSfgSeRaSbz/ddBIe/EicZLlY9BneaOiozpCxyZWUku0Ff73LzZ4zCD5hY4rfNrK2NIyXQvCK/nmPFNZn4h1vJ+7wiYkXv17sXzpEkRrVIDcfJ3fh9AZCJYn7J0zW04sDxiOd3/RVgHDndn0vGLG/9V3avgGvOmbjp
-        ADMIN_USER: AgBsMfpVN6mKLLbJSRBpifQsxHZs1oLGs/b0SKFwqnskjTzR5eM89TDnArFSLyKoumVl/UcVEwnk1In2m+AAZD9ZOFBJYG3CYqAqvva0YDu4g8a8q8dztFsFdwmOmALGwoQBWfHVZe6v+rkE5pV1aBqcy8x9XL/b8WKb9d441EzeLi9i3vE+VluZiDWXwx4MVo83V7FI8s9fCdKdJ1OU9SXI7jGiE8xYlQBz/cNRzgvi2TBStOTWTi1AGgE/0MtvQqfmFhxpdNzAgQIBo+BdFV0IvnTqWGwanOvJWvginAdEmVd9gPzDpuIYOywjo5XLF28plxzOepOqZWngtLUJZWwJHm8jor3TJis8yp6sjNn47RDII9cKWmR6ECPf7WZ0XF0gsI6yqMK+7cUf7wg8aMTCN0g9xcyhGzyzgWVs3ayeNBAS2TCQyYyNc+edaWULw1fdNniqMdkzcLsFPqqVIdQAsuEs2ej+eCTfftg2QjQsvJtVwuihIfSPY8Om165s/Ub2lsSXWVZ3e55XKhJzyRaQO9jDD1/gvuuq8smzzJXB4EPRQ1Md2HfZ3sgpQ97bf1lBX+D0dkfvpOJYhVFUyzl4XeQZMfSfrhSQm7XB3DFauTQnogc2G5XPFwoYozTJhCfvibZnqQHsHmPUKmt68tVi4Z0QeZQwlCbs1h6/XFFNmNBr4EGA3rSAweFQZBFQ4a5Q8w5mJQ==
-        CLIENT_SECRET: AgCKszedA3ggxNkJHo7jIA6H7CwEh3wk7R5aqWA7GirJRaMFMY1OOYYT34FYMS+1zIrPOasioxqlQxxZFLjI4iZK8lQ8iMWHqHYACJ2G/uZ7gulUjcJmhVuYs1Id12LaW5zgWUJSNqnmtyTrZBLs9DqlOIwauVfLO4Jjfl1SvS4FH+cQPsQmv63Ypg4QAKBTlH1EN+zZ9up+w7vKeCkHRDOwGYIRdzEu4om+xXXsm6nShJMQjKtXvHtdHGFRhP/4CHh+8xLnkmGdHmiKB70eBuLi4TW8QGf9vqC2VW6dPiuxTsIjaVxIxiw7yK9HYdJcRGHQLNKS+UU1cG8DaluJdxBpJkZZFfK3Wu9Oc4RMSWMMoEf6qlaq7h3Inmsz35cltXumCGRlLuEhzAnlwbtq0Zl2q3DAxSjihZDAax3K6Hhwi0nNoAbkjpI3hHaZ5bwGnf47rM5LxqkD6zGxr4aRS14hMdGtSiuXEuqvU0GMeraWZAN6OcPwkCC2iu2qu9/MUHL8t7uPwGkWo4eALn12d76hnuOMypvWoeWCy/5WRAw8Ku4hX0myekmH+qTbL55BIbO4E/h+6V9npPMX7Q9ZYDFVXgRH7nglRFQ3gO7FoCoyTEXdocgYXaipRDzAWFJFzta40C5nFIcL1J2y4quT5bLCtHXkrhjcNAEfcQcQAMWW+nvWZDLQi8RA+ptQp756+T0+NnQUk4ddTFb5Ulk85fWdJ9kdAlBl1Ppwev2TT0FeFKCO5w==
-      template:
-        metadata:
-          name: grafana
-          namespace: grafana-operator
-        type: Opaque
