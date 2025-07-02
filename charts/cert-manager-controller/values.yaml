@@ -9,7 +9,7 @@ workload:
     match-regex.version-checker.io/cert-manager-controller: 'v(\d+)\.(\d+)\.(\d+)'
   image:
     repository: "quay.io/jetstack/cert-manager-controller"
-    tag: "v1.18.1"
+    tag: "v1.18.2"
   args:
   - '--v=2'
   - '--cluster-resource-namespace=$(POD_NAMESPACE)'
