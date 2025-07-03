@@ -24,6 +24,10 @@ workload:
     - name: certs
       type: emptyDir
       mountPath: /certs
+  envsSecret:
+    - name: AUTHENTIK_SECRET_KEY
+      secret: authentik
+      key: AUTHENTIK_SECRET_KEY
   resources:
     preset: ""
     custom:
