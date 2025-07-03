@@ -218,7 +218,7 @@ rbac:
 storageClass:
   enabled: true
   provisioner: "kubernetes.io/no-provisioner"
-  reclaimPolicy: "Retain"
+  reclaimPolicy: "Delete"
   allowVolumeExpansion: "true"
   volumeBindingMode: "WaitForFirstConsumer"
 
@@ -262,11 +262,11 @@ extraObjects:
         disk: disk1
     spec:
       capacity:
-        storage: 9.09Ti
+        storage: 465Gi
       volumeMode: Filesystem
       accessModes:
         - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
+      persistentVolumeReclaimPolicy: Delete
       storageClassName: minio-operator
       local:
         path: /var/mnt/minio-data/disk1
@@ -278,133 +278,3 @@ extraObjects:
                   operator: In
                   values:
                     - worker-qszsdjpr
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: minio-pv-qszsdjpr-disk2
-      labels:
-        type: local
-        disk: disk1
-    spec:
-      capacity:
-        storage: 9.09Ti
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: minio-operator
-      local:
-        path: /var/mnt/minio-data/disk2
-      nodeAffinity:
-        required:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - worker-qszsdjpr
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: minio-pv-o8jpnslj-disk1
-      labels:
-        type: local
-        disk: disk1
-    spec:
-      capacity:
-        storage: 9.09Ti
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: minio-operator
-      local:
-        path: /var/mnt/minio-data/disk1
-      nodeAffinity:
-        required:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - worker-o8jpnslj
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: minio-pv-o8jpnslj-disk2
-      labels:
-        type: local
-        disk: disk1
-    spec:
-      capacity:
-        storage: 9.09Ti
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: minio-operator
-      local:
-        path: /var/mnt/minio-data/disk2
-      nodeAffinity:
-        required:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - worker-o8jpnslj
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: minio-pv-vpfwkb6a-disk1
-      labels:
-        type: local
-        disk: disk1
-    spec:
-      capacity:
-        storage: 9.09Ti
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: minio-operator
-      local:
-        path: /var/mnt/minio-data/disk1
-      nodeAffinity:
-        required:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - worker-vpfwkb6a
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: minio-pv-vpfwkb6a-disk2
-      labels:
-        type: local
-        disk: disk1
-    spec:
-      capacity:
-        storage: 9.09Ti
-      volumeMode: Filesystem
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Retain
-      storageClassName: minio-operator
-      local:
-        path: /var/mnt/minio-data/disk2
-      nodeAffinity:
-        required:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - worker-vpfwkb6a
