@@ -1,4 +1,4 @@
-namespace: "redis"
+namespace: "authentik"
 
 workload:
   replicaCount: 1
