@@ -5,7 +5,7 @@ workload:
     registry: ghcr.io
     repository: goauthentik/server
     tag: 2025.6.3
-  command:
+  args:
     - worker
   probes:
     readinessProbe:
