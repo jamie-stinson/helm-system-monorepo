@@ -1,5 +1,4 @@
 workload:
-  enabled: false
   type: StatefulSet
   image:
     registry: quay.io

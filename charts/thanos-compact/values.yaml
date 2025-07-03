@@ -1,7 +1,6 @@
 namespace: "thanos"
 
 workload:
-  enabled: false
   type: Deployment
   # Only 1 needs to be ran
   replicaCount: 1
