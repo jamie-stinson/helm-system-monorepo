@@ -1,0 +1,42 @@
+workload:
+  image:
+    registry: ghcr.io
+    repository: goauthentik/server
+    tag: 2025.6.3
+  command:
+    - worker
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 9000
+    livenessProbe:
+      type: tcpSocket
+      port: 9000
+  storage:
+    - name: media
+      type: emptyDir
+      mountPath: /media
+    - name: templates
+      type: emptyDir
+      mountPath: /templates
+    - name: certs
+      type: emptyDir
+      mountPath: /certs
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
+
+service:
+  enabled: false
+
+ingress:
+  enabled: false
+
+autoscaling:
+  enabled: false

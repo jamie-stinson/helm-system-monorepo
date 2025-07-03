@@ -1,0 +1,95 @@
+workload:
+  image:
+    registry: ghcr.io
+    repository: goauthentik/server
+    tag: 2025.6.3
+  command:
+    - server
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 9000
+    livenessProbe:
+      type: tcpSocket
+      port: 9000
+  envsSecret:
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      secret: authentik-postgres-app
+      key: host
+    - name: AUTHENTIK_POSTGRESQL__USER
+      secret: authentik-postgres-app
+      key: username
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      secret: authentik-postgres-app
+      key: password
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      secret: authentik-postgres-app
+      key: dbname
+    - name: AUTHENTIK_SECRET_KEY
+      secret: authentik
+      key: AUTHENTIK_SECRET_KEY
+  envs:
+    - name: "AUTHENTIK_REDIS__HOST"
+      value: "authentik-redis.authentik.svc.cluster.local"
+  storage:
+    - name: media
+      type: emptyDir
+      mountPath: /media
+    - name: templates
+      type: emptyDir
+      mountPath: /templates
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
+
+service:
+  ports:
+    - name: http
+      port: 9000
+      protocol: TCP
+    - name: https
+      port: 9443
+      protocol: TCP
+    - name: http-metrics
+      port: 9300
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: auth.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "authentik-server"
+          port: 9000
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: authentik
+      namespace: authentik
+    spec:
+      encryptedData:
+        AUTHENTIK_SECRET_KEY: AgA8YKHIZzP79zgtcblar80wM0Q3JvKfiCGGM6ofYCGhCfdCbaaZPZiEWU4oQwrST3xtZS81UBhTiaEE8QDyjoX1KI5uKPHSKuNrIlvxaXRbWb1wwxbiFybD2sVIi7ska9HWMpMMVJiqiJpWndcenybLjTn0cedA8EM2Z3NfRhXnXRHlVY5hEo+AXjlVQMCQGbtyr+cPVNDmfzwKaqoogxKKquHQYkwBwh7+TGHqMA1BazmCWbKU8nMAnEKLJ98e1f3uvftXSrmZnaKfZbOxoK5Txk+rLwOmIO1nW7rTnl+fc10QB2MgQtDYB7DoiyDxv+XF+Z0QwJ7EIhxqeUgFN4jzJ/1HTYefJwAVJPlwqpfU4dRLr7Gj/gfhi+ocRf5Vx5K+bVoRFx85xNLGaL8nS3zXLKqAU5ZgHYeGq/gO0SSc0YjvCRHQZcm3HUPl9N+0s+YyQM+Z4PpNDvXrW7s6HPLn5atmrGJUPXOV/OWibLOhIbUyJn2n4ZgnXgB9xrCxIAhYAIfClAgFNLQ7NV0Z8nQkq0oIxS7jfAeqRVV/2g1N9rWBbtvVlJmAJSbi27Od1a7svaQmtx6WiVaSStX3SZT5RCHsTxf9mIL95eqxgnWYW+c4SkNR45lgRnN/a85wBmB/1tjgZAXonw94zUxR8ScohFLjAbPZRPnbjuHdz63fO8/Pxq5U194hYCOzvQZMkidH9RDLZCMEwYdd8Zqows4udh+bPFVcrNkshjz5qr6qaYLdPeSX+25tAVu4CLWfx1noXXdgWrF88Zu7I0yfZuPQlf/geN4AoNynQfJSzmEanbs=
+      template:
+        metadata:
+          name: authentik
+          namespace: authentik
+        type: Opaque
