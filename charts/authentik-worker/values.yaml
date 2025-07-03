@@ -25,9 +25,24 @@ workload:
       type: emptyDir
       mountPath: /certs
   envsSecret:
+    - name: AUTHENTIK_POSTGRESQL__HOST
+      secret: authentik-postgres-app
+      key: host
+    - name: AUTHENTIK_POSTGRESQL__USER
+      secret: authentik-postgres-app
+      key: username
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      secret: authentik-postgres-app
+      key: password
+    - name: AUTHENTIK_POSTGRESQL__NAME
+      secret: authentik-postgres-app
+      key: dbname
     - name: AUTHENTIK_SECRET_KEY
       secret: authentik
       key: AUTHENTIK_SECRET_KEY
+  envs:
+    - name: "AUTHENTIK_REDIS__HOST"
+      value: "authentik-redis.authentik.svc.cluster.local"
   resources:
     preset: ""
     custom:
