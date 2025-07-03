@@ -9,11 +9,11 @@ workload:
     - worker
   probes:
     readinessProbe:
-      type: tcpSocket
-      port: 9000
+      type: exec
+      command: ["ak", "healthcheck"]
     livenessProbe:
-      type: tcpSocket
-      port: 9000
+      type: exec
+      command: ["ak", "healthcheck"]
   storage:
     - name: media
       type: emptyDir
