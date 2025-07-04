@@ -60,6 +60,7 @@ extraObjects:
         - name: maybe
         - name: ezbookkeeping
         - name: authentik
+        - name: authentik-media
         - name: postgres-backups
       configuration:
         name: minio

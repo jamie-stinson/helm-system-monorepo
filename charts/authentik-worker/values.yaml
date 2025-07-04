@@ -49,11 +49,11 @@ workload:
     - name: "AUTHENTIK_STORAGE__MEDIA__BACKEND"
       value: "s3"
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__BUCKET_NAME"
-      value: "authentik"
+      value: "authentik-media"
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__ENDPOINT"
       value: "http://minio.minio.svc.cluster.local"
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__CUSTOM_DOMAIN"
-      value: "minio.projectwhitebox.com/authentik"
+      value: "minio.projectwhitebox.com/authentik-media"
   resources:
     preset: ""
     custom:
