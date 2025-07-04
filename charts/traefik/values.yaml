@@ -73,6 +73,10 @@ configMap:
       traefik.yaml: |
         http:
           middlewares:
+            preserve-host:
+              headers:
+                customRequestHeaders:
+                  Host: "minio.projectwhitebox.com"
             minio-cors:
               headers:
                 accessControlAllowMethods:
