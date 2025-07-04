@@ -46,7 +46,7 @@ workload:
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__ENDPOINT"
       value: "http://minio.minio.svc.cluster.local"
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__CUSTOM_DOMAIN"
-      value: "10.0.0.21/authentik/media"
+      value: "10.0.0.21:30050/authentik/media"
     - name: "AUTHENTIK_STORAGE__MEDIA__S3__SECURE_URLS"
       value: "false"
   resources:
