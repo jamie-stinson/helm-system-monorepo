@@ -15,9 +15,6 @@ workload:
       type: exec
       command: ["ak", "healthcheck"]
   storage:
-    - name: media
-      type: emptyDir
-      mountPath: /media
     - name: templates
       type: emptyDir
       mountPath: /templates
@@ -40,9 +37,23 @@ workload:
     - name: AUTHENTIK_SECRET_KEY
       secret: authentik
       key: AUTHENTIK_SECRET_KEY
+    - name: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
+      secret: authentik
+      key: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
+    - name: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
+      secret: authentik
+      key: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
   envs:
     - name: "AUTHENTIK_REDIS__HOST"
       value: "authentik-redis.authentik.svc.cluster.local"
+    - name: "AUTHENTIK_STORAGE__MEDIA__BACKEND"
+      value: "s3"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__BUCKET_NAME"
+      value: "authentik"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__ENDPOINT"
+      value: "http://minio.minio.svc.cluster.local"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__CUSTOM_DOMAIN"
+      value: "minio.projectwhitebox.com"
   resources:
     preset: ""
     custom:

@@ -30,16 +30,23 @@ workload:
     - name: AUTHENTIK_SECRET_KEY
       secret: authentik
       key: AUTHENTIK_SECRET_KEY
+    - name: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
+      secret: authentik
+      key: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
+    - name: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
+      secret: authentik
+      key: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
   envs:
     - name: "AUTHENTIK_REDIS__HOST"
       value: "authentik-redis.authentik.svc.cluster.local"
-  storage:
-    - name: media
-      type: emptyDir
-      mountPath: /media
-    - name: templates
-      type: emptyDir
-      mountPath: /templates
+    - name: "AUTHENTIK_STORAGE__MEDIA__BACKEND"
+      value: "s3"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__BUCKET_NAME"
+      value: "authentik"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__ENDPOINT"
+      value: "http://minio.minio.svc.cluster.local"
+    - name: "AUTHENTIK_STORAGE__MEDIA__S3__CUSTOM_DOMAIN"
+      value: "minio.projectwhitebox.com"
   resources:
     preset: ""
     custom:
@@ -89,7 +96,9 @@ extraObjects:
       namespace: authentik
     spec:
       encryptedData:
-        AUTHENTIK_SECRET_KEY: AgA8YKHIZzP79zgtcblar80wM0Q3JvKfiCGGM6ofYCGhCfdCbaaZPZiEWU4oQwrST3xtZS81UBhTiaEE8QDyjoX1KI5uKPHSKuNrIlvxaXRbWb1wwxbiFybD2sVIi7ska9HWMpMMVJiqiJpWndcenybLjTn0cedA8EM2Z3NfRhXnXRHlVY5hEo+AXjlVQMCQGbtyr+cPVNDmfzwKaqoogxKKquHQYkwBwh7+TGHqMA1BazmCWbKU8nMAnEKLJ98e1f3uvftXSrmZnaKfZbOxoK5Txk+rLwOmIO1nW7rTnl+fc10QB2MgQtDYB7DoiyDxv+XF+Z0QwJ7EIhxqeUgFN4jzJ/1HTYefJwAVJPlwqpfU4dRLr7Gj/gfhi+ocRf5Vx5K+bVoRFx85xNLGaL8nS3zXLKqAU5ZgHYeGq/gO0SSc0YjvCRHQZcm3HUPl9N+0s+YyQM+Z4PpNDvXrW7s6HPLn5atmrGJUPXOV/OWibLOhIbUyJn2n4ZgnXgB9xrCxIAhYAIfClAgFNLQ7NV0Z8nQkq0oIxS7jfAeqRVV/2g1N9rWBbtvVlJmAJSbi27Od1a7svaQmtx6WiVaSStX3SZT5RCHsTxf9mIL95eqxgnWYW+c4SkNR45lgRnN/a85wBmB/1tjgZAXonw94zUxR8ScohFLjAbPZRPnbjuHdz63fO8/Pxq5U194hYCOzvQZMkidH9RDLZCMEwYdd8Zqows4udh+bPFVcrNkshjz5qr6qaYLdPeSX+25tAVu4CLWfx1noXXdgWrF88Zu7I0yfZuPQlf/geN4AoNynQfJSzmEanbs=
+        AUTHENTIK_SECRET_KEY: AgB9iyPerZFmSAlgzOUY13ZWBajHh2Z37tspLk4nBVyQy6qEXHabu8gNg6dzKuWTI+dncK1X5QNJvzRXno3K6nV8x4w3M+IgW40rWM84zeg3mD0G1ixVzAySx8P9gHCaCFEDeg7Eu1yZlVfZYFtQ0QMVknThiOUHs/rBTLbvBNEyievQsVWWAytkp/EpoB82FssWEkWeCicpgUaEL8fVPKYz7fMXre1H8eG6VTu0R2dYJyRskUYX4e0z6qw0QnnGqvRfZI9dl5WPmiv5fis3Lm9O7/8wTzae0t2zcnTu1cyb1Pm+MiRMTSKQmlHM2Xx7O+ZmEtZy3dzIjPreO+nS0dszgGwXOpjlMMFmvL9So/Shqe+dHCUnely1GHmchWKkrFYHsNG5ong9yrh1OvnJ1NGJ+ZrqyKJ7xu6488t3o2aFkKRzadm5HkDFKUFjkpfNOLwiBe9yGeYJbTwIm0Whldtm8zGLESQjW98JHOFOhhXwbrcz0To2sbb48jJ27s5kKkclEKZgcCoyiSxBvTD5UlcZMoabAFQEXN+6PvyUcVROhfEri7SwQLRDoZROMWIIG3uu2ylXtpOG4MlJfQ0SxtSYiv6Bd1COv5PmCKQHe2w5XmI2bbyeve2MjySdc4fPwXPhUst1b0C7Xv3OfE8bZYJgxJ+Fxej9LJzwhaR7A8KnBg/Odv2Hoo0g9Fn5eB7ee36W54hDp774Sdbo3dJ1OpdC302nm2bche7IBk62C7YKDYfAUsjKXBZL+ULeQ4RwwHQV44BytTUo7/tHX9OBqFDdn7PJbiJb34YaytfrWZZlhpA=
+        AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY: AgCNbqbcFWFro1gLG0EfHa8hQqzvagHYLCASDUQ7pKJuXneV0khKgIuA6+OoGL757ZWafLa7iBs5Bg2L6nfBnGaznFJhXpO6dshIHjFBFE+R5mDYuMP8L99TUNTuuwb3cREQPiSs6FmSWuib6CNbUhLHh2KSSzDLOClFRX3ewRzRAQwlxx84nTP7ZHxEuaxqcM/QkUwR2Si2DBNBm1pgi5HQvK6BI3WMH8fnP3KoIgdoUEYXAiHN7hg+bt+TJ9arcpaiYQJCzG5INmXHIQEvVUpuJGE3RnOhwBXEHFJ3oFqf1hmG+Vg/cuHS6CswX0DYoJHyGfRrbSEU9O2ZTfurLLdsomnkf0v8PgWcXhVaQA5ucIXFxl5qtNAFS3UnljbYQ8SFQTsBsdBp1KIp76TDMGobldLyhs95x1w28n30FWya6Klhyd7LG3TVnZP4OirnukAO7QFNbifi2qJMieEeG7AHamzC89l83k5nMZ7g6fothiqhQwUf8DxDIbNy4jP5a1jw86oOixur5lL438VVpqpieV/l9sBgVwsrWzyJP/AKarkr/xNgTonXAalH2uxM2/mwCn6sn93EoV50e6ja1ly8n1lPmMflhqNA9w7ZQqrVjqz/nrZB/0dImB7h/biUGbz+A53s8TFCA/GJbHGP/6vV+Je9CdesmqVlVL8VJZ46YrSAgwv/ACNn68/xrHV/ol58e98pRWz5S2FevrGtyoVOHotqGNw=
+        AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY: AgCKDUSMuKd/Z/TrRv8gtQMrnbPoDmF2SComKX3XL+ZN7kwy19Q15/YWqevVq1sDkgo4U+5Tv4MnUNEYMakx7zk861tw4tbMX1RhVctDF14RKkd3j3Dc3YPV6oZum7z0aFZa9nq5JJ2+tCT2zkAnBUlmBw/PPnZGJvqq3r740dqKo+i1RsFiWSfbceoW32BC2j6Aa+GKL3/gitafrck/AJ8Svn3q2Fk+K1Kr/GTOrj0xnLHEsDtsFOp79EuSw0IRivWZiuTsVg4mOrDg3WUqWlBE52MTZCX+usSQah5Hu/IElSv3iBnNgJ2aSOs5pS7N7XXQLKZ3V2eTcNOWU/EbZwDxa0bAxakPmElmVYbddSoW4+OXsrwEdXBTV4Mic31M86YpT8Dy9PBxH0mcpAJ/rvzKAKixuCgNy3NX1w8TUQ2qzSZ6xqe71BiGA6xnJYdVw/qtN37Ryvb+z/UHg/KF9351fsGjI6G/W9O24sPlpHw4G2lSDtdi52Ox39azPISaPvUudDqtDZJlAW/0pkiSH5Kx/Vd8RooxpqSyoPU1Cgd/TyLKEuzfPgbjZ+ke1xZwy91m85lW7IXsoVxZnfh9KPlC8pVSePagRKFvkBzHcgWhYQdaOpTJ8+bI3n4/TMoJWYAHB4kHoKvWwRxoUyZREgMRZ6jhHSppLaLiI9G6uqkD5l7ZPRUwSfPp6u0bf0OrISw0H97G20LJ4rj/J9ciWFC6afHz9Ubt9HaU19RS0jXSY84z3RkHkvsnTQ==
       template:
         metadata:
           name: authentik
