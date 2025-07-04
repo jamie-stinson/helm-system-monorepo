@@ -19,6 +19,7 @@ ingress:
   enabled: true
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-minio-cors@file
   hosts:
     - host: minio.projectwhitebox.com
       path: /
