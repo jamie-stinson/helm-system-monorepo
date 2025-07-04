@@ -78,17 +78,11 @@ configMap:
                 accessControlAllowMethods:
                   - GET
                   - OPTIONS
-                accessControlAllowHeaders:
-                  - "*"
+                accessControlAllowHeaders: "*"
                 accessControlAllowOriginList:
                   - https://auth.projectwhitebox.com
-                accessControlExposeHeaders:
-                  - ETag
                 accessControlMaxAge: 100
                 addVaryHeader: true
-                customResponseHeaders:
-                  Cross-Origin-Resource-Policy: "cross-origin"
-                  Cross-Origin-Opener-Policy: "same-origin"
         tls:
           certificates:
             - certFile: /tls/tls.crt
