@@ -32,6 +32,22 @@ ingress:
 
 extraObjects:
   - |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: minio-expose
+      namespace: minio
+    spec:
+      ports:
+      - name: internalweb
+        nodePort: 30050
+        port: 80
+        protocol: TCP
+        targetPort: 80
+      selector:
+        v1.min.io/tenant: minio
+      type: NodePort
+  - |
     apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
