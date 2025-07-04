@@ -38,6 +38,9 @@ extraObjects:
     metadata:
       name: minio
       namespace: minio
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+        traefik.ingress.kubernetes.io/router.middlewares: minio-cors@file
     spec:
       ingressClassName: traefik
       rules:
