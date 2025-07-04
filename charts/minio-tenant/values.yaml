@@ -43,7 +43,7 @@ extraObjects:
         nodePort: 30050
         port: 80
         protocol: TCP
-        targetPort: 80
+        targetPort: 9000
       selector:
         v1.min.io/tenant: minio
       type: NodePort
