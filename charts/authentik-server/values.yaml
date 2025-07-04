@@ -14,6 +14,11 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 9000
+  storage:
+    - name: media
+      type: pvc
+      mountPath: /media
+      claimName: "authentik-media"
   envsSecret:
     - name: AUTHENTIK_POSTGRESQL__HOST
       secret: authentik-postgres-app
@@ -30,25 +35,9 @@ workload:
     - name: AUTHENTIK_SECRET_KEY
       secret: authentik
       key: AUTHENTIK_SECRET_KEY
-    - name: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
-      secret: authentik
-      key: AUTHENTIK_STORAGE__MEDIA__S3__ACCESS_KEY
-    - name: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
-      secret: authentik
-      key: AUTHENTIK_STORAGE__MEDIA__S3__SECRET_KEY
   envs:
     - name: "AUTHENTIK_REDIS__HOST"
       value: "authentik-redis.authentik.svc.cluster.local"
-    - name: "AUTHENTIK_STORAGE__MEDIA__BACKEND"
-      value: "s3"
-    - name: "AUTHENTIK_STORAGE__MEDIA__S3__BUCKET_NAME"
-      value: "authentik-media"
-    - name: "AUTHENTIK_STORAGE__MEDIA__S3__ENDPOINT"
-      value: "http://minio.minio.svc.cluster.local"
-    - name: "AUTHENTIK_STORAGE__MEDIA__S3__CUSTOM_DOMAIN"
-      value: "10.0.0.21:30050/authentik/media"
-    - name: "AUTHENTIK_STORAGE__MEDIA__S3__SECURE_URLS"
-      value: "false"
   resources:
     preset: ""
     custom:
@@ -106,3 +95,39 @@ extraObjects:
           name: authentik
           namespace: authentik
         type: Opaque
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: authentik-media
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/authentik-media"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: authentik-media
+      namespace: authentik
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: authentik-media
