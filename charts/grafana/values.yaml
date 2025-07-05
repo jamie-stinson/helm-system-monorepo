@@ -72,6 +72,8 @@ configMap:
           disable_login_form = true
           [auth.generic_oauth]
           enabled = true
+          name = Authentik
+          use_refresh_token = true
           allow_sign_up = true
           auto_login = false
           client_id = Caq9JwH7MhEoirm4TfQl4xt8WUXKT7wLnmf0vLS9
