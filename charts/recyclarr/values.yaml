@@ -665,7 +665,7 @@ configMap:
                     - 27954b0a80aab882522a88a4d9eae1cd # DV SDR
                     - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
                     - 90501962793d580d011511155c97e4e5 # VP9
-                    - d6e9318c875905d6cfb5bee961afcea9 # Not Original Language
+                    - ae575f95ab639ba5d15f663bf019e3e8 # Not Original Language
                   assign_scores_to:
                     - name: Default
                       score: -10000
