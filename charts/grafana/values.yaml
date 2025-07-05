@@ -24,7 +24,7 @@ workload:
     - name: GF_DATABASE_PASSWORD
       secret: grafana-postgres-app
       key: password
-    - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+    - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
       secret: grafana
       key: CLIENT_SECRET
   probes:
@@ -70,21 +70,16 @@ configMap:
           type = postgres
           [auth]
           disable_login_form = true
-          [auth.google]
+          [auth.generic_oauth]
           enabled = true
           allow_sign_up = true
           auto_login = false
-          client_id = 429988516792-kal30q6sm0dall260ldrllk6rk2msb95.apps.googleusercontent.com
+          client_id = Caq9JwH7MhEoirm4TfQl4xt8WUXKT7wLnmf0vLS9
           scopes = openid email profile
-          auth_url = https://accounts.google.com/o/oauth2/v2/auth
-          token_url = https://oauth2.googleapis.com/token
-          api_url = https://openidconnect.googleapis.com/v1/userinfo
-          allowed_domains = gmail.com
-          hosted_domain = gmail.com
-          use_pkce = true
-          allow_assign_grafana_admin = true
-          skip_org_role_sync = false
-          role_attribute_path = email=='jamiestinson123@gmail.com' && 'GrafanaAdmin' || 'Viewer'
+          auth_url = https://auth.projectwhitebox.com/application/o/authorize/
+          token_url = https://auth.projectwhitebox.com/application/o/token/
+          api_url = https://auth.projectwhitebox.com/application/o/userinfo/
+          role_attribute_path = contains(groups, 'Grafana Administrator') && 'Admin || 'Viewer''
 ingress:
   enabled: true
   annotations:
@@ -159,9 +154,9 @@ extraObjects:
       namespace: grafana
     spec:
       encryptedData:
-        ADMIN_PASSWORD: AgAZkH5VZ1Gq77P4QqQNaROVl6blrEXSRy9OvtEteCHYv5OxWpyKdxKD4kDV+LYRt2lgOvA1jShTIM20JXJXdPTavtPexYFhKHPy39QLXuDda2WR8MaxBtML53uKI/Arx4dhg9cvZprEqEodtTRJ436pXz6hSOD1WahOCxnZhzmglJaqXC7r87Ytxe8QaMXr7vpQSJRG1nxRS++f7E6jskTG7AiniwagiqeaGyfr3D6MMEhmqFZE1+4B2JV8WGEo/PnvuLqH/u2gW8OeItuNSaEBKYK62B6KeWrBz5HNRoeYLUGfwrKOLldTceTFzMF3jTw4yRYmr5tO6bfaupsHKSXjrVzMxMYADJ1ZZ7u4VS0Vs+RQl/2oY1jDzqWfOyEsP0kIZFxeehjDpbQehhKepMYrdx+jPcL5eAm0Ou/1y64UC+hqeY1P7mL3zPpTxl+SiCzpdXVVzCAt8B9xutmPsKN7BLWL/j/Z04dZSxgqnz9JVMptrm4zex2HRj6HH1KdPlJ5SbDffGcKZQ08GUwwt0fgSNnLoEkOMhWtY4jD9ps3XzgAdGHomMIHfOOM+wWow0GZy5JdZK3BrnNFpjn5AmYAulV0p66fBeKucCLHZbwq4+9eUYeYwtg07X9TZSpKSRJW7022iXps3AVCERmW2p2BZ8kkT/LTnEjszvxDxKbC5uJIyBVHR4codAcbOjl9u98iCV8O6Uz/Qo5pOcbML9TArBH6vNPXya1+giYfaPujJEKQ4QQvyZUmFnhWQ52Gk1g7OWJhT0xmF+ffEY0u0hGb
-        ADMIN_USER: AgB4L3SlO4J779WXnNSbuzbj5ldFVulfeYh2yKezrX77ePvdBCXgunQl7j71NhzGNCfxrAFluxMBj47tixdSKkXYsACjc0xOuca1w/loszObPev7ym+TUQHNs++Fv6Rjkm1W3vPVDL/v32j5AO5nvb6cpeveUyMeIrYqgXlXeK914uSmPhGrQIwIBHJ6r9sx4C6FJBsVMXtiOro4c33glrQo8C8g1yeXfq6CvcGQpiL69ZIbTmwTUHVEZOa/C66WqrIq0/jxoplFLpBR/9zXeltCeo8gvCDREmv+I578ANc98FLXezUn9h9q58dCMYp/aSzBrvNacfNsYv1ddsDpNeSnN4JnAplYjixiDf5T3b2FUTH2AVQLmKATkM9dhM57S7qMCCokn+N8rcnlr+TFLD+opj2mNCVmH+RsYE2Ets4tDU9Dw1zheywBHsY+EDYy912HKoV2Dt0BR6DodbbHsZtOv/vHGucMWgodw07/priRmROzUwIdQxoV6eFaQRAHv0arjPwA0MxaU8CYfJ3u8KcT2cT+jtyGcl6akEZUthpYQK5cwF24IhS1K8Qeod13Go2PPupluzduqiAZgJDNhzzGnt1DyX250o3qTd5ED1tBGlbeADf1w4cCi7YkoEk2zj6erFKL2Exuo96YiU9+8jGbpiotQ/jml2GCTvlzzerqns3yoDt9PzeTrPrc1jUQpxWGqKur7A==
-        CLIENT_SECRET: AgA4+IszdWswf7chF4EYrvrP2tbn9c9H/uSQvEhKjUH2xpZ0SspAuC30ybg9096CK6dO/2/raoJZdtj0UwyN5zCBdh8mYGVA8jTb/2mg9pN902osq8/FwGkaM5b10wmOmKy79uHeXam/Zfy6Ed/lnwr0SNAI1imfo+kMDn/h1620UUrtXhOeYBYQRmP318vkEqDomjoVnd2XS3t9LZaEKALLqb+b4tR4Ynpu2D6gLWF5UDlGs1uus0x32j+/eXOHpRUqmgcMQoXZY19axbmtobgw50+mnZyJ5IS9y0BkpL+JDOlTQ5F65tbrh6C1UB4hnfWwW6yHdTbiJQwE39GiswKNQUWUekCfBagLjRCBtkfr8mfc7dXZ4E6JXjNFgF1dAaq76eAUYmwCPJEkPg5jqP5ACupkh6bihI6oFH1EnMRVtfZc3U+oX42FAxmY0MgJEPr4NyCIQMzjy9OUb1Pph1DCqkSXDpcyigvKUWCMaJJCp6zr4dZXk8b0hKtOvjr441KE18aaewqkT+O2o6Tm0IUY7IfNrWcTq1+kH2P4fGhmwRJCVO2OyMsOnDw1HJcITymNByVX17f+o9IQGu/e5RdjodzqRiiiaHIU0c8fLj94l9/lUtGR+jiTG/sMYVMZKVTWnImunK14I7rC6SOWro4BOTVFC5t0SoNXAid23KopcCkFlyTgsa0bP+7q5zBAUX2GRwK1Urhok5WHqL4J6yffh7wiFEos+VMjD/y4SCzpaoqzbg==
+        ADMIN_PASSWORD: AgB95AEu39XhhRww2l6+exw9BShycBomrA2OHJo2hUz+72CsDyGrMK2ptSh1sVD21NggMXkUOAisoht5KPQRShJfddPTzqzCkjt5q8sWM+O7IOVHER6xDEQAs3gbyBZhLKl0Zmoa6UE2nmV45d2mfayo7vCDhVPSUaVBk/v2fXyiww1TaOAk4uAgIwEYdBPik81O1l+09nOiiK/P0FwCSHJ5zatIIxz3hKPCQ4rGUasvavDYEyGbWvJpl+izrcqpXxG7S7Uw3whwpXfGRIjUlom2ex88B+DdAND0Lhqpmo3lHrNuYZLQqyXokLyVCP3Hb1OQBPMRBU+72yH6AdcQsfbA5oOPNYM/pvSQE1PO/dxDd2b6ecTKUnC0Gn6d5Ctk0g0hj3G4xPFPdFoZz6bNSpcT+ArSly3eNajuaUv/Yg315KO0Rs1oaWaMG0A4N3ay0ghiEJIS4JPphP7AZwVqKzDPCmPp8U3EkH7ryVfI2odVyGVX7v+tdBY9jM/KI4D1agVv0+xcA35YbtMKkVF+L79JY7T4iNttmANYSTwCE9TLjFDwTv/di7Q/gYuKyleVeEXxdLRSOCdRkJSbxFJ9DTD2seZdQMguYV2Mb2m/xsU/NJI9JZQyccdqNVGly7af0/20K1Mhm+nIAUoFut9VtSUE+VMeNmTpEl3ers21JRERpqKhlVuAftaHbp6YuFJMPMWZCj7YYCNBJyJ9Kkv/MBt7QpEgQFOUa/whwjJdqK6yv6mVO5pyWgSASS3+slZVYXhki23ChBWx1QiwSU1X9nzP
+        ADMIN_USER: AgAbwSg+BW3f2cjY9ZWmKr4YDRlrTgLo6a0E5hGnhXvw+bsYy/gDQXy3e32iKYy2/qtjJNdmd2g3vxzDkmfXPnFZdF/q6iqR4uuCTI8SDa1ecfw34Zo/2SGTJlXB+wTsVbKyj3eYNnYeqwSLfzpFB4n0ocNFjwmThkAHMOA4WR0O4P679W/aM4EVR5LQMH8r1UUBGgRTOK4tbrrfphfMWE/iSbg4cRa5sobnGea/ysUkJ8kXWqkEdC9KKirydf5iXAjnmuVQHaUeEdY6jxCXCoXicKGsj/FOro4v3LKqmZxO5nu27eZ6bmhzp7sIHl2qrwwjpqCuQn9PJosIFiGFbKtp3xneYzPqweva8iT6pBmGE58720kRdDnlwyFWOJHdZpkxucXbbhjLlQCHf3K6UTD/7fe9TbF3/EV+2xeYiOa7TuZxgtryangtgb3KtqgWIwMuAGzXv0awwh94p6SJo9QpBAaGOXdxAXYRXkE5d+vYV4QTpeavR9BiewbjQHAXUjk83uJ+Vh7Rg12uY8Uk3oiL7cQqz9TfV3BH8k5nE+bH/0nHZmf8VrciGlS3gJIzWoNPBT2fhPXulZRXKuGfEQ9pp4G3mRzaTh54UynJYFNSSSEbaeQMn24LPX62XWlNJvsEZdTwk6aYwS3lSsJreR0RtOK1kRVojOV/XEslCfQLOWotfUU3QPR6tQ2O1Ygfoef03LxT0Q==
+        CLIENT_SECRET: AgACkYFMH6sUR6J4qby7ZaGgGnSVDk2ldcwwTMFRmD3DyNTP5YtYe/F9u3ecMyXHO77ddvU2hqMpNrGb1ge6LIb8socguoMalIAPD/YY4iGO+Qvlzc7XfIS7Sj6cpGvht++uOPJjZ2inH/v3A8VUH9eg9KfE/d1JAfJXZDDLiHJf/HXuT2VogCyTBvzQUSRR13MT8sZ7ZnrrT049t1VcYVfOr+AvifPGlJgsKP8NYD9gscXx2GwPTDfkPJU0YtFKSajwbmCl8NNHXCujIMn3E1ujWpXV2+n0RvhFU0d60jSHHGt7ZuXqrW1jImpHBkTeZjG3xLuzYgZOoHHP643OzMIM/ALoTdvRgnEmGdJO/LZGh5Zcyyt0G8GToWjJjETFDvARQKo4wQ/I7CtQFMdtT7xqBHF8+KD2JT46HxG5ecF+b3tKtZZITD7STR6U6yyd4oKQOY10bAoXUrvgdldtLKKLjQ0Mt2wgXRxk2pqR1arPnzdDmRfpVX/+b4gou+Op7q1Pz/+laTMmC/za54Uko12GHFfcpufdisdfrxkNvkN6pLwUG6z1RUvmEqf49dFmljgp7VO8uAakmrbkctc2MjSZ3cqUsIZxbUfuZH0Pa3F0L/Tqt7yFZrvFvSnyZ7cA16u90OmWJzgdMN0dM0OngLx+oYUPpIPCrYtUanMXyrsZyCb1d/GTEIO3aI4uRr+W8Ga9wa8aRRlE79Eb22n5DVTLLxk2/JY6auyo+pe4WZ6bsORmePPeFQo86lydvrDvJhFvE6c72+6XcKy6KN6BssDDHeRXlANBCyISnTIlONU7GeSPU2Ab0igwq4wONR/n0YBEa96ShV7uU5Z7a4ZWWnEnZVuEkHijjngQFCBSUrpjVA==
       template:
         metadata:
           name: grafana
