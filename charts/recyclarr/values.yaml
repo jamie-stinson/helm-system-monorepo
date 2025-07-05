@@ -378,6 +378,7 @@ configMap:
                     - 58d6a88f13e2db7f5059c41047876f00 # DV
                     - 55d53828b9d81cbe20b02efd00aa0efd # DV HLG
                     - a3e19f8f627608af0211acd02bf89735 # DV SDR
+                    - d6e9318c875905d6cfb5bee961afcea9 # Not Original Language
                   assign_scores_to:
                     - name: Default
                       score: -10000
