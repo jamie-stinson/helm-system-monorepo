@@ -6,15 +6,15 @@ workload:
   type: "StatefulSet"
   image:
     registry: ghcr.io
-    repository: plexguide/huntarr
-    tag: 8.0.4
+    repository: ghcr.io/plexguide/huntarr
+    tag: 8.1.11
   envs:
-    - name: "TZ"
-      value: "Europe/London"
-    - name: "PUID"
-      value: "1000"
-    - name: "PGID"
-      value: "1000"
+  - name: "TZ"
+    value: "Europe/London"
+  - name: "PUID"
+    value: "1000"
+  - name: "PGID"
+    value: "1000"
   strategy:
     type: OnDelete
   probes:
@@ -25,69 +25,44 @@ workload:
       type: tcpSocket
       port: 9705
   storage:
-    - name: config
-      type: pvc
-      mountPath: /config
-      claimName: "huntarr-config"
-
+  - name: config
+    type: pvc
+    mountPath: /config
+    claimName: "huntarr-config"
 service:
   ports:
-    - name: http
-      port: 9705
-      protocol: TCP
-
+  - name: http
+    port: 9705
+    protocol: TCP
 ingress:
   enabled: true
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: huntarr.projectwhitebox.com
-      path: /
-      pathType: "Prefix"
-      tls:
-        enabled: false
-      backend:
-        service:
-          name: "huntarr"
-          port: 9705
-
+  - host: huntarr.projectwhitebox.com
+    path: /
+    pathType: "Prefix"
+    tls:
+      enabled: false
+    backend:
+      service:
+        name: "huntarr"
+        port: 9705
 autoscaling:
   enabled: false
-
 extraObjects:
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: huntarr-config
-    spec:
-      capacity:
+- "apiVersion: v1\nkind: PersistentVolume\nmetadata:\n  name: huntarr-config\nspec:\n  capacity:\n    storage: 1Ti\n  accessModes:\n    - ReadWriteMany\n  nfs:\n    server: 10.0.0.10\n    path: \"/mnt/data-pool/huntarr\"\n  mountOptions:\n    - nfsvers=4.1 \n    - hard      \n    - noatime\n    - rsize=1048576 \n    - wsize=1048576 \n    - proto=tcp\n    - async\n    - nconnect=8\n"
+- |
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: huntarr-config
+    namespace: huntarr
+  spec:
+    accessModes:
+      - ReadWriteMany
+    storageClassName: ""
+    resources:
+      requests:
         storage: 1Ti
-      accessModes:
-        - ReadWriteMany
-      nfs:
-        server: 10.0.0.10
-        path: "/mnt/data-pool/huntarr"
-      mountOptions:
-        - nfsvers=4.1 
-        - hard      
-        - noatime
-        - rsize=1048576 
-        - wsize=1048576 
-        - proto=tcp
-        - async
-        - nconnect=8
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: huntarr-config
-      namespace: huntarr
-    spec:
-      accessModes:
-        - ReadWriteMany
-      storageClassName: ""
-      resources:
-        requests:
-          storage: 1Ti
-      volumeName: huntarr-config
+    volumeName: huntarr-config
