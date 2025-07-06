@@ -3,7 +3,7 @@ namespace: "argocd"
 autoPatching:
   enabled: true
   annotations:
-    argocd-image-updater.argoproj.io/image-list: "argocd=docker.io/redis:~v8"
+    argocd-image-updater.argoproj.io/image-list: "argocd-redis=docker.io/redis:~v8"
 workload:
   replicaCount: 1
   type: StatefulSet

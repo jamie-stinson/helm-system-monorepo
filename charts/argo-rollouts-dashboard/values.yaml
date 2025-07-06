@@ -3,7 +3,7 @@ namespace: "argocd"
 autoPatching:
   enabled: true
   annotations:
-    argocd-image-updater.argoproj.io/image-list: "argocd=quay.io/argoproj/kubectl-argo-rollouts:~v1"
+    argocd-image-updater.argoproj.io/image-list: "argo-rollouts-dashboard=quay.io/argoproj/kubectl-argo-rollouts:~v1"
 workload:
   enabled: false
   image:
