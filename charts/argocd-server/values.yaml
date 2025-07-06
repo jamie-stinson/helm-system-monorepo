@@ -1,6 +1,10 @@
 namespace: "argocd"
 installCRDs: true
 
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "argocd=quay.io/argoproj/argocd:~v3"
 workload:
   image:
     registry: quay.io
