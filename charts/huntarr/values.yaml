@@ -5,7 +5,6 @@ autoPatching:
 workload:
   type: "StatefulSet"
   image:
-    registry: ghcr.io
     repository: ghcr.io/plexguide/huntarr
     tag: 8.1.11
   envs:

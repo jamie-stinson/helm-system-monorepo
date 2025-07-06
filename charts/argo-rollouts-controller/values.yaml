@@ -8,8 +8,7 @@ autoPatching:
 workload:
   enabled: false
   image:
-    registry: quay.io
-    repository: argoproj/argo-rollouts
+    repository: quay.io/argoproj/argo-rollouts
     tag: v1.8.3
   args:
     - '--healthzPort=8080'

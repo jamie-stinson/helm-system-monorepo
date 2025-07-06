@@ -7,8 +7,7 @@ autoPatching:
     argocd-image-updater.argoproj.io/image-list: "grafana=ghcr.io/grafana/grafana-operator:~v5"
 workload:
   image:
-    registry: ghcr.io
-    repository: "grafana/grafana-operator"
+    repository: "ghcr.io/grafana/grafana-operator"
     tag: "v5.18.0"
   args:
     - --metrics-bind-address=0.0.0.0:9090

@@ -9,7 +9,6 @@ autoPatching:
 workload:
   type: StatefulSet
   image:
-    registry: quay.io
     repository: quay.io/prometheus/prometheus
     tag: v3.4.2
   args:

@@ -4,8 +4,7 @@ autoPatching:
     argocd-image-updater.argoproj.io/image-list: "jellyseerr=ghcr.io/fallenbagel/jellyseerr:~v2"
 workload:
   image:
-    registry: ghcr.io
-    repository: fallenbagel/jellyseerr
+    repository: ghcr.io/fallenbagel/jellyseerr
     tag: 2.7.0
   probes:
     readinessProbe:

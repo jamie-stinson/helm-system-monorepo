@@ -7,8 +7,7 @@ autoPatching:
 workload:
   enabled: false
   image:
-    registry: quay.io
-    repository: argoproj/kubectl-argo-rollouts
+    repository: quay.io/argoproj/kubectl-argo-rollouts
     tag: v1.8.3
   command:
   args:

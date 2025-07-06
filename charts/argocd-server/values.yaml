@@ -7,8 +7,7 @@ autoPatching:
     argocd-image-updater.argoproj.io/image-list: "argocd=quay.io/argoproj/argocd:~v3"
 workload:
   image:
-    registry: quay.io
-    repository: argoproj/argocd
+    repository: "quay.io/argoproj/argocd"
     tag: v3.0.6
   command:
     - 'argocd-server'

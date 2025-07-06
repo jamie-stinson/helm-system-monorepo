@@ -5,8 +5,7 @@ autoPatching:
 workload:
   type: DaemonSet
   image:
-    registry: "registry.k8s.io"
-    repository: "node-problem-detector/node-problem-detector"
+    repository: "registry.k8s.io/node-problem-detector/node-problem-detector"
     tag: "v0.8.21"
   args:
     - '--logtostderr'

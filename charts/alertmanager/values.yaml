@@ -5,8 +5,7 @@ autoPatching:
 workload:
   type: StatefulSet
   image:
-    registry: quay.io
-    repository: prometheus/alertmanager
+    repository: quay.io/prometheus/alertmanager
     tag: v0.28.1
   args:
     - '--config.file=/etc/config/alertmanager.yaml'
