@@ -301,7 +301,7 @@ configMap:
                     - 6ba9033150e7896bdc9ec4b44f2b230f # MP3
                     - a061e2e700f81932daf888599f8a8273 # Opus
                     # HDR
-                    - c53085ddbd027d9624b320627748612f # DV HDR10Plus
+                    - c53085ddbd027d9624b320627748612f # DV HDR10+
                     - e23edd2482476e595fb990b12e7c609c # DV HDR10
                     - b17886cb4158d9fea189859409975758 # HDR10+ Boost
                     - b974a6cd08c1066250f1f177d7aa1225 # HDR10+
@@ -422,6 +422,11 @@ configMap:
                   assign_scores_to:
                     - name: Anime
                       score: 8000
+                - trash_ids:
+                    - 0dc8aec3bd1c47cd6c40c46ecd27e846 # Not English
+                  assign_scores_to:
+                    - name: Anime
+                      score: -500
                 - trash_ids:
                     - cae4ca30163749b891686f95532519bd # AV1
                     - ae4cfaa9283a4f2150ac3da08e388723 # VP9
@@ -711,6 +716,11 @@ configMap:
                   assign_scores_to:
                     - name: Anime
                       score: 8000
+                - trash_ids:
+                    - 69aa1e159f97d860440b04cd6d590c4f # Not English
+                  assign_scores_to:
+                    - name: Anime
+                      score: -500
                 - trash_ids:
                     - 6d0d8de7b57e35518ac0308b0ddf404e # DV
                     - 1f733af03141f068a540eec352589a89 # DV HLG
