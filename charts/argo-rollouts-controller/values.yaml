@@ -5,7 +5,7 @@ autoPatching:
   annotations:
     argocd-image-updater.argoproj.io/image-list: "argo-rollouts-controller=quay.io/argoproj/kubectl-argo-rollouts:~v1"
 workload:
-  enabled: false
+  enabled: true
   image:
     repository: quay.io/argoproj/kubectl-argo-rollouts
     tag: v1.8.3
