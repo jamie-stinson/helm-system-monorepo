@@ -1,5 +1,9 @@
 namespace: "authentik"
 
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "redis=docker.io/redis:~v8"
 workload:
   replicaCount: 1
   type: StatefulSet

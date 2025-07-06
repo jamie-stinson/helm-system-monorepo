@@ -1,3 +1,8 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "grafana=docker.io/grafana/grafana:~v12"
+
 workload:
   annotations:
     match-regex.version-checker.io/grafana: '(\d+)\.(\d+)\.(\d+)'

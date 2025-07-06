@@ -1,4 +1,12 @@
 namespace: "thanos"
+
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "prometheus=quay.io/prometheus/prometheus:~v3, thanos=quay.io/thanos/thanos:~v0"
+    argocd-image-updater.argoproj.io/thanos.force-update: "true"
+    argocd-image-updater.argoproj.io/thanos.helm.image-spec: "workload.extraContainers[0].image"
+    argocd-image-updater.argoproj.io/thanos.update-strategy: "semver"
 workload:
   type: StatefulSet
   image:
