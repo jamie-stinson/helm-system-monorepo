@@ -1,6 +1,10 @@
 namespace: "grafana"
 installCRDs: true
 
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "grafana=ghcr.io/grafana/grafana-operator:~v5"
 workload:
   image:
     registry: ghcr.io

@@ -1,3 +1,7 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "jellyseerr=ghcr.io/fallenbagel/jellyseerr:~v2"
 workload:
   image:
     registry: ghcr.io

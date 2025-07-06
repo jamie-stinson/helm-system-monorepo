@@ -1,3 +1,7 @@
+autoPatching:
+  enabled: true
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: "huntarr=ghcr.io/plexguide/huntarr:~v8"
 workload:
   type: "StatefulSet"
   image:
