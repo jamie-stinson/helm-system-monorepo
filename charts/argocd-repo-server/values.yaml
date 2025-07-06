@@ -1,5 +1,4 @@
 namespace: "argocd"
-
 autoPatching:
   enabled: true
   annotations:
@@ -7,23 +6,23 @@ autoPatching:
 workload:
   image:
     repository: "quay.io/argoproj/argocd"
-    tag: "v3.0.6"
+    tag: "v3.0.9"
   command:
-    - 'argocd-repo-server'
+  - 'argocd-repo-server'
   args:
-    - '--port=8081'
-    - '--metrics-port=8084'
-    - '--logformat=text'
-    - '--loglevel=info'
+  - '--port=8081'
+  - '--metrics-port=8084'
+  - '--logformat=text'
+  - '--loglevel=info'
   envs:
-    - name: ARGOCD_REPO_SERVER_NAME
-      value: argocd-repo-server
-    - name: ARGOCD_EXEC_TIMEOUT
-      value: "180"
-    - name: ARGOCD_GIT_ATTEMPTS_COUNT
-      value: "3"
-    - name: ARGOCD_HELM_ALLOW_CONCURRENCY
-      value: "true"
+  - name: ARGOCD_REPO_SERVER_NAME
+    value: argocd-repo-server
+  - name: ARGOCD_EXEC_TIMEOUT
+    value: "180"
+  - name: ARGOCD_GIT_ATTEMPTS_COUNT
+    value: "3"
+  - name: ARGOCD_HELM_ALLOW_CONCURRENCY
+    value: "true"
   probes:
     readinessProbe:
       path: "/healthz"
@@ -32,37 +31,37 @@ workload:
       path: "/healthz?full=true"
       port: 8084
   storage:
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp
-      ramDisk: false
-      readOnly: false
-    - name: gpg-keys
-      type: emptyDir
-      mountPath: /app/config/gpg/keys
-      ramDisk: false
-      readOnly: false
+  - name: tmp
+    type: emptyDir
+    mountPath: /tmp
+    ramDisk: false
+    readOnly: false
+  - name: gpg-keys
+    type: emptyDir
+    mountPath: /app/config/gpg/keys
+    ramDisk: false
+    readOnly: false
   envsConfigMap:
-    - name: ARGOCD_REPOSERVER_LOGFORMAT
-      configMap: argocd-cmd-params-cm
-      key: reposerver.log.format
-    - name: ARGOCD_REPOSERVER_LOG_LEVEL
-      configMap: argocd-cmd-params-cm
-      key: reposerver.log.level
-    - name: ARGOCD_REPOSERVER_PARALLELISM_LIMIT
-      configMap: argocd-cmd-params-cm
-      key: reposerver.parallelism.limit
-    - name: REDIS_SERVER
-      configMap: argocd-cmd-params-cm
-      key: redis.server
-    - name: ARGOCD_SERVER_OTLP_ADDRESS
-      configMap: argocd-cmd-params-cm
-      key: otlp.address
+  - name: ARGOCD_REPOSERVER_LOGFORMAT
+    configMap: argocd-cmd-params-cm
+    key: reposerver.log.format
+  - name: ARGOCD_REPOSERVER_LOG_LEVEL
+    configMap: argocd-cmd-params-cm
+    key: reposerver.log.level
+  - name: ARGOCD_REPOSERVER_PARALLELISM_LIMIT
+    configMap: argocd-cmd-params-cm
+    key: reposerver.parallelism.limit
+  - name: REDIS_SERVER
+    configMap: argocd-cmd-params-cm
+    key: redis.server
+  - name: ARGOCD_SERVER_OTLP_ADDRESS
+    configMap: argocd-cmd-params-cm
+    key: otlp.address
 service:
   ports:
-    - name: http
-      port: 8081
-      protocol: TCP
-    - name: http-metrics
-      port: 8084
-      protocol: TCP
+  - name: http
+    port: 8081
+    protocol: TCP
+  - name: http-metrics
+    port: 8084
+    protocol: TCP
