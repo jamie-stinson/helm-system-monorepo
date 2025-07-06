@@ -1,5 +1,4 @@
 namespace: "argocd"
-
 autoPatching:
   enabled: true
   annotations:
@@ -11,9 +10,9 @@ workload:
     tag: v1.8.3
   command:
   args:
-    - 'dashboard'
-    - '--loglevel=info'
-    - '--kloglevel=0'
+  - 'dashboard'
+  - '--loglevel=info'
+  - '--kloglevel=0'
   probes:
     readinessProbe:
       type: tcpSocket
@@ -23,105 +22,101 @@ workload:
       port: 3100
   strategy:
     type: "Recreate"
-
 service:
   ports:
-    - name: http
-      port: 3100
-      protocol: TCP
-
+  - name: http
+    port: 3100
+    protocol: TCP
 autoscaling:
   enabled: false
-
 ingress:
   enabled: true
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: argo-rollouts.projectwhitebox.com
-      path: /
-      pathType: "Prefix"
-      tls:
-        enabled: false
-      backend:
-        service:
-          name: "argo-rollouts-dashboard"
-          port: 3100
-
+  - host: argo-rollouts.projectwhitebox.com
+    path: /
+    pathType: "Prefix"
+    tls:
+      enabled: false
+    backend:
+      service:
+        name: "argo-rollouts-dashboard"
+        port: 3100
 rbac:
   enabled: true
   roles:
     clusterRole:
       rules:
-        - apiGroups:
-            - argoproj.io
-          resources:
-            - rollouts
-            - rollouts/status
-            - rollouts/finalizers
-          verbs:
-            - get
-            - list
-            - watch
-            - update
-            - patch
-        - apiGroups:
-            - argoproj.io
-          resources:
-            - analysisruns
-            - analysisruns/finalizers
-            - experiments
-            - experiments/finalizers
-          verbs:
-            - create
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - argoproj.io
-          resources:
-            - analysistemplates
-            - clusteranalysistemplates
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - apps
-          resources:
-            - deployments
-          verbs:
-            - get
-            - list
-            - watch
-            - update
-            - patch
-        - apiGroups:
-            - apps
-          resources:
-            - replicasets
-          verbs:
-            - get
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - pods
-          verbs:
-            - list
-            - watch
-        - apiGroups:
-            - ''
-          resources:
-            - configmaps
-          verbs:
-            - get
-        - apiGroups:
-            - coordination.k8s.io
-          resources:
-            - leases
-          verbs:
-            - create
-            - get
-            - update
+      - apiGroups:
+        - argoproj.io
+        resources:
+        - rollouts
+        - rollouts/status
+        - rollouts/finalizers
+        verbs:
+        - get
+        - list
+        - watch
+        - update
+        - patch
+      - apiGroups:
+        - argoproj.io
+        resources:
+        - analysisruns
+        - analysisruns/finalizers
+        - experiments
+        - experiments/finalizers
+        verbs:
+        - create
+        - get
+        - list
+        - watch
+      - apiGroups:
+        - argoproj.io
+        resources:
+        - analysistemplates
+        - clusteranalysistemplates
+        verbs:
+        - get
+        - list
+        - watch
+      - apiGroups:
+        - apps
+        resources:
+        - deployments
+        verbs:
+        - get
+        - list
+        - watch
+        - update
+        - patch
+      - apiGroups:
+        - apps
+        resources:
+        - replicasets
+        verbs:
+        - get
+        - list
+        - watch
+      - apiGroups:
+        - ''
+        resources:
+        - pods
+        verbs:
+        - list
+        - watch
+      - apiGroups:
+        - ''
+        resources:
+        - configmaps
+        verbs:
+        - get
+      - apiGroups:
+        - coordination.k8s.io
+        resources:
+        - leases
+        verbs:
+        - create
+        - get
+        - update
