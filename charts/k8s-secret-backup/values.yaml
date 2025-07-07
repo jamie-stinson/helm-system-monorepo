@@ -83,7 +83,7 @@ extraObjects:
                 image: jamiestinson1/test-backup:dev5
                 imagePullPolicy: IfNotPresent
                 env:
-                  - name: BACKUP_NAMESPACE_LIST
+                  - name: NAMESPACES
                     valueFrom:
                       configMapKeyRef:
                         name: secret-backup-config
