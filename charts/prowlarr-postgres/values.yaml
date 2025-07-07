@@ -36,7 +36,7 @@ extraObjects:
       backup:
         retentionPolicy: "7d"
         barmanObjectStore:
-          destinationPath: "s3://postgres-backups/prowlarr"
+          destinationPath: "s3://pw-bb-backups/postgres-backups/prowlarr"
           endpointURL: https://s3.eu-central-003.backblazeb2.com
           s3Credentials:
             accessKeyId:
