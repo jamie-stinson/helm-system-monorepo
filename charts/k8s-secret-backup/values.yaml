@@ -83,10 +83,10 @@ extraObjects:
                 image: jamiestinson1/test-backup:dev5
                 imagePullPolicy: IfNotPresent
                 env:
-                  # - name: RESTORE_MODE
-                  #   value: "true"
-                  # - name: FORCE_OVERWRITE
-                  #   value: "true"
+                  - name: RESTORE_MODE
+                    value: "true"
+                  - name: FORCE_OVERWRITE
+                    value: "true"
                   - name: NAMESPACES
                     valueFrom:
                       configMapKeyRef:
