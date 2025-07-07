@@ -80,7 +80,7 @@ extraObjects:
               serviceAccountName: secret-backup-sa
               containers:
               - name: secret-backup
-                image: jamiestinson1/test-backup:dev
+                image: jamiestinson1/test-backup:dev2
                 imagePullPolicy: IfNotPresent
                 env:
                   - name: BACKUP_NAMESPACE_LIST
