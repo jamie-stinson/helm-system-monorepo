@@ -80,7 +80,7 @@ extraObjects:
               serviceAccountName: secret-backup-sa
               containers:
               - name: secret-backup
-                image: jamiestinson1/test-backup:dev5
+                image: ghcr.io/jamie-stinson/k8s-secret-backup:v1.0.0
                 imagePullPolicy: IfNotPresent
                 env:
                   # - name: RESTORE_MODE
