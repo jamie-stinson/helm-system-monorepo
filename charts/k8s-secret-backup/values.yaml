@@ -86,7 +86,7 @@ extraObjects:
                   - name: RESTORE_MODE
                     value: "true"
                   - name: FORCE_OVERWRITE
-                    value: "false"
+                    value: "true"
                   - name: NAMESPACES
                     valueFrom:
                       configMapKeyRef:
