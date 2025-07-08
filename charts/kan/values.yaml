@@ -18,6 +18,10 @@ workload:
       value: "https://kan.projectwhitebox.com"
     - name: "BETTER_AUTH_SECRET"
       value: "test123"
+  storage:
+    - name: home
+      type: emptyDir
+      mountPath: /home
   resources:
     preset: ""
     custom:
