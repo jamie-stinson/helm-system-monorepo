@@ -22,6 +22,9 @@ workload:
     - name: home
       type: emptyDir
       mountPath: /home
+    - name: app
+      type: emptyDir
+      mountPath: /app
   resources:
     preset: ""
     custom:
