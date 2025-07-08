@@ -6,7 +6,7 @@ autoPatching:
 workload:
   image:
     repository: "mirror.gcr.io/aquasec/trivy-operator"
-    tag: "0.27.1"
+    tag: "0.27.2"
   probes:
     readinessProbe:
       port: 9090
