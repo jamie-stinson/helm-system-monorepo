@@ -321,7 +321,7 @@ extraObjects:
     namespace: argocd
   spec:
     encryptedData:
-      dex.github.clientSecret: AgAAwzhpV5/EMk9kh1swClcWttEMEIshGSnWdwte8udf/iAKtZevl87ecYQjR+D0UtoJfKmyf8YGPO+Jj3qAfX5uoKl0S4vy9kR9BZg8pEEI8eznmkFZB9XPE27gC9m8BfXKCRpn7DqWw5LAK0On6+dbZtcwgDFVzWby3PFB/WxeHEg/LZ/Advctt6aReBTfcn/17pFHl+8Iimj2oo9jQ+rk3/dtfJY7KSwwiQAMn79dMGuuRf6+kEjO+v2gEz9RJc41vfCpgFuyhFCKsRVX2/NJMvm3sR9AFg2lDMaFjxPaXQCTvE0huZQg+1GxqDE+DBIzh8T0ID7/8G60eXfAT6sCAE4o38vrQWlZPxDpKmxNPasCmOqDJyNXNTLNPD67XHYGQ1DP4wiFZJrZdpgFnX6/tNZB8F5C/WSFmKsM0B+Q/vsEdBo+OFrkShj+83nm5r6qUq1jbV4WoxMSch4o/842KbrZPiaJoUd3iTA6/E+UzmUsayZWbhqvWOOqQta4zTBkFQNZytUIzPEb3bpYrMrhHvY9DtPNwlSO9SGs5r82LoR4ITkODZ4WSLninflxSZnnMkscJ0v3ASJkReB7HkvpNepu7g/5y6MKAlcuzLZmlCa86nDR8L9RgWPGr3aOX8Un0Gsc3ioQ3exwPFzKxm/Z/L7Zosol5NWeKvSmssRFVAkk3JZSMDgqeBC3UaMis4eNgDtSEHlrOrAB0l619RStatsfD0548ACm6qe9kpBDlBjUilYSCOXGzj45L50We9eevcSFuJ7xsS/Bzu2HRS8AYo4QpflOgTQ35Gr/sAEdBdv2/ZfU6KD+hZEaDL6oC0jKfR+Ahp4dmLKghrTqkfp5On0OUhFqPLp8lDjLDTZZP88=
+      CLIENTSECRET: AgA7RETiAT867FJhTgWTstbyW7VpXYIPKBNw6WFvMjofjB4K+WY8AGpx17+xdKP6xcLPEgKmdpVTW0RtbTUhcBPpglODbpblxI56qD/FiqIuHzxa+RyWRyIZFYDMJgWwWx1sU2evur5tbQU3MMV85hZ6v5wHZtE9j65CH9nfFIzDAZ+/u3CdoaLEILIUXsG0iiU0WnPoLd1gnmH2s0C77RQpkEtsTSitpTiABRxGIZ2pos/SO7YFZnRijyL3cj3hqLOfHHFl2n907BJ3yHM7NMymKrUeaOxXjqudXe3NTCWNtBYdcqioNSqvlX24heacBfg93Pa3Xa5sgoVYbeQPCZ7nw6CWcz7DiPbpwetWijAZtWFrEFjh6IggynNMrqXP2MHLR9ehAuGjtqlGGX/BEoHwiS8584JIHv7GAaztoTErvu6/caqSnZapUmKjYwvcn8ef62luzry49JXrxJOUjrbi3qhsl64OPsfLmNe1vJ8SXdOV0d2fYWEnFaN+pkrDGEvZDdu/vwpLfy4KSa+I2g47Eq9W8TCt6yCJlNkp3UIdgw8KYy15V2awzcUdVoi9tC/EN2XCk3AJ3f7o7S/KsJd1P+p9/5I+03ApBX+9aMuh9JBfmXdue3kvXofdnbBCYquFlWEh+I8JuxqxbAwG9hOhV1UOmzvvQip3ijmRMp1tfmO3VWileZ18sjtNVtWhuQo75b6oNBOjPyeOThUT+EZesxxGy/0SlJq6puUJDajRuQo=
     template:
       metadata:
         labels:
@@ -341,11 +341,11 @@ extraObjects:
     url: https://argocd.projectwhitebox.com
     webhook.maxPayloadSizeMB: "50"
     oidc.config: |
-      name: Authentik
-      issuer: https://auth.projectwhitebox.com/application/o/argo-cd/
-      clientID: Y3YjsOlT6jDJ7oKQ7blAasH1xi9w6PZY4FX1wdxy
-      clientSecret: $argocd:dex.github.clientSecret
-      requestedScopes: ["openid", "profile", "email"]
+      name: Pocket ID
+      issuer: https://auth.projectwhitebox.com/.well-known/openid-configuration
+      clientID: db2b13aa-2341-4f73-97d0-3bcfd8dd98d9
+      clientSecret: $argocd:CLIENTSECRET
+      requestedScopes: ["openid", "profile", "email", "groups"]
     admin.enabled: 'false'
     users.anonymous.enabled: "false"
     application.instanceLabelKey: argocd.argoproj.io/instance
@@ -544,7 +544,7 @@ extraObjects:
     policy.matchMode: glob
     scopes: '[groups, email]'
     policy.csv: |
-      g, Argo-CD Administrator, role:admin
+      g, argo_cd_administrator, role:admin
 - |
   apiVersion: v1
   kind: ConfigMap
