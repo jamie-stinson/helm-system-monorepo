@@ -28,6 +28,14 @@ workload:
       value: "database"
     - name: "ENCRYPTION_KEY"
       value: "VlpuNuVWZNmAW10C6/ie2snD3Yfj2Lzkjkk53+Rea90="
+    - name: "UI_CONFIG_DISABLED"
+      value: "true"
+    - name: "APP_NAME"
+      value: "Project Whitebox"
+    - name: "SESSION_DURATION"
+      value: "600"
+    - name: "ALLOW_USER_SIGNUPS"
+      value: "withToken"
   resources:
     preset: ""
     custom:
