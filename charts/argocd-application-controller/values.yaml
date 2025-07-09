@@ -9,7 +9,7 @@ workload:
   replicaCount: 1
   image:
     repository: "quay.io/argoproj/argocd"
-    tag: "v3.0.9"
+    tag: "v3.0.10"
   command:
   - 'argocd-application-controller'
   resources:
