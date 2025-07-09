@@ -54,7 +54,7 @@ workload:
 service:
   ports:
     - name: http
-      port: 1441
+      port: 1411
       protocol: TCP
 
 ingress:
@@ -70,7 +70,7 @@ ingress:
       backend:
         service:
           name: "pocket-id"
-          port: 1141
+          port: 1411
 
 autoscaling:
   enabled: false
