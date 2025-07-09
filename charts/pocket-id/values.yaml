@@ -13,9 +13,12 @@ workload:
     - name: DB_CONNECTION_STRING
       secret: pocket-id-postgres-app
       key: uri
+    - name: ENCRYPTION_KEY
+      secret: pocket-id
+      key: ENCRYPTION_KEY
   envs:
     - name: "APP_URL"
-      value: "https://id.projectwhitebox.com"
+      value: "https://auth.projectwhitebox.com"
     - name: "TRUST_PROXY"
       value: "true"
     - name: "PUID"
@@ -26,16 +29,18 @@ workload:
       value: "postgres"
     - name: "KEYS_STORAGE"
       value: "database"
-    - name: "ENCRYPTION_KEY"
-      value: "VlpuNuVWZNmAW10C6/ie2snD3Yfj2Lzkjkk53+Rea90="
     - name: "UI_CONFIG_DISABLED"
       value: "true"
     - name: "APP_NAME"
       value: "Project Whitebox"
     - name: "SESSION_DURATION"
-      value: "600"
+      value: "720"
     - name: "ALLOW_USER_SIGNUPS"
       value: "withToken"
+    - name: "METRICS_ENABLED"
+      value: "true"
+    - name: "OTEL_METRICS_EXPORTER"
+      value: "prometheus"
   resources:
     preset: ""
     custom:
@@ -61,7 +66,7 @@ workload:
 
 service:
   ports:
-    - name: http
+    - name: http-metrics
       port: 1411
       protocol: TCP
 
@@ -70,7 +75,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: id.projectwhitebox.com
+    - host: auth.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
@@ -82,3 +87,19 @@ ingress:
 
 autoscaling:
   enabled: false
+
+extraObjects:
+  - |
+    apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      name: pocket-id
+      namespace: pocket-id
+    spec:
+      encryptedData:
+        ENCRYPTION_KEY: AgAJYWrzEI7hr7iCKL0l944ssqJfLqeTQTpNzAW7bOgSbaQ84BGHZujJ3pLfLtRPGFXUyWmLUlgMdGh7Xj7wL7SMC47lhKnVwGigBek1L70f0/A9Bb0aaDyocGB1kv3TMYQWy+/FSHf9CbBa1KgJ/av1BatDhcGEvXEXpOpMlSWwciHe58W9B2F5ASPj/cUilx6CnW96XK2X42BOs7KneQk5AvMErjDpbdvjazY2i4zU9yFDn3h2F8sBCFYzIxHExzeKfnvaxmgVVMg/cRC2nE8skzqdLMAss8VroYGhrbN55Lru7hG2AoBQ90Dj8KyxzXB1i94YgjujOZn+na9zZsErqTqeWa/DpZjBisJUpSfvzul1k4E27eCy8e1TfznqwqwYwdzeLmedhPrWLfXMQVji+LbaXfKDJg7qJ0ekepo9yN/SIz35q0XUvYT/HB3GtpcDj3M6yFRirjNaBOElkFoWWZklCI1fOwUIhI/nqzzLUn9QDdYwe4SVvlLWP99v1qRS8f0jVKVn2ccllAhZTQFesMSqimgKcsnyfXzvxAr11S+hZVtFassdzrMmH/ey+65lX9SucnKJ6RlDt4rNhqEKbAXX/wFcGAdLkjRpY52q3DHLx6zIDZCg0SLPmS/FIIRTvqO+i4CKBXUmWlRemKJtoZL4G7IvLhp7SB8Y7KgKNkEl9+VdZTRu+IMrFq5sMXg95bJJxEQJJsXho3EJaS0ZbDok9FwdQ0W7jkgw6z3k935y6tRUHtPyaSEii8I=
+      template:
+        metadata:
+          name: pocket-id
+          namespace: pocket-id
+        type: Opaque
