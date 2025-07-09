@@ -37,6 +37,8 @@ workload:
       limits:
         cpu: "10000m"
         memory: "5Gi"
+  securityContext:
+    readOnlyRootFilesystem: false
 
 service:
   ports:
