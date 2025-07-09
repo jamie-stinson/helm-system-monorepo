@@ -1,0 +1,63 @@
+workload:
+  image:
+    repository: ghcr.io/pocket-id/pocket-id
+    tag: v1.6.1
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 1411
+    livenessProbe:
+      type: tcpSocket
+      port: 1411
+  envsSecret:
+    - name: DB_CONNECTION_STRING
+      secret: pocket-id-postgres-app
+      key: uri
+  envs:
+    - name: "APP_URL"
+      value: "https://id.projectwhitebox.com"
+    - name: "TRUST_PROXY"
+      value: "true"
+    - name: "PUID"
+      value: "1000"
+    - name: "GUID"
+      value: "1000"
+    - name: "DB_PROVIDER"
+      value: "postgres"
+    - name: "KEYS_STORAGE"
+      value: "database"
+    - name: "ENCRYPTION_KEY"
+      value: "VlpuNuVWZNmAW10C6/ie2snD3Yfj2Lzkjkk53+Rea90="
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "5Gi"
+
+service:
+  ports:
+    - name: http
+      port: 1441
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: id.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "pocket-id"
+          port: 1141
+
+autoscaling:
+  enabled: false
