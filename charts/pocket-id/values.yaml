@@ -75,7 +75,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
   hosts:
-    - host: id.projectwhitebox.com
+    - host: auth.projectwhitebox.com
       path: /
       pathType: "Prefix"
       tls:
