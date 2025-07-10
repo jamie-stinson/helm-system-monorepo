@@ -56,7 +56,7 @@ workload:
       mountPath: /app/data
     - name: uploads
       type: pvc
-      mountPath: /data/uploads
+      mountPath: /app/data/uploads
       claimName: "pocket-id-uploads"
 
 service:
