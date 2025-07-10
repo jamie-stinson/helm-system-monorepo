@@ -50,6 +50,10 @@ workload:
       limits:
         cpu: "10000m"
         memory: "5Gi"
+  storage:
+    - name: app-data
+      type: emptyDir
+      mountPath: /app/data
 
 service:
   ports:
