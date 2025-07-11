@@ -544,7 +544,7 @@ extraObjects:
     policy.matchMode: glob
     scopes: '[groups, email]'
     policy.csv: |
-      g, argo_cd_administrator, role:admin
+      g, platform_engineering, role:admin
 - |
   apiVersion: v1
   kind: ConfigMap

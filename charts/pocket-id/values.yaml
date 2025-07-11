@@ -1,7 +1,7 @@
 workload:
   image:
     repository: ghcr.io/pocket-id/pocket-id
-    tag: v1.6.2
+    tag: v1.6.2-distroless
   probes:
     readinessProbe:
       type: tcpSocket
@@ -75,7 +75,7 @@ service:
 ingress:
   enabled: true
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure, externalweb, externalwebsecure"
   hosts:
     - host: auth.projectwhitebox.com
       path: /

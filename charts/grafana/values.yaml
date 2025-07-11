@@ -76,16 +76,16 @@ configMap:
           disable_login_form = true
           [auth.generic_oauth]
           enabled = true
-          name = Authentik
+          name = Pocket ID
           use_refresh_token = true
           allow_sign_up = true
           auto_login = false
-          client_id = Caq9JwH7MhEoirm4TfQl4xt8WUXKT7wLnmf0vLS9
-          scopes = openid email profile
-          auth_url = https://auth.projectwhitebox.com/application/o/authorize/
-          token_url = https://auth.projectwhitebox.com/application/o/token/
-          api_url = https://auth.projectwhitebox.com/application/o/userinfo/
-          role_attribute_path = contains(groups, 'Grafana Administrator') && 'Admin || 'Viewer''
+          client_id = 38bbcb12-3db6-402e-b537-261e3ad1a038
+          scopes = openid email profile groups
+          auth_url = https://auth.projectwhitebox.com/authorize
+          token_url = https://auth.projectwhitebox.com/api/oidc/token
+          api_url = https://auth.projectwhitebox.com/api/oidc/userinfo
+          role_attribute_path = contains(groups, 'platform_engineering') && 'Admin || 'Viewer''
 ingress:
   enabled: true
   annotations:
@@ -160,11 +160,10 @@ extraObjects:
       namespace: grafana
     spec:
       encryptedData:
-        ADMIN_PASSWORD: AgB95AEu39XhhRww2l6+exw9BShycBomrA2OHJo2hUz+72CsDyGrMK2ptSh1sVD21NggMXkUOAisoht5KPQRShJfddPTzqzCkjt5q8sWM+O7IOVHER6xDEQAs3gbyBZhLKl0Zmoa6UE2nmV45d2mfayo7vCDhVPSUaVBk/v2fXyiww1TaOAk4uAgIwEYdBPik81O1l+09nOiiK/P0FwCSHJ5zatIIxz3hKPCQ4rGUasvavDYEyGbWvJpl+izrcqpXxG7S7Uw3whwpXfGRIjUlom2ex88B+DdAND0Lhqpmo3lHrNuYZLQqyXokLyVCP3Hb1OQBPMRBU+72yH6AdcQsfbA5oOPNYM/pvSQE1PO/dxDd2b6ecTKUnC0Gn6d5Ctk0g0hj3G4xPFPdFoZz6bNSpcT+ArSly3eNajuaUv/Yg315KO0Rs1oaWaMG0A4N3ay0ghiEJIS4JPphP7AZwVqKzDPCmPp8U3EkH7ryVfI2odVyGVX7v+tdBY9jM/KI4D1agVv0+xcA35YbtMKkVF+L79JY7T4iNttmANYSTwCE9TLjFDwTv/di7Q/gYuKyleVeEXxdLRSOCdRkJSbxFJ9DTD2seZdQMguYV2Mb2m/xsU/NJI9JZQyccdqNVGly7af0/20K1Mhm+nIAUoFut9VtSUE+VMeNmTpEl3ers21JRERpqKhlVuAftaHbp6YuFJMPMWZCj7YYCNBJyJ9Kkv/MBt7QpEgQFOUa/whwjJdqK6yv6mVO5pyWgSASS3+slZVYXhki23ChBWx1QiwSU1X9nzP
-        ADMIN_USER: AgAbwSg+BW3f2cjY9ZWmKr4YDRlrTgLo6a0E5hGnhXvw+bsYy/gDQXy3e32iKYy2/qtjJNdmd2g3vxzDkmfXPnFZdF/q6iqR4uuCTI8SDa1ecfw34Zo/2SGTJlXB+wTsVbKyj3eYNnYeqwSLfzpFB4n0ocNFjwmThkAHMOA4WR0O4P679W/aM4EVR5LQMH8r1UUBGgRTOK4tbrrfphfMWE/iSbg4cRa5sobnGea/ysUkJ8kXWqkEdC9KKirydf5iXAjnmuVQHaUeEdY6jxCXCoXicKGsj/FOro4v3LKqmZxO5nu27eZ6bmhzp7sIHl2qrwwjpqCuQn9PJosIFiGFbKtp3xneYzPqweva8iT6pBmGE58720kRdDnlwyFWOJHdZpkxucXbbhjLlQCHf3K6UTD/7fe9TbF3/EV+2xeYiOa7TuZxgtryangtgb3KtqgWIwMuAGzXv0awwh94p6SJo9QpBAaGOXdxAXYRXkE5d+vYV4QTpeavR9BiewbjQHAXUjk83uJ+Vh7Rg12uY8Uk3oiL7cQqz9TfV3BH8k5nE+bH/0nHZmf8VrciGlS3gJIzWoNPBT2fhPXulZRXKuGfEQ9pp4G3mRzaTh54UynJYFNSSSEbaeQMn24LPX62XWlNJvsEZdTwk6aYwS3lSsJreR0RtOK1kRVojOV/XEslCfQLOWotfUU3QPR6tQ2O1Ygfoef03LxT0Q==
-        CLIENT_SECRET: AgACkYFMH6sUR6J4qby7ZaGgGnSVDk2ldcwwTMFRmD3DyNTP5YtYe/F9u3ecMyXHO77ddvU2hqMpNrGb1ge6LIb8socguoMalIAPD/YY4iGO+Qvlzc7XfIS7Sj6cpGvht++uOPJjZ2inH/v3A8VUH9eg9KfE/d1JAfJXZDDLiHJf/HXuT2VogCyTBvzQUSRR13MT8sZ7ZnrrT049t1VcYVfOr+AvifPGlJgsKP8NYD9gscXx2GwPTDfkPJU0YtFKSajwbmCl8NNHXCujIMn3E1ujWpXV2+n0RvhFU0d60jSHHGt7ZuXqrW1jImpHBkTeZjG3xLuzYgZOoHHP643OzMIM/ALoTdvRgnEmGdJO/LZGh5Zcyyt0G8GToWjJjETFDvARQKo4wQ/I7CtQFMdtT7xqBHF8+KD2JT46HxG5ecF+b3tKtZZITD7STR6U6yyd4oKQOY10bAoXUrvgdldtLKKLjQ0Mt2wgXRxk2pqR1arPnzdDmRfpVX/+b4gou+Op7q1Pz/+laTMmC/za54Uko12GHFfcpufdisdfrxkNvkN6pLwUG6z1RUvmEqf49dFmljgp7VO8uAakmrbkctc2MjSZ3cqUsIZxbUfuZH0Pa3F0L/Tqt7yFZrvFvSnyZ7cA16u90OmWJzgdMN0dM0OngLx+oYUPpIPCrYtUanMXyrsZyCb1d/GTEIO3aI4uRr+W8Ga9wa8aRRlE79Eb22n5DVTLLxk2/JY6auyo+pe4WZ6bsORmePPeFQo86lydvrDvJhFvE6c72+6XcKy6KN6BssDDHeRXlANBCyISnTIlONU7GeSPU2Ab0igwq4wONR/n0YBEa96ShV7uU5Z7a4ZWWnEnZVuEkHijjngQFCBSUrpjVA==
+        ADMIN_PASSWORD: AgCQeKwkqyzfhW0LMLIzqsrridpj8bknvNCXaJHlDlBUmjysPI3fJp9/N/6iqkw6nS7jDAtt6Ro3I6yDbNAbuH+HjKCAupNV3s1hr54fCVG5Fj5B2dG49nscQ2QAuorJgjr1tADg3dSrn/ub7OnoCdwouAjGTZlefROHVTPCQ0iNgaVMrOiQjsu1IV2ETIBjptH8lGvAWcFLpbo7MSTCwEKa2WKeE3WpghDSOtkVP9VLNceH8xehMG4mn8zeIDup34jq25SlhAid58uM1I73iULOGZ4ImTSrbSVbf9/XG+ocUcjau9sVmZ6bdBfKsAwPpd4jkAkwahR6oTLUGBW241RleyeqJG2JAFHeBpL/vHZnQGUv2eLAWaYXZ5WYuRnd9qJY7AbUzlet5W3/+jkPcIW92xXKKBrtvX56Oww+inVoKOn6oVHntsoyN8buNXnWnwd/d/IJG9pkUSRWjhw9bCrZbzb4xWJgh1yvdJi2jUNcN+cebLlkN94tx89L421bm0iYezYEXA6PNBNL7077h/oA5ZYTFSnZhEPjHie0/pbJEQqitPZhoS0V/sp+hSegNvWwehw2dWjs+IQm66yTSUYkr+zim5DodtIer/UEcUmvVSnjkkISeG42CVnSCy12VkO8EN9DO6U16NzdAzol7cc31oY0QjRor07IBtr89i2F/10LECIF3vr1Inzra1LMFb5ALpTOzo6YLynfcRZBx0jmnXCc8cYmUq+QMmKJJiMhs+PkqFCH6iycVnHD8eoQ6ELEZlscgYBWJSndL4XeVQlI
+        ADMIN_USER: AgBWC1A1HYf0ac/i6K1eh4ojH+aOmYi6ScJg7vwjIWqM7xqF4QzxHlf+05+E8PHvezlPTf150/8VN7aeLAk+Ba1ubkD6JwaV0LCTAJQU/IMi/O2qXTSfN6rdTlh/j8yzHT4+178jrMfOwFINE3IbcCIxYs73ROfT++Ef1cCfuB+bYAoZ3+RxJnzx1QAsWcMN4DGqGxueY+iTMLUpKB83HlT9AdruZ9grktuAn+0dmatjAX0eZ2XxVdfiXOMksTFOpNotNdKof0QNTxF/TJIzILOmcuEKIDqQEaJRN+NG97t1J9/qma4YjEbA+agTHOCHKjE58i+Xh5aoV+bWXRPTcN3wP1lUyIvarThahPoGMY0jHCvMMA7c66GtrsjL74NCzr+++hxDuxuQZDx1R30WcJhpYvXWT6lGiBA3RDiA+ON46qyEKWBT0B4LpoYtQNc9jl7oNHVbs2W2nMF6cq+XEitpGt9FNa/FB4qWfhizAMKi061+XTLf7L1dQDdBzedM4g7os8mT/wrW8selAy7OTykG9bzukmpKM0ZwoXiySUF1npD4TrHYk0kEolpbcRIxIa7fI9DK/xKHQzeqdZlHmc1AcpFDLJTAKTTXgZNW+d+gGJ0IP070i9MrLETkRVoH4dVY5lA/Bt9ZqZl3jMTqRkgrrXacGbsfWIKCUbJCFAgONAuw3bIqtLq+PI+Euv89A9p42RKV6Q==
+        CLIENT_SECRET: AgBrjzrYeu7EZWvgS5rPNA8qGRXTH17sPf9Q2OZDEhSeRb4RIp0FtrxG1OUdK0yMbJjid3D4G8aKltBuszQENAE2pKHT9Nhhaw0ZiMMS5HO7jpHoVx3s+DR4zPBwmmpORaZ1eTSNGpEUn2CNAuEiDv6ZbBXZppbZU8+I+U8+JZuD7niH68/2tfDHDtN0B/tWYfLSF6OXkq9+Vw8yjpXTABVc9PU/gVdTaR7+Pje4qIa0EusclxBtYegsvtyL7h5M7eKcjXYPFahzJwIHAm17pAKYMoj1fMbm/crQTKkh6aO4CEhyO4e/P6K5DrgpLar11GWm6rbpSUGkafFaRNr3qsuGxXCgrsJ6myiyTzqIehl9BsyK9Z1n9Z9szHtUeoe6dsEjMrKi+xNbL73MalcL6t3uOo3AXgoSJ4zkJCE89A4E1cQBNPvRjZO2PQ+XE4D53LevdsdZNUDQxCUGz7w+o22i4Uc9FwvnsUNdy8jJL/Laoy71Ptt58vWYjKFMojskie1UWEeg+a03DNce2gQ/N+j8Vm7t2WYLCaKpIwzFu4TYNy0tYM8rFObu0CGFck4Cvb+sgKNAQDFkHv0JYTk6i1dzWvU8eOodfBPL5Fx11bl9X6Ff3onOFJXTsrKu8BovbJosnx9EjvZGjeXPuArdVVt2O3iXSofQ/4MC++VxLUp7I9ic87fW0yoBxTmOVGXY/xwbfwCFHKFV6XKt54Bfkcfzx6YpTPMHi07fnEiDLSrtMA==
       template:
         metadata:
           name: grafana
           namespace: grafana
-        type: Opaque
