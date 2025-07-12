@@ -6,7 +6,7 @@ workload:
   # replicaCount: 2
   image:
     repository: docker.io/traefik
-    tag: v3.4.3
+    tag: v3.4.4
   args:
   # Entrypoints
   - '--entryPoints.internalweb.address=:80/tcp'
