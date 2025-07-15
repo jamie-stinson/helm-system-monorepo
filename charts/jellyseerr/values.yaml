@@ -5,7 +5,7 @@ autoPatching:
 workload:
   image:
     repository: ghcr.io/fallenbagel/jellyseerr
-    tag: 2.7.0
+    tag: 2.7.1
   probes:
     readinessProbe:
       type: tcpSocket
@@ -14,29 +14,29 @@ workload:
       type: tcpSocket
       port: 5055
   envsSecret:
-    - name: DB_HOST
-      secret: jellyseerr-postgres-app
-      key: host
-    - name: DB_USER
-      secret: jellyseerr-postgres-app
-      key: username
-    - name: DB_PASS
-      secret: jellyseerr-postgres-app
-      key: password
-    - name: DB_PORT
-      secret: jellyseerr-postgres-app
-      key: port
-    - name: DB_NAME
-      secret: jellyseerr-postgres-app
-      key: dbname
+  - name: DB_HOST
+    secret: jellyseerr-postgres-app
+    key: host
+  - name: DB_USER
+    secret: jellyseerr-postgres-app
+    key: username
+  - name: DB_PASS
+    secret: jellyseerr-postgres-app
+    key: password
+  - name: DB_PORT
+    secret: jellyseerr-postgres-app
+    key: port
+  - name: DB_NAME
+    secret: jellyseerr-postgres-app
+    key: dbname
   envs:
-    - name: "DB_TYPE"
-      value: "postgres"
+  - name: "DB_TYPE"
+    value: "postgres"
   storage:
-    - name: jellyseerr-config
-      type: pvc
-      mountPath: /app/config
-      claimName: "jellyseerr-config"
+  - name: jellyseerr-config
+    type: pvc
+    mountPath: /app/config
+    claimName: "jellyseerr-config"
   resources:
     preset: ""
     custom:
@@ -46,65 +46,40 @@ workload:
       limits:
         cpu: "10000m"
         memory: "5Gi"
-
 service:
   ports:
-    - name: http
-      port: 5055
-      protocol: TCP
-
+  - name: http
+    port: 5055
+    protocol: TCP
 ingress:
   enabled: true
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure, externalweb, externalwebsecure"
   hosts:
-    - host: request.projectwhitebox.com
-      path: /
-      pathType: "Prefix"
-      tls:
-        enabled: false
-      backend:
-        service:
-          name: "jellyseerr"
-          port: 5055
-
+  - host: request.projectwhitebox.com
+    path: /
+    pathType: "Prefix"
+    tls:
+      enabled: false
+    backend:
+      service:
+        name: "jellyseerr"
+        port: 5055
 autoscaling:
   enabled: false
-
 extraObjects:
-  - |
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: jellyseerr-config
-    spec:
-      capacity:
+- "apiVersion: v1\nkind: PersistentVolume\nmetadata:\n  name: jellyseerr-config\nspec:\n  capacity:\n    storage: 1Ti\n  accessModes:\n    - ReadWriteMany\n  nfs:\n    server: 10.0.0.10\n    path: \"/mnt/data-pool/jellyseerr\"\n  mountOptions:\n    - nfsvers=4.1 \n    - hard      \n    - noatime\n    - rsize=1048576 \n    - wsize=1048576 \n    - proto=tcp\n    - async\n    - nconnect=8\n"
+- |
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: jellyseerr-config
+    namespace: jellyseerr
+  spec:
+    accessModes:
+      - ReadWriteMany
+    storageClassName: ""
+    resources:
+      requests:
         storage: 1Ti
-      accessModes:
-        - ReadWriteMany
-      nfs:
-        server: 10.0.0.10
-        path: "/mnt/data-pool/jellyseerr"
-      mountOptions:
-        - nfsvers=4.1 
-        - hard      
-        - noatime
-        - rsize=1048576 
-        - wsize=1048576 
-        - proto=tcp
-        - async
-        - nconnect=8
-  - |
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: jellyseerr-config
-      namespace: jellyseerr
-    spec:
-      accessModes:
-        - ReadWriteMany
-      storageClassName: ""
-      resources:
-        requests:
-          storage: 1Ti
-      volumeName: jellyseerr-config
+    volumeName: jellyseerr-config
