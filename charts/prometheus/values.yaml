@@ -25,6 +25,15 @@ workload:
   - name: OBJSTORE_CONFIG
     secret: thanos
     key: thanos.yaml
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "10000m"
+        memory: "2Gi"
   probes:
     readinessProbe:
       path: "/-/ready"

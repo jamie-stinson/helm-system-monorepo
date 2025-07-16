@@ -22,7 +22,7 @@ workload:
         memory: "256Mi"
       limits:
         cpu: "10000m"
-        memory: "5Gi"
+        memory: "8Gi"
   podSecurityContext:
     runAsUser: 0
     runAsGroup: 0
