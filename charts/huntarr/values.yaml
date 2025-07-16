@@ -6,7 +6,7 @@ workload:
   type: "StatefulSet"
   image:
     repository: ghcr.io/plexguide/huntarr
-    tag: 8.1.14
+    tag: 8.1.15
   envs:
   - name: "TZ"
     value: "Europe/London"
