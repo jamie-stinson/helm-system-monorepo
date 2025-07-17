@@ -30,17 +30,17 @@ workload:
     livenessProbe:
       path: "/healthz?full=true"
       port: 8084
-  storage:
-  - name: tmp
-    type: emptyDir
-    mountPath: /tmp
-    ramDisk: false
-    readOnly: false
-  - name: gpg-keys
-    type: emptyDir
-    mountPath: /app/config/gpg/keys
-    ramDisk: false
-    readOnly: false
+  # storage:
+  # - name: tmp
+  #   type: emptyDir
+  #   mountPath: /tmp
+  #   ramDisk: false
+  #   readOnly: false
+  # - name: gpg-keys
+  #   type: emptyDir
+  #   mountPath: /app/config/gpg/keys
+  #   ramDisk: false
+  #   readOnly: false
   envsConfigMap:
   - name: ARGOCD_REPOSERVER_LOGFORMAT
     configMap: argocd-cmd-params-cm

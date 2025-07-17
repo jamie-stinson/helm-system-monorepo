@@ -14,6 +14,8 @@ workload:
     value: "1000"
   - name: "PGID"
     value: "1000"
+  - name: "HUNTARR_PORT"
+    value: "9705"
   strategy:
     type: OnDelete
   probes:

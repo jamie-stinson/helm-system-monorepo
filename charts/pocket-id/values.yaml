@@ -55,9 +55,9 @@ workload:
         cpu: "10000m"
         memory: "5Gi"
   storage:
-    - name: app-data
-      type: emptyDir
-      mountPath: /app/data
+    # - name: app-data
+    #   type: emptyDir
+    #   mountPath: /app/data
     - name: uploads
       type: pvc
       mountPath: /app/data/uploads

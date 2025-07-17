@@ -16,12 +16,12 @@ workload:
     livenessProbe:
       path: "/healthz"
       port: 8080
-  storage:
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp
-      ramDisk: false
-      readOnly: false
+  # storage:
+  #   - name: tmp
+  #     type: emptyDir
+  #     mountPath: /tmp
+  #     ramDisk: false
+  #     readOnly: false
 
 configMap:
   enabled: true

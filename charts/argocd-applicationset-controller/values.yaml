@@ -48,12 +48,12 @@ workload:
       - pgrep
       - -f
       - argocd-applicationset-controller
-  storage:
-  - name: tmp
-    type: emptyDir
-    mountPath: /tmp
-    ramDisk: false
-    readOnly: false
+  # storage:
+  # - name: tmp
+  #   type: emptyDir
+  #   mountPath: /tmp
+  #   ramDisk: false
+  #   readOnly: false
 service:
   ports:
   - name: webhook

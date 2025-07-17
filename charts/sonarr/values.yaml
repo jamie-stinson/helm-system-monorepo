@@ -59,9 +59,9 @@ workload:
       type: pvc
       mountPath: /data/anime
       claimName: "sonarr-anime"
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp
+    # - name: tmp
+    #   type: emptyDir
+    #   mountPath: /tmp
   extraContainers:
     - name: exportarr
       image: "ghcr.io/onedr0p/exportarr:v2.2.0"

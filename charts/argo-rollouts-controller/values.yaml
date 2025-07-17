@@ -22,17 +22,17 @@ workload:
     livenessProbe:
       path: "/healthz"
       port: 8080
-  storage:
-  - name: plugin-bin
-    type: emptyDir
-    mountPath: /home/argo-rollouts/plugin-bin
-    ramDisk: false
-    readOnly: false
-  - name: tmp
-    type: emptyDir
-    mountPath: /tmp
-    ramDisk: false
-    readOnly: false
+  # storage:
+  # - name: plugin-bin
+  #   type: emptyDir
+  #   mountPath: /home/argo-rollouts/plugin-bin
+  #   ramDisk: false
+  #   readOnly: false
+  # - name: tmp
+  #   type: emptyDir
+  #   mountPath: /tmp
+  #   ramDisk: false
+  #   readOnly: false
 service:
   enabled: false
 autoscaling:

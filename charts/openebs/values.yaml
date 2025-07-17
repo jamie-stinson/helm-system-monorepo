@@ -31,12 +31,12 @@ workload:
       command: ['sh', '-c', 'test `pgrep -c "^provisioner-loc.*"` = 1']
       initialDelaySeconds: 30
       periodSeconds: 60
-  storage:
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp
-      ramDisk: false
-      readOnly: false
+  # storage:
+  #   - name: tmp
+  #     type: emptyDir
+  #     mountPath: /tmp
+  #     ramDisk: false
+  #     readOnly: false
   strategy:
     type: "Recreate"
 

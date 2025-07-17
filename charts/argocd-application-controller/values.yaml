@@ -80,12 +80,12 @@ workload:
     livenessProbe:
       path: "/healthz?full=true"
       port: 8082
-  storage:
-  - name: tmp
-    type: emptyDir
-    mountPath: /tmp
-    ramDisk: false
-    readOnly: false
+  # storage:
+  # - name: tmp
+  #   type: emptyDir
+  #   mountPath: /tmp
+  #   ramDisk: false
+  #   readOnly: false
 service:
   ports:
   - name: http-metrics

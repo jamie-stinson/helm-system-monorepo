@@ -18,10 +18,10 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 4221
-  storage:
-    - name: tmp
-      type: emptyDir
-      mountPath: /tmp/sts
+  # storage:
+  #   - name: tmp
+  #     type: emptyDir
+  #     mountPath: /tmp/sts
 
 service:
   ports:

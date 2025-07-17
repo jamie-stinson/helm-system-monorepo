@@ -19,7 +19,7 @@ workload:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
     privileged: false
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     seccompProfile:
       type: RuntimeDefault
     capabilities:

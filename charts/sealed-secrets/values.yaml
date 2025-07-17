@@ -34,10 +34,10 @@ workload:
       timeoutSeconds: 1
       failureThreshold: 3
       successThreshold: 1
-  storage:
-    - name: tmp-dashboards
-      type: emptyDir
-      mountPath: /tmp/dashboards
+  # storage:
+  #   - name: tmp-dashboards
+  #     type: emptyDir
+  #     mountPath: /tmp/dashboards
 
 service:
   ports:
