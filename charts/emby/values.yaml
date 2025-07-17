@@ -23,6 +23,7 @@ workload:
       limits:
         cpu: "10000m"
         memory: "8Gi"
+        ephemeral-storage: "4Gi"
   podSecurityContext:
     runAsUser: 0
     runAsGroup: 0
