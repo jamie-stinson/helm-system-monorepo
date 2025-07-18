@@ -1,0 +1,258 @@
+workload:
+  type: "StatefulSet"
+  image:
+    repository: docker.io/jellyfin/jellyfin
+    tag: 10.10.7
+  strategy:
+    type: OnDelete
+  priorityClassName: "system-cluster-critical"
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    fsGroup: 1000
+    fsGroupChangePolicy: "OnRootMismatch"
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: false
+  probes:
+    readinessProbe:
+      type: tcpSocket
+      port: 8096
+    livenessProbe:
+      type: tcpSocket
+      port: 8096
+  storage:
+    - name: jellyfin-config
+      type: pvc
+      mountPath: /config
+      claimName: "jellyfin-config"
+    - name: jellyfin-movies
+      type: pvc
+      mountPath: /media/movies
+      claimName: "jellyfin-movies"
+    - name: jellyfin-tv
+      type: pvc
+      mountPath: /media/tv
+      claimName: "jellyfin-tv"
+    - name: jellyfin-anime
+      type: pvc
+      mountPath: /media/anime
+      claimName: "jellyfin-anime"
+    - name: jellyfin-transcode
+      type: pvc
+      mountPath: /transcode
+      claimName: "jellyfin-transcode"
+    # - name: tmp
+    #   type: emptyDir
+    #   mountPath: /tmp
+  
+service:
+  ports:
+    - name: http
+      port: 8096
+      protocol: TCP
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "internalweb, internalwebsecure"
+  hosts:
+    - host: jellyfin.projectwhitebox.com
+      path: /
+      pathType: "Prefix"
+      tls:
+        enabled: false
+      backend:
+        service:
+          name: "jellyfin"
+          port: 8096
+
+autoscaling:
+  enabled: false
+
+extraObjects:
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: jellyfin-config
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/jellyfin"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: jellyfin-config
+      namespace: jellyfin
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: jellyfin-config
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: jellyfin-movies
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/hdd-pool/movies"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: jellyfin-movies
+      namespace: jellyfin
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: jellyfin-movies
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: jellyfin-tv
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/hdd-pool/tv"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: jellyfin-tv
+      namespace: jellyfin
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: jellyfin-tv
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: jellyfin-anime
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/hdd-pool/anime"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard      
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: jellyfin-anime
+      namespace: jellyfin
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: jellyfin-anime
+  - |
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: jellyfin-transcode
+    spec:
+      capacity:
+        storage: 1Ti
+      accessModes:
+        - ReadWriteMany
+      nfs:
+        server: 10.0.0.10
+        path: "/mnt/data-pool/jellyfin-transcode"
+      mountOptions:
+        - nfsvers=4.1 
+        - hard
+        - noatime
+        - rsize=1048576 
+        - wsize=1048576 
+        - proto=tcp
+        - async
+        - nconnect=8
+  - |
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: jellyfin-transcode
+      namespace: jellyfin
+    spec:
+      accessModes:
+        - ReadWriteMany
+      storageClassName: ""
+      resources:
+        requests:
+          storage: 1Ti
+      volumeName: jellyfin-transcode
