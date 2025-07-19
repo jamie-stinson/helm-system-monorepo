@@ -5,13 +5,13 @@ workload:
     tag: v1.7.0
   envsSecret:
     - name: DATABASE__HOST
-      secret: radarr-postgres-app
+      secret: media-manager-postgres-app
       key: host
     - name: DATABASE__USER
-      secret: radarr-postgres-app
+      secret: media-manager-postgres-app
       key: username
     - name: DATABASE__PASSWORD
-      secret: radarr-postgres-app
+      secret: media-manager-postgres-app
       key: password
   envs:
     - name: "DATABASE__PORT"
@@ -27,37 +27,6 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 8000
-  extraContainers:
-    - name: exportarr
-      image: "ghcr.io/onedr0p/exportarr:v2.2.0"
-      ports:
-        - containerPort: 9707
-          name: http-metrics
-          protocol: TCP
-      env:
-        - name: "PORT"
-          value: "9707"
-        - name: "URL"
-          value: "http://localhost:7878"
-        - name: APIKEY
-          valueFrom:
-            secretKeyRef:
-              name: radarr
-              key: API_KEY
-      securityContext:
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
-        privileged: false
-        readOnlyRootFilesystem: true
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
-        seccompProfile:
-          type: RuntimeDefault
-      args:
-        - radarr
 service:
   ports:
     - name: http
