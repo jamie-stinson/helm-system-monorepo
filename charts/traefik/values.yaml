@@ -6,7 +6,7 @@ workload:
   # replicaCount: 2
   image:
     repository: docker.io/traefik
-    tag: v3.4.4
+    tag: v3.5.0
   priorityClassName: "system-cluster-critical"
   args:
   # Entrypoints
