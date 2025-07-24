@@ -44,6 +44,6 @@ extraObjects:
       resources:
         requests:
           cpu: "10m"
-          memory: "512Mi"
+          memory: "2Gi"
         limits:
-          memory: "512Mi"
+          memory: "2Gi"
