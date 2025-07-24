@@ -111,6 +111,12 @@ extraObjects:
       podManagementPolicy: Parallel
       pools:
         - name: pool
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "1Gi"
+            limits:
+              memory: "1Gi"
           servers: 1
           volumesPerServer: 1
           volumeClaimTemplate:
