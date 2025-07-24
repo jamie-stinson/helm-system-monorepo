@@ -21,6 +21,16 @@ workload:
     livenessProbe:
       type: tcpSocket
       port: 6379
+    resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "25m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
 autoscaling:
   enabled: false
 service:

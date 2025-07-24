@@ -1,4 +1,4 @@
-namespace: "argocd"
+namespace: "argo-rollouts"
 autoPatching:
   enabled: true
   annotations:
@@ -12,6 +12,16 @@ workload:
   - 'dashboard'
   - '--loglevel=info'
   - '--kloglevel=0'
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       type: tcpSocket

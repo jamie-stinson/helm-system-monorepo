@@ -49,11 +49,12 @@ workload:
     preset: ""
     custom:
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "50m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
       limits:
-        cpu: "10000m"
-        memory: "5Gi"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
   storage:
     # - name: app-data
     #   type: emptyDir

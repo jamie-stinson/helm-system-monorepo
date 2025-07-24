@@ -34,11 +34,12 @@ workload:
     preset: ""
     custom:
       requests:
-        cpu: "100m"
+        cpu: "25m"
         memory: "256Mi"
+        ephemeral-storage: "16Mi"
       limits:
-        cpu: "10000m"
-        memory: "5Gi"
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
   storage:
     - name: config
       type: emptyDir

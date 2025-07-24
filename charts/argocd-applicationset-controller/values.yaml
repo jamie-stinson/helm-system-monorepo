@@ -13,6 +13,16 @@ workload:
   - '--metrics-addr=:8080'
   - '--probe-addr=:8081'
   - '--webhook-addr=:7000'
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "50m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
   envs:
   - name: ARGOCD_SERVER_NAME
     value: argocd-server

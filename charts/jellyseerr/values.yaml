@@ -41,11 +41,12 @@ workload:
     preset: ""
     custom:
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "200m"
+        memory: "1Gi"
+        ephemeral-storage: "16Mi"
       limits:
-        cpu: "10000m"
-        memory: "5Gi"
+        memory: "1Gi"
+        ephemeral-storage: "16Mi"
 service:
   ports:
   - name: http

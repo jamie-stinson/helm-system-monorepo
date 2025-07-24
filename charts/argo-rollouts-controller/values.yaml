@@ -1,4 +1,4 @@
-namespace: "argocd"
+namespace: "argo-rollouts"
 installCRDs: true
 autoPatching:
   enabled: true
@@ -8,6 +8,16 @@ workload:
   image:
     repository: quay.io/argoproj/argo-rollouts
     tag: v1.8.3
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
   args:
   - '--healthzPort=8080'
   - '--metricsport=8090'

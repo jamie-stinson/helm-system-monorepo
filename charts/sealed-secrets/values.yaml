@@ -17,6 +17,16 @@ workload:
     - 'info'
     - '--log-format'
     - 'json'
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "25m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       path: "/healthz"

@@ -23,6 +23,16 @@ workload:
     value: "3"
   - name: ARGOCD_HELM_ALLOW_CONCURRENCY
     value: "true"
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "50m"
+        memory: "512Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "512Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       path: "/healthz"

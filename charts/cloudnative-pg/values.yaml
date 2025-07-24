@@ -26,6 +26,16 @@ workload:
       mountPath: "/run/secrets/cnpg.io/webhook"
       secretName: cnpg-webhook-cert
       optional: true
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "25m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
 
 service:
   # Name cannot be changed

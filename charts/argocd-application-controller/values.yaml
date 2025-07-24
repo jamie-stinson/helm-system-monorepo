@@ -16,11 +16,12 @@ workload:
     preset: ""
     custom:
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "500m"
+        memory: "2Gi"
+        ephemeral-storage: "16Mi"
       limits:
-        cpu: "10000m"
-        memory: "5Gi"
+        memory: "2Gi"
+        ephemeral-storage: "16Mi"
   envs:
   - name: ARGOCD_APPLICATION_CONTROLLER_NAME
     value: argocd-application-controller

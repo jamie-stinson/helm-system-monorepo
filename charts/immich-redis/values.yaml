@@ -12,6 +12,16 @@ workload:
     - ""
     - "--appendonly"
     - "no"
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "64Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "64Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       type: tcpSocket

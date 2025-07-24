@@ -24,6 +24,16 @@ workload:
     livenessProbe:
       path: "/livez"
       port: 6080
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
 service:
   ports:
   - name: https
