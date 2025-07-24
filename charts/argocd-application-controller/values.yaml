@@ -16,7 +16,7 @@ workload:
     preset: ""
     custom:
       requests:
-        cpu: "500m"
+        cpu: "250m"
         memory: "2Gi"
         ephemeral-storage: "16Mi"
       limits:
