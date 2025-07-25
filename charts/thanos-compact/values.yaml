@@ -46,11 +46,11 @@ workload:
       mountPath: /etc/config
       name: config
       type: configMap
-    # - name: thanos
-    #   type: emptyDir
-    #   mountPath: /thanos
-    #   ramDisk: false
-    #   readOnly: false
+    - name: thanos
+      type: emptyDir
+      mountPath: /thanos
+      ramDisk: false
+      readOnly: false
 
 service:
   ports:

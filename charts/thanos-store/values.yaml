@@ -41,11 +41,11 @@ workload:
       type: configMap
       mountPath: /etc/config
       configMapName: prometheus
-    # - name: thanos
-    #   type: emptyDir
-    #   mountPath: /thanos
-    #   ramDisk: false
-    #   readOnly: false
+    - name: thanos
+      type: emptyDir
+      mountPath: /thanos
+      ramDisk: false
+      readOnly: false
 
 service:
   clusterIP: "None"
