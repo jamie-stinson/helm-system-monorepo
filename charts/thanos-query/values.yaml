@@ -29,10 +29,10 @@ workload:
     custom:
       requests:
         cpu: "10m"
-        memory: "128Mi"
+        memory: "512Mi"
         ephemeral-storage: "16Mi"
       limits:
-        memory: "128Mi"
+        memory: "512Mi"
         ephemeral-storage: "16Mi"
 
 service:
