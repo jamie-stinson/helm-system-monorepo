@@ -32,10 +32,10 @@ workload:
       requests:
         cpu: "10m"
         memory: "128Mi"
-        ephemeral-storage: "16Mi"
+        ephemeral-storage: "4Gi"
       limits:
         memory: "128Mi"
-        ephemeral-storage: "16Mi"
+        ephemeral-storage: "4Gi"
   storage:
     - name: config
       type: configMap
