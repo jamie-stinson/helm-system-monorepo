@@ -52,9 +52,9 @@ workload:
     type: configMap
     mountPath: /etc/grafana
     configMapName: grafana
-  # - name: data
-  #   type: emptyDir
-  #   mountPath: /var/lib/grafana
+    # - name: data
+    #   type: emptyDir
+    #   mountPath: /var/lib/grafana
 autoscaling:
   enabled: false
 service:
