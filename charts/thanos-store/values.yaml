@@ -26,16 +26,26 @@ workload:
     livenessProbe:
       path: "/-/ready"
       port: 10902
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
   storage:
     - name: config
       type: configMap
       mountPath: /etc/config
       configMapName: prometheus
-    - name: thanos
-      type: emptyDir
-      mountPath: /thanos
-      ramDisk: false
-      readOnly: false
+    # - name: thanos
+    #   type: emptyDir
+    #   mountPath: /thanos
+    #   ramDisk: false
+    #   readOnly: false
 
 service:
   clusterIP: "None"

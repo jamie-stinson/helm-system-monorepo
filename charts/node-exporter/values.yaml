@@ -20,6 +20,16 @@ workload:
     livenessProbe:
       path: "/metrics"
       port: 9100
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
   tolerations:
   - key: "node-role.kubernetes.io/control-plane"
     operator: "Exists"

@@ -23,10 +23,20 @@ workload:
     livenessProbe:
       path: "/healthz"
       port: 8081
-  storage:
-    - name: tmp-dashboards
-      type: emptyDir
-      mountPath: /tmp/dashboards
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+  # storage:
+  #   - name: tmp-dashboards
+  #     type: emptyDir
+  #     mountPath: /tmp/dashboards
 
 service:
   ports:

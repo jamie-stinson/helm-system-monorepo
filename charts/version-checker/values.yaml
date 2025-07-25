@@ -16,6 +16,16 @@ workload:
   probes:
     livenessProbe:
       path: "/readyz"
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "16Mi"
 service:
   ports:
   - name: http-metrics
