@@ -9,7 +9,7 @@ workload:
   replicaCount: 1
   image:
     repository: "quay.io/argoproj/argocd"
-    tag: "v3.0.11"
+    tag: "v3.0.12"
   command:
   - 'argocd-application-controller'
   resources:
@@ -81,12 +81,12 @@ workload:
     livenessProbe:
       path: "/healthz?full=true"
       port: 8082
-  # storage:
-  # - name: tmp
-  #   type: emptyDir
-  #   mountPath: /tmp
-  #   ramDisk: false
-  #   readOnly: false
+      # storage:
+      # - name: tmp
+      #   type: emptyDir
+      #   mountPath: /tmp
+      #   ramDisk: false
+      #   readOnly: false
 service:
   ports:
   - name: http-metrics
