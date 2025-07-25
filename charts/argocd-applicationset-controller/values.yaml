@@ -6,7 +6,7 @@ autoPatching:
 workload:
   image:
     repository: "quay.io/argoproj/argocd"
-    tag: "v3.0.11"
+    tag: "v3.0.12"
   command:
   - 'argocd-applicationset-controller'
   args:
@@ -58,12 +58,12 @@ workload:
       - pgrep
       - -f
       - argocd-applicationset-controller
-  # storage:
-  # - name: tmp
-  #   type: emptyDir
-  #   mountPath: /tmp
-  #   ramDisk: false
-  #   readOnly: false
+      # storage:
+      # - name: tmp
+      #   type: emptyDir
+      #   mountPath: /tmp
+      #   ramDisk: false
+      #   readOnly: false
 service:
   ports:
   - name: webhook
