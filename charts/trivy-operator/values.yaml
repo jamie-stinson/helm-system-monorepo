@@ -545,3 +545,16 @@ rbac:
         - create
         - get
         - delete
+
+grafana:
+  dashboard:
+    enabled: true
+    dashboards:
+    - name: trivy
+      title: "Trivy"
+      url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/trivy-operator/dashboards/trivy.json"
+      folder: "System"
+    - name: trivy2
+      title: "Trivy2"
+      url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/trivy-operator/dashboards/trivy2.json"
+      folder: "System"
