@@ -13,6 +13,16 @@ workload:
     livenessProbe:
       path: "/healthz"
       port: 9090
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "10m"
+        memory: "128Mi"
+        ephemeral-storage: "128Mi"
+      limits:
+        memory: "128Mi"
+        ephemeral-storage: "128Mi"
   storage:
   - name: tmp
     type: emptyDir
@@ -125,12 +135,17 @@ configMap:
   - name: trivy-operator-trivy-config
     data:
       trivy.repository: "mirror.gcr.io/aquasec/trivy"
-      trivy.tag: "0.62.1"
+      trivy.tag: "0.64.1"
       trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
       trivy.timeout: "5m0s"
       trivy.mode: "Standalone"
       trivy.dbRepository: "mirror.gcr.io/aquasec/trivy-db"
       trivy.javaDbRepository: "mirror.gcr.io/aquasec/trivy-java-db"
+      trivy.resources.requests.cpu: "50m"
+      trivy.resources.requests.memory: "64Mi"
+      trivy.resources.requests.ephemeral-storage: "16Mi"
+      trivy.resources.limits.memory: "64Mi"
+      trivy.resources.limits.ephemeral-storage: "16Mi"
 rbac:
   enabled: true
   roles:
