@@ -143,9 +143,9 @@ configMap:
       trivy.javaDbRepository: "mirror.gcr.io/aquasec/trivy-java-db"
       trivy.resources.requests.cpu: "50m"
       trivy.resources.requests.memory: "512Mi"
-      trivy.resources.requests.ephemeral-storage: "16Mi"
+      trivy.resources.requests.ephemeral-storage: "128Mi"
       trivy.resources.limits.memory: "512Mi"
-      trivy.resources.limits.ephemeral-storage: "16Mi"
+      trivy.resources.limits.ephemeral-storage: "128Mi"
 rbac:
   enabled: true
   roles:
