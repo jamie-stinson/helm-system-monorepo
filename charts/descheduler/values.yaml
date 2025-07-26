@@ -13,7 +13,15 @@ workload:
     - '--leader-elect-resource-namespace=descheduler'
   priorityClassName: "system-cluster-critical"
   resources:
-    preset: "nano"
+    preset: ""
+    custom:
+      requests:
+        cpu: "50m"
+        memory: "64Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "64Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       type: httpGet
@@ -65,7 +73,7 @@ configMap:
                     nodeFit: true
                 - name: "RemovePodsHavingTooManyRestarts"
                   args:
-                    podRestartThreshold: 100
+                    podRestartThreshold: 20
                     includingInitContainers: true
                     states:
                     - CrashLoopBackOff
@@ -77,7 +85,7 @@ configMap:
                     includingInitContainers: true
                     excludeOwnerKinds:
                     - "Job"
-                    minPodLifetimeSeconds: 600
+                    minPodLifetimeSeconds: 300
                 - name: "LowNodeUtilization"
                   args:
                     targetThresholds:
@@ -90,7 +98,7 @@ configMap:
                       pods: 20
                 - name: "PodLifeTime"
                   args:
-                    maxPodLifeTimeSeconds: 600
+                    maxPodLifeTimeSeconds: 300
                     states:
                       - Pending
                       - Unknown

@@ -16,8 +16,17 @@ workload:
     - '--cluster.listen-address=0.0.0.0:9094'
     # Each replica requires a cluster peer
     - '--cluster.peer=alertmanager-0.alertmanager.alertmanager.svc.cluster.local:9094'
-    - '--cluster.peer=alertmanager-1.alertmanager.alertmanager.svc.cluster.local:9094'
-
+    # - '--cluster.peer=alertmanager-1.alertmanager.alertmanager.svc.cluster.local:9094'
+  resources:
+    preset: ""
+    custom:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
+      limits:
+        memory: "256Mi"
+        ephemeral-storage: "16Mi"
   probes:
     readinessProbe:
       path: "/-/ready"
