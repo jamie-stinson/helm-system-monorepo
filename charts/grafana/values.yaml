@@ -91,7 +91,7 @@ configMap:
         auth_url = https://auth.projectwhitebox.com/authorize
         token_url = https://auth.projectwhitebox.com/api/oidc/token
         api_url = https://auth.projectwhitebox.com/api/oidc/userinfo
-        role_attribute_path = contains(groups, 'platform_engineering') && 'Admin || 'Viewer''
+        role_attribute_path = contains(groups, 'platform_engineering') && 'Admin || 'Admin''
 ingress:
   enabled: true
   annotations:
