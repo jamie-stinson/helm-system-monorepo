@@ -152,7 +152,51 @@ rbac:
     clusterRole:
       rules:
       - apiGroups:
-        - ''
+          - aquasecurity.github.io
+        resources:
+          - vulnerabilityreports
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - aquasecurity.github.io
+        resources:
+          - exposedsecretreports
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - aquasecurity.github.io
+        resources:
+          - configauditreports
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+        - ""
+        resources:
+        - secrets
+        verbs:
+        - create
+        - get
+        - update
+      - apiGroups:
+        - ""
+        resources:
+        - serviceaccounts
+        verbs:
+        - get
+      - apiGroups:
+          - ""
+        resources:
+          - nodes/proxy
+        verbs:
+          - get
+      - apiGroups:
+        - ""
         resources:
         - configmaps
         verbs:
@@ -160,7 +204,7 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - limitranges
         verbs:
@@ -168,7 +212,7 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - nodes
         verbs:
@@ -176,7 +220,7 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - pods
         verbs:
@@ -184,14 +228,14 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - pods/log
         verbs:
         - get
         - list
       - apiGroups:
-        - ''
+        - ""
         resources:
         - replicationcontrollers
         verbs:
@@ -199,7 +243,7 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - resourcequotas
         verbs:
@@ -207,7 +251,7 @@ rbac:
         - list
         - watch
       - apiGroups:
-        - ''
+        - ""
         resources:
         - services
         verbs:
@@ -492,59 +536,40 @@ rbac:
         - get
         - list
         - watch
-      - apiGroups:
-        - ''
-        resources:
-        - secrets
-        verbs:
-        - create
-        - get
-        - update
-      - apiGroups:
-        - ''
-        resources:
-        - serviceaccounts
-        verbs:
-        - get
-      - apiGroups:
-        - ''
-        resources:
-        - nodes/proxy
-        verbs:
-        - get
     role:
       rules:
-      - apiGroups:
-        - coordination.k8s.io
-        resources:
-        - leases
-        verbs:
-        - create
-        - get
-        - update
-      - apiGroups:
-        - ''
-        resources:
-        - events
-        verbs:
-        - create
-      - apiGroups:
-        - ''
-        resources:
-        - configmaps
-        verbs:
-        - create
-        - get
-        - list
-        - watch
-      - apiGroups:
-        - ''
-        resources:
-        - secrets
-        verbs:
-        - create
-        - get
-        - delete
+        - apiGroups:
+            - ""
+          resources:
+            - configmaps
+          verbs:
+            - create
+            - get
+            - list
+            - watch
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          verbs:
+            - create
+            - get
+            - delete
+            - update
+        - apiGroups:
+            - coordination.k8s.io
+          resources:
+            - leases
+          verbs:
+            - create
+            - get
+            - update
+        - apiGroups:
+            - ""
+          resources:
+            - events
+          verbs:
+            - create
 
 grafana:
   dashboard:
