@@ -314,13 +314,9 @@ grafana:
   dashboard:
     enabled: true
     dashboards:
-    - name: argocd-application-overview
-      title: "ArgoCD / Application / Overview"
-      url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argocd-application-overview.json"
-      folder: "System"
-    - name: argocd-operational-overview
-      title: "ArgoCD / Operational / Overview"
-      url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argocd-application-overview.json"
+    - name: argo-cd-overview
+      title: "ArgoCD / Overview"
+      url: "https://raw.githubusercontent.com/jamie-stinson/helm-system-monorepo/refs/heads/main/charts/argocd-server/dashboards/argo-cd-overview.json"
       folder: "System"
 extraObjects:
 - |
