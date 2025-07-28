@@ -37,10 +37,10 @@ workload:
       requests:
         cpu: "10m"
         memory: "10Gi"
-        ephemeral-storage: "32Gi"
+        ephemeral-storage: "75Gi"
       limits:
         memory: "10Gi"
-        ephemeral-storage: "32Gi"
+        ephemeral-storage: "75Gi"
   storage:
     - configMapName: prometheus
       mountPath: /etc/config
