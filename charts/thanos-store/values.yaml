@@ -31,10 +31,10 @@ workload:
     custom:
       requests:
         cpu: "10m"
-        memory: "512Mi"
+        memory: "2Gi"
         ephemeral-storage: "4Gi"
       limits:
-        memory: "512Mi"
+        memory: "2Gi"
         ephemeral-storage: "4Gi"
   storage:
     - name: config
