@@ -5,7 +5,7 @@ autoPatching:
 workload:
   image:
     repository: ghcr.io/stakater/reloader
-    tag: v1.4.5
+    tag: v1.4.6
   args:
   - '--log-format=json'
   - '--log-level=info'
