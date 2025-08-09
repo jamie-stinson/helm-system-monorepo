@@ -40,16 +40,6 @@ extraObjects:
           project: "production"
           revisionHistoryLimit: 3
           syncPolicy:
-            automated:
-              prune: true
-              allowEmpty: true
-              selfHeal: true
-            retry:
-              backoff:
-                duration: 5s
-                factor: 2
-                maxDuration: 3m
-              limit: 3
       templatePatch: |
         {{- $appName := index .path.segments 1 -}}
         {{- if .autoPatching.enabled }}
