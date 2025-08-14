@@ -5,7 +5,7 @@ autoPatching:
 workload:
   image:
     repository: ghcr.io/fallenbagel/jellyseerr
-    tag: 2.7.2
+    tag: 2.7.3
   probes:
     readinessProbe:
       type: tcpSocket
