@@ -40,6 +40,7 @@ extraObjects:
           project: "production"
           revisionHistoryLimit: 3
           syncPolicy:
+            preserveResourcesOnDeletion: true
             automated:
               prune: true
               allowEmpty: true
