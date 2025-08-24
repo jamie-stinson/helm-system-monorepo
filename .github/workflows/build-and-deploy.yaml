@@ -1,0 +1,91 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "charts/**/values-dev.yaml"
+      - "charts/**/values-preprod.yaml"
+      - "charts/**/values-prod.yaml"
+
+jobs:
+  rollout:
+    runs-on: ubuntu-latest
+    env:
+      ARGOCD_SERVER: argocd.projectwhitebox.com
+      ARGOCD_AUTH_TOKEN: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+      DEV_APP: infra-dev
+      PREPROD_APP: infra-preprod
+      PROD_APP: infra-prod
+      SYNC_TIMEOUT: 600
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ArgoCD CLI
+        run: |
+          curl -sSL -o argocd \
+            https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/
+
+      # ---- DEV ----
+      - name: Sync Dev
+        run: |
+          echo "Syncing DEV..."
+          argocd app sync $DEV_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web
+          argocd app wait $DEV_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web --timeout $SYNC_TIMEOUT
+
+      - name: Run Dev Tests
+        run: ./scripts/smoke-test.sh dev
+
+      # ---- PREPROD ----
+      - name: Promote to Preprod
+        if: success()
+        run: |
+          echo "Promoting to Preprod..."
+          cp charts/*/values-dev.yaml charts/*/values-preprod.yaml
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git commit -am "Promote infra to preprod"
+          git push
+
+      - name: Sync Preprod
+        if: success()
+        run: |
+          argocd app sync $PREPROD_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web
+          argocd app wait $PREPROD_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web --timeout $SYNC_TIMEOUT
+
+      - name: Run Preprod Tests
+        if: success()
+        run: ./scripts/smoke-test.sh preprod
+
+      # ---- PROD ----
+      - name: Promote to Prod
+        if: success()
+        run: |
+          cp charts/*/values-preprod.yaml charts/*/values-prod.yaml
+          git commit -am "Promote infra to prod"
+          git push
+
+      - name: Sync Prod
+        if: success()
+        run: |
+          argocd app sync $PROD_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web
+          argocd app wait $PROD_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web --timeout $SYNC_TIMEOUT
+
+      - name: Run Prod Tests
+        if: success()
+        run: ./scripts/smoke-test.sh prod
+
+      # ---- Rollback ----
+      - name: Rollback if Fail
+        if: failure()
+        run: |
+          echo "Rolling back..."
+          git revert -m 1 HEAD
+          git push
+          echo "Syncing rollback in ArgoCD..."
+          argocd app sync $DEV_APP --server $ARGOCD_SERVER --auth-token $ARGOCD_AUTH_TOKEN --grpc-web
